@@ -16,7 +16,7 @@ const LoginPage = ({}: LoginProps): JSX.Element => {
               name="email"
               id="email"
               placeholder="Input email address"
-              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded"
+              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
               required
             />
           </div>
@@ -26,11 +26,11 @@ const LoginPage = ({}: LoginProps): JSX.Element => {
               Password
             </label>
             <input
-              type="text"
+              type="password"
               name="password"
               id="password"
               placeholder="Input password"
-              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded"
+              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
               required
             />
           </div>
@@ -40,7 +40,7 @@ const LoginPage = ({}: LoginProps): JSX.Element => {
               <input type="checkbox" name="stayLoggedIn" id="stayLoggedIn" />
               <span>Stay logged in</span>
             </div>
-            <Link to="../">
+            <Link to="../recover_password">
               <span className="text-blue-light hover:underline">
                 Forgot Password?
               </span>
