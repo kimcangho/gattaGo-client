@@ -15,8 +15,10 @@ const SignupPage = ({}: SignupProps): JSX.Element => {
       <form className="bg-white flex flex-col space-y-2 tablet:space-y-4 mb-5 p-2.5 tablet:p-6 border border-gray-border tablet:rounded">
         <input
           type="text"
+          name="email"
+          id="email"
           placeholder="Input email address"
-          className="text-yellow border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-4"
+          className="bg-white-dark text-yellow border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-4"
           required
         />
         <button
