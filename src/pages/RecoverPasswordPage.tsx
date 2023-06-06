@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
-const RecoverPasswordPage = (): JSX.Element => {
+interface RecoverPasswordProps {
+  email: String;
+  setEmail: Function;
+}
+
+const RecoverPasswordPage = ({}: RecoverPasswordProps): JSX.Element => {
   return (
     <div className="w-full tablet:w-[448px] mx-auto">
       <h3 className="text-center my-4 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
@@ -22,7 +27,9 @@ const RecoverPasswordPage = (): JSX.Element => {
             className="mb-1 px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             required
           />
-          <p className="text-xs">Make sure this is the email you signed up with!</p>
+          <p className="text-xs">
+            Make sure this is the email you signed up with!
+          </p>
         </div>
         <div className="flex flex-row space-x-2 tablet:space-x-3 mt-4">
           <button className="p-4 w-full text-white bg-green-light hover:bg-green-dark rounded">

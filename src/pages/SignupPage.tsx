@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
-interface SignupProps {}
+interface SignupProps {
+  email: string;
+  setEmail: Function;
+}
 
 const SignupPage = ({}: SignupProps): JSX.Element => {
   return (
@@ -19,7 +22,6 @@ const SignupPage = ({}: SignupProps): JSX.Element => {
           id="email"
           placeholder="Input email address"
           className="bg-white-dark text-yellow border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-4"
-          required
         />
         <button
           type="submit"

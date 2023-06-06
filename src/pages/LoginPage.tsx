@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 
-interface LoginProps {}
+interface LoginProps {
+    email: String,
+    setEmail: Function
+}
 
 const LoginPage = ({}: LoginProps): JSX.Element => {
+
   return (
     <div className="py-5">
       <div className="max-w-[448px] m-auto p-6 pb-0 bg-white border border-gray-border rounded">

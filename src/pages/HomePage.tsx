@@ -1,7 +1,10 @@
-interface HomeProps {}
+interface HomeProps {
+  email: string;
+  setEmail: Function;
+}
 
 const HomePage = ({}: HomeProps): JSX.Element => {
-  return <div>Landing Page will go here</div>;
+  return <div></div>;
 };
 
 export default HomePage;
