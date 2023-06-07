@@ -8,9 +8,9 @@ interface SignupProps {
 
 const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
   const {
-    register, //  used to register a form field/input into react-hook-forms
-    handleSubmit, //  executes on form submission
-    formState: { errors }, //  adds errors property to form state
+    register,
+    handleSubmit,
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email,
