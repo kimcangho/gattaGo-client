@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 interface LoginProps {
@@ -14,6 +14,7 @@ const LoginPage = ({
   isLoggedIn,
   setIsLoggedIn,
 }: LoginProps): JSX.Element => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,12 +28,19 @@ const LoginPage = ({
   });
 
   return (
-    <div className="py-5">
+    <div className="py-5 flex-col justify-center">
+      <h3 className="text-center my-4 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
+        {email ? "Hey! You're already signed up!" : "Log In"}
+      </h3>
+      <p className="text-center m-5 mt-2.5 tablet:mb-8">
+        Log in with your email and password!
+      </p>
       <div className="max-w-[448px] m-auto p-6 pb-0 bg-white border border-gray-border rounded">
         <form
-          onSubmit={handleSubmit(({ email, isLoggedIn }) => {
-            setEmail(email);
-            setIsLoggedIn(isLoggedIn);
+          onSubmit={handleSubmit(async ({ email, isLoggedIn }) => {
+            await setEmail(email);
+            await setIsLoggedIn(isLoggedIn);
+            navigate("../");
           })}
           className="flex flex-col "
         >

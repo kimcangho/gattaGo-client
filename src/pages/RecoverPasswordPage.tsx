@@ -27,10 +27,10 @@ const RecoverPasswordPage = ({
         Recover Your Password
       </h3>
 
-      <p className="m-5 mt-2.5 tablet:mb-8 text-center">
+      <p className="m-5 mt-2.5 max-w-[448px] mx-auto tablet:mb-8 text-center">
         {isPasswordSent
           ? "Password reset sent!"
-          : "Enter the email you signed up with and we'll send a password reset!"}
+          : "Enter the email you signed up with and we'll send a password reset. Make sure this is the email you signed up with!"}
       </p>
       {!isPasswordSent ? (
         <form
@@ -60,9 +60,9 @@ const RecoverPasswordPage = ({
               placeholder="Input email address"
               className="mb-1 px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-            <p className="text-xs">
+            {/* <p className="text-xs">
               Make sure this is the email you signed up with!
-            </p>
+            </p> */}
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
           <div className="flex flex-row space-x-2 tablet:space-x-3 mt-4">
@@ -71,7 +71,7 @@ const RecoverPasswordPage = ({
             </button>
             <Link
               to="../login"
-              className="p-4 w-full text-center text-white bg-orange-light hover:bg-orange-dark rounded"
+              className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
             >
               <p>Cancel</p>
             </Link>
@@ -80,7 +80,7 @@ const RecoverPasswordPage = ({
       ) : (
         <Link
           to="../login"
-          className="flex justify-center max-w-[448px] p-4 text-white bg-green-light hover:bg-green-dark rounded"
+          className="flex justify-center max-w-[448px] p-4 mx-4 text-white bg-green-light hover:bg-green-dark rounded"
         >
           Back to Login Page
         </Link>
