@@ -8,6 +8,7 @@ import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 
 const App = (): JSX.Element => {
   const [email, setEmail] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <BrowserRouter>
@@ -15,7 +16,7 @@ const App = (): JSX.Element => {
       <Routes>
         <Route
           path="/"
-          element={<HomePage email={email} setEmail={setEmail} />}
+          element={<HomePage email={email} isLoggedIn={isLoggedIn} />}
         />
         <Route
           path="/signup"
@@ -23,7 +24,14 @@ const App = (): JSX.Element => {
         />
         <Route
           path="/login"
-          element={<LoginPage email={email} setEmail={setEmail} />}
+          element={
+            <LoginPage
+              email={email}
+              setEmail={setEmail}
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }
         />
         <Route
           path="/recover_password"
