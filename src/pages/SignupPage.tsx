@@ -19,11 +19,11 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
   });
 
   return (
-    <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto py-5 tablet:py-6">
-      <h3 className="my-4 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
+    <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto mb-10 py-5 tablet:py-6">
+      <h3 className="my-4 tablet:mt-10 tablet:mb-5 tablet:text-2xl mx-2.5 tablet:mx-5">
         Enter your email address
       </h3>
-      <p className="m-5 mt-2.5 tablet:mb-8">
+      <p className="mx-2.5 my-5 mt-2.5 tablet:mb-8">
         To begin the sign-up process, please provide your email address below!
       </p>
 
@@ -32,7 +32,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
           await setEmail(data?.email);
           navigate("../login");
         })}
-        className="bg-white flex flex-col space-y-2 tablet:space-y-4 mb-5 p-2.5 tablet:p-6 border border-gray-border tablet:rounded"
+        className="bg-white flex flex-col space-y-2 tablet:space-y-4 mb-5 px-2.5 tablet:px-5 py-5 border border-gray-border tablet:rounded"
       >
         <div className="w-full">
           <input

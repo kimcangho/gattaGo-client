@@ -30,14 +30,14 @@ const LoginPage = ({
   });
 
   return (
-    <div className="py-5 flex-col justify-center">
-      <h3 className="text-center my-4 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
+    <div className="mb-5 flex-col justify-center">
+      <h3 className="text-center mb-4 tablet:mb-5 tablet:text-2xl px-2.5 tablet:px-5">
         {email ? "Hey! You're already signed up!" : "Log In"}
       </h3>
       <p className="text-center m-5 mt-2.5 tablet:mb-8">
         Log in with your email and password!
       </p>
-      <div className="max-w-[448px] m-auto p-6 pb-0 bg-white border border-gray-border rounded">
+      <div className="max-w-[448px] m-auto px-2.5 tablet:px-5 pt-6 pb-0 bg-white border border-gray-border rounded">
         {isInvalidInput && (
           <div className="mb-5 p-2.5 bg-red-light border border-red-dark rounded">
             <p className="font-bold text-red-500">
