@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -14,6 +15,7 @@ const LoginPage = ({
   isLoggedIn,
   setIsLoggedIn,
 }: LoginProps): JSX.Element => {
+  const [isInvalidInput, setIsInvalidInput] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -36,6 +38,21 @@ const LoginPage = ({
         Log in with your email and password!
       </p>
       <div className="max-w-[448px] m-auto p-6 pb-0 bg-white border border-gray-border rounded">
+        {isInvalidInput && (
+          <div className="mb-5 p-2.5 bg-red-light border border-red-dark rounded">
+            <p className="font-bold text-red-500">
+              Sorry, we didn't recognize that email or password.
+            </p>
+            <p className="font-bold">
+              Can't remember your email or password?{" "}
+              <Link to="../recover_password">
+                <span className="text-blue-light hover:underline">
+                  Retrieve them here!
+                </span>
+              </Link>
+            </p>
+          </div>
+        )}
         <form
           onSubmit={handleSubmit(async ({ email, isLoggedIn }) => {
             await setEmail(email);

@@ -60,9 +60,6 @@ const RecoverPasswordPage = ({
               placeholder="Input email address"
               className="mb-1 px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-            {/* <p className="text-xs">
-              Make sure this is the email you signed up with!
-            </p> */}
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
           <div className="flex flex-row space-x-2 tablet:space-x-3 mt-4">
