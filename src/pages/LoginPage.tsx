@@ -15,7 +15,7 @@ const LoginPage = ({
   isLoggedIn,
   setIsLoggedIn,
 }: LoginProps): JSX.Element => {
-  const [isInvalidInput, setIsInvalidInput] = useState(false);
+  const [isInvalidInput, _setIsInvalidInput] = useState(false);
   const navigate = useNavigate();
   const {
     register,
