@@ -1,5 +1,9 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+// import axios from "axios";
+import viewPassword from "../assets/icons/view-password.svg";
+import hidePassword from "../assets/icons/hide-password.svg";
 
 interface SignupProps {
   email: string;
@@ -7,6 +11,9 @@ interface SignupProps {
 }
 
 const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
+  const [isPassVisible, setIsPassVisible] = useState(false);
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+
   const navigate = useNavigate();
   const {
     register,
@@ -15,16 +22,26 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
   } = useForm({
     defaultValues: {
       email,
+      password: "",
+      confirmPassword: "",
     },
   });
 
+  const handlePasswordToggle = () => {
+    setIsPassVisible((isPassVisible) => !isPassVisible);
+  };
+
+  const handleConfirmToggle = () => {
+    setIsConfirmVisible((isConfirmVisible) => !isConfirmVisible);
+  };
+
   return (
-    <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto mb-10 py-5 tablet:py-6">
-      <h3 className="my-4 tablet:mt-10 tablet:mb-5 tablet:text-2xl mx-2.5 tablet:mx-5">
-        Enter your email address
+    <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto py-5 tablet:pt-0 tablet:pb-6">
+      <h3 className="my-4 tablet:mb-5 tablet:text-2xl mx-2.5 tablet:mx-5">
+        Sign up
       </h3>
       <p className="mx-2.5 my-5 mt-2.5 tablet:mb-8">
-        To begin the sign-up process, please provide your email address below!
+        To sign-up, please provide your email address and password!
       </p>
 
       <form
@@ -32,7 +49,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
           await setEmail(data?.email);
           navigate("../login");
         })}
-        className="bg-white flex flex-col space-y-2 tablet:space-y-4 mb-5 px-2.5 tablet:px-5 py-5 border border-gray-border tablet:rounded"
+        className="bg-white flex flex-col space-y-2 tablet:space-y-4 mb-5 px-2.5 tablet:px-5 py-2.5 tablet:py-5 border border-gray-border rounded"
       >
         <div className="w-full">
           <input
@@ -49,9 +66,59 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
             })}
             id="email"
             placeholder="Input email address"
-            className="w-full bg-white-dark text-yellow border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-4"
+            className="w-full bg-white-dark border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-4"
           />
           <p className="text-red-500 text-left ">{errors.email?.message}</p>
+        </div>
+        <div
+          className={`w-full flex bg-white-dark rounded border border-gray-border`}
+        >
+          <input
+            type={isPassVisible ? "text" : "password"}
+            {...register("password", {
+              required: {
+                value: true,
+                message: "Password field can't be empty!",
+              },
+            })}
+            id="password"
+            placeholder="Input password"
+            className="w-full bg-white-dark rounded px-2 py-4"
+          />
+
+          <img
+            src={isPassVisible ? hidePassword : viewPassword}
+            alt={isPassVisible ? "Hide Password" : "View Password"}
+            className="w-6 mx-2 cursor-pointer"
+            onClick={handlePasswordToggle}
+          />
+
+          <p className="text-red-500 text-left ">{errors.password?.message}</p>
+        </div>
+        <div
+          className={`w-full flex bg-white-dark rounded border border-gray-border`}
+        >
+          <input
+            type={isConfirmVisible ? "text" : "password"}
+            {...register("confirmPassword", {
+              required: {
+                value: true,
+                message: "Please confirm password!",
+              },
+            })}
+            id="email"
+            placeholder="Confirm password"
+            className="w-full bg-white-dark px-2 py-4"
+          />
+          <img
+            src={isConfirmVisible ? hidePassword : viewPassword}
+            alt={isConfirmVisible ? "Hide Password" : "View Password"}
+            className="w-6 mx-2 cursor-pointer"
+            onClick={handleConfirmToggle}
+          />
+          <p className="text-red-500 text-left ">
+            {errors.confirmPassword?.message}
+          </p>
         </div>
         <button
           type="submit"
