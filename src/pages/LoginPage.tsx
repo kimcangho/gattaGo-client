@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import viewPassword from "../assets/icons/view-password.svg";
-import hidePassword from "../assets/icons/hide-password.svg";
+import visiblePassword from "../assets/icons/visible-password.svg";
+import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 interface LoginProps {
   email: String;
@@ -106,9 +106,7 @@ const LoginPage = ({
             <label htmlFor="password" className="font-bold">
               Password
             </label>
-            <div
-              className="w-full flex items-center bg-white-dark rounded border border-gray-border"
-            >
+            <div className="w-full flex items-center bg-white-dark rounded border border-gray-border">
               <input
                 type={isPassVisible ? "text" : "password"}
                 {...register("password", {
@@ -122,8 +120,8 @@ const LoginPage = ({
                 className="px-2 py-2.5 bg-white-dark rounded w-full outline-blue-light"
               />
               <img
-                src={isPassVisible ? hidePassword : viewPassword}
-                alt={isPassVisible ? "Hide Password" : "View Password"}
+                src={isPassVisible ? visiblePassword : hiddenPassword}
+                alt={isPassVisible ? "Visible Password" : "Hidden Password"}
                 className="w-6 mx-2 cursor-pointer"
                 onClick={handlePasswordToggle}
               />

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import viewPassword from "../assets/icons/view-password.svg";
-import hidePassword from "../assets/icons/hide-password.svg";
+import visiblePassword from "../assets/icons/visible-password.svg";
+import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 interface SignupProps {
   email: string;
@@ -82,9 +82,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
           <p className="text-red-500 text-left ">{errors.email?.message}</p>
         </div>
         <div className="w-full">
-          <div
-            className="w-full flex items-center bg-white-dark rounded border border-gray-border"
-          >
+          <div className="w-full flex items-center bg-white-dark rounded border border-gray-border">
             <input
               type={isPassVisible ? "text" : "password"}
               {...register("password", {
@@ -99,8 +97,8 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
             />
 
             <img
-              src={isPassVisible ? hidePassword : viewPassword}
-              alt={isPassVisible ? "Hide Password" : "View Password"}
+              src={isPassVisible ? visiblePassword : hiddenPassword}
+              alt={isPassVisible ? "Visible Password" : "Hidden Password"}
               className="w-6 mx-2 cursor-pointer"
               onClick={handlePasswordToggle}
             />
@@ -108,9 +106,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
           <p className="text-red-500 text-left ">{errors.password?.message}</p>
         </div>
         <div className="w-full">
-          <div
-            className="w-full flex items-center bg-white-dark rounded border border-gray-border"
-          >
+          <div className="w-full flex items-center bg-white-dark rounded border border-gray-border">
             <input
               type={isConfirmVisible ? "text" : "password"}
               {...register("confirmPassword", {
@@ -130,8 +126,8 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
             />
 
             <img
-              src={isConfirmVisible ? hidePassword : viewPassword}
-              alt={isConfirmVisible ? "Hide Password" : "View Password"}
+              src={isConfirmVisible ? visiblePassword : hiddenPassword}
+              alt={isConfirmVisible ? "Visible Password" : "Hidden Password"}
               className="w-6 h-6 mx-2 cursor-pointer"
               onClick={handleConfirmToggle}
             />
