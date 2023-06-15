@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import viewPassword from "../assets/icons/view-password.svg";
+import hidePassword from "../assets/icons/hide-password.svg";
 
 interface LoginProps {
   email: String;
@@ -15,7 +18,9 @@ const LoginPage = ({
   isLoggedIn,
   setIsLoggedIn,
 }: LoginProps): JSX.Element => {
-  const [isInvalidInput, _setIsInvalidInput] = useState(false);
+  const [isInvalidInput, setIsInvalidInput] = useState(false);
+  const [isPassVisible, setIsPassVisible] = useState(false);
+
   const navigate = useNavigate();
   const {
     register,
@@ -29,10 +34,14 @@ const LoginPage = ({
     },
   });
 
+  const handlePasswordToggle = () => {
+    setIsPassVisible((isPassVisible) => !isPassVisible);
+  };
+
   return (
     <div className="mb-5 flex-col justify-center">
       <h3 className="text-center mb-4 tablet:mb-5 tablet:text-2xl px-2.5 tablet:px-5">
-        {email ? "Hey! You're already signed up!" : "Log In"}
+        {email && !isInvalidInput ? "Hey! You're already signed up!" : "Log In"}
       </h3>
       <p className="text-center m-5 mt-2.5 tablet:mb-8">
         Log in with your email and password!
@@ -54,10 +63,20 @@ const LoginPage = ({
           </div>
         )}
         <form
-          onSubmit={handleSubmit(async ({ email, isLoggedIn }) => {
-            await setEmail(email);
+          onSubmit={handleSubmit(async ({ email, password, isLoggedIn }) => {
             await setIsLoggedIn(isLoggedIn);
-            navigate("../");
+
+            try {
+              await axios.post("http://localhost:7777/login", {
+                email,
+                password,
+              });
+              await setEmail(email);
+              navigate("../");
+            } catch (error) {
+              await setEmail(email);
+              setIsInvalidInput(true);
+            }
           })}
           className="flex flex-col "
         >
@@ -83,22 +102,32 @@ const LoginPage = ({
             />
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
-          <div className="flex flex-col mb-2.5">
+          <div className="flex-col mb-2.5">
             <label htmlFor="password" className="font-bold">
               Password
             </label>
-            <input
-              type="password"
-              {...register("password", {
-                required: {
-                  value: true,
-                  message: "Password field can't be empty!",
-                },
-              })}
-              id="password"
-              placeholder="Input password"
-              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-            />
+            <div
+              className="w-full flex items-center bg-white-dark rounded border border-gray-border"
+            >
+              <input
+                type={isPassVisible ? "text" : "password"}
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password field can't be empty!",
+                  },
+                })}
+                id="password"
+                placeholder="Input password"
+                className="px-2 py-2.5 bg-white-dark rounded w-full outline-blue-light"
+              />
+              <img
+                src={isPassVisible ? hidePassword : viewPassword}
+                alt={isPassVisible ? "Hide Password" : "View Password"}
+                className="w-6 mx-2 cursor-pointer"
+                onClick={handlePasswordToggle}
+              />
+            </div>
             <p className="text-red-500 text-left">{errors.password?.message}</p>
           </div>
 

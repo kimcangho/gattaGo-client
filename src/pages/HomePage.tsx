@@ -6,7 +6,7 @@ interface HomeProps {
 }
 
 const HomePage = ({ email, isLoggedIn }: HomeProps): JSX.Element => {
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
   return (
     <>
       <Link to="../signup">{email}</Link>

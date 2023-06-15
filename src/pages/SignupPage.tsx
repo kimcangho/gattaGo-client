@@ -77,13 +77,13 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
             })}
             id="email"
             placeholder="Input email address"
-            className="w-full bg-white-dark border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-4"
+            className="w-full bg-white-dark border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-2.5"
           />
           <p className="text-red-500 text-left ">{errors.email?.message}</p>
         </div>
         <div className="w-full">
           <div
-            className={`w-full flex bg-white-dark rounded border border-gray-border`}
+            className="w-full flex items-center bg-white-dark rounded border border-gray-border"
           >
             <input
               type={isPassVisible ? "text" : "password"}
@@ -95,7 +95,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
               })}
               id="password"
               placeholder="Input password"
-              className="w-full bg-white-dark rounded px-2 py-4"
+              className="w-full bg-white-dark rounded px-2 py-2.5 outline-blue-light"
             />
 
             <img
@@ -109,7 +109,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
         </div>
         <div className="w-full">
           <div
-            className={`w-full flex bg-white-dark rounded border border-gray-border`}
+            className="w-full flex items-center bg-white-dark rounded border border-gray-border"
           >
             <input
               type={isConfirmVisible ? "text" : "password"}
@@ -126,12 +126,13 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
               })}
               id="email"
               placeholder="Confirm password"
-              className="w-full bg-white-dark px-2 py-4"
+              className="w-full bg-white-dark px-2 py-2.5 outline-blue-light"
             />
+
             <img
               src={isConfirmVisible ? hidePassword : viewPassword}
               alt={isConfirmVisible ? "Hide Password" : "View Password"}
-              className="w-6 mx-2 cursor-pointer"
+              className="w-6 h-6 mx-2 cursor-pointer"
               onClick={handleConfirmToggle}
             />
           </div>
