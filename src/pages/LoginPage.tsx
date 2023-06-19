@@ -67,10 +67,15 @@ const LoginPage = ({
             await setIsLoggedIn(isLoggedIn);
 
             try {
-              await axios.post("http://localhost:7777/login", {
-                email,
-                password,
-              });
+              await axios.post(
+                "http://localhost:7777/login",
+                {
+                  email,
+                  password,
+                },
+                { withCredentials: true }
+              );
+
               await setEmail(email);
               navigate("../");
             } catch (error) {

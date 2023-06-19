@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import TestButton from "../components/TestButton";
 
 interface HomeProps {
   email: string;
@@ -6,11 +7,11 @@ interface HomeProps {
 }
 
 const HomePage = ({ email, isLoggedIn }: HomeProps): JSX.Element => {
-  // console.log(isLoggedIn);
   return (
     <>
       <Link to="../signup">{email}</Link>
       {isLoggedIn && <p>Logged In</p>}
+      <TestButton />
     </>
   );
 };
