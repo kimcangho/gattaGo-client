@@ -6,6 +6,7 @@ import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
 import RecoverPasswordPage from "./pages/RecoverPasswordPage";
 import Footer from "./components/Footer";
+import ErrorPage from "./pages/ErrorPage";
 
 const App = (): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -39,6 +40,7 @@ const App = (): JSX.Element => {
             path="/recover_password"
             element={<RecoverPasswordPage email={email} setEmail={setEmail} />}
           />
+          <Route path="/*" element={<ErrorPage />} />
         </Routes>
         <Footer />
       </div>
