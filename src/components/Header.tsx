@@ -1,16 +1,35 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 
 interface HeaderProps {
   isLoggedIn: boolean;
+  setIsLoggedIn: Function;
 }
 
-const Header = ({ isLoggedIn }: HeaderProps): JSX.Element => {
+const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Element => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
+    //  delete request to api to remove refresh token
+    try {
+      await axios.delete(`http://localhost:7777/logout`, {
+        withCredentials: true,
+      });
+      console.log("successfully logged out!");
+    } catch (err) {
+      console.log(err);
+    }
+
+    navigate("../login");
+  };
+
   return (
     <div
       className={`bg-white flex ${
-        !isLoggedIn ? `justify-between` : `justify-center`
-      } items-center border border-gray-border px-6 py-1 tablet:p-4`}
+        isLoggedIn ? `justify-between` : `justify-center`
+      } items-center border border-gray-border px-1 py-1 tablet:p-4`}
     >
       <Link
         to="../"
@@ -19,20 +38,20 @@ const Header = ({ isLoggedIn }: HeaderProps): JSX.Element => {
         <img src={gattaGoLogo} alt="gattaGo Logo" className="h-6 tablet:h-10" />
         <h2 className="text-gray-dark text-2xl tablet:text-3xl">gattaGo</h2>
       </Link>
-      {!isLoggedIn && (
+      {isLoggedIn && (
         <div className="flex bg-white border border-gray-border rounded">
           <Link
             to="../test/dashboard"
             className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white"
           >
-            <p className="px-4 py-2">My Teams</p>
+            <p className="px-2 py-1 tablet:px-4 tablet:py-2">My Teams</p>
           </Link>
-          <Link
-            to="../login"
-            className="hover:bg-orange-dark hover:text-white rounded-r"
+          <div
+            className="hover:bg-orange-dark hover:text-white rounded-r cursor-pointer"
+            onClick={handleLogout}
           >
-            <p className="px-4 py-2">Logout</p>
-          </Link>
+            <p className="px-2 py-1 tablet:px-4 tablet:py-2">Logout</p>
+          </div>
         </div>
       )}
     </div>

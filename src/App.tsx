@@ -17,7 +17,7 @@ const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <div className="flex flex-col h-screen justify-between">
-        <Header isLoggedIn={isLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
