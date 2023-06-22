@@ -33,9 +33,9 @@ const ResetPasswordPage = ({
       </h3>
 
       <p className="m-5 mt-2.5 max-w-[448px] mx-auto tablet:mb-8 px-2.5 tablet:px-5 text-center">
-        {isPasswordSent
-          ? `Password reset sent to ${email}! Check your email for your reset code!`
-          : "Enter the email you signed up with and we'll send a password reset. Make sure this is the email you signed up with!"}
+        {!isPasswordSent
+          ? "Enter the email you signed up with and we'll send a password reset. Make sure this is the email you signed up with!"
+          : `Password reset sent to ${email}! Check your email for your reset code!`}
       </p>
       {!isPasswordSent ? (
         <form
