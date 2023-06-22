@@ -76,7 +76,7 @@ const LoginPage = ({
 
               await setEmail(email);
               await setIsLoggedIn(true);
-              navigate("../userId/dashboard");
+              navigate("../userId/overview");
             } catch (error) {
               await setEmail(email);
               setIsInvalidInput(true);

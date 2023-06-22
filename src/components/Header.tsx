@@ -3,11 +3,12 @@ import axios from "axios";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 
 interface HeaderProps {
+  setEmail: Function;
   isLoggedIn: boolean;
   setIsLoggedIn: Function;
 }
 
-const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Element => {
+const Header = ({ setEmail, isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Element => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -18,6 +19,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Element => {
         withCredentials: true,
       });
       console.log("successfully logged out!");
+      setEmail("");
     } catch (err) {
       console.log(err);
     }
