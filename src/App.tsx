@@ -8,6 +8,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Footer from "./components/Footer";
 import ErrorPage from "./pages/ErrorPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import DashboardPage from "./pages/DashboardPage";
 
 const App = (): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ const App = (): JSX.Element => {
   return (
     <BrowserRouter>
       <div className="flex flex-col h-screen justify-between">
-        <Header />
+        <Header isLoggedIn={isLoggedIn} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
@@ -34,6 +35,9 @@ const App = (): JSX.Element => {
               />
             }
           />
+
+          <Route path="/:userId/dashboard" element={<DashboardPage />} />
+
           <Route
             path="/reset_password"
             element={<ResetPasswordPage email={email} setEmail={setEmail} />}
