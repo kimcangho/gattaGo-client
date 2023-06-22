@@ -43,7 +43,7 @@ const App = (): JSX.Element => {
           />
           <Route
             path="/reset_password/:resetCodeId"
-            element={<ChangePasswordPage />}
+            element={<ChangePasswordPage email={email} setEmail={setEmail} />}
           />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
