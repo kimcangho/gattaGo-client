@@ -18,10 +18,7 @@ const App = (): JSX.Element => {
       <div className="flex flex-col h-screen justify-between">
         <Header />
         <Routes>
-          <Route
-            path="/"
-            element={<HomePage email={email} isLoggedIn={isLoggedIn} />}
-          />
+          <Route path="/" element={<HomePage />} />
           <Route
             path="/signup"
             element={<SignupPage email={email} setEmail={setEmail} />}
