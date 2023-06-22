@@ -54,9 +54,9 @@ const LoginPage = ({
             </p>
             <p className="font-bold">
               Can't remember your email or password?{" "}
-              <Link to="../recover_password">
+              <Link to="../reset_password">
                 <span className="text-blue-light hover:underline">
-                  Retrieve them here!
+                  Reset them here!
                 </span>
               </Link>
             </p>
@@ -143,7 +143,7 @@ const LoginPage = ({
               />
               <span>Stay logged in</span>
             </div>
-            <Link to="../recover_password">
+            <Link to="../reset_password">
               <span className="text-blue-light hover:underline">
                 Forgot Password?
               </span>

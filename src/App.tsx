@@ -4,9 +4,10 @@ import Header from "./components/Header";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
-import RecoverPasswordPage from "./pages/RecoverPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Footer from "./components/Footer";
 import ErrorPage from "./pages/ErrorPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 const App = (): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -37,8 +38,12 @@ const App = (): JSX.Element => {
             }
           />
           <Route
-            path="/recover_password"
-            element={<RecoverPasswordPage email={email} setEmail={setEmail} />}
+            path="/reset_password"
+            element={<ResetPasswordPage email={email} setEmail={setEmail} />}
+          />
+          <Route
+            path="/reset_password/:resetCodeId"
+            element={<ChangePasswordPage />}
           />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
