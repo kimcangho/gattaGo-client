@@ -63,9 +63,7 @@ const LoginPage = ({
           </div>
         )}
         <form
-          onSubmit={handleSubmit(async ({ email, password, isLoggedIn }) => {
-            await setIsLoggedIn(isLoggedIn);
-
+          onSubmit={handleSubmit(async ({ email, password }) => {
             try {
               await axios.post(
                 "http://localhost:7777/login",
@@ -77,7 +75,8 @@ const LoginPage = ({
               );
 
               await setEmail(email);
-              navigate("../");
+              await setIsLoggedIn(true);
+              navigate("../userId/dashboard");
             } catch (error) {
               await setEmail(email);
               setIsInvalidInput(true);
@@ -138,8 +137,8 @@ const LoginPage = ({
             <div className="flex space-x-1">
               <input
                 type="checkbox"
-                {...register("isLoggedIn")}
-                id="isLoggedIn"
+                // {...register("isLoggedIn")}
+                // id="isLoggedIn"
               />
               <span>Stay logged in</span>
             </div>

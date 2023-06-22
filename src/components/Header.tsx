@@ -12,7 +12,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Element => {
 
   const handleLogout = async () => {
     setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
-    //  delete request to api to remove refresh token
+    
     try {
       await axios.delete(`http://localhost:7777/logout`, {
         withCredentials: true,
