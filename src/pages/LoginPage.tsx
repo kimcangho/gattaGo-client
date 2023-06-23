@@ -133,19 +133,23 @@ const LoginPage = ({
             <p className="text-red-500 text-left">{errors.password?.message}</p>
           </div>
 
-          <div className="flex justify-between mb-5">
-            <div className="flex space-x-1">
+          <div className="flex justify-end mb-2.5">
+            {/* <div className="flex space-x-1">
               <input
                 type="checkbox"
-                // {...register("isLoggedIn")}
-                // id="isLoggedIn"
+                {...register("isLoggedIn")}
+                id="isLoggedIn"
               />
+              <p>
               <span>Stay logged in</span>
-            </div>
+              </p>
+            </div> */}
             <Link to="../reset_password">
-              <span className="text-blue-light hover:underline">
-                Forgot Password?
-              </span>
+              <p>
+                <span className="text-blue-light hover:underline">
+                  Forgot Password?
+                </span>
+              </p>
             </Link>
           </div>
 

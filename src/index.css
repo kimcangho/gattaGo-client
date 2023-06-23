@@ -7,9 +7,23 @@ body {
   color: #6f7f9b
 }
 
+h1 {
+  font-size: 1.5rem;
+  color: black;
+}
+
+/* h2 {
+  color: black;
+} */
+
 h3 {
     font-weight: 700;
     font-size: 1.125rem;
+}
+
+h4 {
+  font-size: 0.875rem;
+  color: black;
 }
 
 p {

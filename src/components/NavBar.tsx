@@ -4,6 +4,15 @@ const NavBar = () => {
         <div>
             <p>Home</p>
         </div>
+        <div>
+            <p>Roster</p>
+        </div>
+        <div>
+            <p>Lineups</p>
+        </div>
+        <div>
+            <p>Schedule</p>
+        </div>
     </div>
   )
 }

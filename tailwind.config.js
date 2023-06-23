@@ -15,6 +15,7 @@ export default {
         "gray-border": "#d6d6d6",
         "blue-light": "#1a6baf",
         "blue-dark": "#15568c",
+        "blue-wavy": "#0bf",
         "green-light": "#7fc243",
         "green-dark": "#669b36",
         "orange-light": "#f78931",
