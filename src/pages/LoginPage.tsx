@@ -2,20 +2,26 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { LoginFormData } from "../interfaces/FormData";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 interface LoginProps {
-  email: String;
+  email: string;
   setEmail: Function;
   isLoggedIn: Boolean;
   setIsLoggedIn: Function;
 }
 
+// interface LoginFormData {
+//   email: string;
+//   password: string;
+// }
+
 const LoginPage = ({
   email,
   setEmail,
-  isLoggedIn,
+  // isLoggedIn,
   setIsLoggedIn,
 }: LoginProps): JSX.Element => {
   const [isInvalidInput, setIsInvalidInput] = useState(false);
@@ -30,9 +36,30 @@ const LoginPage = ({
     defaultValues: {
       email,
       password: "",
-      isLoggedIn,
+      // isLoggedIn,
     },
   });
+
+  const handleFormSubmit = async ({ email, password }: LoginFormData) => {
+    
+    try {
+      await axios.post(
+        "http://localhost:7777/login",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
+
+      await setEmail(email);
+      await setIsLoggedIn(true);
+      navigate("../userId/overview");
+    } catch (error) {
+      await setEmail(email);
+      setIsInvalidInput(true);
+    }
+  };
 
   const handlePasswordToggle = () => {
     setIsPassVisible((isPassVisible) => !isPassVisible);
@@ -63,25 +90,7 @@ const LoginPage = ({
           </div>
         )}
         <form
-          onSubmit={handleSubmit(async ({ email, password }) => {
-            try {
-              await axios.post(
-                "http://localhost:7777/login",
-                {
-                  email,
-                  password,
-                },
-                { withCredentials: true }
-              );
-
-              await setEmail(email);
-              await setIsLoggedIn(true);
-              navigate("../userId/overview");
-            } catch (error) {
-              await setEmail(email);
-              setIsInvalidInput(true);
-            }
-          })}
+          onSubmit={handleSubmit(handleFormSubmit)}
           className="flex flex-col "
         >
           <div className="flex flex-col mb-2.5">

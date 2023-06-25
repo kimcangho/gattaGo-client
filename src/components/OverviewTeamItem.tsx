@@ -3,7 +3,7 @@ import axios from "axios";
 import boatIcon from "../assets/icons/boat.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
-import { TeamData } from "../interfaces/teamData";
+import { TeamData } from "../interfaces/TeamData";
 
 interface OverviewTeamProps {
   id: string;

@@ -10,7 +10,7 @@ import ErrorPage from "./pages/ErrorPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import DashboardPage from "./pages/DashboardPage";
 import OverviewPage from "./pages/OverviewPage";
-import CreateNewTeam from "./pages/CreateNewTeam";
+import CreateNewTeamPage from "./pages/CreateNewTeamPage";
 
 const App = (): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -46,7 +46,7 @@ const App = (): JSX.Element => {
 
           <Route path="/:userId/overview" element={<OverviewPage />} />
           <Route path="/:userId/dashboard" element={<DashboardPage />} />
-          <Route path="/:userId/new" element={<CreateNewTeam />} />
+          <Route path="/:userId/new" element={<CreateNewTeamPage />} />
 
           <Route
             path="/reset_password"
