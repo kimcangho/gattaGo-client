@@ -11,6 +11,7 @@ interface LoginProps {
   setEmail: Function;
   isLoggedIn: Boolean;
   setIsLoggedIn: Function;
+  setAccessToken: Function;
 }
 
 // interface LoginFormData {
@@ -23,6 +24,7 @@ const LoginPage = ({
   setEmail,
   // isLoggedIn,
   setIsLoggedIn,
+  setAccessToken,
 }: LoginProps): JSX.Element => {
   const [isInvalidInput, setIsInvalidInput] = useState(false);
   const [isPassVisible, setIsPassVisible] = useState(false);
@@ -41,9 +43,8 @@ const LoginPage = ({
   });
 
   const handleFormSubmit = async ({ email, password }: LoginFormData) => {
-    
     try {
-      await axios.post(
+      const data: any = await axios.post(
         "http://localhost:7777/login",
         {
           email,
@@ -51,7 +52,9 @@ const LoginPage = ({
         },
         { withCredentials: true }
       );
-
+      console.log(data);
+      console.log(data.data)
+      await setAccessToken(data.data.accessToken);
       await setEmail(email);
       await setIsLoggedIn(true);
       navigate("../userId/overview");

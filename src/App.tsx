@@ -13,6 +13,7 @@ import OverviewPage from "./pages/OverviewPage";
 import CreateNewTeamPage from "./pages/CreateNewTeamPage";
 
 const App = (): JSX.Element => {
+  const [accessToken, setAccessToken] = useState("");
   const [email, setEmail] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -40,11 +41,12 @@ const App = (): JSX.Element => {
                 setEmail={setEmail}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
+                setAccessToken={setAccessToken}
               />
             }
           />
 
-          <Route path="/:userId/overview" element={<OverviewPage />} />
+          <Route path="/:userId/overview" element={<OverviewPage accessToken={accessToken} />} />
           <Route path="/:userId/dashboard" element={<DashboardPage />} />
           <Route path="/:userId/new" element={<CreateNewTeamPage />} />
 

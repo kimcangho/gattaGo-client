@@ -5,13 +5,22 @@ import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
 import { TeamData } from "../interfaces/TeamData";
 
-const OverviewPage = (): JSX.Element => {
+interface OverviewProps {
+  accessToken: string;
+}
+
+const OverviewPage = ({ accessToken }: OverviewProps): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getAllTeams = async () => {
-      const { data } = await axios.get("http://localhost:8888/teams");
+      const headers = { Authorization: `Bearer ${accessToken}` };
+
+      const { data } = await axios.get("http://localhost:8888/teams", {
+        headers,
+        withCredentials: true,
+      });
       setMyTeams(data);
     };
 
