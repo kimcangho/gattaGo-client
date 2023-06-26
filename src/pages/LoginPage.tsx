@@ -6,6 +6,9 @@ import { LoginFormData } from "../interfaces/FormData";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
+
 interface LoginProps {
   email: string;
   setEmail: Function;
@@ -24,8 +27,9 @@ const LoginPage = ({
   setEmail,
   // isLoggedIn,
   setIsLoggedIn,
-  setAccessToken,
 }: LoginProps): JSX.Element => {
+  const { setAccessToken }: any = useContext(AuthContext);
+
   const [isInvalidInput, setIsInvalidInput] = useState(false);
   const [isPassVisible, setIsPassVisible] = useState(false);
 
@@ -44,7 +48,7 @@ const LoginPage = ({
 
   const handleFormSubmit = async ({ email, password }: LoginFormData) => {
     try {
-      const data: any = await axios.post(
+      const { data } = await axios.post(
         "http://localhost:7777/login",
         {
           email,
@@ -52,9 +56,9 @@ const LoginPage = ({
         },
         { withCredentials: true }
       );
+
       console.log(data);
-      console.log(data.data)
-      await setAccessToken(data.data.accessToken);
+      await setAccessToken(data.accessToken);
       await setEmail(email);
       await setIsLoggedIn(true);
       navigate("../userId/overview");

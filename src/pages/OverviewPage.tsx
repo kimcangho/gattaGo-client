@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import createNew from "../assets/icons/create-new.svg";
-import OverviewTeamItem from "../components/OverviewTeamItem";
 import { TeamData } from "../interfaces/TeamData";
+import OverviewTeamItem from "../components/OverviewTeamItem";
 
-interface OverviewProps {
-  accessToken: string;
-}
+import AuthContext from "../contexts/AuthContext";
 
-const OverviewPage = ({ accessToken }: OverviewProps): JSX.Element => {
+const OverviewPage = (): JSX.Element => {
+  const { accessToken }: any = useContext(AuthContext);
+
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
   const navigate = useNavigate();
 

@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
+
 interface HeaderProps {
   setEmail: Function;
   isLoggedIn: boolean;
@@ -9,6 +12,8 @@ interface HeaderProps {
 }
 
 const Header = ({ setEmail, isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Element => {
+  const {setTest}: any = useContext(AuthContext)
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,7 +24,8 @@ const Header = ({ setEmail, isLoggedIn, setIsLoggedIn }: HeaderProps): JSX.Eleme
         withCredentials: true,
       });
       console.log("successfully logged out!");
-      setEmail("");
+      await setEmail("");
+      await setTest("")
     } catch (err) {
       console.log(err);
     }

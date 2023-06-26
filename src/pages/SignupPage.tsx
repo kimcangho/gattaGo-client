@@ -5,12 +5,18 @@ import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext";
+
 interface SignupProps {
   email: string;
   setEmail: Function;
 }
 
 const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
+
+  const { test, setTest }: any = useContext(AuthContext);
+
   const [isPassVisible, setIsPassVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
@@ -30,6 +36,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
 
   const handlePasswordToggle = () => {
     setIsPassVisible((isPassVisible) => !isPassVisible);
+    setTest("")
   };
 
   const handleConfirmToggle = () => {
@@ -39,7 +46,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
   return (
     <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto py-5 tablet:pt-0 tablet:pb-6">
       <h3 className="my-4 tablet:mb-5 tablet:text-2xl mx-2.5 tablet:mx-5">
-        Sign up
+        Sign up {test}
       </h3>
       <p className="mx-2.5 my-5 mt-2.5 tablet:mb-8">
         To sign-up, please provide your email address and password!
