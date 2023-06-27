@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import axios from "axios";
 import boatIcon from "../assets/icons/boat.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
+import AuthContext from "../contexts/AuthContext";
 
 interface OverviewTeamProps {
   id: string;
@@ -25,6 +27,7 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
+  const { accessToken }: any = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
@@ -37,8 +40,13 @@ const OverviewTeamItem = ({
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
+    const headers = { Authorization: `Bearer ${accessToken}` };
+
     const { id } = event.target as HTMLInputElement;
-    await axios.delete(`http://localhost:8888/teams/${id}`);
+    await axios.delete(`http://localhost:8888/teams/${id}`, {
+      headers,
+      withCredentials: true,
+    });
     const currentTeams = myTeams.filter((team: TeamData) => {
       return team.id !== id;
     });

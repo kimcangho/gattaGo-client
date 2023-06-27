@@ -8,6 +8,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ redirectPath }: ProtectedRouteProps): JSX.Element => {
   const { email }: any = useContext(AuthContext);
+
   if (!email) {
     return <Navigate to={`/${redirectPath}`} />;
   }

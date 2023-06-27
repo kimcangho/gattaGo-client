@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import teamIcon from "../assets/icons/roster.svg";
 import AuthContext from "../contexts/AuthContext";
 
 interface CreateNewTeamFormData {
-  teamName: string;
+  name: string;
   division: string;
   level: string;
   gender: string;
@@ -14,15 +14,7 @@ interface CreateNewTeamFormData {
 
 const CreateNewTeamPage = (): JSX.Element => {
   const { accessToken }: any = useContext(AuthContext);
-
-  //  Verify that access token is in database
-  useEffect(() => {
-    try {
-      // await axios.get("")
-    } catch (err) {
-
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -30,7 +22,7 @@ const CreateNewTeamPage = (): JSX.Element => {
     formState: { errors },
   } = useForm<CreateNewTeamFormData>({
     defaultValues: {
-      teamName: "",
+      name: "",
       gender: "",
       level: "",
       division: "",
@@ -38,23 +30,23 @@ const CreateNewTeamPage = (): JSX.Element => {
   });
 
   const handleFormSubmit = async ({
-    teamName,
+    name,
     gender,
     level,
     division,
   }: CreateNewTeamFormData) => {
-    console.log(teamName, gender, level, division);
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    console.log(name, gender, level, division);
     if (!gender || !level || !division) {
       //  To-do: validation for empty fields
       return;
     }
 
     try {
-      const headers = { Authorization: `Bearer ${accessToken}` };
       await axios.post(
         "http://localhost:8888/teams",
         {
-          name: teamName,
+          name,
           gender,
           level,
           division,
@@ -64,6 +56,7 @@ const CreateNewTeamPage = (): JSX.Element => {
           withCredentials: true,
         }
       );
+      navigate("../:userId/overview");
     } catch (err) {
       console.log(err);
     }
@@ -86,23 +79,23 @@ const CreateNewTeamPage = (): JSX.Element => {
         className="flex flex-col p-2 tablet:p-6 max-w-[448px] bg-white border border-gray-border rounded-t w-full"
       >
         <div className="flex flex-col mb-4">
-          <label htmlFor="teamName">
+          <label htmlFor="name">
             <h3 className="text-blue-light">Team Name</h3>
           </label>
           <input
-            {...register("teamName", {
+            {...register("name", {
               required: {
                 value: true,
                 message: "Team name field can't be empty!",
               },
             })}
             type="text"
-            id="teamName"
-            name="teamName"
+            id="name"
+            name="name"
             placeholder="Input team name"
             className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
           />
-          {errors.teamName && <p>{errors.teamName.message}</p>}
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         </div>
 
         <div className="flex w-full mb-4 justify-between">

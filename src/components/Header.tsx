@@ -41,7 +41,7 @@ const Header = (): JSX.Element => {
       {isLoggedIn && (
         <div className="flex bg-white border border-gray-border rounded">
           <Link
-            to="../test/dashboard"
+            to="../:userId/overview"
             className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white"
           >
             <p className="px-2 py-1 tablet:px-4 tablet:py-2">My Teams</p>

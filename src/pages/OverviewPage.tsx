@@ -22,12 +22,15 @@ const OverviewPage = (): JSX.Element => {
   useEffect(() => {
     const getAllTeams = async () => {
       const headers = { Authorization: `Bearer ${accessToken}` };
-
-      const { data } = await axios.get("http://localhost:8888/teams", {
-        headers,
-        withCredentials: true,
-      });
-      setMyTeams(data);
+      try {
+        const { data } = await axios.get("http://localhost:8888/teams", {
+          headers,
+          withCredentials: true,
+        });
+        setMyTeams(data);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getAllTeams();

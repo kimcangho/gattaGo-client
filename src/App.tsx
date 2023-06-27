@@ -22,7 +22,6 @@ const App = (): JSX.Element => {
 
           <Routes>
             <Route path="/" element={<HomePage />} />
-
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/reset_password" element={<ResetPasswordPage />} />

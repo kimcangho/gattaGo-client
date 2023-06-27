@@ -14,6 +14,7 @@ interface LoginFormData {
 }
 
 const LoginPage = (): JSX.Element => {
+
   const { setAccessToken, email, setEmail, setIsLoggedIn }: any =
     useContext(AuthContext);
 
