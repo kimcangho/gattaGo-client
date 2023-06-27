@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { CreateNewTeamFormData } from "../interfaces/FormData";
 import teamIcon from "../assets/icons/roster.svg";
+
+interface CreateNewTeamFormData {
+  teamName: string;
+  division: string;
+  level: string;
+  gender: string;
+}
 
 const CreateNewTeamPage = (): JSX.Element => {
   const {

@@ -1,21 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import AuthContext from "../contexts/AuthContext";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
-import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
-
-interface SignupProps {
-  email: string;
-  setEmail: Function;
-}
-
-const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
-
-  const { test, setTest }: any = useContext(AuthContext);
+const SignupPage = (): JSX.Element => {
+  const { email, setEmail }: any = useContext(AuthContext);
 
   const [isPassVisible, setIsPassVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
@@ -36,7 +28,6 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
 
   const handlePasswordToggle = () => {
     setIsPassVisible((isPassVisible) => !isPassVisible);
-    setTest("")
   };
 
   const handleConfirmToggle = () => {
@@ -46,7 +37,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
   return (
     <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto py-5 tablet:pt-0 tablet:pb-6">
       <h3 className="my-4 tablet:mb-5 tablet:text-2xl mx-2.5 tablet:mx-5">
-        Sign up {test}
+        Sign up
       </h3>
       <p className="mx-2.5 my-5 mt-2.5 tablet:mb-8">
         To sign-up, please provide your email address and password!
@@ -86,6 +77,7 @@ const SignupPage = ({ email, setEmail }: SignupProps): JSX.Element => {
             placeholder="Input email address"
             className="w-full bg-white-dark border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-2.5"
           />
+          {/* @ts-ignore */}
           <p className="text-red-500 text-left ">{errors.email?.message}</p>
         </div>
         <div className="w-full">

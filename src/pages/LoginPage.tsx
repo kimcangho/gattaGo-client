@@ -2,33 +2,20 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { LoginFormData } from "../interfaces/FormData";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 
-interface LoginProps {
+interface LoginFormData {
   email: string;
-  setEmail: Function;
-  isLoggedIn: Boolean;
-  setIsLoggedIn: Function;
-  setAccessToken: Function;
+  password: string;
 }
 
-// interface LoginFormData {
-//   email: string;
-//   password: string;
-// }
-
-const LoginPage = ({
-  email,
-  setEmail,
-  // isLoggedIn,
-  setIsLoggedIn,
-}: LoginProps): JSX.Element => {
-  const { setAccessToken }: any = useContext(AuthContext);
+const LoginPage = (): JSX.Element => {
+  const { setAccessToken, email, setEmail, setIsLoggedIn }: any =
+    useContext(AuthContext);
 
   const [isInvalidInput, setIsInvalidInput] = useState(false);
   const [isPassVisible, setIsPassVisible] = useState(false);
@@ -42,7 +29,6 @@ const LoginPage = ({
     defaultValues: {
       email,
       password: "",
-      // isLoggedIn,
     },
   });
 
@@ -57,7 +43,6 @@ const LoginPage = ({
         { withCredentials: true }
       );
 
-      console.log(data);
       await setAccessToken(data.accessToken);
       await setEmail(email);
       await setIsLoggedIn(true);
@@ -120,6 +105,7 @@ const LoginPage = ({
               placeholder="Input email address"
               className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
+            {/* @ts-ignore */}
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
           <div className="flex-col mb-2.5">
@@ -150,16 +136,6 @@ const LoginPage = ({
           </div>
 
           <div className="flex justify-end mb-2.5">
-            {/* <div className="flex space-x-1">
-              <input
-                type="checkbox"
-                {...register("isLoggedIn")}
-                id="isLoggedIn"
-              />
-              <p>
-              <span>Stay logged in</span>
-              </p>
-            </div> */}
             <Link to="../reset_password">
               <p>
                 <span className="text-blue-light hover:underline">

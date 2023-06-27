@@ -3,13 +3,20 @@ import axios from "axios";
 import boatIcon from "../assets/icons/boat.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
-import { TeamData } from "../interfaces/TeamData";
 
 interface OverviewTeamProps {
   id: string;
   name: string;
   myTeams: any;
   setMyTeams: any;
+}
+
+export interface TeamData {
+  id: string;
+  name: string;
+  division: string;
+  level: string;
+  gender: string;
 }
 
 const OverviewTeamItem = ({

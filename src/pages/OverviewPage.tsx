@@ -2,10 +2,16 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import createNew from "../assets/icons/create-new.svg";
-import { TeamData } from "../interfaces/TeamData";
 import OverviewTeamItem from "../components/OverviewTeamItem";
-
 import AuthContext from "../contexts/AuthContext";
+
+export interface TeamData {
+  id: string;
+  name: string;
+  division: string;
+  level: string;
+  gender: string;
+}
 
 const OverviewPage = (): JSX.Element => {
   const { accessToken }: any = useContext(AuthContext);

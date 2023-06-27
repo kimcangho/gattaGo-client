@@ -1,8 +1,5 @@
-import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -12,60 +9,30 @@ import OverviewPage from "./pages/OverviewPage";
 import CreateNewTeamPage from "./pages/CreateNewTeamPage";
 import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App = (): JSX.Element => {
-  const [accessToken, setAccessToken] = useState("");
-  const [email, setEmail] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   return (
     <AuthProvider>
       <BrowserRouter>
         <div className="flex flex-col h-screen justify-between">
-          <Header
-            setEmail={setEmail}
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-          />
+          <Header />
 
           <Routes>
             <Route path="/" element={<HomePage />} />
 
-            <Route
-              path="/signup"
-              element={<SignupPage email={email} setEmail={setEmail} />}
-            />
-            <Route
-              path="/login"
-              element={
-                <LoginPage
-                  email={email}
-                  setEmail={setEmail}
-                  isLoggedIn={isLoggedIn}
-                  setIsLoggedIn={setIsLoggedIn}
-                  setAccessToken={setAccessToken}
-                />
-              }
-            />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={<LoginPage />} />
 
-            <Route
-              path="/:userId/overview"
-              element={
-                <OverviewPage
-                // accessToken={accessToken}
-                />
-              }
-            />
+            <Route path="/:userId/overview" element={<OverviewPage />} />
             <Route path="/:userId/dashboard" element={<DashboardPage />} />
             <Route path="/:userId/new" element={<CreateNewTeamPage />} />
 
-            <Route
-              path="/reset_password"
-              element={<ResetPasswordPage email={email} setEmail={setEmail} />}
-            />
+            <Route path="/reset_password" element={<ResetPasswordPage />} />
             <Route
               path="/reset_password/:resetCodeId"
-              element={<ChangePasswordPage email={email} setEmail={setEmail} />}
+              element={<ChangePasswordPage />}
             />
 
             <Route path="/*" element={<ErrorPage />} />

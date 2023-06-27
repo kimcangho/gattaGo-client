@@ -1,19 +1,17 @@
-//  ***   To-do: Handle user password update    ***
-
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import AuthContext from "../contexts/AuthContext";
 
-interface ResetPasswordProps {
-  email: String;
-  setEmail: Function;
-}
+// interface ResetPasswordProps {
+//   email: String;
+//   setEmail: Function;
+// }
 
-const ResetPasswordPage = ({
-  email,
-  setEmail,
-}: ResetPasswordProps): JSX.Element => {
+const ResetPasswordPage = (): JSX.Element => {
+  const { email, setEmail }: any = useContext(AuthContext);
+
   const [isPasswordSent, setIsPasswordSent] = useState(false);
   const [isSendingRequest, setIsSendingRequest] = useState(false);
 
@@ -23,7 +21,7 @@ const ResetPasswordPage = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email,
+      email: email,
     },
   });
   return (
@@ -73,6 +71,7 @@ const ResetPasswordPage = ({
               placeholder="Input email address"
               className="mb-1 px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
+           {/* @ts-ignore */}
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
           <div className="flex flex-row space-x-2 tablet:space-x-3 mt-4">

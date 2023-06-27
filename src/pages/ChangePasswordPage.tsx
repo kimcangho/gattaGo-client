@@ -1,19 +1,17 @@
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
+import AuthContext from "../contexts/AuthContext";
 
-interface ChangePasswordProps {
-  email: string;
-  setEmail: Function;
-}
-
-const ChangePasswordPage = ({ email, setEmail }: ChangePasswordProps) => {
+const ChangePasswordPage = () => {
   const { resetCodeId } = useParams();
   const resetCode = resetCodeId;
   const navigate = useNavigate();
+
+  const { email, setEmail }: any = useContext(AuthContext);
 
   const [isResetCodeValid, setIsResetCodeValid] = useState(false);
   const [isPassVisible, setIsPassVisible] = useState(false);
