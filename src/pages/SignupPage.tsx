@@ -119,7 +119,7 @@ const SignupPage = (): JSX.Element => {
                   }
                 },
               })}
-              id="email"
+              id="confirmPassword"
               placeholder="Confirm password"
               className="w-full bg-white-dark px-2 py-2.5 outline-blue-light"
             />
