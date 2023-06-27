@@ -17,7 +17,7 @@ const App = (): JSX.Element => {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="flex flex-col h-screen justify-between">
+        <div className="flex flex-col h-screen justify-start">
           <Header />
 
           <Routes>
@@ -33,7 +33,7 @@ const App = (): JSX.Element => {
             <Route element={<ProtectedRoute redirectPath="login" />}>
               <Route path="/:userId/overview" element={<OverviewPage />} />
               <Route path="/:userId/new" element={<CreateNewTeamPage />} />
-              <Route path="/:userId/dashboard" element={<DashboardPage />} />
+              <Route path="/:userId/dashboard/:teamId" element={<DashboardPage />} />
             </Route>
 
             <Route path="/*" element={<ErrorPage />} />

@@ -34,7 +34,7 @@ const OverviewTeamItem = ({
     event.stopPropagation();
 
     const { id } = event.target as HTMLInputElement;
-    navigate(`../${id}/dashboard`);
+    navigate(`../test/dashboard/${id}`);
   };
 
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
