@@ -1,7 +1,9 @@
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import teamIcon from "../assets/icons/roster.svg";
+import AuthContext from "../contexts/AuthContext";
 
 interface CreateNewTeamFormData {
   teamName: string;
@@ -11,6 +13,17 @@ interface CreateNewTeamFormData {
 }
 
 const CreateNewTeamPage = (): JSX.Element => {
+  const { accessToken }: any = useContext(AuthContext);
+
+  //  Verify that access token is in database
+  useEffect(() => {
+    try {
+      // await axios.get("")
+    } catch (err) {
+
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -37,12 +50,20 @@ const CreateNewTeamPage = (): JSX.Element => {
     }
 
     try {
-      await axios.post("http://localhost:8888/teams", {
-        name: teamName,
-        gender,
-        level,
-        division,
-      });
+      const headers = { Authorization: `Bearer ${accessToken}` };
+      await axios.post(
+        "http://localhost:8888/teams",
+        {
+          name: teamName,
+          gender,
+          level,
+          division,
+        },
+        {
+          headers,
+          withCredentials: true,
+        }
+      );
     } catch (err) {
       console.log(err);
     }

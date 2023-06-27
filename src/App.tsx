@@ -11,6 +11,7 @@ import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 const App = (): JSX.Element => {
   return (
@@ -24,16 +25,17 @@ const App = (): JSX.Element => {
 
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-
-            <Route path="/:userId/overview" element={<OverviewPage />} />
-            <Route path="/:userId/dashboard" element={<DashboardPage />} />
-            <Route path="/:userId/new" element={<CreateNewTeamPage />} />
-
             <Route path="/reset_password" element={<ResetPasswordPage />} />
             <Route
               path="/reset_password/:resetCodeId"
               element={<ChangePasswordPage />}
             />
+
+            <Route element={<ProtectedRoute redirectPath="login" />}>
+              <Route path="/:userId/overview" element={<OverviewPage />} />
+              <Route path="/:userId/new" element={<CreateNewTeamPage />} />
+              <Route path="/:userId/dashboard" element={<DashboardPage />} />
+            </Route>
 
             <Route path="/*" element={<ErrorPage />} />
           </Routes>
