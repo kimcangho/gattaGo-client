@@ -16,7 +16,7 @@ const NavBar = ({ teamId }: NavBarProps) => {
         className={`flex flex-col items-center p-2 tablet:p-4 bg-blue-light hover:bg-blue-dark w-[25%] rounded-bl-xl border-r border-blue-dark`}
       >
         <img src={homeIcon} alt="Home" className="w-6 tablet:w-8" />
-        <p className="tablet:text-xl">Home</p>
+        <p className="tablet:text-xl">Dashboard</p>
       </NavLink>
       <NavLink
         to={`../:userId/roster/${teamId}`}
