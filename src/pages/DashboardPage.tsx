@@ -1,49 +1,33 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import NavBar from "../components/NavBar";
 import axios from "axios";
 import AuthContext from "../contexts/AuthContext";
 
 const DashboardPage = () => {
   const { teamId } = useParams();
-  console.log(teamId);
 
   const { accessToken }: any = useContext(AuthContext);
-  const [currentTeam, setCurrentTeam]: any = useState({});
+  const [_currentTeam, setCurrentTeam]: any = useState({});
 
-  //  Get team details - Test
+  //  Get team details
   useEffect(() => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
+    const getTeam = async () => {
+      const headers = { Authorization: `Bearer ${accessToken}` };
+      const { data } = await axios.get(
+        `http://localhost:8888/teams/${teamId}`,
+        {
+          headers,
+          withCredentials: true,
+        }
+      );
+      const { id, name, division, level, gender } = data;
+      setCurrentTeam({ id, name, division, level, gender });
+    };
 
-    axios
-      .get(`http://localhost:8888/teams/${teamId}`, {
-        headers,
-        withCredentials: true,
-      })
-      .then(({ data }) => {
-        console.log(data);
-        const { id, name, division, level, gender } = data;
-        setCurrentTeam({
-          id,
-          name,
-          division,
-          level,
-          gender,
-        });
-      });
+    getTeam();
   }, []);
 
-  return (
-    <div className="px-2">
-      <NavBar />
-      DashboardPage
-      <p>{currentTeam.id}</p>
-      <p>{currentTeam.name}</p>
-      <p>{currentTeam.division}</p>
-      <p>{currentTeam.level}</p>
-      <p>{currentTeam.gender}</p>
-    </div>
-  );
+  return <div>DashboardPage</div>;
 };
 
 export default DashboardPage;

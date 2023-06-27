@@ -12,6 +12,10 @@ import ErrorPage from "./pages/ErrorPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import RosterPage from "./pages/RosterPage";
+import LineupsPage from "./pages/LineupsPage";
+import SchedulePage from "./pages/SchedulePage";
+import NavbarRoute from "./utils/NavbarRoute";
 
 const App = (): JSX.Element => {
   return (
@@ -33,7 +37,25 @@ const App = (): JSX.Element => {
             <Route element={<ProtectedRoute redirectPath="login" />}>
               <Route path="/:userId/overview" element={<OverviewPage />} />
               <Route path="/:userId/new" element={<CreateNewTeamPage />} />
-              <Route path="/:userId/dashboard/:teamId" element={<DashboardPage />} />
+
+              <Route element={<NavbarRoute />}>
+                <Route
+                  path="/:userId/dashboard/:teamId"
+                  element={<DashboardPage />}
+                />
+                <Route
+                  path="/:userId/roster/:teamId"
+                  element={<RosterPage />}
+                />
+                <Route
+                  path="/:userId/lineups/:teamId"
+                  element={<LineupsPage />}
+                />
+                <Route
+                  path="/:userId/schedule/:teamId"
+                  element={<SchedulePage />}
+                />
+              </Route>
             </Route>
 
             <Route path="/*" element={<ErrorPage />} />

@@ -29,3 +29,7 @@ h4 {
 p {
     font-size: 0.875rem;
 }
+
+.active {
+  background-color: #15568c;
+}
