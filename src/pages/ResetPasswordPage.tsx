@@ -2,17 +2,13 @@ import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
-
-interface AuthContextData {
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-}
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const ResetPasswordPage = (): JSX.Element => {
-  const { email, setEmail }: AuthContextData = useContext(AuthContext)!;
-  const [isPasswordSent, setIsPasswordSent] = useState(false);
-  const [isSendingRequest, setIsSendingRequest] = useState(false);
+  const { email, setEmail }: AuthContextTypes =
+    useContext<AuthContextTypes | null>(AuthContext)!;
+  const [isPasswordSent, setIsPasswordSent] = useState<boolean>(false);
+  const [isSendingRequest, setIsSendingRequest] = useState<boolean>(false);
 
   const {
     register,

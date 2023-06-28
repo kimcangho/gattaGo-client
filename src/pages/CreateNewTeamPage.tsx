@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import teamIcon from "../assets/icons/roster.svg";
@@ -13,8 +13,9 @@ interface CreateNewTeamFormData {
 }
 
 const CreateNewTeamPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
-  const navigate = useNavigate();
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
+  
+  const navigate: NavigateFunction = useNavigate();
 
   const {
     register,

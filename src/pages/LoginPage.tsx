@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
@@ -14,11 +14,10 @@ interface LoginFormData {
 const LoginPage = (): JSX.Element => {
   const { setAccessToken, email, setEmail, setIsLoggedIn }: AuthContextTypes =
     useContext(AuthContext)!;
+  const [isInvalidInput, setIsInvalidInput] = useState<boolean>(false);
+  const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
-  const [isInvalidInput, setIsInvalidInput] = useState(false);
-  const [isPassVisible, setIsPassVisible] = useState(false);
-
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const {
     register,

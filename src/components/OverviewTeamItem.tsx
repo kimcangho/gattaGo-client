@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import axios from "axios";
 import boatIcon from "../assets/icons/boat.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
@@ -27,8 +27,11 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
-  const navigate = useNavigate();
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
+
+  const navigate: NavigateFunction = useNavigate();
 
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();

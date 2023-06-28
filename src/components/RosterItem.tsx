@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 interface RosterItemProps {
@@ -22,7 +22,9 @@ interface AthleteData {
 }
 
 const RosterItem = ({ athleteId }: RosterItemProps): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
   const [athlete, setAthlete] = useState<AthleteData | null>(null);
 
   useEffect(() => {

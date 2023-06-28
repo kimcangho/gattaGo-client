@@ -1,19 +1,23 @@
-import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
-interface AuthContextData {
-  accessToken: string;
+interface CurrentTeamData {
+  id: string;
+  name: string;
+  division: string;
+  level: string;
+  gender: string;
 }
 
-const DashboardPage = () => {
+const DashboardPage = (): JSX.Element => {
   const { teamId } = useParams();
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
+  const [_currentTeam, setCurrentTeam] = useState<CurrentTeamData | {}>({});
 
-  const { accessToken }: AuthContextData = useContext(AuthContext)!;
-  const [_currentTeam, setCurrentTeam]: any = useState({});
-
-  //  Get team details
   useEffect(() => {
     const getTeam = async () => {
       const headers = { Authorization: `Bearer ${accessToken}` };

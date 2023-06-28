@@ -1,21 +1,26 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import {
+  useParams,
+  useNavigate,
+  Link,
+  NavigateFunction,
+} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
-const ChangePasswordPage = () => {
+const ChangePasswordPage = (): JSX.Element => {
   const { resetCodeId } = useParams();
-  const navigate = useNavigate();
+  const { email, setEmail }: AuthContextTypes =
+    useContext<AuthContextTypes | null>(AuthContext)!;
+  const [isResetCodeValid, setIsResetCodeValid] = useState<boolean>(false);
+  const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+  const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
+  const [isPasswordChanged, setIsPasswordChanged] = useState<boolean>(false);
 
-  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
-
-  const [isResetCodeValid, setIsResetCodeValid] = useState(false);
-  const [isPassVisible, setIsPassVisible] = useState(false);
-  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
-  const [isPasswordChanged, setIsPasswordChanged] = useState(false);
+  const navigate: NavigateFunction = useNavigate();
 
   const {
     register,

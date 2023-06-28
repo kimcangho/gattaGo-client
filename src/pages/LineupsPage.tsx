@@ -3,9 +3,11 @@ import { useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
-const LineupsPage = () => {
+const LineupsPage = (): JSX.Element => {
   const { teamId } = useParams();
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
 
   useEffect(() => {
     const getLineups = async () => {

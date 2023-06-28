@@ -15,10 +15,10 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextTypes | null>(null);
 
-export const AuthProvider = ({ children }: AuthContextProps) => {
-  const [accessToken, setAccessToken] = useState("");
-  const [email, setEmail] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const AuthProvider = ({ children }: AuthContextProps): JSX.Element => {
+  const [accessToken, setAccessToken] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
     <AuthContext.Provider

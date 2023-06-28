@@ -7,9 +7,10 @@ import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const SignupPage = (): JSX.Element => {
-  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
-  const [isPassVisible, setIsPassVisible] = useState(false);
-  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+  const { email, setEmail }: AuthContextTypes =
+    useContext<AuthContextTypes | null>(AuthContext)!;
+  const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+  const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import axios from "axios";
 import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
@@ -14,9 +14,10 @@ export interface TeamData {
 }
 
 const OverviewPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
-  const navigate = useNavigate();
+
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
     const getAllTeams = async () => {

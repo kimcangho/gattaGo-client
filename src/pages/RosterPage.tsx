@@ -1,12 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import RosterItem from "../components/RosterItem";
-
-interface AuthContextData {
-  accessToken: string;
-}
 
 interface RosterData {
   teamId: string;
@@ -14,9 +10,9 @@ interface RosterData {
   updatedAt: Date;
 }
 
-const RosterPage = () => {
+const RosterPage = (): JSX.Element => {
   const { teamId } = useParams();
-  const { accessToken }: AuthContextData = useContext(AuthContext)!;
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
   const [roster, setRoster] = useState<RosterData[]>([]);
 
   useEffect(() => {

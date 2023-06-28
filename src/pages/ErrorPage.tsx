@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-const ErrorPage = () => {
+const ErrorPage = (): JSX.Element => {
   return (
     <div className="tablet:w-[448px] mx-auto mb-20">
       <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
