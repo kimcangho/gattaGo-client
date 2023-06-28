@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-export interface AuthContextType {
+export interface AuthContextTypes {
   accessToken: string;
   setAccessToken: React.Dispatch<React.SetStateAction<string>>;
   email: string;
@@ -13,7 +13,7 @@ interface AuthContextProps {
   children: React.ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextTypes | null>(null);
 
 export const AuthProvider = ({ children }: AuthContextProps) => {
   const [accessToken, setAccessToken] = useState("");

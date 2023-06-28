@@ -3,10 +3,14 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../contexts/AuthContext";
 
+interface AuthContextData {
+  accessToken: string;
+}
+
 const DashboardPage = () => {
   const { teamId } = useParams();
 
-  const { accessToken }: any = useContext(AuthContext);
+  const { accessToken }: AuthContextData = useContext(AuthContext)!;
   const [_currentTeam, setCurrentTeam]: any = useState({});
 
   //  Get team details

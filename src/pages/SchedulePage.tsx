@@ -1,9 +1,9 @@
 import { useEffect, useContext } from "react";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const SchedulePage = () => {
-  const { accessToken }: any = useContext(AuthContext);
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
 
   useEffect(() => {
     const getRegattas = async () => {

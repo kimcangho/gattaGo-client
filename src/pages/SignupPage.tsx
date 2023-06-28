@@ -2,13 +2,12 @@ import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const SignupPage = (): JSX.Element => {
-  const { email, setEmail }: any = useContext(AuthContext);
-
+  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
   const [isPassVisible, setIsPassVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
@@ -77,7 +76,6 @@ const SignupPage = (): JSX.Element => {
             placeholder="Input email address"
             className="w-full bg-white-dark border border-gray-border outline-1 focus:outline-blue-light rounded px-2 py-2.5"
           />
-          {/* @ts-ignore */}
           <p className="text-red-500 text-left ">{errors.email?.message}</p>
         </div>
         <div className="w-full">

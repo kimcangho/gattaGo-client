@@ -4,14 +4,13 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import AuthContext from "../contexts/AuthContext";
 
-// interface ResetPasswordProps {
-//   email: String;
-//   setEmail: Function;
-// }
+interface AuthContextData {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+}
 
 const ResetPasswordPage = (): JSX.Element => {
-  const { email, setEmail }: any = useContext(AuthContext);
-
+  const { email, setEmail }: AuthContextData = useContext(AuthContext)!;
   const [isPasswordSent, setIsPasswordSent] = useState(false);
   const [isSendingRequest, setIsSendingRequest] = useState(false);
 
@@ -71,7 +70,6 @@ const ResetPasswordPage = (): JSX.Element => {
               placeholder="Input email address"
               className="mb-1 px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-           {/* @ts-ignore */}
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
           <div className="flex flex-row space-x-2 tablet:space-x-3 mt-4">

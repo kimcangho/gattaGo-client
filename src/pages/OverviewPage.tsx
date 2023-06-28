@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 export interface TeamData {
   id: string;
@@ -14,8 +14,7 @@ export interface TeamData {
 }
 
 const OverviewPage = (): JSX.Element => {
-  const { accessToken }: any = useContext(AuthContext);
-
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
   const navigate = useNavigate();
 

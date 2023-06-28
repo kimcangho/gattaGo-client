@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
-
-import { useContext } from "react";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 interface LoginFormData {
   email: string;
@@ -14,14 +12,14 @@ interface LoginFormData {
 }
 
 const LoginPage = (): JSX.Element => {
-
-  const { setAccessToken, email, setEmail, setIsLoggedIn }: any =
-    useContext(AuthContext);
+  const { setAccessToken, email, setEmail, setIsLoggedIn }: AuthContextTypes =
+    useContext(AuthContext)!;
 
   const [isInvalidInput, setIsInvalidInput] = useState(false);
   const [isPassVisible, setIsPassVisible] = useState(false);
 
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -106,7 +104,6 @@ const LoginPage = (): JSX.Element => {
               placeholder="Input email address"
               className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-            {/* @ts-ignore */}
             <p className="text-red-500 text-left">{errors.email?.message}</p>
           </div>
           <div className="flex-col mb-2.5">

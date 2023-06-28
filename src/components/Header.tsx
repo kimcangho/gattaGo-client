@@ -2,11 +2,11 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const Header = (): JSX.Element => {
-  const { setEmail, isLoggedIn, setIsLoggedIn }: any = useContext(AuthContext);
-
+  const { setEmail, isLoggedIn, setIsLoggedIn }: AuthContextTypes =
+    useContext(AuthContext)!;
   const navigate = useNavigate();
 
   const handleLogout = async () => {

@@ -4,14 +4,13 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const ChangePasswordPage = () => {
   const { resetCodeId } = useParams();
-  const resetCode = resetCodeId;
   const navigate = useNavigate();
 
-  const { email, setEmail }: any = useContext(AuthContext);
+  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
 
   const [isResetCodeValid, setIsResetCodeValid] = useState(false);
   const [isPassVisible, setIsPassVisible] = useState(false);
@@ -43,7 +42,7 @@ const ChangePasswordPage = () => {
       }
     };
 
-    findEmail(resetCode!);
+    findEmail(resetCodeId!);
   }, []);
 
   const handlePasswordToggle = () => {
@@ -74,7 +73,7 @@ const ChangePasswordPage = () => {
                   await axios.put("http://localhost:7777/reset", {
                     email,
                     password,
-                    resetCode,
+                    resetCode: resetCodeId,
                   });
                   setIsPasswordChanged(true);
                 } catch (err) {

@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import axios from "axios";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const LineupsPage = () => {
   const { teamId } = useParams();
-  const { accessToken }: any = useContext(AuthContext);
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
 
   useEffect(() => {
     const getLineups = async () => {
