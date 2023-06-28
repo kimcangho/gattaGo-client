@@ -9,8 +9,8 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 interface OverviewTeamProps {
   id: string;
   name: string;
-  myTeams: any;
-  setMyTeams: any;
+  myTeams: TeamData[];
+  setMyTeams: React.Dispatch<React.SetStateAction<TeamData[]>>;
 }
 
 export interface TeamData {

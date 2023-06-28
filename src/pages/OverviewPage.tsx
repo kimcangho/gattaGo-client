@@ -14,7 +14,9 @@ export interface TeamData {
 }
 
 const OverviewPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
 
   const navigate: NavigateFunction = useNavigate();
