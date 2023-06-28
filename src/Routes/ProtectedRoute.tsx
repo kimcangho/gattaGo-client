@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 interface ProtectedRouteProps {
   redirectPath: string;
 }
 
 const ProtectedRoute = ({ redirectPath }: ProtectedRouteProps): JSX.Element => {
-  const { email }: any = useContext(AuthContext);
+  const { email }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
 
   if (!email) {
     return <Navigate to={`/${redirectPath}`} />;

@@ -11,7 +11,7 @@ interface RosterData {
 }
 
 const RosterPage = (): JSX.Element => {
-  const { teamId } = useParams();
+  const { teamId } = useParams<string>();
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
   const [roster, setRoster] = useState<RosterData[]>([]);
 

@@ -12,7 +12,7 @@ import hiddenPassword from "../assets/icons/hidden-password.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const ChangePasswordPage = (): JSX.Element => {
-  const { resetCodeId } = useParams();
+  const { resetCodeId } = useParams<string>();
   const { email, setEmail }: AuthContextTypes =
     useContext<AuthContextTypes | null>(AuthContext)!;
   const [isResetCodeValid, setIsResetCodeValid] = useState<boolean>(false);

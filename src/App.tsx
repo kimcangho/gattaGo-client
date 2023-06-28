@@ -9,13 +9,13 @@ import OverviewPage from "./pages/OverviewPage";
 import CreateNewTeamPage from "./pages/CreateNewTeamPage";
 import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import ProtectedRoute from "./utils/ProtectedRoute";
 import RosterPage from "./pages/RosterPage";
 import LineupsPage from "./pages/LineupsPage";
 import SchedulePage from "./pages/SchedulePage";
-import NavbarRoute from "./utils/NavbarRoute";
+import ProtectedRoute from "./Routes/ProtectedRoute";
+import NavbarRoute from "./Routes/NavbarRoute";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const App = (): JSX.Element => {
   return (

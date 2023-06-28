@@ -4,7 +4,7 @@ import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const LineupsPage = (): JSX.Element => {
-  const { teamId } = useParams();
+  const { teamId } = useParams<string>();
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
   )!;

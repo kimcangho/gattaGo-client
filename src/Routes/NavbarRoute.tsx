@@ -1,13 +1,12 @@
-
-import {  Navigate, Outlet, useParams } from "react-router-dom";
+import { Navigate, Outlet, useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 
 const NavbarRoute = (): JSX.Element => {
-    const {teamId} = useParams();
+  const { teamId } = useParams<string>();
 
-    if (!teamId) {
-      return <Navigate to={`/:userId/overview`} />;
-    }
+  if (!teamId) {
+    return <Navigate to={`/:userId/overview`} />;
+  }
 
   return (
     <div className="px-2">

@@ -12,7 +12,7 @@ interface CurrentTeamData {
 }
 
 const DashboardPage = (): JSX.Element => {
-  const { teamId } = useParams();
+  const { teamId } = useParams<string>();
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
   )!;
