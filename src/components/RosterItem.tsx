@@ -5,9 +5,9 @@ import userProfileIcon from "../assets/icons/user-profile.svg";
 import checkCircleIcon from "../assets/icons/check-circle.svg";
 import xCircleIcon from "../assets/icons/x-circle.svg";
 import leftHandUnfilledIcon from "../assets/icons/left-hand-unfilled.svg";
-// import leftHandFilledIcon from "../assets/icons/left-hand-filled.svg";
+import leftHandFilledIcon from "../assets/icons/left-hand-filled.svg";
 import rightHandUnfilledIcon from "../assets/icons/right-hand-unfilled.svg";
-// import rightHandFilledIcon from "../assets/icons/right-hand-filled.svg";
+import rightHandFilledIcon from "../assets/icons/right-hand-filled.svg";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
@@ -15,6 +15,14 @@ import deleteIcon from "../assets/icons/delete-entity.svg";
 
 interface RosterItemProps {
   athleteId: string;
+  roster: RosterData[];
+  setRoster: React.Dispatch<React.SetStateAction<RosterData[]>>;
+}
+
+interface RosterData {
+  teamId: string;
+  athleteId: string;
+  updatedAt: Date;
 }
 
 interface AthleteData {
@@ -32,7 +40,11 @@ interface AthleteData {
   birthDate: Date;
 }
 
-const RosterItem = ({ athleteId }: RosterItemProps): JSX.Element => {
+const RosterItem = ({
+  athleteId,
+  roster,
+  setRoster,
+}: RosterItemProps): JSX.Element => {
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
   )!;
@@ -64,15 +76,27 @@ const RosterItem = ({ athleteId }: RosterItemProps): JSX.Element => {
     setIsNotesVisible((isNotesVisible) => !isNotesVisible);
   };
 
+  const handleDeleteAthlete = async (event: React.MouseEvent<HTMLElement>) => {
+    const headers = { Authorization: `Bearer ${accessToken}` };
+
+    const { id } = event.target as HTMLInputElement;
+    await axios.delete(`http://localhost:8888/athletes/${id}`, {
+      headers,
+      withCredentials: true,
+    });
+    const currentRoster = roster.filter(({ athleteId }) => {
+      return athleteId !== id;
+    });
+
+    setRoster(currentRoster);
+  };
+
   const handleEditAthlete = async () => {
     console.log("Edit");
   };
-  const handleDeleteAthlete = async () => {
-    console.log("Delete");
-  };
 
   return (
-    <article className="flex flex-col w-full mx-auto max-w-[448px] desktop:max-w-[1280px] border border-black mb-4 rounded-xl">
+    <article className="flex flex-col w-full mx-auto max-w-[448px] desktop:max-w-[1280px] border border-black mb-4 pb-2 rounded-xl">
       <div className="flex justify-between bg-gray-border border-b border-black rounded-t-xl">
         <div className="flex items-center m-2 space-x-2">
           <img
@@ -86,13 +110,29 @@ const RosterItem = ({ athleteId }: RosterItemProps): JSX.Element => {
         </div>
         <div className="flex m-2">
           <img
-            src={leftHandUnfilledIcon}
-            alt="Left Side Unfilled"
+            src={
+              athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
+                ? leftHandFilledIcon
+                : leftHandUnfilledIcon
+            }
+            alt={
+              athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
+                ? "Left Side Filled"
+                : "Left Side Unfilled"
+            }
             className="w-6"
           />
           <img
-            src={rightHandUnfilledIcon}
-            alt="Right Side Unfilled"
+            src={
+              athlete?.paddleSide === "R" || athlete?.paddleSide === "B"
+                ? rightHandFilledIcon
+                : rightHandUnfilledIcon
+            }
+            alt={
+              athlete?.paddleSide === "R" || athlete?.paddleSide === "B"
+                ? "Right Side Filled"
+                : "Right Side Unfilled"
+            }
             className="w-6"
           />
         </div>
@@ -115,7 +155,13 @@ const RosterItem = ({ athleteId }: RosterItemProps): JSX.Element => {
         </div>
       </div>
 
-      <div className="p-2">
+      <div
+        className={
+          !isNotesVisible
+            ? `flex justify-between items-middle pl-2 rounded-b-xl`
+            : `flex flex-col pl-2 rounded-b-xl`
+        }
+      >
         <div className="flex space-x-1 items-center">
           <span
             onClick={handleToggleNotes}
@@ -130,21 +176,25 @@ const RosterItem = ({ athleteId }: RosterItemProps): JSX.Element => {
           </span>
         </div>
         {isNotesVisible && <p>{athlete?.notes}</p>}
-      </div>
-
-      <div className="flex justify-end rounded-b-xl">
-        <img
-          src={editIcon}
-          alt="Edit"
-          onClick={handleEditAthlete}
-          className="m-2 w-6 cursor-pointer"
-        />
-        <img
-          src={deleteIcon}
-          alt="Delete"
-          onClick={handleDeleteAthlete}
-          className="m-2 w-6 cursor-pointer"
-        />
+        <div className="flex self-end">
+          <img
+            src={editIcon}
+            alt="Edit"
+            onClick={handleEditAthlete}
+            className={`ml-2 mr-1 ${
+              isNotesVisible ? `mt-1` : ``
+            } w-6 cursor-pointer`}
+          />
+          <img
+            src={deleteIcon}
+            alt="Delete"
+            id={athlete?.id}
+            onClick={handleDeleteAthlete}
+            className={`ml-1 mr-2 ${
+              isNotesVisible ? `mt-1` : ``
+            } w-6 cursor-pointer`}
+          />
+        </div>
       </div>
     </article>
   );

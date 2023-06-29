@@ -5,7 +5,7 @@ import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
-export interface TeamData {
+interface TeamData {
   id: string;
   name: string;
   division: string;

@@ -53,7 +53,12 @@ const RosterPage = (): JSX.Element => {
       </div>
       {roster.map((athlete) => {
         return (
-          <RosterItem key={athlete.athleteId} athleteId={athlete.athleteId} />
+          <RosterItem
+            key={athlete.athleteId}
+            athleteId={athlete.athleteId}
+            roster={roster}
+            setRoster={setRoster}
+          />
         );
       })}
     </>

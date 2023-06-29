@@ -13,7 +13,7 @@ interface OverviewTeamProps {
   setMyTeams: React.Dispatch<React.SetStateAction<TeamData[]>>;
 }
 
-export interface TeamData {
+interface TeamData {
   id: string;
   name: string;
   division: string;
