@@ -58,7 +58,7 @@ const OverviewTeamItem = ({
   };
 
   return (
-    <div
+    <article
       id={id}
       className="flex justify-between space-x-2 items-center h-12 p-2 tablet:p-6 bg-white border-x border-b border-gray-border hover:bg-blue-wavy rounded-b"
     >
@@ -86,7 +86,7 @@ const OverviewTeamItem = ({
           onClick={handleDeleteTeam}
         />
       </div>
-    </div>
+    </article>
   );
 };
 export default OverviewTeamItem;

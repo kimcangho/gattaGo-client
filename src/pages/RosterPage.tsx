@@ -12,7 +12,9 @@ interface RosterData {
 
 const RosterPage = (): JSX.Element => {
   const { teamId } = useParams<string>();
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
   const [roster, setRoster] = useState<RosterData[]>([]);
 
   useEffect(() => {
@@ -43,6 +45,12 @@ const RosterPage = (): JSX.Element => {
 
   return (
     <>
+      <div className="flex justify-between items-center px-2 py-4">
+        <h1>Roster</h1>
+        <div className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white">
+          Add Paddler
+        </div>
+      </div>
       {roster.map((athlete) => {
         return (
           <RosterItem key={athlete.athleteId} athleteId={athlete.athleteId} />
