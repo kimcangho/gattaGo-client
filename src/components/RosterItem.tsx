@@ -147,7 +147,30 @@ const RosterItem = ({
       />
 
       <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[80%] tablet:w-full">
-        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+        {/* Temporary Fix for notes display - ideally notes will show below entry in tablet/desktop mode */}
+        {isNotesVisible && window.innerWidth > 768 ? (
+          <p className="hidden tablet:flex text-black">{athlete?.notes}</p>
+        ) : (
+          <>
+            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+              {athlete?.weight && athlete?.weight < 200 ? "Big Boi" : "Smol"}
+            </p>
+            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+              {athlete?.lastName}
+            </p>
+            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+              {athlete?.gender}
+            </p>
+            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+              {athlete?.phone}
+            </p>
+            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+              {athlete?.firstName}
+            </p>
+          </>
+        )}
+
+        {/* <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
           {athlete?.weight && athlete?.weight < 200 ? "Big Boi" : "Smol"}
         </p>
         <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
@@ -161,7 +184,7 @@ const RosterItem = ({
         </p>
         <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
           {athlete?.firstName}
-        </p>
+        </p> */}
       </div>
 
       <div
@@ -182,7 +205,9 @@ const RosterItem = ({
             />
           </span>
         </div>
-        {isNotesVisible && <p className="tablet:hidden">{athlete?.notes}</p>}
+        {isNotesVisible && (
+          <p className="tablet:hidden text-black">{athlete?.notes}</p>
+        )}
         <div className="flex justify-end">
           <img
             src={editIcon}
