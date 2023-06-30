@@ -52,17 +52,17 @@ const RosterPage = (): JSX.Element => {
         </div>
       </div>
 
-      <div className="hidden tablet:flex w-full max-w-[1280px] mx-auto justify-between text-black font-semibold border border-black rounded-t-xl">
+      <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
         <div className="flex flex-row w-[320px]">
-          <h2 className="w-full text-center">Name</h2>
-          <h2 className="w-16 px-2">Status</h2>
-          <h2 className="w-24 text-center">Side</h2>
+          <h2 className="w-full pl-16">Name</h2>
+          <h2 className="mx-2">Status</h2>
+          <h2 className="w-auto mx-3.5">Side</h2>
         </div>
-        <h2>Description</h2>
+        <h2 className="self-start">Description</h2>
         <h2 className="w-[142px] text-center">Edit/Delete</h2>
       </div>
 
-      <div className="">
+      <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl">
         {roster.map((athlete) => {
           return (
             <RosterItem
