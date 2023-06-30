@@ -28,12 +28,6 @@ const RosterPage = (): JSX.Element => {
             withCredentials: true,
           }
         );
-
-        // const athleteIdData = await data.map(
-        //   (athlete: { athleteId: string; teamId: string; updatedAt: Date }) =>
-        //     athlete.athleteId
-        // );
-        console.log(data);
         setRoster(data);
       } catch (err) {
         console.log(err);
@@ -45,22 +39,41 @@ const RosterPage = (): JSX.Element => {
 
   return (
     <>
-      <div className="flex justify-between items-center px-2 py-4">
-        <h1>Roster</h1>
+      <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0">
+        <div className="">
+          <h1>Roster</h1>
+          <p className="text-black">
+            Total: {roster.length} paddler{roster.length !== 1 && `s`}
+          </p>
+        </div>
+
         <div className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white">
           Add Paddler
         </div>
       </div>
-      {roster.map((athlete) => {
-        return (
-          <RosterItem
-            key={athlete.athleteId}
-            athleteId={athlete.athleteId}
-            roster={roster}
-            setRoster={setRoster}
-          />
-        );
-      })}
+
+      <div className="hidden tablet:flex w-full max-w-[1280px] mx-auto justify-between text-black font-semibold border border-black rounded-t-xl">
+        <div className="flex flex-row w-[320px]">
+          <h2 className="w-full text-center">Name</h2>
+          <h2 className="w-16 px-2">Status</h2>
+          <h2 className="w-24 text-center">Side</h2>
+        </div>
+        <h2>Description</h2>
+        <h2 className="w-[142px] text-center">Edit/Delete</h2>
+      </div>
+
+      <div className="">
+        {roster.map((athlete) => {
+          return (
+            <RosterItem
+              key={athlete.athleteId}
+              athleteId={athlete.athleteId}
+              roster={roster}
+              setRoster={setRoster}
+            />
+          );
+        })}
+      </div>
     </>
   );
 };

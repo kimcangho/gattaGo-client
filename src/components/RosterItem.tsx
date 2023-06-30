@@ -96,19 +96,21 @@ const RosterItem = ({
   };
 
   return (
-    <article className="flex flex-col w-full mx-auto max-w-[448px] desktop:max-w-[1280px] border border-black mb-4 pb-2 rounded-xl">
-      <div className="flex justify-between bg-gray-border border-b border-black rounded-t-xl">
-        <div className="flex items-center m-2 space-x-2">
+    <article
+      className={`tablet:flex mx-auto max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-t-0 border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
+    >
+      <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
+        <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-48">
           <img
             src={athlete?.isAvailable ? checkCircleIcon : xCircleIcon}
             alt={athlete?.isAvailable ? "Available" : "Unavailable"}
-            className="w-6"
+            className="w-6 tablet:w-8 tablet:mr-1"
           />
-          <h3 className="text-blue-light">
+          <h3 className="text-blue-light tablet:order-first">
             {athlete?.firstName} {athlete?.lastName.slice(0, 1)}.{" "}
           </h3>
         </div>
-        <div className="flex m-2">
+        <div className="flex m-2 w-12">
           <img
             src={
               athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
@@ -138,31 +140,37 @@ const RosterItem = ({
         </div>
       </div>
 
-      <div className="flex">
-        <img
-          src={userProfileIcon}
-          alt="Placeholder Profile Picture"
-          className="w-20 self-start my-2"
-        />
-        <div className="flex flex-wrap p-2">
-          <div>
-            <p className="my-0">
-              {athlete?.weight} asdfja;sdjfasl asdfja;sdjfasl asdfja;sdjfasl
-              asdfja;sdjfasl asdfja;sdjfasl asdfja;sdjfasl asdfja;sdjfasl
-              asdfja;sdjfasl asdfja;sdjfasl asdfja;sdjfasl
-            </p>
-          </div>
-        </div>
+      <img
+        src={userProfileIcon}
+        alt="Placeholder Profile Picture"
+        className="inline-block tablet:order-first w-[20%] tablet:w-10 tablet:ml-2 align-top my-2"
+      />
+
+      <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[80%] tablet:w-full">
+        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+          {athlete!.weight < 200 ? "Big Boi" : "Smol"}
+        </p>
+        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+          {athlete?.lastName}
+        </p>
+        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+          {athlete?.gender}
+        </p>
+        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+          {athlete?.phone}
+        </p>
+        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+          {athlete?.firstName}
+        </p>
+        
       </div>
 
       <div
-        className={
-          !isNotesVisible
-            ? `flex justify-between items-middle pl-2 rounded-b-xl`
-            : `flex flex-col pl-2 rounded-b-xl`
-        }
+        className={`flex pl-2 rounded-b-xl ${
+          !isNotesVisible ? `justify-between` : `flex-col `
+        } tablet:w-auto tablet:justify-start`}
       >
-        <div className="flex space-x-1 items-center">
+        <div className="flex space-x-1 items-center tablet:w-[108px]">
           <span
             onClick={handleToggleNotes}
             className="flex space-x-1 items-center cursor-pointer"
@@ -176,7 +184,7 @@ const RosterItem = ({
           </span>
         </div>
         {isNotesVisible && <p>{athlete?.notes}</p>}
-        <div className="flex self-end">
+        <div className="flex justify-end">
           <img
             src={editIcon}
             alt="Edit"
@@ -191,7 +199,7 @@ const RosterItem = ({
             id={athlete?.id}
             onClick={handleDeleteAthlete}
             className={`ml-1 mr-2 ${
-              isNotesVisible ? `mt-1` : ``
+              isNotesVisible && `mt-1`
             } w-6 cursor-pointer`}
           />
         </div>
