@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
+import useWindowSize from "../hooks/useWindowSize";
 import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import RosterItem from "../components/RosterItem";
@@ -16,6 +17,7 @@ const RosterPage = (): JSX.Element => {
     AuthContext
   )!;
   const [roster, setRoster] = useState<RosterData[]>([]);
+  const { width } = useWindowSize();
 
   useEffect(() => {
     const getAthletes = async () => {
@@ -70,6 +72,7 @@ const RosterPage = (): JSX.Element => {
               athleteId={athlete.athleteId}
               roster={roster}
               setRoster={setRoster}
+              width={width}
             />
           );
         })}
