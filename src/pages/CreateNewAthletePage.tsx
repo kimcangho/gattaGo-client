@@ -11,6 +11,7 @@ import userIcon from "../assets/icons/user.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { convertPaddlerStatToField } from "../utils/convertPaddlerStatToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
+import { transformPaddlerStatsForRequest } from "../utils/transformPaddlerStatsForRequest";
 
 const paddlerStatsArr = [
   {
@@ -150,33 +151,31 @@ const CreateNewAthletePage = (): JSX.Element => {
     lastName,
     paddleSide,
     eligibility,
+    weight,
     paddlerStats,
   }: CreateNewAthleteFormData) => {
     console.log("Submitting athlete details!");
     const headers = { Authorization: `Bearer ${accessToken}` };
 
-    console.log(
-      email,
-      firstName,
-      lastName,
-      paddleSide,
-      eligibility,
-      paddlerStats
-    );
+    const transformedPaddlerStatsObj =
+      transformPaddlerStatsForRequest(paddlerStats);
+
+    console.log(transformedPaddlerStatsObj);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
       return;
 
     try {
       await axios.post(
-        "http://localhost:8888/",
+        "http://localhost:8888/athletes",
         {
           email,
           firstName,
           lastName,
           paddleSide,
           eligibility,
-          paddlerStats,
+          weight,
+          transformedPaddlerStatsObj,
         },
         {
           headers,
