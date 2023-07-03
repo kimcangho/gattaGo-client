@@ -47,6 +47,7 @@ const paddlerStatsArr = [
 ];
 
 interface CreateNewAthleteFormData {
+  teamId: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -146,6 +147,7 @@ const CreateNewAthletePage = (): JSX.Element => {
   };
 
   const handleFormSubmit = async ({
+    teamId,
     email,
     firstName,
     lastName,
