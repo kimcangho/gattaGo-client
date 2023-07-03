@@ -41,7 +41,7 @@ const RosterPage = (): JSX.Element => {
 
   return (
     <>
-      <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0">
+      <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Roster</h1>
           <p className="text-black">
@@ -69,7 +69,7 @@ const RosterPage = (): JSX.Element => {
             <h2 className="w-[142px] text-center">Edit/Delete</h2>
           </div>
 
-          <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl">
+          <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl max-w-[1280px] mx-auto">
             {roster.map((athlete) => {
               return (
                 <RosterItem

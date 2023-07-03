@@ -17,6 +17,7 @@ import NavbarRoute from "./Routes/NavbarRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateNewAthletePage from "./pages/CreateNewAthletePage";
+import EditAthletePage from "./pages/EditAthletePage";
 
 const App = (): JSX.Element => {
   return (
@@ -51,6 +52,10 @@ const App = (): JSX.Element => {
                 <Route
                   path="/:userId/roster/:teamId/new"
                   element={<CreateNewAthletePage />}
+                />
+                <Route
+                  path="/:userId/roster/:teamId/edit/:athleteId"
+                  element={<EditAthletePage />}
                 />
                 <Route
                   path="/:userId/lineups/:teamId"

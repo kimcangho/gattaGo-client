@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import userProfileIcon from "../assets/icons/user-profile.svg";
@@ -55,6 +56,8 @@ const RosterItem = ({
   // const [isEditable, setIsEditable] = useState<boolean>(false);   //  toggle to edit item
   const [athlete, setAthlete] = useState<AthleteData | null>(null);
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
+  const { teamId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAthleteDetails = async () => {
@@ -97,6 +100,7 @@ const RosterItem = ({
 
   const handleEditAthlete = async () => {
     console.log("Edit");
+    navigate(`/:userId/roster/${teamId}/edit/${athleteId}`);
   };
 
   return (
@@ -184,7 +188,7 @@ const RosterItem = ({
             onClick={handleToggleNotes}
             className="flex space-x-1 mt-1 tablet:mt-0 items-center cursor-pointer"
           >
-            <h4 className='tablet:order-last'>Notes</h4>
+            <h4 className="tablet:order-last">Notes</h4>
             <img
               src={
                 width! < 768
