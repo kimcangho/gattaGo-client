@@ -16,6 +16,7 @@ import ProtectedRoute from "./Routes/ProtectedRoute";
 import NavbarRoute from "./Routes/NavbarRoute";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 
 const App = (): JSX.Element => {
   return (
@@ -46,6 +47,10 @@ const App = (): JSX.Element => {
                 <Route
                   path="/:userId/roster/:teamId"
                   element={<RosterPage />}
+                />
+                <Route
+                  path="/:userId/roster/:teamId/new"
+                  element={<CreateNewAthletePage />}
                 />
                 <Route
                   path="/:userId/lineups/:teamId"

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import axios from "axios";
@@ -49,34 +49,41 @@ const RosterPage = (): JSX.Element => {
           </p>
         </div>
 
-        <div className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white">
+        <Link
+          to={`../:userId/roster/${teamId}/new`}
+          className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
+        >
           Add Paddler
-        </div>
+        </Link>
       </div>
 
-      <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
-        <div className="flex flex-row w-[320px]">
-          <h2 className="w-full pl-16">Name</h2>
-          <h2 className="mx-2">Status</h2>
-          <h2 className="w-auto mx-3.5">Side</h2>
-        </div>
-        <h2 className="self-start">Description</h2>
-        <h2 className="w-[142px] text-center">Edit/Delete</h2>
-      </div>
+      {roster.length !== 0 && (
+        <>
+          <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
+            <div className="flex flex-row w-[320px]">
+              <h2 className="w-full pl-16">Name</h2>
+              <h2 className="mx-2">Status</h2>
+              <h2 className="w-auto mx-3.5">Side</h2>
+            </div>
+            <h2 className="self-start">Description</h2>
+            <h2 className="w-[142px] text-center">Edit/Delete</h2>
+          </div>
 
-      <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl">
-        {roster.map((athlete) => {
-          return (
-            <RosterItem
-              key={athlete.athleteId}
-              athleteId={athlete.athleteId}
-              roster={roster}
-              setRoster={setRoster}
-              width={width}
-            />
-          );
-        })}
-      </div>
+          <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl">
+            {roster.map((athlete) => {
+              return (
+                <RosterItem
+                  key={athlete.athleteId}
+                  athleteId={athlete.athleteId}
+                  roster={roster}
+                  setRoster={setRoster}
+                  width={width}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
     </>
   );
 };

@@ -10,6 +10,8 @@ import rightHandUnhighlightIcon from "../assets/icons/right-hand-unhighlight.svg
 import rightHandHighlightIcon from "../assets/icons/right-hand-highlight.svg";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
+import chevronLeftIcon from "../assets/icons/chevron-left.svg";
+import chevronRightIcon from "../assets/icons/chevron-right.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
 
@@ -45,7 +47,7 @@ const RosterItem = ({
   athleteId,
   roster,
   setRoster,
-  width
+  width,
 }: RosterItemProps): JSX.Element => {
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
@@ -145,10 +147,10 @@ const RosterItem = ({
       <img
         src={userProfileIcon}
         alt="Placeholder Profile Picture"
-        className="inline-block tablet:order-first w-[20%] tablet:w-10 tablet:ml-2 align-top my-2"
+        className="inline-block tablet:order-first w-20 tablet:w-10 tablet:ml-2 align-top mt-4 tablet:mt-2 mb-2"
       />
 
-      <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[80%] tablet:w-full">
+      <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[calc(100%-80px)] tablet:w-full">
         {isNotesVisible && width! > 768 ? (
           <p className="hidden tablet:flex text-black">{athlete?.notes}</p>
         ) : (
@@ -182,9 +184,17 @@ const RosterItem = ({
             onClick={handleToggleNotes}
             className="flex space-x-1 mt-1 tablet:mt-0 items-center cursor-pointer"
           >
-            <h4>Notes</h4>
+            <h4 className='tablet:order-last'>Notes</h4>
             <img
-              src={isNotesVisible ? chevronUpIcon : chevronDownIcon}
+              src={
+                width! < 768
+                  ? isNotesVisible
+                    ? chevronUpIcon
+                    : chevronDownIcon
+                  : isNotesVisible
+                  ? chevronRightIcon
+                  : chevronLeftIcon
+              }
               alt={isNotesVisible ? "Chevron Up" : "Chevron Down"}
               className="w-4"
             />

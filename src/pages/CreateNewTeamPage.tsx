@@ -100,7 +100,7 @@ const CreateNewTeamPage = (): JSX.Element => {
         </div>
 
         <div className="flex w-full mb-4 justify-between">
-          <div className="flex flex-col row-auto">
+          <div className="flex flex-col row-auto w-[50%]">
             <h3 className="text-blue-light">Gender</h3>
             <div>
               <input
@@ -137,7 +137,7 @@ const CreateNewTeamPage = (): JSX.Element => {
             </div>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col w-[50%]">
             <h3 className="text-blue-light">Level</h3>
             <div>
               <input
