@@ -103,6 +103,7 @@ const CreateNewAthletePage = (): JSX.Element => {
     formState: { errors },
   } = useForm<CreateNewAthleteFormData>({
     defaultValues: {
+      teamId,
       email: "",
       firstName: "",
       lastName: "",
@@ -147,7 +148,6 @@ const CreateNewAthletePage = (): JSX.Element => {
   };
 
   const handleFormSubmit = async ({
-    teamId,
     email,
     firstName,
     lastName,
@@ -158,15 +158,12 @@ const CreateNewAthletePage = (): JSX.Element => {
   }: CreateNewAthleteFormData) => {
     console.log("Submitting athlete details!");
     const headers = { Authorization: `Bearer ${accessToken}` };
-
-    const transformedPaddlerStatsObj =
-      transformPaddlerStatsForRequest(paddlerStats);
-
-    console.log(transformedPaddlerStatsObj);
+    const paddlerStatsObj = transformPaddlerStatsForRequest(paddlerStats);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
       return;
 
+      console.log(teamId)
     try {
       await axios.post(
         "http://localhost:8888/athletes",
@@ -177,14 +174,14 @@ const CreateNewAthletePage = (): JSX.Element => {
           paddleSide,
           eligibility,
           weight,
-          transformedPaddlerStatsObj,
+          paddlerStatsObj,
         },
         {
           headers,
           withCredentials: true,
         }
       );
-      navigate(`../:userId/roster/${teamId}`);
+      navigate(`/:userId/roster/${teamId}`);
     } catch (err) {
       console.log(err);
     }
@@ -202,7 +199,6 @@ const CreateNewAthletePage = (): JSX.Element => {
           </p>
         </div>
       </div>
-
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
         className="flex flex-col p-2 tablet:p-6 max-w-[448px] bg-white border border-gray-border rounded-t w-full"

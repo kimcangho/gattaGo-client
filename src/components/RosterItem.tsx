@@ -104,130 +104,127 @@ const RosterItem = ({
   };
 
   return (
-    <article
-      className={`tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
-    >
-      <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
-        <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-48">
-          <img
-            src={athlete?.isAvailable ? checkCircleIcon : xCircleIcon}
-            alt={athlete?.isAvailable ? "Available" : "Unavailable"}
-            className="w-6 tablet:w-8 tablet:mr-1"
-          />
-          <h3 className="text-blue-light tablet:order-first">
-            {athlete?.firstName} {athlete?.lastName.slice(0, 1)}.{" "}
-          </h3>
-        </div>
-        <div className="flex m-2 w-12">
-          <img
-            src={
-              athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
-                ? leftHandHighlightIcon
-                : leftHandUnhighlightIcon
-            }
-            alt={
-              athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
-                ? "Left Side Filled"
-                : "Left Side Unfilled"
-            }
-            className="w-6"
-          />
-          <img
-            src={
-              athlete?.paddleSide === "R" || athlete?.paddleSide === "B"
-                ? rightHandHighlightIcon
-                : rightHandUnhighlightIcon
-            }
-            alt={
-              athlete?.paddleSide === "R" || athlete?.paddleSide === "B"
-                ? "Right Side Filled"
-                : "Right Side Unfilled"
-            }
-            className="w-6"
-          />
-        </div>
-      </div>
+    <>
+      {athlete && (
+        <article
+          className={`tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
+        >
+          <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
+            <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-48">
+              <img
+                src={athlete?.isAvailable ? checkCircleIcon : xCircleIcon}
+                alt={athlete?.isAvailable ? "Available" : "Unavailable"}
+                className="w-6 tablet:w-8 tablet:mr-1"
+              />
+              <h3 className="text-blue-light tablet:order-first">
+                {athlete?.firstName} {athlete?.lastName.slice(0, 1)}.{" "}
+              </h3>
+            </div>
+            <div className="flex m-2 w-12">
+              <img
+                src={
+                  athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
+                    ? leftHandHighlightIcon
+                    : leftHandUnhighlightIcon
+                }
+                alt={
+                  athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
+                    ? "Left Side Filled"
+                    : "Left Side Unfilled"
+                }
+                className="w-6"
+              />
+              <img
+                src={
+                  athlete?.paddleSide === "R" || athlete?.paddleSide === "B"
+                    ? rightHandHighlightIcon
+                    : rightHandUnhighlightIcon
+                }
+                alt={
+                  athlete?.paddleSide === "R" || athlete?.paddleSide === "B"
+                    ? "Right Side Filled"
+                    : "Right Side Unfilled"
+                }
+                className="w-6"
+              />
+            </div>
+          </div>
 
-      <img
-        src={userProfileIcon}
-        alt="Placeholder Profile Picture"
-        className="inline-block tablet:order-first w-20 tablet:w-10 tablet:ml-2 align-top mt-4 tablet:mt-2 mb-2"
-      />
+          <img
+            src={userProfileIcon}
+            alt="Placeholder Profile Picture"
+            className="inline-block tablet:order-first w-20 tablet:w-10 tablet:ml-2 align-top mt-4 tablet:mt-2 mb-2"
+          />
 
-      <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[calc(100%-80px)] tablet:w-full">
-        {isNotesVisible && width! > 768 ? (
-          <p className="hidden tablet:flex text-black">{athlete?.notes}</p>
-        ) : (
-          <>
-            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-              {athlete?.weight && athlete?.weight < 200 ? "Big Boi" : "Smol"}
-            </p>
-            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-              {athlete?.lastName}
-            </p>
-            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-              {athlete?.gender}
-            </p>
-            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-              {athlete?.phone}
-            </p>
-            <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-              {athlete?.firstName}
-            </p>
-          </>
-        )}
-      </div>
+          <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[calc(100%-80px)] tablet:w-full">
+            {isNotesVisible && width! > 768 ? (
+              <p className="hidden tablet:flex text-black">{athlete?.notes}</p>
+            ) : (
+              <>
+                <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+                  {athlete?.weight && athlete?.weight < 200
+                    ? "Big Boi"
+                    : "Smol"}
+                </p>
+                <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+                  {athlete?.gender}
+                </p>
+              </>
+            )}
+          </div>
 
-      <div
-        className={`flex pl-2 rounded-b-xl tablet:w-auto justify-center ${
-          !isNotesVisible ? `justify-between` : `flex-col tablet:flex-row`
-        } `}
-      >
-        <div className="flex space-x-1 items-center tablet:w-[108px]">
-          <span
-            onClick={handleToggleNotes}
-            className="flex space-x-1 mt-1 tablet:mt-0 items-center cursor-pointer"
+          <div
+            className={`flex pl-2 rounded-b-xl tablet:w-auto justify-center ${
+              !isNotesVisible ? `justify-between` : `flex-col tablet:flex-row`
+            } `}
           >
-            <h4 className="tablet:order-last">Notes</h4>
-            <img
-              src={
-                width! < 768
-                  ? isNotesVisible
-                    ? chevronUpIcon
-                    : chevronDownIcon
-                  : isNotesVisible
-                  ? chevronRightIcon
-                  : chevronLeftIcon
-              }
-              alt={isNotesVisible ? "Chevron Up" : "Chevron Down"}
-              className="w-4"
-            />
-          </span>
-        </div>
-        {isNotesVisible && (
-          <p className="tablet:hidden text-black">{athlete?.notes}</p>
-        )}
-        <div className="flex justify-end">
-          <img
-            src={editIcon}
-            alt="Edit"
-            onClick={handleEditAthlete}
-            className={`ml-2 mr-1 ${
-              isNotesVisible ? `mt-1 tablet:mt-0` : ``
-            } w-6 cursor-pointer`}
-          />
-          <img
-            src={deleteIcon}
-            alt="Delete"
-            id={athlete?.id}
-            onClick={handleDeleteAthlete}
-            className={`ml-1 mr-2 ${
-              isNotesVisible && `mt-1 tablet:mt-0`
-            } w-6 cursor-pointer`}
-          />
-        </div>
-      </div>
-    </article>
+            <div className="flex space-x-1 items-center tablet:w-[108px]">
+              <span
+                onClick={handleToggleNotes}
+                className="flex space-x-1 mt-1 tablet:mt-0 items-center cursor-pointer"
+              >
+                <h4 className="tablet:order-last">Notes</h4>
+                <img
+                  src={
+                    width! < 768
+                      ? isNotesVisible
+                        ? chevronUpIcon
+                        : chevronDownIcon
+                      : isNotesVisible
+                      ? chevronRightIcon
+                      : chevronLeftIcon
+                  }
+                  alt={isNotesVisible ? "Chevron Up" : "Chevron Down"}
+                  className="w-4"
+                />
+              </span>
+            </div>
+            {isNotesVisible && (
+              <p className="tablet:hidden text-black">{athlete?.notes}</p>
+            )}
+            <div className="flex justify-end">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={handleEditAthlete}
+                className={`ml-2 mr-1 ${
+                  isNotesVisible ? `mt-1 tablet:mt-0` : ``
+                } w-6 cursor-pointer`}
+              />
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                id={athlete?.id}
+                onClick={handleDeleteAthlete}
+                className={`ml-1 mr-2 ${
+                  isNotesVisible && `mt-1 tablet:mt-0`
+                } w-6 cursor-pointer`}
+              />
+            </div>
+          </div>
+        </article>
+      )}
+    </>
   );
 };
 
