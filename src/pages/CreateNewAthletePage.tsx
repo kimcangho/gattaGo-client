@@ -57,6 +57,7 @@ interface CreateNewAthleteFormData {
   paddleSide: "L" | "R" | "B" | "N" | null;
   weight: number | null;
   paddlerSkills: PaddlerSkills;
+  notes: string;
 }
 
 interface PaddlerSkills {
@@ -114,6 +115,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       weight: null,
       paddleSide: null,
       eligibility: null,
+      notes: "",
       paddlerSkills: {
         //  Roles
         isSteers: false,
@@ -163,6 +165,7 @@ const CreateNewAthletePage = (): JSX.Element => {
     eligibility,
     weight,
     paddlerSkills,
+    notes,
   }: CreateNewAthleteFormData) => {
     console.log("Submitting athlete details!");
     const headers = { Authorization: `Bearer ${accessToken}` };
@@ -171,7 +174,7 @@ const CreateNewAthletePage = (): JSX.Element => {
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
       return;
 
-    console.log(teamId);
+    console.log(notes);
     try {
       await axios.post(
         "http://localhost:8888/athletes",
@@ -183,6 +186,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           eligibility,
           weight,
           paddlerSkillsObj,
+          notes,
         },
         {
           headers,
@@ -359,17 +363,18 @@ const CreateNewAthletePage = (): JSX.Element => {
         {/* Optional Paddler Skill Set */}
 
         <div className="border-y">
-          <div
+          <label
+            htmlFor="weight"
             onClick={handleTogglePaddlerSkills}
             className="flex space-x-2 my-4"
           >
             <h3 className="text-blue-light">Skill Set (Optional)</h3>
-            {isPaddlerNotesVisible ? (
+            {isPaddlerSkillsVisible ? (
               <img src={chevronDownIcon} alt="Chevron Down" className="w-4" />
             ) : (
               <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
             )}
-          </div>
+          </label>
           {isPaddlerSkillsVisible && (
             <div className="flex flex-wrap">
               {/* Weight */}
@@ -422,14 +427,30 @@ const CreateNewAthletePage = (): JSX.Element => {
         {/* Optional Paddler Notes */}
 
         <div className="border-b mb-4">
-          <div onClick={handleTogglePaddlerNotes} className="my-4 flex space-x-2">
+          <label
+            htmlFor="notes"
+            onClick={handleTogglePaddlerNotes}
+            className="my-4 flex space-x-2"
+          >
             <h3 className="text-blue-light">Notes (Optional)</h3>
             {isPaddlerNotesVisible ? (
               <img src={chevronDownIcon} alt="Chevron Down" className="w-4" />
             ) : (
               <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
             )}
-          </div>
+          </label>
+          {isPaddlerNotesVisible && (
+            <div className="flex flex-col mb-4 w-full">
+              <textarea
+                {...register("notes")}
+                rows={3}
+                id="notes"
+                name="notes"
+                placeholder="Input notes here"
+                className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light resize-none"
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex space-x-2 tablet:space-x-6">
