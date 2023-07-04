@@ -158,6 +158,7 @@ const CreateNewAthletePage = (): JSX.Element => {
   };
 
   const handleFormSubmit = async ({
+    teamId,
     email,
     firstName,
     lastName,
@@ -167,18 +168,20 @@ const CreateNewAthletePage = (): JSX.Element => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
-    console.log("Submitting athlete details!");
     const headers = { Authorization: `Bearer ${accessToken}` };
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
+    console.log(paddlerSkillsObj);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
       return;
 
-    console.log(notes);
+    console.log(teamId);
+
     try {
       await axios.post(
         "http://localhost:8888/athletes",
         {
+          teamId,
           email,
           firstName,
           lastName,
@@ -193,7 +196,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           withCredentials: true,
         }
       );
-      //   navigate(`/:userId/roster/${teamId}`);
+      navigate(`/:userId/roster/${teamId}`);
     } catch (err) {
       console.log(err);
     }

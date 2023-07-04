@@ -15,6 +15,7 @@ import chevronLeftIcon from "../assets/icons/chevron-left.svg";
 import chevronRightIcon from "../assets/icons/chevron-right.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
+import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 
 interface RosterItemProps {
   athleteId: string;
@@ -39,9 +40,8 @@ interface AthleteData {
   isAvailable: boolean;
   email: string;
   isManager: boolean;
-  phone: string;
   weight: number;
-  birthDate: Date;
+  paddlerSkills: any;
 }
 
 const RosterItem = ({
@@ -70,6 +70,7 @@ const RosterItem = ({
             withCredentials: true,
           }
         );
+        console.log(data.paddlerSkills);
         setAthlete(data);
       } catch (err) {
         console.log(err);
@@ -169,6 +170,20 @@ const RosterItem = ({
                 <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
                   {athlete?.eligibility}
                 </p>
+                {athlete?.paddlerSkills.length !== 0 &&
+                  Object.entries(athlete.paddlerSkills[0]).map((skill) => {
+                    console.log(skill);
+                    if (
+                      skill[0] !== "id" &&
+                      skill[0] !== "athleteId" &&
+                      skill[1]
+                    )
+                      return (
+                        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+                          {convertPaddlerSkillToField(skill[0], 2)}
+                        </p>
+                      );
+                  })}
               </>
             )}
           </div>
