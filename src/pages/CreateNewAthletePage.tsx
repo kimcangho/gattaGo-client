@@ -181,7 +181,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           withCredentials: true,
         }
       );
-      navigate(`/:userId/roster/${teamId}`);
+    //   navigate(`/:userId/roster/${teamId}`);
     } catch (err) {
       console.log(err);
     }

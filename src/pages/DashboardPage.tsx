@@ -8,7 +8,7 @@ interface CurrentTeamData {
   name: string;
   division: string;
   level: string;
-  gender: string;
+  eligibility: string;
 }
 
 const DashboardPage = (): JSX.Element => {
@@ -28,8 +28,8 @@ const DashboardPage = (): JSX.Element => {
           withCredentials: true,
         }
       );
-      const { id, name, division, level, gender } = data;
-      setCurrentTeam({ id, name, division, level, gender });
+      const { id, name, division, level, eligibility } = data;
+      setCurrentTeam({ id, name, division, level, eligibility });
     };
 
     getTeam();

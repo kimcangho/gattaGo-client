@@ -9,7 +9,7 @@ interface CreateNewTeamFormData {
   name: string;
   division: string;
   level: string;
-  gender: string;
+  eligibility: string;
 }
 
 const CreateNewTeamPage = (): JSX.Element => {
@@ -24,7 +24,7 @@ const CreateNewTeamPage = (): JSX.Element => {
   } = useForm<CreateNewTeamFormData>({
     defaultValues: {
       name: "",
-      gender: "",
+      eligibility: "",
       level: "",
       division: "",
     },
@@ -32,13 +32,13 @@ const CreateNewTeamPage = (): JSX.Element => {
 
   const handleFormSubmit = async ({
     name,
-    gender,
+    eligibility,
     level,
     division,
   }: CreateNewTeamFormData) => {
     const headers = { Authorization: `Bearer ${accessToken}` };
-    console.log(name, gender, level, division);
-    if (!gender || !level || !division) {
+    console.log(name, eligibility, level, division);
+    if (!eligibility || !level || !division) {
       //  To-do: validation for empty fields
       return;
     }
@@ -48,7 +48,7 @@ const CreateNewTeamPage = (): JSX.Element => {
         "http://localhost:8888/teams",
         {
           name,
-          gender,
+          eligibility,
           level,
           division,
         },
@@ -101,12 +101,12 @@ const CreateNewTeamPage = (): JSX.Element => {
 
         <div className="flex w-full mb-4 justify-between">
           <div className="flex flex-col row-auto w-[50%]">
-            <h3 className="text-blue-light">Gender</h3>
+            <h3 className="text-blue-light">eligibility</h3>
             <div>
               <input
                 type="radio"
-                {...register("gender")}
-                name="gender"
+                {...register("eligibility")}
+                name="eligibility"
                 id="open"
                 value="open"
                 className="mr-2 tablet:mr-4"
@@ -115,9 +115,9 @@ const CreateNewTeamPage = (): JSX.Element => {
             </div>
             <div>
               <input
-                {...register("gender")}
+                {...register("eligibility")}
                 type="radio"
-                name="gender"
+                name="eligibility"
                 id="women"
                 value="women"
                 className="mr-2 tablet:mr-4"
@@ -126,9 +126,9 @@ const CreateNewTeamPage = (): JSX.Element => {
             </div>
             <div>
               <input
-                {...register("gender")}
+                {...register("eligibility")}
                 type="radio"
-                name="gender"
+                name="eligibility"
                 id="mixed"
                 value="mixed"
                 className="mr-2 tablet:mr-4"

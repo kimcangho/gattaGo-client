@@ -33,7 +33,7 @@ interface AthleteData {
   id: string;
   firstName: string;
   lastName: string;
-  gender: string;
+  eligibility: string;
   paddleSide: string;
   notes: string;
   isAvailable: boolean;
@@ -167,7 +167,7 @@ const RosterItem = ({
                     : "Smol"}
                 </p>
                 <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-                  {athlete?.gender}
+                  {athlete?.eligibility}
                 </p>
               </>
             )}
