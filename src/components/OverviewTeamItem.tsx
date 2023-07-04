@@ -18,7 +18,7 @@ interface TeamData {
   name: string;
   division: string;
   level: string;
-  gender: string;
+  eligibility: string;
 }
 
 const OverviewTeamItem = ({

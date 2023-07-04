@@ -1,5 +1,5 @@
-export const convertPaddlerStatToField = (paddlerStat: string, truncateNumber: number) => {
-  return paddlerStat
+export const convertPaddlerSkillToField = (paddlerSkill: string, truncateNumber: number) => {
+  return paddlerSkill
     .slice(truncateNumber)
     .split("")
     .map((char, index) => {

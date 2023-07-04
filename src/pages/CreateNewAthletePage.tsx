@@ -8,12 +8,14 @@ import {
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import userIcon from "../assets/icons/user.svg";
+import chevronDownIcon from "../assets/icons/chevron-down.svg";
+import chevronUpIcon from "../assets/icons/chevron-up.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-import { convertPaddlerStatToField } from "../utils/convertPaddlerStatToField";
+import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
-import { transformPaddlerStatsForRequest } from "../utils/transformPaddlerStatsForRequest";
+import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
 
-const paddlerStatsArr = [
+const paddlerSkillsArr = [
   {
     category: "roles",
     fields: ["isSteers", "isDrummer", "isStroker", "isCaller", "isBailer"],
@@ -54,10 +56,10 @@ interface CreateNewAthleteFormData {
   eligibility: "O" | "W" | null;
   paddleSide: "L" | "R" | "B" | "N" | null;
   weight: number | null;
-  paddlerStats: PaddlerStats;
+  paddlerSkills: PaddlerSkills;
 }
 
-interface PaddlerStats {
+interface PaddlerSkills {
   //  Roles
   isSteers: boolean;
   isDrummer: boolean;
@@ -93,7 +95,9 @@ const CreateNewAthletePage = (): JSX.Element => {
     AuthContext
   )!;
   const { teamId } = useParams();
-  const [isPaddlerStatsVisible, setIsPaddlerStatsVisible] =
+  const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
+    useState<boolean>(false);
+  const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
     useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
 
@@ -110,7 +114,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       weight: null,
       paddleSide: null,
       eligibility: null,
-      paddlerStats: {
+      paddlerSkills: {
         //  Roles
         isSteers: false,
         isDrummer: false,
@@ -143,8 +147,12 @@ const CreateNewAthletePage = (): JSX.Element => {
     },
   });
 
-  const handleTogglePaddlerStats = () => {
-    setIsPaddlerStatsVisible((prev) => !prev);
+  const handleTogglePaddlerSkills = () => {
+    setIsPaddlerSkillsVisible((prev) => !prev);
+  };
+
+  const handleTogglePaddlerNotes = () => {
+    setIsPaddlerNotesVisible((prev) => !prev);
   };
 
   const handleFormSubmit = async ({
@@ -154,16 +162,16 @@ const CreateNewAthletePage = (): JSX.Element => {
     paddleSide,
     eligibility,
     weight,
-    paddlerStats,
+    paddlerSkills,
   }: CreateNewAthleteFormData) => {
     console.log("Submitting athlete details!");
     const headers = { Authorization: `Bearer ${accessToken}` };
-    const paddlerStatsObj = transformPaddlerStatsForRequest(paddlerStats);
+    const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
       return;
 
-      console.log(teamId)
+    console.log(teamId);
     try {
       await axios.post(
         "http://localhost:8888/athletes",
@@ -174,14 +182,14 @@ const CreateNewAthletePage = (): JSX.Element => {
           paddleSide,
           eligibility,
           weight,
-          paddlerStatsObj,
+          paddlerSkillsObj,
         },
         {
           headers,
           withCredentials: true,
         }
       );
-    //   navigate(`/:userId/roster/${teamId}`);
+      //   navigate(`/:userId/roster/${teamId}`);
     } catch (err) {
       console.log(err);
     }
@@ -195,7 +203,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           <h3 className="text-blue-light">Create a New Athlete</h3>
           <p>
             Let's add a new athlete to your dragonboat team with some general
-            information and optional paddler stats!
+            information, optional paddler skills and notes!
           </p>
         </div>
       </div>
@@ -348,13 +356,21 @@ const CreateNewAthletePage = (): JSX.Element => {
           </div>
         </div>
 
-        {/* Optional Paddler Stats */}
+        {/* Optional Paddler Skill Set */}
 
-        <div className="border-y mb-4">
-          <div onClick={handleTogglePaddlerStats} className="my-4">
-            <h3 className="text-blue-light">Paddler Stats (Optional)</h3>
+        <div className="border-y">
+          <div
+            onClick={handleTogglePaddlerSkills}
+            className="flex space-x-2 my-4"
+          >
+            <h3 className="text-blue-light">Skill Set (Optional)</h3>
+            {isPaddlerNotesVisible ? (
+              <img src={chevronDownIcon} alt="Chevron Down" className="w-4" />
+            ) : (
+              <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
+            )}
           </div>
-          {isPaddlerStatsVisible && (
+          {isPaddlerSkillsVisible && (
             <div className="flex flex-wrap">
               {/* Weight */}
               <div className="flex flex-col mb-4 w-full">
@@ -371,27 +387,27 @@ const CreateNewAthletePage = (): JSX.Element => {
                 />
               </div>
 
-              {/* Optional Paddler Stats */}
-              {paddlerStatsArr.map(({ category, fields }, index) => {
+              {/* Optional Paddler Skills */}
+              {paddlerSkillsArr.map(({ category, fields }, index) => {
                 return (
                   <div className="w-[50%] mb-4" key={index}>
                     <h3 className="w-full">
                       {capitalizeFirstLetter(
-                        convertPaddlerStatToField(category, 0)
+                        convertPaddlerSkillToField(category, 0)
                       )}
                     </h3>
-                    {fields.map((stat, index) => {
+                    {fields.map((skill, index) => {
                       return (
                         <div key={index} className="mr-2">
                           <input
                             type="checkbox"
-                            {...register(`paddlerStats`)}
-                            id={`paddlerStats-${stat}`}
-                            value={stat}
+                            {...register(`paddlerSkills`)}
+                            id={`paddlerSkills-${skill}`}
+                            value={skill}
                             className="mr-2 tablet:mr-4"
                           />
-                          <label htmlFor={`paddlerStats-${stat}`}>
-                            {convertPaddlerStatToField(stat, 2)}
+                          <label htmlFor={`paddlerSkills-${skill}`}>
+                            {convertPaddlerSkillToField(skill, 2)}
                           </label>
                         </div>
                       );
@@ -401,6 +417,19 @@ const CreateNewAthletePage = (): JSX.Element => {
               })}
             </div>
           )}
+        </div>
+
+        {/* Optional Paddler Notes */}
+
+        <div className="border-b mb-4">
+          <div onClick={handleTogglePaddlerNotes} className="my-4 flex space-x-2">
+            <h3 className="text-blue-light">Notes (Optional)</h3>
+            {isPaddlerNotesVisible ? (
+              <img src={chevronDownIcon} alt="Chevron Down" className="w-4" />
+            ) : (
+              <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
+            )}
+          </div>
         </div>
 
         <div className="flex space-x-2 tablet:space-x-6">
