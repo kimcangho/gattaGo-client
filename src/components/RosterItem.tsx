@@ -70,7 +70,7 @@ const RosterItem = ({
             withCredentials: true,
           }
         );
-        console.log(data.paddlerSkills);
+
         setAthlete(data);
       } catch (err) {
         console.log(err);
@@ -88,6 +88,8 @@ const RosterItem = ({
     const headers = { Authorization: `Bearer ${accessToken}` };
 
     const { id } = event.target as HTMLInputElement;
+    console.log(id);
+    // return;
     await axios.delete(`http://localhost:8888/athletes/${id}`, {
       headers,
       withCredentials: true,
@@ -162,17 +164,18 @@ const RosterItem = ({
               <p className="hidden tablet:flex text-black">{athlete?.notes}</p>
             ) : (
               <>
-                <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-                  {athlete?.weight && athlete?.weight < 200
-                    ? "Big Boi"
-                    : "Smol"}
-                </p>
+                {athlete.weight ? (
+                  <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+                    {athlete.weight}
+                  </p>
+                ) : (
+                  <></>
+                )}
                 <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
                   {athlete?.eligibility}
                 </p>
                 {athlete?.paddlerSkills.length !== 0 &&
                   Object.entries(athlete.paddlerSkills[0]).map((skill) => {
-                    console.log(skill);
                     if (
                       skill[0] !== "id" &&
                       skill[0] !== "athleteId" &&

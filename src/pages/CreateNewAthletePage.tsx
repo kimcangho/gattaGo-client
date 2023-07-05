@@ -55,7 +55,7 @@ interface CreateNewAthleteFormData {
   lastName: string;
   eligibility: "O" | "W" | null;
   paddleSide: "L" | "R" | "B" | "N" | null;
-  weight: number | null;
+  weight: string | null;
   paddlerSkills: PaddlerSkills;
   notes: string;
 }
@@ -170,12 +170,13 @@ const CreateNewAthletePage = (): JSX.Element => {
   }: CreateNewAthleteFormData) => {
     const headers = { Authorization: `Bearer ${accessToken}` };
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
-    console.log(paddlerSkillsObj);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
       return;
 
-    console.log(teamId);
+    let numericWeight: number;
+    if (!weight) numericWeight = 0;
+    else numericWeight = parseInt(weight, 10);
 
     try {
       await axios.post(
@@ -187,7 +188,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           lastName,
           paddleSide,
           eligibility,
-          weight,
+          weight: numericWeight,
           paddlerSkillsObj,
           notes,
         },
