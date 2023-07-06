@@ -76,16 +76,16 @@ const RosterPage = (): JSX.Element => {
     );
   };
 
-  const handleSortByAvailability = () => {
-    setRoster((prevRoster) =>
-      prevRoster
-        .sort((a) => {
-          if (a.athlete.isAvailable) return 1;
-          return -1;
-        })
-        .map((paddler) => paddler)
-    );
-  };
+  // const handleFilterByAvailability = () => {
+  //   setRoster((prevRoster) =>
+  //     prevRoster
+  //       .filter((a) => {
+  //         if (a.athlete.isAvailable) return 1;
+  //         return -1;
+  //       })
+  //       .map((paddler) => paddler)
+  //   );
+  // };
 
   return (
     <>
@@ -108,19 +108,22 @@ const RosterPage = (): JSX.Element => {
       {roster.length !== 0 && (
         <>
           <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
-            <div className="flex flex-row w-[320px]">
+            <div className="flex flex-row w-[320px] pl-16">
               <div
                 onClick={handleSortByName}
-                className="w-full flex space-x-2 items-center cursor-pointer"
+                className="w-auto mr-16 flex space-x-2 items-center cursor-pointer"
               >
-                <h2 className="ml-16">Name</h2>
+                <h2>Name</h2>
                 <img
                   src={isNameOrderDesc ? descendingIcon : ascendingIcon}
                   alt={isNameOrderDesc ? "Descending Order" : "Ascending Order"}
                   className="w-6"
                 />
               </div>
-              <h2 onClick={handleSortByAvailability} className="mx-2">
+              <h2
+                // onClick={handleFilterByAvailability}
+                className="mx-2"
+              >
                 Status
               </h2>
               <h2 className="w-auto mx-3.5">Side</h2>
