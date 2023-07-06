@@ -53,7 +53,7 @@ const RosterItem = ({
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
   )!;
-  // const [isEditable, setIsEditable] = useState<boolean>(false);   //  toggle to edit item
+
   const [athlete, setAthlete] = useState<AthleteData | null>(null);
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
   const { teamId } = useParams();
