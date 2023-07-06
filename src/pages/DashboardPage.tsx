@@ -2,21 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-
-interface CurrentTeamData {
-  id: string;
-  name: string;
-  division: string;
-  level: string;
-  eligibility: string;
-}
+import { TeamData } from "../interfaces/EntityData";
 
 const DashboardPage = (): JSX.Element => {
   const { teamId } = useParams<string>();
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
   )!;
-  const [_currentTeam, setCurrentTeam] = useState<CurrentTeamData | {}>({});
+  const [_currentTeam, setCurrentTeam] = useState<TeamData | {}>({});
 
   useEffect(() => {
     const getTeam = async () => {

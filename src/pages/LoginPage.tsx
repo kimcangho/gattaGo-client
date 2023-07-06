@@ -5,11 +5,7 @@ import axios from "axios";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import { LoginFormData } from "../interfaces/FormData";
 
 const LoginPage = (): JSX.Element => {
   const { setAccessToken, email, setEmail, setIsLoggedIn }: AuthContextTypes =

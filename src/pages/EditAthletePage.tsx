@@ -14,39 +14,8 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
-
-const paddlerSkillsArr = [
-  {
-    category: "roles",
-    fields: ["isSteers", "isDrummer", "isStroker", "isCaller", "isBailer"],
-  },
-  {
-    category: "raceDistances",
-    fields: ["is200m", "is500m", "is1000m", "is2000m"],
-  },
-  {
-    category: "strengths",
-    fields: [
-      "isVeteran",
-      "isSteadyTempo",
-      "isVocal",
-      "isTechnicallyProficient",
-      "isLeader",
-    ],
-  },
-  {
-    category: "weaknesses",
-    fields: [
-      "isNewbie",
-      "isRushing",
-      "isLagging",
-      "isTechnicallyPoor",
-      "isInjuryProne",
-      "isLoadManaged",
-    ],
-  },
-  { category: "sections", fields: ["isPacer", "isEngine", "isRocket"] },
-];
+import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
+import { PaddlerSkills } from "../interfaces/PaddlerSkills";
 
 interface CreateNewAthleteFormData {
   teamId: string;
@@ -60,38 +29,6 @@ interface CreateNewAthleteFormData {
   notes: string;
 }
 
-interface PaddlerSkills {
-  //  Roles
-  isSteers: boolean;
-  isDrummer: boolean;
-  isStroker: boolean;
-  isCaller: boolean;
-  isBailer: boolean;
-  //  Section
-  isPacer: boolean;
-  isEngine: boolean;
-  isRocket: boolean;
-  //  Race Distances
-  is200m: boolean;
-  is500m: boolean;
-  is1000m: boolean;
-  is2000m: boolean;
-  //  Strengths
-  isVeteran: boolean;
-  isSteadyTempo: boolean;
-  isVocal: boolean;
-  isTechnicallyProficient: boolean;
-  isLeader: boolean;
-  //  Weaknesses
-  isNewbie: boolean;
-  isRushing: boolean;
-  isLagging: boolean;
-  isTechnicallyPoor: boolean;
-  isInjuryProne: boolean;
-  isLoadManaged: boolean;
-}
-
-//  To-do: Edit Athlete Page - Form
 const EditAthletePage = () => {
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext

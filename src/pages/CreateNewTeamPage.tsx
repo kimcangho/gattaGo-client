@@ -4,17 +4,13 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import teamIcon from "../assets/icons/roster.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-
-interface CreateNewTeamFormData {
-  name: string;
-  division: string;
-  level: string;
-  eligibility: string;
-}
+import { CreateNewTeamFormData } from "../interfaces/FormData";
 
 const CreateNewTeamPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(AuthContext)!;
-  
+  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
+    AuthContext
+  )!;
+
   const navigate: NavigateFunction = useNavigate();
 
   const {
@@ -38,10 +34,7 @@ const CreateNewTeamPage = (): JSX.Element => {
   }: CreateNewTeamFormData) => {
     const headers = { Authorization: `Bearer ${accessToken}` };
     console.log(name, eligibility, level, division);
-    if (!eligibility || !level || !division) {
-      //  To-do: validation for empty fields
-      return;
-    }
+    if (!eligibility || !level || !division) return;
 
     try {
       await axios.post(

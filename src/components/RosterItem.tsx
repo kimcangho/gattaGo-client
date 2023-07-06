@@ -1,7 +1,4 @@
-import { useState, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { useState } from "react";
 import userProfileIcon from "../assets/icons/user-profile.svg";
 import checkCircleIcon from "../assets/icons/check-circle.svg";
 import xCircleIcon from "../assets/icons/x-circle.svg";
@@ -19,89 +16,22 @@ import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField"
 
 interface RosterItemProps {
   athleteId: string;
-  roster: RosterData[];
-  setRoster: React.Dispatch<React.SetStateAction<RosterData[]>>;
+  handleEditAthlete: any;
+  handleDeleteAthlete: any;
   width: number | undefined;
-}
-
-interface RosterData {
-  teamId: string;
-  athleteId: string;
-  updatedAt: Date;
-}
-
-interface AthleteData {
-  id: string;
-  firstName: string;
-  lastName: string;
-  eligibility: string;
-  paddleSide: string;
-  notes: string;
-  isAvailable: boolean;
-  email: string;
-  isManager: boolean;
-  weight: number;
-  paddlerSkills: any;
+  athlete: any;
 }
 
 const RosterItem = ({
   athleteId,
-  roster,
-  setRoster,
+  athlete,
   width,
+  handleDeleteAthlete,
+  handleEditAthlete,
 }: RosterItemProps): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
-
-  const [athlete, setAthlete] = useState<AthleteData | null>(null);
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
-  const { teamId } = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const getAthleteDetails = async () => {
-      try {
-        const headers = { Authorization: `Bearer ${accessToken}` };
-        const { data } = await axios.get(
-          `http://localhost:8888/athletes/${athleteId}`,
-          {
-            headers,
-            withCredentials: true,
-          }
-        );
-
-        setAthlete(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getAthleteDetails();
-  }, []);
-
   const handleToggleNotes = () => {
     setIsNotesVisible((isNotesVisible) => !isNotesVisible);
-  };
-
-  const handleDeleteAthlete = async (event: React.MouseEvent<HTMLElement>) => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
-    const { id } = event.target as HTMLInputElement;
-
-    await axios.delete(`http://localhost:8888/athletes/${id}`, {
-      headers,
-      withCredentials: true,
-    });
-    const currentRoster = roster.filter(({ athleteId }) => {
-      return athleteId !== id;
-    });
-
-    setRoster(currentRoster);
-  };
-
-  const handleEditAthlete = async () => {
-    console.log("Edit");
-    navigate(`/:userId/roster/${teamId}/edit/${athleteId}`);
   };
 
   return (
@@ -160,7 +90,9 @@ const RosterItem = ({
 
           <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[calc(100%-80px)] tablet:w-full">
             {isNotesVisible && width! > 768 ? (
-              <p className="hidden tablet:flex text-black mx-2">{athlete?.notes}</p>
+              <p className="hidden tablet:flex text-black mx-2">
+                {athlete?.notes}
+              </p>
             ) : (
               <>
                 {athlete.weight ? (
@@ -174,18 +106,23 @@ const RosterItem = ({
                   {athlete?.eligibility}
                 </p>
                 {athlete?.paddlerSkills.length !== 0 &&
-                  Object.entries(athlete.paddlerSkills[0]).map((skill) => {
-                    if (
-                      skill[0] !== "id" &&
-                      skill[0] !== "athleteId" &&
-                      skill[1]
-                    )
-                      return (
-                        <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-                          {convertPaddlerSkillToField(skill[0], 2)}
-                        </p>
-                      );
-                  })}
+                  Object.entries(athlete.paddlerSkills[0]).map(
+                    (skill, index) => {
+                      if (
+                        skill[0] !== "id" &&
+                        skill[0] !== "athleteId" &&
+                        skill[1]
+                      )
+                        return (
+                          <p
+                            key={index}
+                            className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2"
+                          >
+                            {convertPaddlerSkillToField(skill[0], 2)}
+                          </p>
+                        );
+                    }
+                  )}
               </>
             )}
           </div>
@@ -223,7 +160,7 @@ const RosterItem = ({
               <img
                 src={editIcon}
                 alt="Edit"
-                onClick={handleEditAthlete}
+                onClick={() => handleEditAthlete(athleteId)}
                 className={`ml-2 mr-1 ${
                   isNotesVisible ? `mt-1 tablet:mt-0` : ``
                 } w-6 cursor-pointer`}
@@ -232,7 +169,7 @@ const RosterItem = ({
                 src={deleteIcon}
                 alt="Delete"
                 id={athlete?.id}
-                onClick={handleDeleteAthlete}
+                onClick={() => handleDeleteAthlete(athleteId)}
                 className={`ml-1 mr-2 ${
                   isNotesVisible && `mt-1 tablet:mt-0`
                 } w-6 cursor-pointer`}

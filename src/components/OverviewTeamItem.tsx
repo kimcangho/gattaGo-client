@@ -5,20 +5,13 @@ import boatIcon from "../assets/icons/boat.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { TeamData } from "../interfaces/EntityData";
 
 interface OverviewTeamProps {
   id: string;
   name: string;
   myTeams: TeamData[];
   setMyTeams: React.Dispatch<React.SetStateAction<TeamData[]>>;
-}
-
-interface TeamData {
-  id: string;
-  name: string;
-  division: string;
-  level: string;
-  eligibility: string;
 }
 
 const OverviewTeamItem = ({

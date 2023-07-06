@@ -4,14 +4,7 @@ import axios from "axios";
 import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-
-interface TeamData {
-  id: string;
-  name: string;
-  division: string;
-  level: string;
-  eligibility: string;
-}
+import { TeamData } from "../interfaces/EntityData";
 
 const OverviewPage = (): JSX.Element => {
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(

@@ -14,82 +14,9 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
-
-const paddlerSkillsArr = [
-  {
-    category: "roles",
-    fields: ["isSteers", "isDrummer", "isStroker", "isCaller", "isBailer"],
-  },
-  {
-    category: "raceDistances",
-    fields: ["is200m", "is500m", "is1000m", "is2000m"],
-  },
-  {
-    category: "strengths",
-    fields: [
-      "isVeteran",
-      "isSteadyTempo",
-      "isVocal",
-      "isTechnicallyProficient",
-      "isLeader",
-    ],
-  },
-  {
-    category: "weaknesses",
-    fields: [
-      "isNewbie",
-      "isRushing",
-      "isLagging",
-      "isTechnicallyPoor",
-      "isInjuryProne",
-      "isLoadManaged",
-    ],
-  },
-  { category: "sections", fields: ["isPacer", "isEngine", "isRocket"] },
-];
-
-interface CreateNewAthleteFormData {
-  teamId: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  eligibility: "O" | "W" | null;
-  paddleSide: "L" | "R" | "B" | "N" | null;
-  weight: string | null;
-  paddlerSkills: PaddlerSkills;
-  notes: string;
-}
-
-interface PaddlerSkills {
-  //  Roles
-  isSteers: boolean;
-  isDrummer: boolean;
-  isStroker: boolean;
-  isCaller: boolean;
-  isBailer: boolean;
-  //  Section
-  isPacer: boolean;
-  isEngine: boolean;
-  isRocket: boolean;
-  //  Race Distances
-  is200m: boolean;
-  is500m: boolean;
-  is1000m: boolean;
-  is2000m: boolean;
-  //  Strengths
-  isVeteran: boolean;
-  isSteadyTempo: boolean;
-  isVocal: boolean;
-  isTechnicallyProficient: boolean;
-  isLeader: boolean;
-  //  Weaknesses
-  isNewbie: boolean;
-  isRushing: boolean;
-  isLagging: boolean;
-  isTechnicallyPoor: boolean;
-  isInjuryProne: boolean;
-  isLoadManaged: boolean;
-}
+import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
+import { CreateNewAthleteFormData } from "../interfaces/FormData";
+import { paddlerSkillsDefault } from "../data/paddlerSkillsDefault";
 
 const CreateNewAthletePage = (): JSX.Element => {
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
@@ -116,36 +43,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       paddleSide: null,
       eligibility: null,
       notes: "",
-      paddlerSkills: {
-        //  Roles
-        isSteers: false,
-        isDrummer: false,
-        isStroker: false,
-        isCaller: false,
-        isBailer: false,
-        //  Section
-        isPacer: false,
-        isEngine: false,
-        isRocket: false,
-        //  Race Distances
-        is200m: false,
-        is500m: false,
-        is1000m: false,
-        is2000m: false,
-        //  Strengths
-        isVeteran: false,
-        isSteadyTempo: false,
-        isVocal: false,
-        isTechnicallyProficient: false,
-        isLeader: false,
-        //  Weaknesses
-        isNewbie: false,
-        isRushing: false,
-        isLagging: false,
-        isTechnicallyPoor: false,
-        isInjuryProne: false,
-        isLoadManaged: false,
-      },
+      paddlerSkills: paddlerSkillsDefault,
     },
   });
 

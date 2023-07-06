@@ -1,15 +1,15 @@
-import { useParams, Link } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  useNavigate,
+  NavigateFunction,
+} from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import RosterItem from "../components/RosterItem";
-
-interface RosterData {
-  teamId: string;
-  athleteId: string;
-  updatedAt: Date;
-}
+import { RosterData } from "../interfaces/EntityData";
 
 const RosterPage = (): JSX.Element => {
   const { teamId } = useParams<string>();
@@ -18,6 +18,7 @@ const RosterPage = (): JSX.Element => {
   )!;
   const [roster, setRoster] = useState<RosterData[]>([]);
   const { width } = useWindowSize();
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
     const getAthletes = async () => {
@@ -38,6 +39,33 @@ const RosterPage = (): JSX.Element => {
 
     getAthletes();
   }, []);
+
+  const handleEditAthlete = async (athleteId: string) => {
+    navigate(`/:userId/roster/${teamId}/edit/${athleteId}`);
+  };
+
+  const handleDeleteAthlete = async (athleteId: string) => {
+    const headers = { Authorization: `Bearer ${accessToken}` };
+
+    await axios.delete(`http://localhost:8888/athletes/${athleteId}`, {
+      headers,
+      withCredentials: true,
+    });
+    const currentRoster = roster.filter((data) => {
+      return athleteId !== data.athleteId;
+    });
+
+    setRoster(currentRoster);
+  };
+
+  const handleSortByName = () => {
+    // console.log(roster);
+    // const newRoster = [...roster].sort((a, b) => {
+    //   return b.athlete.lastName - a.athlete.lastName;
+    // });
+    // console.log(newRoster);
+    // setRoster(newRoster);
+  };
 
   return (
     <>
@@ -61,23 +89,26 @@ const RosterPage = (): JSX.Element => {
         <>
           <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
             <div className="flex flex-row w-[320px]">
-              <h2 className="w-full pl-16">Name</h2>
+              <h2 onClick={handleSortByName} className="w-full pl-16">
+                Name
+              </h2>
               <h2 className="mx-2">Status</h2>
               <h2 className="w-auto mx-3.5">Side</h2>
             </div>
-            <h2 className="self-start">Description</h2>
-            <h2 className="w-[142px] text-center">Edit/Delete</h2>
+            <h2 className="self-start">Description / Skills</h2>
+            <h2 className="w-[142px] text-center">Edit / Delete</h2>
           </div>
 
           <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl max-w-[1280px] mx-auto">
-            {roster.map((athlete) => {
+            {roster.map((paddler) => {
               return (
                 <RosterItem
-                  key={athlete.athleteId}
-                  athleteId={athlete.athleteId}
-                  roster={roster}
-                  setRoster={setRoster}
+                  key={paddler.athleteId}
+                  athleteId={paddler.athleteId}
+                  athlete={paddler.athlete}
                   width={width}
+                  handleDeleteAthlete={handleDeleteAthlete}
+                  handleEditAthlete={handleEditAthlete}
                 />
               );
             })}
