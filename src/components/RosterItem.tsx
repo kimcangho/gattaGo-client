@@ -86,10 +86,8 @@ const RosterItem = ({
 
   const handleDeleteAthlete = async (event: React.MouseEvent<HTMLElement>) => {
     const headers = { Authorization: `Bearer ${accessToken}` };
-
     const { id } = event.target as HTMLInputElement;
-    console.log(id);
-    // return;
+
     await axios.delete(`http://localhost:8888/athletes/${id}`, {
       headers,
       withCredentials: true,
@@ -110,6 +108,7 @@ const RosterItem = ({
     <>
       {athlete && (
         <article
+          key={athlete.id}
           className={`tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
         >
           <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
@@ -161,7 +160,7 @@ const RosterItem = ({
 
           <div className="inline-block justify-start tablet:flex tablet:flex-wrap mt-3.5 tablet:mt-0 p-2 text-black w-[calc(100%-80px)] tablet:w-full">
             {isNotesVisible && width! > 768 ? (
-              <p className="hidden tablet:flex text-black">{athlete?.notes}</p>
+              <p className="hidden tablet:flex text-black mx-2">{athlete?.notes}</p>
             ) : (
               <>
                 {athlete.weight ? (
