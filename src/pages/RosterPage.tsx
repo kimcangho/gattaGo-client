@@ -10,15 +10,18 @@ import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import RosterItem from "../components/RosterItem";
 import { RosterData } from "../interfaces/EntityData";
+import ascendingIcon from "../assets/icons/ascending.svg";
+import descendingIcon from "../assets/icons/descending.svg";
 
 const RosterPage = (): JSX.Element => {
-  const { teamId } = useParams<string>();
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
     AuthContext
   )!;
   const [roster, setRoster] = useState<RosterData[]>([]);
-  const { width } = useWindowSize();
+  const [isNameOrderDesc, setIsNameOrderDesc] = useState<boolean>(false);
+  const { teamId } = useParams<string>();
   const navigate: NavigateFunction = useNavigate();
+  const { width } = useWindowSize();
 
   useEffect(() => {
     const getAthletes = async () => {
@@ -58,13 +61,30 @@ const RosterPage = (): JSX.Element => {
     setRoster(currentRoster);
   };
 
-  const handleSortByName = () => {
-    // console.log(roster);
-    // const newRoster = [...roster].sort((a, b) => {
-    //   return b.athlete.lastName - a.athlete.lastName;
-    // });
-    // console.log(newRoster);
-    // setRoster(newRoster);
+  const handleSortByName = async () => {
+    setIsNameOrderDesc((prev) => !prev);
+    setRoster((prevRoster) =>
+      prevRoster
+        .sort((a, b) => {
+          if (a.athlete.firstName > b.athlete.firstName)
+            return isNameOrderDesc ? -1 : 1;
+          if (a.athlete.firstName < b.athlete.firstName)
+            return isNameOrderDesc ? 1 : -1;
+          return 0;
+        })
+        .map((paddler) => paddler)
+    );
+  };
+
+  const handleSortByAvailability = () => {
+    setRoster((prevRoster) =>
+      prevRoster
+        .sort((a) => {
+          if (a.athlete.isAvailable) return 1;
+          return -1;
+        })
+        .map((paddler) => paddler)
+    );
   };
 
   return (
@@ -89,10 +109,20 @@ const RosterPage = (): JSX.Element => {
         <>
           <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
             <div className="flex flex-row w-[320px]">
-              <h2 onClick={handleSortByName} className="w-full pl-16">
-                Name
+              <div
+                onClick={handleSortByName}
+                className="w-full flex space-x-2 items-center cursor-pointer"
+              >
+                <h2 className="ml-16">Name</h2>
+                <img
+                  src={isNameOrderDesc ? descendingIcon : ascendingIcon}
+                  alt={isNameOrderDesc ? "Descending Order" : "Ascending Order"}
+                  className="w-6"
+                />
+              </div>
+              <h2 onClick={handleSortByAvailability} className="mx-2">
+                Status
               </h2>
-              <h2 className="mx-2">Status</h2>
               <h2 className="w-auto mx-3.5">Side</h2>
             </div>
             <h2 className="self-start">Description / Skills</h2>
