@@ -108,7 +108,7 @@ const RosterPage = (): JSX.Element => {
       {roster.length !== 0 && (
         <>
           <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
-            <div className="flex flex-row w-[320px] pl-16">
+            <div className="flex flex-row w-[448px] pl-16">
               <div
                 onClick={handleSortByName}
                 className="w-auto mr-16 flex space-x-2 items-center cursor-pointer"
@@ -127,8 +127,10 @@ const RosterPage = (): JSX.Element => {
                 Status
               </h2>
               <h2 className="w-auto mx-3.5">Side</h2>
+              <h2 className="mx-2">Elig.</h2>
+              <h2 className="mx-2">Weight</h2>
             </div>
-            <h2 className="self-start">Description / Skills</h2>
+            <h2 className="self-start">Skills</h2>
             <h2 className="w-[142px] text-center">Edit / Delete</h2>
           </div>
 

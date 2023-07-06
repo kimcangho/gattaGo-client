@@ -42,7 +42,7 @@ const RosterItem = ({
           className={`tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
         >
           <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
-            <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-48">
+            <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-[200px]">
               <img
                 src={athlete?.isAvailable ? checkCircleIcon : xCircleIcon}
                 alt={athlete?.isAvailable ? "Available" : "Unavailable"}
@@ -52,7 +52,7 @@ const RosterItem = ({
                 {athlete?.firstName} {athlete?.lastName.slice(0, 1)}.{" "}
               </h3>
             </div>
-            <div className="flex m-2 w-12">
+            <div className="flex m-3 w-12">
               <img
                 src={
                   athlete?.paddleSide === "L" || athlete?.paddleSide === "B"
@@ -80,6 +80,10 @@ const RosterItem = ({
                 className="w-6"
               />
             </div>
+            <div className="hidden tablet:flex items-center tablet:w-[100px]">
+              <h3 className="m-2.5 text-center w-4 text-black">{athlete.eligibility}</h3>
+              <h3 className="text-center w-8 ml-[26px] text-black">{athlete.weight}</h3>
+            </div>
           </div>
 
           <img
@@ -95,16 +99,16 @@ const RosterItem = ({
               </p>
             ) : (
               <>
+                <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+                  {athlete?.eligibility}
+                </h3>
                 {athlete.weight ? (
-                  <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
+                  <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
                     {athlete.weight}
-                  </p>
+                  </h3>
                 ) : (
                   <></>
                 )}
-                <p className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-                  {athlete?.eligibility}
-                </p>
                 {athlete?.paddlerSkills.length !== 0 &&
                   Object.entries(athlete.paddlerSkills[0]).map(
                     (skill, index) => {
@@ -116,7 +120,7 @@ const RosterItem = ({
                         return (
                           <p
                             key={index}
-                            className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2"
+                            className="inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2 text-center"
                           >
                             {convertPaddlerSkillToField(skill[0], 2)}
                           </p>
