@@ -10,8 +10,6 @@ import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import RosterItem from "../components/RosterItem";
 import { RosterData } from "../interfaces/EntityData";
-import ascendingIcon from "../assets/icons/ascending.svg";
-import descendingIcon from "../assets/icons/descending.svg";
 
 const RosterPage = (): JSX.Element => {
   const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
@@ -19,6 +17,7 @@ const RosterPage = (): JSX.Element => {
   )!;
   const [roster, setRoster] = useState<RosterData[]>([]);
   const [isNameOrderDesc, setIsNameOrderDesc] = useState<boolean>(false);
+  const [isWeightOrderDesc, setIsWeightOrderDesc] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const navigate: NavigateFunction = useNavigate();
   const { width } = useWindowSize();
@@ -76,6 +75,21 @@ const RosterPage = (): JSX.Element => {
     );
   };
 
+  const handleSortByWeight = async () => {
+    setIsWeightOrderDesc((prev) => !prev);
+    setRoster((prevRoster) =>
+      prevRoster
+        .sort((a, b) => {
+          if (a.athlete.weight > b.athlete.weight)
+            return isWeightOrderDesc ? -1 : 1;
+          if (a.athlete.weight < b.athlete.weight)
+            return isWeightOrderDesc ? 1 : -1;
+          return 0;
+        })
+        .map((paddler) => paddler)
+    );
+  };
+
   // const handleFilterByAvailability = () => {
   //   setRoster((prevRoster) =>
   //     prevRoster
@@ -111,14 +125,10 @@ const RosterPage = (): JSX.Element => {
             <div className="flex flex-row w-[448px] pl-16">
               <div
                 onClick={handleSortByName}
-                className="w-auto mr-16 flex space-x-2 items-center cursor-pointer"
+                className="w-auto mr-[70px] flex space-x-2 items-center cursor-pointer"
               >
                 <h2>Name</h2>
-                <img
-                  src={isNameOrderDesc ? descendingIcon : ascendingIcon}
-                  alt={isNameOrderDesc ? "Descending Order" : "Ascending Order"}
-                  className="w-6"
-                />
+                <span>&#8645;</span>
               </div>
               <h2
                 // onClick={handleFilterByAvailability}
@@ -126,9 +136,18 @@ const RosterPage = (): JSX.Element => {
               >
                 Status
               </h2>
+
               <h2 className="w-auto mx-3.5">Side</h2>
+
               <h2 className="mx-2">Elig.</h2>
-              <h2 className="mx-2">Weight</h2>
+
+              <h2
+                onClick={handleSortByWeight}
+                className="ml-2.5 mr-2 cursor-pointer text-center"
+              >
+                Wt. {` `}
+              <span>&#8645;</span>
+              </h2>
             </div>
             <h2 className="self-start">Skills</h2>
             <h2 className="w-[142px] text-center">Edit / Delete</h2>

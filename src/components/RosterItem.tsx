@@ -100,7 +100,7 @@ const RosterItem = ({
             ) : (
               <>
                 <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-                  {athlete?.eligibility}
+                  {athlete?.eligibility === 'O' ? 'Open' : 'Women'}
                 </h3>
                 {athlete.weight ? (
                   <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
