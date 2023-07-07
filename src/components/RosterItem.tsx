@@ -39,7 +39,7 @@ const RosterItem = ({
       {athlete && (
         <article
           key={athlete.id}
-          className={`tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
+          className={`shadow-lg tablet:shadow-none tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
         >
           <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
             <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-[200px]">

@@ -10,7 +10,7 @@ interface NavBarProps {
 
 const NavBar = ({ teamId }: NavBarProps) => {
   return (
-    <div className="flex mx-auto justify-center desktop:max-w-[1280px] text-white border-2 border-blue-dark rounded-b-2xl">
+    <div className="flex mx-auto justify-center desktop:max-w-[1280px] text-white border-2 border-blue-dark rounded-b-2xl shadow-lg">
       <NavLink
         to={`../:userId/dashboard/${teamId}`}
         className={`flex flex-col items-center p-2 tablet:p-4 bg-blue-light hover:bg-blue-dark w-[25%] rounded-bl-xl border-r border-blue-dark`}
