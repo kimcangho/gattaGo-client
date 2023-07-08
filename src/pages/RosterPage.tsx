@@ -30,11 +30,35 @@ const RosterPage = (): JSX.Element => {
   const navigate: NavigateFunction = useNavigate();
   const { width } = useWindowSize();
 
-  const [availabilityFilter, setAvailabilityFilter] = useState({
+  //  Filter Panel States
+  // const [availabilityFilter, setAvailabilityFilter] = useState({
+  //   isAvailable: false,
+  //   isUnavailable: false,
+  // });
+  // const [eligibilityFilter, setEligibilityFilter] = useState({
+  //   isOpen: false,
+  //   isWomen: false,
+  // });
+  // const [paddleSideFilter, setPaddleSideFilter] = useState({
+  //   isLeft: false,
+  //   isRight: false,
+  //   isBoth: false,
+  //   isNone: false,
+  // });
+
+  //  Filter flags - contains all filter types
+  const [filterFlags, setFilterFlags] = useState({
     isAvailable: false,
     isUnavailable: false,
+    isOpen: false,
+    isWomen: false,
+    isLeft: false,
+    isRight: false,
+    isBoth: false,
+    isNone: false,
   });
 
+  //  Feth useEffect
   useEffect(() => {
     const getAthletes = async () => {
       try {
@@ -56,24 +80,53 @@ const RosterPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  //  Filter useEffects
+  //  Filter useEffect
   useEffect(() => {
-    if (
-      (availabilityFilter.isAvailable && availabilityFilter.isUnavailable) ||
-      (!availabilityFilter.isAvailable && !availabilityFilter.isUnavailable)
-    ) {
+    if (!Object.values(filterFlags).includes(true)) {
       setSortableRoster(roster);
     } else {
-      setSortableRoster((prevRoster) =>
-        prevRoster.filter((a) => {
-          if (availabilityFilter.isAvailable) return a.athlete.isAvailable;
-          return a.athlete.isAvailable === false;
-        })
+      setSortableRoster(
+        roster
+          .filter((paddler) => {
+            //  Filter by availability
+            if (!filterFlags.isAvailable && !filterFlags.isUnavailable)
+              return true;
+            if (paddler.athlete.isAvailable && filterFlags.isAvailable)
+              return true;
+            if (!paddler.athlete.isAvailable && filterFlags.isUnavailable)
+              return true;
+            return false;
+          })
+          .filter((paddler) => {
+            //  Filter by eligibility
+            if (!filterFlags.isOpen && !filterFlags.isWomen) return true;
+            if (paddler.athlete.eligibility === "O" && filterFlags.isOpen)
+              return true;
+            if (paddler.athlete.eligibility === "W" && filterFlags.isWomen)
+              return true;
+            return false;
+          })
+          .filter((paddler) => {
+            //  Filter by paddle side
+            if (
+              !filterFlags.isLeft &&
+              !filterFlags.isRight &&
+              !filterFlags.isBoth &&
+              !filterFlags.isWomen
+            )
+              return true;
+            if (paddler.athlete.paddleSide === "L" && filterFlags.isLeft)
+              return true;
+            if (paddler.athlete.paddleSide === "R" && filterFlags.isRight)
+              return true;
+            if (paddler.athlete.paddleSide === "B" && filterFlags.isBoth)
+              return true;
+            if (paddler.athlete.paddleSide === "N/A" && filterFlags.isNone)
+              return true;
+          })
       );
     }
-  }, [availabilityFilter]);
-
-  //  CRUD Operations
+  }, [filterFlags]);
 
   const handleEditAthlete = async (athleteId: string) => {
     navigate(`/:userId/roster/${teamId}/edit/${athleteId}`);
@@ -132,20 +185,63 @@ const RosterPage = (): JSX.Element => {
     setIsFilterPanelVisible((prev) => !prev);
   };
 
-  const handleFilterByAvailability = async (event: any) => {
+  const handleSetFilterFlags = async (event: any) => {
     const { checked, value } = event.target;
 
-    if (value === "filter-available")
-      setAvailabilityFilter({
-        ...availabilityFilter,
-        isAvailable: checked,
-      });
-
-    if (value === "filter-unavailable") {
-      setAvailabilityFilter({
-        ...availabilityFilter,
-        isUnavailable: checked,
-      });
+    switch (value) {
+      //  Availability
+      case "filter-available":
+        setFilterFlags({
+          ...filterFlags,
+          isAvailable: checked,
+        });
+        break;
+      case "filter-unavailable":
+        setFilterFlags({
+          ...filterFlags,
+          isUnavailable: checked,
+        });
+        break;
+      //  Eligibility
+      case "filter-open":
+        setFilterFlags({
+          ...filterFlags,
+          isOpen: checked,
+        });
+        break;
+      case "filter-women":
+        setFilterFlags({
+          ...filterFlags,
+          isWomen: checked,
+        });
+        break;
+      //  PaddleSide
+      case "filter-left":
+        setFilterFlags({
+          ...filterFlags,
+          isLeft: checked,
+        });
+        break;
+      case "filter-right":
+        setFilterFlags({
+          ...filterFlags,
+          isRight: checked,
+        });
+        break;
+      case "filter-both":
+        setFilterFlags({
+          ...filterFlags,
+          isBoth: checked,
+        });
+        break;
+      case "filter-none":
+        setFilterFlags({
+          ...filterFlags,
+          isNone: checked,
+        });
+        break;
+      default:
+        break;
     }
   };
 
@@ -193,8 +289,8 @@ const RosterPage = (): JSX.Element => {
                   type="checkbox"
                   id="filter-available"
                   value="filter-available"
-                  onChange={handleFilterByAvailability}
-                  checked={availabilityFilter.isAvailable}
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isAvailable}
                   className="mr-2 tablet:mr-4"
                 />
                 <label htmlFor="filter-available">Available</label>
@@ -204,8 +300,8 @@ const RosterPage = (): JSX.Element => {
                   type="checkbox"
                   id="filter-unavailable"
                   value="filter-unavailable"
-                  onChange={handleFilterByAvailability}
-                  checked={availabilityFilter.isUnavailable}
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isUnavailable}
                   className="mr-2 tablet:mr-4"
                 />
                 <label htmlFor="filter-unavailable">Unavailable</label>
@@ -218,20 +314,24 @@ const RosterPage = (): JSX.Element => {
               <div>
                 <input
                   type="checkbox"
-                  id="filter-available"
-                  value="filter-available"
+                  id="filter-open"
+                  value="filter-open"
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isOpen}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-available">Open</label>
+                <label htmlFor="filter-open">Open</label>
               </div>
               <div>
                 <input
                   type="checkbox"
-                  id="filter-unavailable"
-                  value="filter-unavailable"
+                  id="filter-women"
+                  value="filter-women"
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isWomen}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-unavailable">Women</label>
+                <label htmlFor="filter-women">Women</label>
               </div>
             </div>
 
@@ -241,38 +341,46 @@ const RosterPage = (): JSX.Element => {
               <div>
                 <input
                   type="checkbox"
-                  id="filter-available"
-                  value="filter-available"
+                  id="filter-left"
+                  value="filter-left"
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isLeft}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-available">Left</label>
+                <label htmlFor="filter-left">Left</label>
               </div>
               <div>
                 <input
                   type="checkbox"
-                  id="filter-unavailable"
-                  value="filter-unavailable"
+                  id="filter-right"
+                  value="filter-right"
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isRight}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-unavailable">Right</label>
+                <label htmlFor="filter-right">Right</label>
               </div>
               <div>
                 <input
                   type="checkbox"
-                  id="filter-unavailable"
-                  value="filter-unavailable"
+                  id="filter-both"
+                  value="filter-both"
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isBoth}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-unavailable">Both</label>
+                <label htmlFor="filter-both">Both</label>
               </div>
               <div>
                 <input
                   type="checkbox"
-                  id="filter-unavailable"
-                  value="filter-unavailable"
+                  id="filter-none"
+                  value="filter-none"
+                  onChange={handleSetFilterFlags}
+                  checked={filterFlags.isNone}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-unavailable">None</label>
+                <label htmlFor="filter-none">None</label>
               </div>
             </div>
           </div>
