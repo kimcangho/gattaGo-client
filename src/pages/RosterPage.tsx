@@ -30,22 +30,6 @@ const RosterPage = (): JSX.Element => {
   const navigate: NavigateFunction = useNavigate();
   const { width } = useWindowSize();
 
-  //  Filter Panel States
-  // const [availabilityFilter, setAvailabilityFilter] = useState({
-  //   isAvailable: false,
-  //   isUnavailable: false,
-  // });
-  // const [eligibilityFilter, setEligibilityFilter] = useState({
-  //   isOpen: false,
-  //   isWomen: false,
-  // });
-  // const [paddleSideFilter, setPaddleSideFilter] = useState({
-  //   isLeft: false,
-  //   isRight: false,
-  //   isBoth: false,
-  //   isNone: false,
-  // });
-
   //  Filter flags - contains all filter types
   const [filterFlags, setFilterFlags] = useState({
     isAvailable: false,
@@ -112,7 +96,7 @@ const RosterPage = (): JSX.Element => {
               !filterFlags.isLeft &&
               !filterFlags.isRight &&
               !filterFlags.isBoth &&
-              !filterFlags.isWomen
+              !filterFlags.isNone
             )
               return true;
             if (paddler.athlete.paddleSide === "L" && filterFlags.isLeft)
@@ -265,26 +249,22 @@ const RosterPage = (): JSX.Element => {
 
       {/* Filter Panel */}
 
-      <div className="flex flex-col p-2 tablet:p-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
-        <label
-          htmlFor=""
-          onClick={handleToggleFilterPanel}
-          className="flex space-x-2 my-4"
-        >
+      <div className="flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+        <div onClick={handleToggleFilterPanel} className="flex space-x-2">
           <h3 className="text-blue-light">Filter Panel</h3>
           {isFilterPanelVisible ? (
             <img src={chevronDownIcon} alt="Chevron Down" className="w-4" />
           ) : (
             <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
           )}
-        </label>
+        </div>
 
         {isFilterPanelVisible && (
           <div className="w-full flex">
             {/* Availability */}
             <div className="flex flex-col w-[50%]">
-              <p>Status</p>
-              <div>
+              <h4 className="text-lg">Status</h4>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-available"
@@ -293,9 +273,11 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isAvailable}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-available">Available</label>
+                <label htmlFor="filter-available" className="truncate">
+                  <p>Available</p>
+                </label>
               </div>
-              <div>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-unavailable"
@@ -304,14 +286,16 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isUnavailable}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-unavailable">Unavailable</label>
+                <label htmlFor="filter-unavailable" className="truncate">
+                  <p>Unavailable</p>
+                </label>
               </div>
             </div>
 
             {/* Eligibility */}
             <div className="flex flex-col w-[50%]">
-              <p>Eligibility</p>
-              <div>
+              <h4 className="text-lg">Eligibility</h4>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-open"
@@ -320,9 +304,11 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isOpen}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-open">Open</label>
+                <label htmlFor="filter-open">
+                  <p>Open</p>
+                </label>
               </div>
-              <div>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-women"
@@ -331,14 +317,16 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isWomen}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-women">Women</label>
+                <label htmlFor="filter-women">
+                  <p>Women</p>
+                </label>
               </div>
             </div>
 
             {/* Paddle Side */}
             <div className="flex flex-col w-[50%]">
-              <p>Paddle Side</p>
-              <div>
+              <h4 className="text-lg">Paddle Side</h4>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-left"
@@ -347,9 +335,11 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isLeft}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-left">Left</label>
+                <label htmlFor="filter-left">
+                  <p>Left</p>
+                </label>
               </div>
-              <div>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-right"
@@ -358,9 +348,11 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isRight}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-right">Right</label>
+                <label htmlFor="filter-right">
+                  <p>Right</p>
+                </label>
               </div>
-              <div>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-both"
@@ -369,9 +361,11 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isBoth}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-both">Both</label>
+                <label htmlFor="filter-both">
+                  <p>Both</p>
+                </label>
               </div>
-              <div>
+              <div className="flex">
                 <input
                   type="checkbox"
                   id="filter-none"
@@ -380,7 +374,9 @@ const RosterPage = (): JSX.Element => {
                   checked={filterFlags.isNone}
                   className="mr-2 tablet:mr-4"
                 />
-                <label htmlFor="filter-none">None</label>
+                <label htmlFor="filter-none">
+                  <p>None</p>
+                </label>
               </div>
             </div>
           </div>
