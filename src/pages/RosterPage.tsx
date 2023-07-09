@@ -315,7 +315,7 @@ const RosterPage = (): JSX.Element => {
       {/* Filter Panel */}
 
       <div className="flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full shadow-sm">
-        <div onClick={handleToggleFilterPanel} className="flex space-x-2">
+        <div onClick={handleToggleFilterPanel} className="flex space-x-2 cursor-pointer w-fit">
           <h3 className="text-blue-light">Filter Panel</h3>
           {isFilterPanelVisible ? (
             <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
