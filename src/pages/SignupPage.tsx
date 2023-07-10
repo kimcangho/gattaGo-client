@@ -35,8 +35,8 @@ const SignupPage = (): JSX.Element => {
   };
 
   return (
-    <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto py-5 tablet:pt-0 tablet:pb-6">
-      <h3 className="my-4 tablet:mb-5 tablet:text-2xl mx-2.5 tablet:mx-5">
+    <div className="flex-col text-center items-center w-full max-w-[448px] mx-auto py-5">
+      <h3 className="my-4 tablet:my-5 tablet:text-2xl mx-2.5 tablet:mx-5">
         Sign up
       </h3>
       <p className="mx-2.5 my-5 mt-2.5 tablet:mb-8">

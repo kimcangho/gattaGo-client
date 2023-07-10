@@ -52,8 +52,8 @@ const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <div className="mb-5 flex-col justify-center">
-      <h3 className="text-center mb-4 tablet:mb-5 tablet:text-2xl px-2.5 tablet:px-5">
+    <div className="py-5 flex-col justify-center">
+      <h3 className="text-center my-4 tablet:my-5 tablet:text-2xl px-2.5 tablet:px-5">
         {email && !isInvalidInput ? "Hey! You're already signed up!" : "Log In"}
       </h3>
       <p className="text-center m-5 mt-2.5 tablet:mb-8">
