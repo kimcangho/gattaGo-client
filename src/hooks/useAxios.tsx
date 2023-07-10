@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { axiosInstance } from "../services/axiosInstance";
+import { axiosInstance } from "../services/instance.axios.tsx";
 
 const useAxios = (axiosParams: any) => {
   const [response, setResponse] = useState<any[]>([]);
