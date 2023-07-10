@@ -21,60 +21,57 @@ import EditAthletePage from "./pages/EditAthletePage";
 
 const App = (): JSX.Element => {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div className="flex flex-col h-screen justify-start">
-          <Header />
+    // <AuthProvider>
+    <BrowserRouter>
+      <div className="flex flex-col h-screen justify-start">
+        <Header />
 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/reset_password" element={<ResetPasswordPage />} />
-            <Route
-              path="/reset_password/:resetCodeId"
-              element={<ChangePasswordPage />}
-            />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset_password" element={<ResetPasswordPage />} />
+          <Route
+            path="/reset_password/:resetCodeId"
+            element={<ChangePasswordPage />}
+          />
 
-            <Route element={<ProtectedRoute redirectPath="login" />}>
-              <Route path="/:userId/overview" element={<OverviewPage />} />
-              <Route path="/:userId/new" element={<CreateNewTeamPage />} />
+          <Route element={<ProtectedRoute redirectPath="login" />}>
+            <Route path="/:userId/overview" element={<OverviewPage />} />
+            <Route path="/:userId/new" element={<CreateNewTeamPage />} />
 
-              <Route element={<NavbarRoute />}>
-                <Route
-                  path="/:userId/dashboard/:teamId"
-                  element={<DashboardPage />}
-                />
-                <Route
-                  path="/:userId/roster/:teamId"
-                  element={<RosterPage />}
-                />
-                <Route
-                  path="/:userId/roster/:teamId/new"
-                  element={<CreateNewAthletePage />}
-                />
-                <Route
-                  path="/:userId/roster/:teamId/edit/:athleteId"
-                  element={<EditAthletePage />}
-                />
-                <Route
-                  path="/:userId/lineups/:teamId"
-                  element={<LineupsPage />}
-                />
-                <Route
-                  path="/:userId/schedule/:teamId"
-                  element={<SchedulePage />}
-                />
-              </Route>
+            <Route element={<NavbarRoute />}>
+              <Route
+                path="/:userId/dashboard/:teamId"
+                element={<DashboardPage />}
+              />
+              <Route path="/:userId/roster/:teamId" element={<RosterPage />} />
+              <Route
+                path="/:userId/roster/:teamId/new"
+                element={<CreateNewAthletePage />}
+              />
+              <Route
+                path="/:userId/roster/:teamId/edit/:athleteId"
+                element={<EditAthletePage />}
+              />
+              <Route
+                path="/:userId/lineups/:teamId"
+                element={<LineupsPage />}
+              />
+              <Route
+                path="/:userId/schedule/:teamId"
+                element={<SchedulePage />}
+              />
             </Route>
+          </Route>
 
-            <Route path="/*" element={<ErrorPage />} />
-          </Routes>
+          <Route path="/*" element={<ErrorPage />} />
+        </Routes>
 
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
+        <Footer />
+      </div>
+    </BrowserRouter>
+    // </AuthProvider>
   );
 };
 
