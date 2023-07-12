@@ -1,16 +1,14 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import { axiosAuth } from "../services/axios.service";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 
 const LineupsPage = (): JSX.Element => {
-  const { setIsLoggedIn, setAccessToken }: AuthContextTypes =
-    useContext<AuthContextTypes | null>(AuthContext)!;
   const [_lineups, setLineups] = useState({});
   const { teamId } = useParams<string>();
-  const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
+  const redirectPage = useLogoutRedirect("login");
 
   useEffect(() => {
     const getLineups = async () => {
@@ -24,9 +22,7 @@ const LineupsPage = (): JSX.Element => {
         await axiosAuth.delete(`/logout`, {
           withCredentials: true,
         });
-        setAccessToken("");
-        setIsLoggedIn(false);
-        navigate("/login");
+        redirectPage();
         //  To-do: explore useLocation with useNavigate
       }
     };

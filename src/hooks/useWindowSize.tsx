@@ -5,7 +5,7 @@ interface WindowSizeData {
   height: number | undefined;
 }
 
-const useWindowSize = () => {
+const useWindowSize = (): WindowSizeData => {
   const [windowSize, setWindowSize] = useState<WindowSizeData>({
     width: undefined,
     height: undefined,
