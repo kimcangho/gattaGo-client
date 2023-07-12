@@ -1,21 +1,17 @@
-import axiosService from "../services/axios.service";
 import AuthContext from "../contexts/AuthContext";
 import { useContext } from "react";
+import { axiosAuth } from "../services/axios.service";
 
 const useRefreshToken = () => {
-
-    // const {accessToken, setAccessToken}: any = useContext(AuthContext)
+  const { setAccessToken }: any = useContext(AuthContext);
 
   const refresh = async () => {
-    const response = await axiosService.get('/reissue', {
-        withCredentials: true   //  setting allows us to send refresh token in cookie
+    const { data } = await axiosAuth.get("/refresh", {
+      withCredentials: true,
     });
-    //  setAuth(prev => {
-    //     console.log(JSON.stringify(prev));
-    //     console.log(response.data.accesstoken);
-    //     return {...prev, acessToken: response.data.accessToken}
-    // })
-    return response.data.accessToken
+
+    setAccessToken(data.accessToken);
+    return data.accessToken;
   };
 
   return refresh;

@@ -7,8 +7,8 @@ export interface AuthContextTypes {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  auth: {};
-  setAuth: React.Dispatch<React.SetStateAction<{}>>;
+  // auth: {};
+  // setAuth: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 interface AuthContextProps {
@@ -21,19 +21,19 @@ export const AuthProvider = ({ children }: AuthContextProps): JSX.Element => {
   const [accessToken, setAccessToken] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [auth, setAuth] = useState({});
+  // const [auth, setAuth] = useState({});
 
   return (
     <AuthContext.Provider
       value={{
-        accessToken,
+        accessToken,  //  access token
         setAccessToken,
-        email,
+        email,  //  user
         setEmail,
         isLoggedIn,
         setIsLoggedIn,
-        auth,
-        setAuth,
+        // auth,
+        // setAuth,
       }}
     >
       {children}

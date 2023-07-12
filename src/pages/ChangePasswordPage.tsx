@@ -13,7 +13,7 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const ChangePasswordPage = (): JSX.Element => {
   const { resetCodeId } = useParams<string>();
-  const { email, setEmail }: AuthContextTypes =
+  const { email, setEmail, accessToken }: AuthContextTypes =
     useContext<AuthContextTypes | null>(AuthContext)!;
   const [isResetCodeValid, setIsResetCodeValid] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
@@ -40,7 +40,8 @@ const ChangePasswordPage = (): JSX.Element => {
         const { data } = await axios.get(
           `http://localhost:7777/reset/${resetCode}`
         );
-        await setEmail(data!.foundEmail);
+        console.log(accessToken)
+        await setEmail(data!.foundEmail); 
         setIsResetCodeValid(true);
       } catch (err) {
         navigate("../");

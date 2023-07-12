@@ -16,7 +16,7 @@ const ResetPasswordPage = (): JSX.Element => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: email,
+      email
     },
   });
   return (

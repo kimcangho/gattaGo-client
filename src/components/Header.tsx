@@ -5,7 +5,7 @@ import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const Header = (): JSX.Element => {
-  const { setEmail, isLoggedIn, setIsLoggedIn }: AuthContextTypes =
+  const { accessToken, setEmail, isLoggedIn, setIsLoggedIn }: AuthContextTypes =
     useContext<AuthContextTypes | null>(AuthContext)!;
 
   const navigate: NavigateFunction = useNavigate();
@@ -15,6 +15,7 @@ const Header = (): JSX.Element => {
 
     try {
       await axios.delete(`http://localhost:7777/logout`, {
+        data: { accessToken },
         withCredentials: true,
       });
       console.log("successfully logged out!");
