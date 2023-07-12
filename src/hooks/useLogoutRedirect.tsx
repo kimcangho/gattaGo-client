@@ -1,15 +1,25 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { axiosAuth } from "../services/axios.service";
 
-const useLogoutRedirect = (redirectPage: string) => {
-  const { setAccessToken, setIsLoggedIn }: any = useContext(AuthContext);
+const useLogoutRedirect = () => {
+  const { setAccessToken, setIsLoggedIn }: AuthContextTypes =
+    useContext(AuthContext)!;
   const navigate = useNavigate();
 
-  const logoutRedirect = async () => {
-    setAccessToken("");
-    setIsLoggedIn(false);
-    navigate(`/${redirectPage}`);
+  const logoutRedirect = async (redirectPage: string) => {
+    try {
+      await axiosAuth.delete(`/logout`, {
+        withCredentials: true,
+      });
+      setAccessToken("");
+      setIsLoggedIn(false);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      navigate(redirectPage);
+    }
   };
   return logoutRedirect;
 };

@@ -1,16 +1,12 @@
 import { useState, useContext } from "react";
-import {
-  Link,
-  NavigateFunction,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
@@ -19,15 +15,15 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 import { paddlerSkillsDefault } from "../data/paddlerSkillsDefault";
 
 const CreateNewAthletePage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const { teamId } = useParams();
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
     useState<boolean>(false);
-  const navigate: NavigateFunction = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const logoutRedirect = useLogoutRedirect();
 
   const {
     register,
@@ -66,7 +62,6 @@ const CreateNewAthletePage = (): JSX.Element => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
@@ -77,8 +72,9 @@ const CreateNewAthletePage = (): JSX.Element => {
     else numericWeight = parseInt(weight, 10);
 
     try {
-      await axios.post(
-        "http://localhost:8888/athletes",
+      const headers = { Authorization: `Bearer ${accessToken}` };
+      await axiosPrivate.post(
+        "/athletes",
         {
           teamId,
           email,
@@ -98,6 +94,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       navigate(`/:userId/roster/${teamId}`);
     } catch (err) {
       console.log(err);
+      logoutRedirect("/login");
     }
   };
 
@@ -246,7 +243,7 @@ const CreateNewAthletePage = (): JSX.Element => {
                 value="O"
                 className="mr-2 tablet:mr-4"
               />
-              <label htmlFor="elibigility-open">Open</label>
+              <label htmlFor="eligibility-open">Open</label>
             </div>
             <div>
               <input

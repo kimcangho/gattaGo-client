@@ -4,10 +4,8 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useRefreshToken from "./useRefreshToken";
 
 const useAxiosPrivate = () => {
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const refresh = useRefreshToken();
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
 
   useEffect(() => {
     const requestInterceptor = axiosPrivate.interceptors.request.use(
@@ -21,21 +19,17 @@ const useAxiosPrivate = () => {
       }
     );
 
-    //  Response interceptor - makes follow-up API call if access token expired
     const responseInterceptor = axiosPrivate.interceptors.response.use(
-      async (response) => {
-        console.log(response);
-        return response; //  if access token still valid, return response
-      },
+      (response) => response,
       async (err) => {
-        //  handle invalid access token
-        const prevRequest = err.config;
-        if (err.response.status === 403 && !prevRequest.sent) {
-          // set sent property so we don't endlessly loop trying to get new access token
-          prevRequest.sent = true; //  indicates that we only try to get access token once
-          const newAccessToken = await refresh(); //  get new access token from useRefresh
-          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return axiosPrivate(prevRequest); //  pass in config as argument for axios API call
+        const prevRequestConfig = err.config;
+        if (err.response.status === 403 && !prevRequestConfig.sent) {
+          prevRequestConfig.sent = true;
+          const newAccessToken = await refresh();
+          prevRequestConfig.headers[
+            "Authorization"
+          ] = `Bearer ${newAccessToken}`;
+          return axiosPrivate(prevRequestConfig);
         }
         return Promise.reject(err);
       }

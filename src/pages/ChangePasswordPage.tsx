@@ -1,26 +1,21 @@
 import { useState, useEffect, useContext } from "react";
-import {
-  useParams,
-  useNavigate,
-  Link,
-  NavigateFunction,
-} from "react-router-dom";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import { axiosAuth } from "../services/axios.service";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 const ChangePasswordPage = (): JSX.Element => {
   const { resetCodeId } = useParams<string>();
-  const { email, setEmail, accessToken }: AuthContextTypes =
-    useContext<AuthContextTypes | null>(AuthContext)!;
+  const { email, setEmail }: AuthContextTypes =
+    useContext(AuthContext)!;
   const [isResetCodeValid, setIsResetCodeValid] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
   const [isPasswordChanged, setIsPasswordChanged] = useState<boolean>(false);
 
-  const navigate: NavigateFunction = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -37,11 +32,8 @@ const ChangePasswordPage = (): JSX.Element => {
   useEffect(() => {
     const findEmail = async (resetCode: string) => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:7777/reset/${resetCode}`
-        );
-        console.log(accessToken)
-        await setEmail(data!.foundEmail); 
+        const { data } = await axiosAuth.get(`/reset/${resetCode}`);
+        setEmail(data!.foundEmail);
         setIsResetCodeValid(true);
       } catch (err) {
         navigate("../");
@@ -76,7 +68,7 @@ const ChangePasswordPage = (): JSX.Element => {
             <form
               onSubmit={handleSubmit(async ({ password }) => {
                 try {
-                  await axios.put("http://localhost:7777/reset", {
+                  await axiosAuth.put("/reset", {
                     email,
                     password,
                     resetCode: resetCodeId,

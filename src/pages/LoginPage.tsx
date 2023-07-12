@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import { axiosAuth } from "../services/axios.service";
+import { LoginFormData } from "../interfaces/FormData";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-import { LoginFormData } from "../interfaces/FormData";
 
 const LoginPage = (): JSX.Element => {
   const { setAccessToken, email, setEmail, setIsLoggedIn }: AuthContextTypes =
@@ -28,8 +28,8 @@ const LoginPage = (): JSX.Element => {
 
   const handleFormSubmit = async ({ email, password }: LoginFormData) => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:7777/login",
+      const { data } = await axiosAuth.post(
+        "/login",
         {
           email,
           password,
@@ -37,12 +37,12 @@ const LoginPage = (): JSX.Element => {
         { withCredentials: true }
       );
 
-      await setAccessToken(data.accessToken);
-      await setEmail(email);
-      await setIsLoggedIn(true);
+      setAccessToken(data.accessToken);
+      setEmail(email);
+      setIsLoggedIn(true);
       navigate("../userId/overview");
     } catch (error) {
-      await setEmail(email);
+      setEmail(email);
       setIsInvalidInput(true);
     }
   };

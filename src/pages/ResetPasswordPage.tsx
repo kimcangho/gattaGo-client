@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
-import { useForm } from "react-hook-form";
-import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { useForm } from "react-hook-form";
+import { axiosAuth } from "../services/axios.service";
 
 const ResetPasswordPage = (): JSX.Element => {
-  const { email, setEmail }: AuthContextTypes =
-    useContext<AuthContextTypes | null>(AuthContext)!;
+  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
   const [isPasswordSent, setIsPasswordSent] = useState<boolean>(false);
   const [isSendingRequest, setIsSendingRequest] = useState<boolean>(false);
 
@@ -16,7 +15,7 @@ const ResetPasswordPage = (): JSX.Element => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email
+      email,
     },
   });
   return (
@@ -37,7 +36,7 @@ const ResetPasswordPage = (): JSX.Element => {
             setIsSendingRequest(true);
             setIsPasswordSent(true);
             try {
-              await axios.post("http://localhost:7777/reset", { email });
+              await axiosAuth.post("/reset", { email });
             } catch (err) {
               console.log(err);
             } finally {

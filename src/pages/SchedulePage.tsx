@@ -1,21 +1,28 @@
 import { useEffect, useContext } from "react";
-import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 
 const SchedulePage = () => {
   const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
+  const axiosPrivate = useAxiosPrivate();
+  const logoutRedirect = useLogoutRedirect();
 
   useEffect(() => {
-    const getRegattas = async () => {
-      const headers = { Authorization: `Bearer ${accessToken}` };
-      const { data } = await axios.get(`http://localhost:8888/regattas`, {
-        headers,
-        withCredentials: true,
-      });
-      console.log(data);
-    };
+    try {
+      const getRegattas = async () => {
+        const headers = { Authorization: `Bearer ${accessToken}` };
+        await axiosPrivate.get(`/regattas`, {
+          headers,
+          withCredentials: true,
+        });
+      };
 
-    getRegattas();
+      getRegattas();
+    } catch (err) {
+      console.log(err);
+      logoutRedirect("/login");
+    }
   }, []);
   return <div>SchedulePage</div>;
 };

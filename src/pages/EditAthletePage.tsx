@@ -1,16 +1,12 @@
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
-import {
-  Link,
-  NavigateFunction,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
@@ -30,16 +26,15 @@ interface CreateNewAthleteFormData {
 }
 
 const EditAthletePage = () => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const { teamId, athleteId } = useParams();
   const [athlete, setAthlete]: any = useState(null);
-  const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
-    useState<boolean>(false);
+  const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] = useState(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
     useState<boolean>(false);
-  const navigate: NavigateFunction = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const logoutRedirect = useLogoutRedirect();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -93,14 +88,10 @@ const EditAthletePage = () => {
     const getAthleteDetails = async (athleteId: string) => {
       const headers = { Authorization: `Bearer ${accessToken}` };
       try {
-        const { data } = await axios.get(
-          `http://localhost:8888/athletes/${athleteId}`,
-
-          {
-            headers,
-            withCredentials: true,
-          }
-        );
+        const { data } = await axiosPrivate.get(`/athletes/${athleteId}`, {
+          headers,
+          withCredentials: true,
+        });
 
         const {
           eligibility,
@@ -127,6 +118,7 @@ const EditAthletePage = () => {
         await setAthlete(data);
       } catch (err) {
         console.log(err);
+        logoutRedirect("/login");
       }
     };
 
@@ -163,8 +155,8 @@ const EditAthletePage = () => {
     else numericWeight = parseInt(weight, 10);
 
     try {
-      await axios.put(
-        `http://localhost:8888/athletes/${athleteId}`,
+      await axiosPrivate.put(
+        `/athletes/${athleteId}`,
         {
           teamId,
           email,
@@ -184,6 +176,7 @@ const EditAthletePage = () => {
       navigate(`/:userId/roster/${teamId}`);
     } catch (err) {
       console.log(err);
+      logoutRedirect("/login");
     }
   };
 

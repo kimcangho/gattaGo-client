@@ -1,13 +1,9 @@
-import {
-  useParams,
-  Link,
-  useNavigate,
-  NavigateFunction,
-} from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import useWindowSize from "../hooks/useWindowSize";
-import axios from "axios";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import useWindowSize from "../hooks/useWindowSize";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import RosterItem from "../components/RosterItem";
 import { RosterData } from "../interfaces/EntityData";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
@@ -17,9 +13,7 @@ import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 
 const RosterPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const [roster, setRoster] = useState<RosterData[]>([]);
   const [sortableRoster, setSortableRoster] = useState<RosterData[]>([]);
   const [isNameOrderDesc, setIsNameOrderDesc] = useState<boolean>(false);
@@ -27,8 +21,10 @@ const RosterPage = (): JSX.Element => {
   const [isFilterPanelVisible, setIsFilterPanelVisible] =
     useState<boolean>(false);
   const { teamId } = useParams<string>();
-  const navigate: NavigateFunction = useNavigate();
   const { width } = useWindowSize();
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const logoutRedirect = useLogoutRedirect();
 
   //  Filter flags - contains all filter types
   const [filterFlags, setFilterFlags] = useState({
@@ -65,29 +61,25 @@ const RosterPage = (): JSX.Element => {
     isRocket: false,
   });
 
-  //  Axios useEffect
   useEffect(() => {
     const getAthletes = async () => {
       try {
         const headers = { Authorization: `Bearer ${accessToken}` };
-        const { data } = await axios.get(
-          `http://localhost:8888/teams/${teamId}/athletes`,
-          {
-            headers,
-            withCredentials: true,
-          }
-        );
+        const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`, {
+          headers,
+          withCredentials: true,
+        });
         setRoster(data);
         setSortableRoster(data);
       } catch (err) {
         console.log(err);
+        logoutRedirect("/login");
       }
     };
 
     getAthletes();
   }, []);
 
-  //  Filter useEffect
   useEffect(() => {
     if (!Object.values(filterFlags).includes(true)) {
       setSortableRoster(roster);
@@ -173,18 +165,22 @@ const RosterPage = (): JSX.Element => {
   };
 
   const handleDeleteAthlete = async (athleteId: string) => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
+    try {
+      const headers = { Authorization: `Bearer ${accessToken}` };
+      await axiosPrivate.delete(`/athletes/${athleteId}`, {
+        headers,
+        withCredentials: true,
+      });
+      const rosterAfterDelete = roster.filter((data) => {
+        return athleteId !== data.athleteId;
+      });
 
-    await axios.delete(`http://localhost:8888/athletes/${athleteId}`, {
-      headers,
-      withCredentials: true,
-    });
-    const rosterAfterDelete = roster.filter((data) => {
-      return athleteId !== data.athleteId;
-    });
-
-    setRoster(rosterAfterDelete);
-    setSortableRoster(rosterAfterDelete);
+      setRoster(rosterAfterDelete);
+      setSortableRoster(rosterAfterDelete);
+    } catch (err) {
+      console.log(err);
+      logoutRedirect("/login");
+    }
   };
 
   //  Sorting
@@ -315,7 +311,10 @@ const RosterPage = (): JSX.Element => {
       {/* Filter Panel */}
 
       <div className="flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full shadow-sm">
-        <div onClick={handleToggleFilterPanel} className="flex space-x-2 cursor-pointer w-fit">
+        <div
+          onClick={handleToggleFilterPanel}
+          className="flex space-x-2 cursor-pointer w-fit"
+        >
           <h3 className="text-blue-light">Filter Panel</h3>
           {isFilterPanelVisible ? (
             <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />

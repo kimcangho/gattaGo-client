@@ -1,18 +1,18 @@
-import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import { useState, useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { axiosAuth } from "../services/axios.service";
+import { useForm } from "react-hook-form";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const SignupPage = (): JSX.Element => {
-  const { email, setEmail }: AuthContextTypes =
-    useContext<AuthContextTypes | null>(AuthContext)!;
+  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -45,16 +45,16 @@ const SignupPage = (): JSX.Element => {
 
       <form
         onSubmit={handleSubmit(async ({ email, password }) => {
-          await setEmail(email);
+          setEmail(email);
           try {
-            await axios.post("http://localhost:7777/register", {
+            await axiosAuth.post("/register", {
               email,
               password,
             });
             navigate("../");
-          } catch {
-            console.log("User already exists!");
-            navigate("../login");
+          } catch (err) {
+            console.log(err);
+            navigate("/login");
           }
           return;
         })}

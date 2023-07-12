@@ -1,30 +1,31 @@
 import { useState, useEffect, useContext } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import axios from "axios";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { axiosPrivate } from "../services/axios.service";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { TeamData } from "../interfaces/EntityData";
 
 const OverviewPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
 
   const navigate: NavigateFunction = useNavigate();
+  const logoutRedirect = useLogoutRedirect();
 
   useEffect(() => {
     const getAllTeams = async () => {
       const headers = { Authorization: `Bearer ${accessToken}` };
       try {
-        const { data } = await axios.get("http://localhost:8888/teams", {
+        const { data } = await axiosPrivate.get("/teams", {
           headers,
           withCredentials: true,
         });
         setMyTeams(data);
       } catch (err) {
         console.log(err);
+        logoutRedirect("/login");
       }
     };
 

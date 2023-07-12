@@ -1,24 +1,22 @@
-import { useContext } from "react";
 import { Link, useNavigate, NavigateFunction } from "react-router-dom";
-import axios from "axios";
-import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
+import { useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { axiosAuth } from "../services/axios.service";
+import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 
 const Header = (): JSX.Element => {
   const { accessToken, setEmail, isLoggedIn, setIsLoggedIn }: AuthContextTypes =
-    useContext<AuthContextTypes | null>(AuthContext)!;
-
+    useContext(AuthContext)!;
   const navigate: NavigateFunction = useNavigate();
 
   const handleLogout = async () => {
     setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
 
     try {
-      await axios.delete(`http://localhost:7777/logout`, {
+      await axiosAuth.delete(`/logout`, {
         data: { accessToken },
         withCredentials: true,
       });
-      console.log("successfully logged out!");
       setEmail("");
     } catch (err) {
       console.log(err);

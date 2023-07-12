@@ -1,10 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import axios from "axios";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import boatIcon from "../assets/icons/boat.svg";
 import editIcon from "../assets/icons/edit-entity.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { TeamData } from "../interfaces/EntityData";
 
 interface OverviewTeamProps {
@@ -20,11 +21,10 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext<AuthContextTypes | null>(
-    AuthContext
-  )!;
-
-  const navigate: NavigateFunction = useNavigate();
+  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const logoutRedirect = useLogoutRedirect();
 
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -36,18 +36,21 @@ const OverviewTeamItem = ({
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
-    const headers = { Authorization: `Bearer ${accessToken}` };
-
-    const { id } = event.target as HTMLInputElement;
-    await axios.delete(`http://localhost:8888/teams/${id}`, {
-      headers,
-      withCredentials: true,
-    });
-    const currentTeams = myTeams.filter((team: TeamData) => {
-      return team.id !== id;
-    });
-
-    setMyTeams(currentTeams);
+    try {
+      const headers = { Authorization: `Bearer ${accessToken}` };
+      const { id } = event.target as HTMLInputElement;
+      await axiosPrivate.delete(`/teams/${id}`, {
+        headers,
+        withCredentials: true,
+      });
+      const currentTeams = myTeams.filter((team: TeamData) => {
+        return team.id !== id;
+      });
+      setMyTeams(currentTeams);
+    } catch (err) {
+      console.log(err);
+      logoutRedirect("/login");
+    }
   };
 
   return (
