@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-import { axiosPrivate } from "../services/axios.service";
+// import { axiosPrivate } from "../services/axios.service";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
@@ -11,6 +12,7 @@ const OverviewPage = (): JSX.Element => {
   const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
 
+  const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
 
