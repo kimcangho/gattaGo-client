@@ -6,18 +6,20 @@ import { LineupData } from "../interfaces/EntityData";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
-  // const [manipulatedLineups, setManipulatedLineups] =
-  //   useState<LineupData | null>(null);
   const { teamId } = useParams<string>();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
+
+  //  get all lineups (w/o athletes) from team first
+  //  once lineups are obtained, populate select dropdown list
+  //  when a lineup is chosen in dropdown list, make api request to get all athletes
 
   useEffect(() => {
     const getLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data);
-        // setManipulatedLineups(data.lineups);
+        console.log(data)
       } catch (err: any) {
         logoutRedirect("/login");
       }
@@ -44,7 +46,7 @@ const LineupsPage = (): JSX.Element => {
           to={`../:userId/lineups/${teamId}/new`}
           className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
         >
-          Add Lineup
+          Save Lineup
         </Link>
       </div>
 

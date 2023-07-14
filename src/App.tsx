@@ -17,7 +17,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 import EditAthletePage from "./pages/EditAthletePage";
-import CreateNewLineupPage from "./pages/CreateNewLineupPage";
 
 const App = (): JSX.Element => {
   return (
@@ -64,10 +63,6 @@ const App = (): JSX.Element => {
               <Route
                 path="/:userId/lineups/:teamId"
                 element={<LineupsPage />}
-              />
-              <Route
-                path="/:userId/lineups/:teamId/new"
-                element={<CreateNewLineupPage />}
               />
 
               {/* Regatta Schedule Page */}
