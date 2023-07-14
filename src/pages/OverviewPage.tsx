@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-// import { axiosPrivate } from "../services/axios.service";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import createNew from "../assets/icons/create-new.svg";

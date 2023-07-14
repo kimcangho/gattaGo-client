@@ -17,6 +17,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 import EditAthletePage from "./pages/EditAthletePage";
+import CreateNewLineupPage from "./pages/CreateNewLineupPage";
 
 const App = (): JSX.Element => {
   return (
@@ -25,6 +26,7 @@ const App = (): JSX.Element => {
         <Header />
 
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -34,15 +36,20 @@ const App = (): JSX.Element => {
             element={<ChangePasswordPage />}
           />
 
+          {/* Private Routes */}
           <Route element={<ProtectedRoute redirectPath="login" />}>
+            {/* Team Overview Page */}
             <Route path="/:userId/overview" element={<OverviewPage />} />
             <Route path="/:userId/new" element={<CreateNewTeamPage />} />
 
             <Route element={<NavbarRoute />}>
+              {/* Dashboard Page */}
               <Route
                 path="/:userId/dashboard/:teamId"
                 element={<DashboardPage />}
               />
+
+              {/* Roster Page */}
               <Route path="/:userId/roster/:teamId" element={<RosterPage />} />
               <Route
                 path="/:userId/roster/:teamId/new"
@@ -52,10 +59,18 @@ const App = (): JSX.Element => {
                 path="/:userId/roster/:teamId/edit/:athleteId"
                 element={<EditAthletePage />}
               />
+
+              {/* Lineup Page */}
               <Route
                 path="/:userId/lineups/:teamId"
                 element={<LineupsPage />}
               />
+              <Route
+                path="/:userId/lineups/:teamId/new"
+                element={<CreateNewLineupPage />}
+              />
+
+              {/* Regatta Schedule Page */}
               <Route
                 path="/:userId/schedule/:teamId"
                 element={<SchedulePage />}

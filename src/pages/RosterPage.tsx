@@ -1,6 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { useState, useEffect } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -13,7 +12,6 @@ import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 
 const RosterPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const [roster, setRoster] = useState<RosterData[]>([]);
   const [sortableRoster, setSortableRoster] = useState<RosterData[]>([]);
   const [isNameOrderDesc, setIsNameOrderDesc] = useState<boolean>(false);
@@ -64,11 +62,7 @@ const RosterPage = (): JSX.Element => {
   useEffect(() => {
     const getAthletes = async () => {
       try {
-        const headers = { Authorization: `Bearer ${accessToken}` };
-        const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`, {
-          headers,
-          withCredentials: true,
-        });
+        const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`);
         setRoster(data);
         setSortableRoster(data);
       } catch (err) {
@@ -166,9 +160,7 @@ const RosterPage = (): JSX.Element => {
 
   const handleDeleteAthlete = async (athleteId: string) => {
     try {
-      const headers = { Authorization: `Bearer ${accessToken}` };
       await axiosPrivate.delete(`/athletes/${athleteId}`, {
-        headers,
         withCredentials: true,
       });
       const rosterAfterDelete = roster.filter((data) => {

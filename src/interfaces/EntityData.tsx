@@ -8,6 +8,23 @@ export interface TeamData {
   eligibility: string;
 }
 
+export interface LineupData {
+  id: string;
+  name: string;
+  level: string;
+  division: string;
+  eligibiligy: string;
+  createdAt: Date;
+  lineups: SingleTeamLineupData;
+}
+
+export interface SingleTeamLineupData {
+  id: string;
+  name: string;
+  teamId: string;
+  athletes: any;
+}
+
 export interface RosterData {
   teamId: string;
   athleteId: string;
