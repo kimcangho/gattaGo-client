@@ -1,14 +1,11 @@
-import { useContext } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import teamIcon from "../assets/icons/roster.svg";
 import { CreateNewTeamFormData } from "../interfaces/FormData";
 
 const CreateNewTeamPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -32,23 +29,15 @@ const CreateNewTeamPage = (): JSX.Element => {
     level,
     division,
   }: CreateNewTeamFormData) => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
     if (!eligibility || !level || !division) return;
 
     try {
-      await axiosPrivate.post(
-        "/teams",
-        {
-          name,
-          eligibility,
-          level,
-          division,
-        },
-        {
-          headers,
-          withCredentials: true,
-        }
-      );
+      await axiosPrivate.post("/teams", {
+        name,
+        eligibility,
+        level,
+        division,
+      });
       navigate("../:userId/overview");
     } catch (err) {
       console.log(err);
