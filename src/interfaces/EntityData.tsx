@@ -22,7 +22,6 @@ export interface SingleTeamLineupData {
   id: string;
   name: string;
   teamId: string;
-  athletes: any;
 }
 
 export interface RosterData {

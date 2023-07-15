@@ -6,20 +6,26 @@ export interface LoginFormData {
 }
 
 export interface CreateNewTeamFormData {
-    name: string;
-    division: string;
-    level: string;
-    eligibility: string;
-  }
+  name: string;
+  division: string;
+  level: string;
+  eligibility: string;
+}
 
 export interface CreateNewAthleteFormData {
-    teamId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    eligibility: "O" | "W" | null;
-    paddleSide: "L" | "R" | "B" | "N" | null;
-    weight: string | null;
-    paddlerSkills: PaddlerSkills;
-    notes: string;
-  }
+  teamId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  eligibility: "O" | "W" | null;
+  paddleSide: "L" | "R" | "B" | "N" | null;
+  weight: string | null;
+  paddlerSkills: PaddlerSkills;
+  notes: string;
+}
+
+export interface CreateNewLineupFormData {
+  activeLineup: string;
+  lineupName: string;
+  boatOrder: (string | null)[];
+}

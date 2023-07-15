@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData } from "../interfaces/EntityData";
+import { useForm } from "react-hook-form";
+import { CreateNewLineupFormData } from "../interfaces/FormData";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
@@ -10,23 +12,65 @@ const LineupsPage = (): JSX.Element => {
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
 
-  //  get all lineups (w/o athletes) from team first
-  //  once lineups are obtained, populate select dropdown list
-  //  when a lineup is chosen in dropdown list, make api request to get all athletes
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateNewLineupFormData>({
+    defaultValues: {
+      activeLineup: "",
+      lineupName: "",
+      boatOrder: [],
+    },
+  });
 
   useEffect(() => {
+    //  get all lineups from team for dropdown list
     const getLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data);
-        console.log(data)
+        console.log(data);
       } catch (err: any) {
         logoutRedirect("/login");
       }
     };
 
+    //  get all athletesm from team to populate roster section
+    const getAthletes = async () => {};
+
     getLineups();
+    getAthletes();
   }, []);
+
+  const handleFormSubmit = async ({
+    activeLineup,
+    lineupName,
+    boatOrder,
+  }: CreateNewLineupFormData) => {
+    //  Return if no lineup name and no active lineup selected
+    console.log(activeLineup);
+    console.log(lineupName);
+
+    // const getLineupAthletes = async () => {
+    //   try {
+    //     const { data } = await axiosPrivate.get(`teams/${teamId}/athletes`);
+    //     console.log(data);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+
+    //   //  Create new lineup
+    //   try {
+    //     //  when a lineup is chosen in dropdown list, make api request to get all lineup athletes
+    //     //  API POST Request
+    //   } catch (err) {}
+
+    //   //  Update existing lineup
+    //   try {
+    //     //  API PUT request
+    //   } catch (err) {}
+  };
 
   return (
     <>
@@ -35,24 +79,66 @@ const LineupsPage = (): JSX.Element => {
           <h1>Lineups</h1>
 
           {teamLineups && teamLineups.lineups && (
-            <p className="text-black">
+            <p className="text-black" key={teamLineups.lineups.id}>
               Total: {teamLineups.lineups.length} lineup
               {teamLineups.lineups.length !== 1 && `s`}
             </p>
           )}
         </div>
+      </div>
 
-        <Link
-          to={`../:userId/lineups/${teamId}/new`}
+      <form
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className="flex flex-col p-2 tablet:p-6 max-w-[448px] bg-white border border-gray-border rounded-t w-full"
+      >
+        <div className="flex flex-col mb-4">
+          <label htmlFor="activeLineup">
+            <h3 className="text-blue-light">Active Lineup</h3>
+          </label>
+          <select
+            {...register("activeLineup")}
+            name="activeLineup"
+            id="activeLineup"
+            defaultValue={"select"}
+            className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+          >
+            <option value="select">Select lineup</option>
+            <option value="new">New lineup</option>
+            {teamLineups &&
+              teamLineups.lineups &&
+              teamLineups.lineups.map((lineup) => {
+                return <option value={lineup.id}>{lineup.name}</option>;
+              })}
+          </select>
+        </div>
+
+        <label htmlFor="lineupName">
+          <h3 className="text-blue-light">Lineup Name</h3>
+        </label>
+        <input
+          {...register("lineupName", {
+            required: {
+              value: true,
+              message: "Lineup name field can't be empty!",
+            },
+          })}
+          type="text"
+          id="lineupName"
+          name="lineupName"
+          placeholder="Input lineup name"
+          className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+        />
+        {errors.lineupName && (
+          <p className="text-red-500">{errors.lineupName.message}</p>
+        )}
+
+        <button
+          type="submit"
           className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
         >
           Save Lineup
-        </Link>
-      </div>
-
-      {/* To-do Part 1 - Page Setup */}
-      {/* Drop Down list for lineup selection */}
-      {/* Dragonboat overhead view - 1 x 1 centered box, 2 x 10 grid, 1 x 1 box */}
+        </button>
+      </form>
 
       {/* To-do Part 2 - Mobile View Card */}
       {/* Modal with side tab - contains all team athletes */}
