@@ -1,13 +1,17 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData } from "../interfaces/EntityData";
 import { useForm } from "react-hook-form";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
+import rosterIcon from "../assets/icons/roster.svg";
+import chevronIconRight from "../assets/icons/chevron-right.svg";
+import chevronIconLeft from "../assets/icons/chevron-left.svg";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -72,8 +76,13 @@ const LineupsPage = (): JSX.Element => {
     //   } catch (err) {}
   };
 
+  const handleToggleModal = () => {
+    console.log("Modal Toggled!");
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
-    <>
+    <div className="">
       <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Lineups</h1>
@@ -89,7 +98,7 @@ const LineupsPage = (): JSX.Element => {
 
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
-        className="flex flex-col p-2 tablet:p-6 max-w-[448px] bg-white border border-gray-border rounded-t w-full"
+        className="flex flex-col p-2 mb-2 tablet:p-6 max-w-[448px] mx-auto bg-white border border-gray-border rounded-t w-full"
       >
         <div className="flex flex-col mb-4">
           <label htmlFor="activeLineup">
@@ -140,6 +149,18 @@ const LineupsPage = (): JSX.Element => {
         </button>
       </form>
 
+      <div
+        className="p-2 absolute bottom-[10%] left-0 border border-black rounded-r-lg bg-blue-wavy cursor-pointer"
+        onClick={handleToggleModal}
+      >
+        <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />
+        <img
+          src={isModalOpen ? chevronIconRight : chevronIconLeft}
+          alt={`Chevron ${isModalOpen ? chevronIconRight : chevronIconLeft}`}
+          className="w-4 h-8 inline"
+        />
+      </div>
+
       {/* To-do Part 2 - Mobile View Card */}
       {/* Modal with side tab - contains all team athletes */}
       {/* Modal will be drag + drop enabled with floating tab on bottom left, can also scroll independent from page */}
@@ -155,7 +176,7 @@ const LineupsPage = (): JSX.Element => {
       {/* Dragonboat size expands up to a fixed width ~ 50% of container */}
       {/* Roster list starts off as single column of tiles, then double column of tiles, then list of athletes with tiles + stats */}
       {/* container max-width at 1280px, horizontal auto-margins */}
-    </>
+    </div>
   );
 };
 
