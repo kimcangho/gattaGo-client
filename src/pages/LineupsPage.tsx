@@ -5,17 +5,15 @@ import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
-import LineupAthleteItem from "../components/LineupAthleteItem";
-import rosterIcon from "../assets/icons/roster.svg";
-import chevronIconRight from "../assets/icons/chevron-right.svg";
-import chevronIconLeft from "../assets/icons/chevron-left.svg";
 import DragonBoatSeating from "../components/DragonBoatSeating";
+import LineupModalButton from "../components/LineupModalButton";
+import LineupPanel from "../components/LineupPanel";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
   const [isLineupActive, setIsLineupActive] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [rosterAthletes, setRosterAthletes] = useState([]);
+  const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -64,7 +62,7 @@ const LineupsPage = (): JSX.Element => {
   const handleFormSubmit = async ({
     activeLineup,
     lineupName,
-    boatOrder,
+    // boatOrder,
   }: CreateNewLineupFormData) => {
     //  Return if no lineup name and no active lineup selected
     console.log(activeLineup);
@@ -196,63 +194,12 @@ const LineupsPage = (): JSX.Element => {
 
       <DragonBoatSeating />
 
-      {/* Modal Button */}
-      <div
-        className={`p-2 fixed bottom-[8.25%] ${
-          isModalOpen ? "right-0" : "left-0"
-        }  border border-black rounded-r-lg ${
-          !isLineupActive
-            ? `bg-gray-border cursor-not-allowed opacity-50`
-            : `bg-blue-wavy ${
-                isModalOpen ? "hover:bg-orange-light" : "hover:bg-green-light"
-              } cursor-pointer`
-        }`}
-        onClick={handleToggleModal}
-      >
-        {!isModalOpen && (
-          <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />
-        )}
-        <img
-          src={isModalOpen ? chevronIconLeft : chevronIconRight}
-          alt={`Chevron ${isModalOpen ? chevronIconLeft : chevronIconRight}`}
-          className="w-4 h-8 inline"
-        />
-      </div>
-
-      {/* Mobile View Modal */}
-
-      {isModalOpen && (
-        <div className="bg-white inline-block fixed top-[13rem] w-[calc(100%-41px)] h-[calc(90%-12rem)] overflow-auto p-2">
-          <div className="flex justify-between items-center">
-            <div className="text-black mb-2">
-              <h1>Roster</h1>
-              <p className="text-black">
-                Total: {rosterAthletes.length} paddler
-                {rosterAthletes.length !== 1 && `s`}
-              </p>
-            </div>
-            <div className="flex flex-col w-auto text-black font-bold space-y-2 my-4">
-              <p className=" bg-gray-border rounded-3xl w-24 tablet:mt-2 text-center">
-                PaddleSide
-              </p>
-              <p className="bg-green-light px-2 rounded-3xl tablet:mt-2 text-center">
-                Eligibility
-              </p>
-            </div>
-          </div>
-          {/* map lineup athletes from roster list */}
-          {rosterAthletes &&
-            rosterAthletes.map(({ athlete }: RosterData) => {
-              return (
-                <LineupAthleteItem
-                  key={athlete.id}
-                  athlete={athlete}
-                  athleteId={athlete.id}
-                />
-              );
-            })}
-        </div>
-      )}
+      {isModalOpen && <LineupPanel rosterAthletes={rosterAthletes} />}
+      <LineupModalButton
+        isModalOpen={isModalOpen}
+        isLineupActive={isLineupActive}
+        handleToggleModal={handleToggleModal}
+      />
 
       {/* To-do Part 2 - Mobile View Card */}
       {/* Modal with side tab - contains all team athletes */}
