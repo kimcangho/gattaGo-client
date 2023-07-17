@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
@@ -7,16 +7,14 @@ import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
 import DragonBoatSeating from "../components/DragonBoatSeating";
-import LineupModalButton from "../components/LineupModalButton";
-import LineupPanel from "../components/LineupPanel";
 
 const LineupsPage = (): JSX.Element => {
-  const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
+  const [teamLineups, setTeamLineups] = useState<LineupData | {} | null>(null);
   const [isLineupActive, setIsLineupActive] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
-  const { width }: number = useWindowSize();
+  const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
 
@@ -85,7 +83,7 @@ const LineupsPage = (): JSX.Element => {
   };
 
   const handleLineupStatus = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
     if (event.target.value === "select") {
       setValue("lineupName", "");
@@ -110,7 +108,6 @@ const LineupsPage = (): JSX.Element => {
       <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto mt-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Lineups</h1>
-
           {/* @ts-ignore */}
           {teamLineups && teamLineups.lineups && (
             <p className="text-black">
@@ -187,17 +184,13 @@ const LineupsPage = (): JSX.Element => {
         )}
       </form>
 
-      <DragonBoatSeating />
-
-      {isModalOpen && (
-        <LineupPanel width={width} rosterAthletes={rosterAthletes} />
-      )}
-      <LineupModalButton
+      <DragonBoatSeating
         width={width}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         isLineupActive={isLineupActive}
         handleToggleModal={handleToggleModal}
+        rosterAthletes={rosterAthletes}
       />
 
       {/* To-do Part 2 - Mobile View Card */}

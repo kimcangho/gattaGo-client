@@ -1,7 +1,26 @@
+import LineupPanel from "./LineupPanel";
+import LineupModalButton from "./LineupModalButton";
 import Seat from "./Seat";
+import { RosterData } from "../interfaces/EntityData";
 import { dragonBoatArr } from "../data/dragonBoatArr";
 
-const DragonBoatSeating = () => {
+interface DragonBoatSeatingProps {
+  width: number | undefined;
+  isModalOpen: boolean;
+  setIsModalOpen: Function;
+  isLineupActive: boolean;
+  handleToggleModal: Function;
+  rosterAthletes: RosterData[];
+}
+
+const DragonBoatSeating = ({
+  width,
+  isModalOpen,
+  setIsModalOpen,
+  isLineupActive,
+  handleToggleModal,
+  rosterAthletes,
+}: DragonBoatSeatingProps) => {
   return (
     <div className="desktop:max-w-[1280px] mx-auto bg-white border rounded-md border-gray-border">
       {/* Dragonboat Section */}
@@ -22,6 +41,16 @@ const DragonBoatSeating = () => {
         <h3 className="text-center">Back</h3>
       </div>
       {/* To-do: Roster Section */}
+      {(isModalOpen || width! >= 448) && (
+        <LineupPanel rosterAthletes={rosterAthletes} />
+      )}
+      <LineupModalButton
+        width={width}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        isLineupActive={isLineupActive}
+        handleToggleModal={handleToggleModal}
+      />
     </div>
   );
 };

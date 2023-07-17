@@ -4,7 +4,7 @@ import chevronIconRight from "../assets/icons/chevron-right.svg";
 import chevronIconLeft from "../assets/icons/chevron-left.svg";
 
 interface LineupModalButtonProps {
-  width: number;
+  width: number | undefined;
   isModalOpen: boolean;
   setIsModalOpen: Function;
   isLineupActive: boolean;
@@ -19,7 +19,7 @@ const LineupModalButton = ({
   handleToggleModal,
 }: LineupModalButtonProps) => {
   useEffect(() => {
-    if (width > 448) setIsModalOpen(false);
+    if (width! > 448) setIsModalOpen(false);
   }, [width]);
 
   return (
