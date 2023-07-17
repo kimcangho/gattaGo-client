@@ -9,6 +9,7 @@ import LineupAthleteItem from "../components/LineupAthleteItem";
 import rosterIcon from "../assets/icons/roster.svg";
 import chevronIconRight from "../assets/icons/chevron-right.svg";
 import chevronIconLeft from "../assets/icons/chevron-left.svg";
+import DragonBoatSeating from "../components/DragonBoatSeating";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
@@ -111,7 +112,7 @@ const LineupsPage = (): JSX.Element => {
   };
 
   return (
-    <div className="">
+    <div>
       <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Lineups</h1>
@@ -185,6 +186,9 @@ const LineupsPage = (): JSX.Element => {
           </>
         )}
       </form>
+
+      <DragonBoatSeating />
+
       {/* Modal Button */}
       <div
         className={`p-2 absolute bottom-[10%] ${
@@ -211,7 +215,6 @@ const LineupsPage = (): JSX.Element => {
       {/* Mobile View Modal */}
 
       {isModalOpen && (
-        // <div className="bg-slate-400 fixed top-[12rem] w-[calc(100%-41px)] h-[calc(90%-12rem)]">
         <div className="bg-white inline-block fixed top-[13rem] w-[calc(100%-41px)] h-[calc(90%-12rem)] overflow-auto p-2">
           <div className="flex justify-between items-center">
             <div className="text-black mb-2">
@@ -242,7 +245,6 @@ const LineupsPage = (): JSX.Element => {
               );
             })}
         </div>
-        // </div>
       )}
 
       {/* To-do Part 2 - Mobile View Card */}
