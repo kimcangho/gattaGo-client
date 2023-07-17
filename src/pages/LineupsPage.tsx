@@ -117,14 +117,18 @@ const LineupsPage = (): JSX.Element => {
         <div className="mb-4">
           <h1>Lineups</h1>
 
+          {/* @ts-ignore */}
           {teamLineups && teamLineups.lineups && (
             <p className="text-black">
+              {/* @ts-ignore */}
               Total: {teamLineups.lineups.length} lineup
+              {/* @ts-ignore */}
               {teamLineups.lineups.length !== 1 && `s`}
             </p>
           )}
         </div>
       </div>
+
       <form
         onSubmit={handleSubmit(handleFormSubmit)}
         className="flex flex-col p-2 mb-2 tablet:p-6 max-w-[448px] mx-auto bg-white border border-gray-border rounded-t w-full"
@@ -139,12 +143,15 @@ const LineupsPage = (): JSX.Element => {
             id="activeLineup"
             defaultValue={"select"}
             className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+            // @ts-ignore
             onChange={handleLineupStatus}
           >
             <option value="select">Select lineup</option>
             <option value="new">New lineup</option>
             {teamLineups &&
+              // @ts-ignore
               teamLineups.lineups &&
+              // @ts-ignore
               teamLineups.lineups.map((lineup) => {
                 return (
                   <option key={lineup.id} value={lineup.name}>
@@ -191,7 +198,7 @@ const LineupsPage = (): JSX.Element => {
 
       {/* Modal Button */}
       <div
-        className={`p-2 absolute bottom-[10%] ${
+        className={`p-2 fixed bottom-[8.25%] ${
           isModalOpen ? "right-0" : "left-0"
         }  border border-black rounded-r-lg ${
           !isLineupActive
