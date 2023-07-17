@@ -13,6 +13,7 @@ const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {}>({});
   const [isLineupActive, setIsLineupActive] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [rosterAthletes, setRosterAthletes] = useState([]);
   const { teamId } = useParams<string>();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -38,12 +39,21 @@ const LineupsPage = (): JSX.Element => {
         setTeamLineups(data);
         console.log(data);
       } catch (err: any) {
+        console.log(err);
         logoutRedirect("/login");
       }
     };
 
     //  get all athletesm from team to populate roster section
-    const getAthletes = async () => {};
+    const getAthletes = async () => {
+      try {
+        const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`);
+        setRosterAthletes(data);
+        console.log(data);
+      } catch (err: any) {
+        console.log(err);
+      }
+    };
 
     getLineups();
     getAthletes();
@@ -180,24 +190,33 @@ const LineupsPage = (): JSX.Element => {
           isModalOpen ? "right-0" : "left-0"
         }  border border-black rounded-r-lg ${
           !isLineupActive
-            ? "bg-gray-border cursor-not-allowed opacity-50"
-            : "bg-blue-wavy cursor-pointer"
+            ? `bg-gray-border cursor-not-allowed opacity-50`
+            : `bg-blue-wavy ${
+                isModalOpen ? "hover:bg-orange-light" : "hover:bg-green-light"
+              } cursor-pointer`
         }`}
         onClick={handleToggleModal}
       >
-        {!isModalOpen && <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />}
+        {!isModalOpen && (
+          <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />
+        )}
         <img
           src={isModalOpen ? chevronIconLeft : chevronIconRight}
           alt={`Chevron ${isModalOpen ? chevronIconLeft : chevronIconRight}`}
           className="w-4 h-8 inline"
         />
       </div>
+
       {/* Mobile View Modal */}
 
       {isModalOpen && (
-        <div className="bg-slate-400 fixed top-[15%]">
-          <div className="bg-white">
+        <div className="bg-slate-400 fixed top-[12rem] w-[calc(100%-41px)] h-[calc(90%-12rem)]">
+          <div className="bg-white inline-block">
             <h3>Roster</h3>
+            {/* map lineup athletes from roster list */}
+            {rosterAthletes.map((_athlete) => {
+              return <p>Athlete</p>;
+            })}
           </div>
         </div>
       )}
