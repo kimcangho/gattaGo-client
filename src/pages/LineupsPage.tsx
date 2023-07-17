@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData, RosterData } from "../interfaces/EntityData";
@@ -15,6 +16,7 @@ const LineupsPage = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
+  const { width }: number = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
 
@@ -55,15 +57,13 @@ const LineupsPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  const handleFormSubmit = async ({
-    activeLineup,
-    lineupName,
-  }: // boatOrder,
+  const handleFormSubmit = async ({}: // activeLineup,
+  // lineupName,
+  // boatOrder,
   CreateNewLineupFormData) => {
     //  Return if no lineup name and no active lineup selected
-    console.log(activeLineup);
-    console.log(lineupName);
-
+    if (!isLineupActive) return;
+    console.log("Save function");
     // const getLineupAthletes = async () => {
     //   try {
     //     const { data } = await axiosPrivate.get(`teams/${teamId}/athletes`);
@@ -122,16 +122,16 @@ const LineupsPage = (): JSX.Element => {
           )}
         </div>
         <button
-          // type="submit"
           onClick={handleSubmit(handleFormSubmit)}
-          className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
+          className={`${
+            isLineupActive
+              ? `bg-green-light hover:bg-green-dark  border-green-dark`
+              : `bg-gray-border cursor-not-allowed`
+          }  text-white p-2 rounded border`}
         >
           Save Lineup
         </button>
-        {/* className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white" */}
       </div>
-
-      {/* Lineups */}
 
       <form className="flex flex-col midMobile:flex-row p-2 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
         <div className="flex flex-col mb-4 midMobile:w-[50%]">
@@ -189,9 +189,13 @@ const LineupsPage = (): JSX.Element => {
 
       <DragonBoatSeating />
 
-      {isModalOpen && <LineupPanel rosterAthletes={rosterAthletes} />}
+      {isModalOpen && (
+        <LineupPanel width={width} rosterAthletes={rosterAthletes} />
+      )}
       <LineupModalButton
+        width={width}
         isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
         isLineupActive={isLineupActive}
         handleToggleModal={handleToggleModal}
       />
