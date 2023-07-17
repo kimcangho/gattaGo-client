@@ -3,7 +3,7 @@ import { dragonBoatArr } from "../data/dragonBoatArr";
 
 const DragonBoatSeating = () => {
   return (
-    <div className="bg-white border rounded-md border-gray-border">
+    <div className="desktop:max-w-[1280px] mx-auto bg-white border rounded-md border-gray-border">
       <h1 className="text-center">Boat Order</h1>
       <div>
         {dragonBoatArr.map((_row: number, index: number) => {

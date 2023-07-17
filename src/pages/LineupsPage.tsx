@@ -32,24 +32,20 @@ const LineupsPage = (): JSX.Element => {
   });
 
   useEffect(() => {
-    //  get all lineups from team for dropdown list
     const getLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data);
-        console.log(data);
       } catch (err: any) {
         console.log(err);
         logoutRedirect("/login");
       }
     };
 
-    //  get all athletesm from team to populate roster section
     const getAthletes = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`);
         setRosterAthletes(data);
-        console.log(data);
       } catch (err: any) {
         console.log(err);
       }
@@ -62,8 +58,8 @@ const LineupsPage = (): JSX.Element => {
   const handleFormSubmit = async ({
     activeLineup,
     lineupName,
-    // boatOrder,
-  }: CreateNewLineupFormData) => {
+  }: // boatOrder,
+  CreateNewLineupFormData) => {
     //  Return if no lineup name and no active lineup selected
     console.log(activeLineup);
     console.log(lineupName);
@@ -111,7 +107,7 @@ const LineupsPage = (): JSX.Element => {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0 overflow-hidden">
+      <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto mt-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Lineups</h1>
 
@@ -125,13 +121,20 @@ const LineupsPage = (): JSX.Element => {
             </p>
           )}
         </div>
+        <button
+          // type="submit"
+          onClick={handleSubmit(handleFormSubmit)}
+          className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
+        >
+          Save Lineup
+        </button>
+        {/* className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white" */}
       </div>
 
-      <form
-        onSubmit={handleSubmit(handleFormSubmit)}
-        className="flex flex-col p-2 mb-2 tablet:p-6 max-w-[448px] mx-auto bg-white border border-gray-border rounded-t w-full"
-      >
-        <div className="flex flex-col mb-4">
+      {/* Lineups */}
+
+      <form className="flex flex-col midMobile:flex-row p-2 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+        <div className="flex flex-col mb-4 midMobile:w-[50%]">
           <label htmlFor="activeLineup">
             <h3 className="text-blue-light">Active Lineup</h3>
           </label>
@@ -140,8 +143,7 @@ const LineupsPage = (): JSX.Element => {
             name="activeLineup"
             id="activeLineup"
             defaultValue={"select"}
-            className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-            // @ts-ignore
+            className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             onChange={handleLineupStatus}
           >
             <option value="select">Select lineup</option>
@@ -161,7 +163,7 @@ const LineupsPage = (): JSX.Element => {
         </div>
 
         {isLineupActive && (
-          <>
+          <div className="flex flex-col midMobile:w-[50%]">
             <label htmlFor="lineupName">
               <h3 className="text-blue-light">Lineup Name</h3>
             </label>
@@ -181,14 +183,7 @@ const LineupsPage = (): JSX.Element => {
             {errors.lineupName && (
               <p className="text-red-500">{errors.lineupName.message}</p>
             )}
-
-            <button
-              type="submit"
-              className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
-            >
-              Save Lineup
-            </button>
-          </>
+          </div>
         )}
       </form>
 
