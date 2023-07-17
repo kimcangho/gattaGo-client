@@ -185,7 +185,7 @@ const LineupsPage = (): JSX.Element => {
         }`}
         onClick={handleToggleModal}
       >
-        <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />
+        {!isModalOpen && <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />}
         <img
           src={isModalOpen ? chevronIconLeft : chevronIconRight}
           alt={`Chevron ${isModalOpen ? chevronIconLeft : chevronIconRight}`}
