@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import { LineupData } from "../interfaces/EntityData";
-import { useForm } from "react-hook-form";
+import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
+import LineupAthleteItem from "../components/LineupAthleteItem";
 import rosterIcon from "../assets/icons/roster.svg";
 import chevronIconRight from "../assets/icons/chevron-right.svg";
 import chevronIconLeft from "../assets/icons/chevron-left.svg";
@@ -116,7 +117,7 @@ const LineupsPage = (): JSX.Element => {
           <h1>Lineups</h1>
 
           {teamLineups && teamLineups.lineups && (
-            <p className="text-black" key={teamLineups.lineups.id}>
+            <p className="text-black">
               Total: {teamLineups.lineups.length} lineup
               {teamLineups.lineups.length !== 1 && `s`}
             </p>
@@ -210,15 +211,38 @@ const LineupsPage = (): JSX.Element => {
       {/* Mobile View Modal */}
 
       {isModalOpen && (
-        <div className="bg-slate-400 fixed top-[12rem] w-[calc(100%-41px)] h-[calc(90%-12rem)]">
-          <div className="bg-white inline-block">
-            <h3>Roster</h3>
-            {/* map lineup athletes from roster list */}
-            {rosterAthletes.map((_athlete) => {
-              return <p>Athlete</p>;
-            })}
+        // <div className="bg-slate-400 fixed top-[12rem] w-[calc(100%-41px)] h-[calc(90%-12rem)]">
+        <div className="bg-white inline-block fixed top-[13rem] w-[calc(100%-41px)] h-[calc(90%-12rem)] overflow-auto p-2">
+          <div className="flex justify-between items-center">
+            <div className="text-black mb-2">
+              <h1>Roster</h1>
+              <p className="text-black">
+                Total: {rosterAthletes.length} paddler
+                {rosterAthletes.length !== 1 && `s`}
+              </p>
+            </div>
+            <div className="flex flex-col w-auto text-black font-bold space-y-2 my-4">
+              <p className=" bg-gray-border rounded-3xl w-24 tablet:mt-2 text-center">
+                PaddleSide
+              </p>
+              <p className="bg-green-light px-2 rounded-3xl tablet:mt-2 text-center">
+                Eligibility
+              </p>
+            </div>
           </div>
+          {/* map lineup athletes from roster list */}
+          {rosterAthletes &&
+            rosterAthletes.map(({ athlete }: RosterData) => {
+              return (
+                <LineupAthleteItem
+                  key={athlete.id}
+                  athlete={athlete}
+                  athleteId={athlete.id}
+                />
+              );
+            })}
         </div>
+        // </div>
       )}
 
       {/* To-do Part 2 - Mobile View Card */}
@@ -230,6 +254,7 @@ const LineupsPage = (): JSX.Element => {
       {/* Tab visible in mobile from 320px to 448px */}
       {/* Dragonboat and tiles expand from 320px to 448 px */}
       {/* From 448px to 768px, can now bring unhide modal and move to right side as column of tiles */}
+
       {/* To-do Part 3 - Tablet + Desktop Views */}
       {/* from 768px to 1280 px, show fixed dragonboat on left and roster list on right @ 50% width share */}
       {/* Dragonboat size expands up to a fixed width ~ 50% of container */}
