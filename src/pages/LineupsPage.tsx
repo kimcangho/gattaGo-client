@@ -10,7 +10,6 @@ import DragonBoatSeating from "../components/DragonBoatSeating";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {} | null>(null);
-  const [isLineupActive, setIsLineupActive] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
@@ -60,7 +59,6 @@ const LineupsPage = (): JSX.Element => {
   // boatOrder,
   CreateNewLineupFormData) => {
     //  Return if no lineup name and no active lineup selected
-    if (!isLineupActive) return;
     console.log("Save function");
     // const getLineupAthletes = async () => {
     //   try {
@@ -85,21 +83,18 @@ const LineupsPage = (): JSX.Element => {
   const handleLineupStatus = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    if (event.target.value === "select") {
+    // if (event.target.value === "select") {
+    //   setValue("lineupName", "");
+    //   setIsModalOpen(false);
+    // } else
+    if (event.target.value === "new") {
       setValue("lineupName", "");
-      setIsModalOpen(false);
-      setIsLineupActive(false);
-    } else if (event.target.value === "new") {
-      setValue("lineupName", "");
-      setIsLineupActive(true);
     } else {
       setValue("lineupName", event.target.value);
-      setIsLineupActive(true);
     }
   };
 
   const handleToggleModal = (): void => {
-    if (!isLineupActive) return;
     setIsModalOpen((prev) => !prev);
   };
 
@@ -120,11 +115,7 @@ const LineupsPage = (): JSX.Element => {
         </div>
         <button
           onClick={handleSubmit(handleFormSubmit)}
-          className={`${
-            isLineupActive
-              ? `bg-green-light hover:bg-green-dark  border-green-dark`
-              : `bg-gray-border cursor-not-allowed`
-          }  text-white p-2 rounded border`}
+          className="bg-green-light hover:bg-green-dark border-green-dark text-white p-2 rounded border"
         >
           Save Lineup
         </button>
@@ -143,7 +134,9 @@ const LineupsPage = (): JSX.Element => {
             className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             onChange={handleLineupStatus}
           >
-            <option value="select">Select lineup</option>
+            <option disabled value="select">
+              Select lineup
+            </option>
             <option value="new">New lineup</option>
             {teamLineups &&
               // @ts-ignore
@@ -159,36 +152,33 @@ const LineupsPage = (): JSX.Element => {
           </select>
         </div>
 
-        {isLineupActive && (
-          <div className="flex flex-col midMobile:w-[50%]">
-            <label htmlFor="lineupName">
-              <h3 className="text-blue-light">Lineup Name</h3>
-            </label>
-            <input
-              {...register("lineupName", {
-                required: {
-                  value: true,
-                  message: "Lineup name field can't be empty!",
-                },
-              })}
-              type="text"
-              id="lineupName"
-              name="lineupName"
-              placeholder="Input lineup name"
-              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-            />
-            {errors.lineupName && (
-              <p className="text-red-500">{errors.lineupName.message}</p>
-            )}
-          </div>
-        )}
+        <div className="flex flex-col midMobile:w-[50%]">
+          <label htmlFor="lineupName">
+            <h3 className="text-blue-light">Lineup Name</h3>
+          </label>
+          <input
+            {...register("lineupName", {
+              required: {
+                value: true,
+                message: "Lineup name field can't be empty!",
+              },
+            })}
+            type="text"
+            id="lineupName"
+            name="lineupName"
+            placeholder="Input lineup name"
+            className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+          />
+          {errors.lineupName && (
+            <p className="text-red-500">{errors.lineupName.message}</p>
+          )}
+        </div>
       </form>
 
       <DragonBoatSeating
         width={width}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        isLineupActive={isLineupActive}
         handleToggleModal={handleToggleModal}
         rosterAthletes={rosterAthletes}
       />

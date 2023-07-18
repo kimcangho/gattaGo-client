@@ -3,44 +3,50 @@ import { RosterData } from "../interfaces/EntityData";
 
 interface LineupPanelProps {
   rosterAthletes: RosterData[];
+  width: number | undefined;
 }
 
-const LineupPanel = ({ rosterAthletes }: LineupPanelProps) => {
+const LineupPanel = ({ rosterAthletes, width }: LineupPanelProps) => {
   return (
-    <>
-      {/* {width! < 448 && ( */}
-      <div className="bg-white inline-block border border-black fixed top-[13rem] left-0 w-[calc(100%-32px)] h-[calc(90%-12rem-0.5px)] overflow-auto p-2">
-        <div className="flex justify-between items-center">
-          <div className="text-black mb-2">
-            <h1>Roster</h1>
-            <p className="text-black">
-              Total: {rosterAthletes.length} paddler
-              {rosterAthletes.length !== 1 && `s`}
-            </p>
-          </div>
-          <div className="flex flex-col w-auto text-black font-bold space-y-2 my-4">
-            <p className=" bg-gray-border rounded-3xl w-24 tablet:mt-2 text-center">
-              PaddleSide
-            </p>
-            <p className="bg-green-light px-2 rounded-3xl tablet:mt-2 text-center">
-              Eligibility
-            </p>
-          </div>
+    <div className="bg-white flex-1 inline-block border tablet:border-none border-gray-border shadow-md tablet:shadow-none fixed top-[7rem] left-0 tablet:static w-[calc(100%-1.5rem)] tablet:w-full h-[calc(90%-4rem-0.5px)] overflow-auto max-h-[80rem] p-2">
+      <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
+        <div className="text-black mb-2">
+          <h1>Roster</h1>
+          <p className="text-black">
+            Total: {rosterAthletes.length} paddler
+            {rosterAthletes.length !== 1 && `s`}
+          </p>
         </div>
-        {/* map lineup athletes from roster list */}
-        {rosterAthletes &&
-          rosterAthletes.map(({ athlete }: RosterData) => {
-            return (
-              <LineupAthleteItem
-                key={athlete.id}
-                athlete={athlete}
-                athleteId={athlete.id}
-              />
-            );
-          })}
+        <div className="flex space-x-2 w-auto text-black font-bold mb-4">
+          <p className="h-fit bg-gray-border rounded-3xl w-24 tablet:mt-2 text-center">
+            Side
+          </p>
+          <p className="bg-green-light px-2 rounded-3xl tablet:mt-2 text-center h-fit">
+            Eligibility
+          </p>
+          <p className="bg-orange-light px-2 rounded-3xl tablet:mt-2 text-center h-fit">
+            Weight
+          </p>
+          {width! >= 448 && (
+            <p className="bg-blue-wavy px-2 rounded-3xl tablet:mt-2 text-center h-fit">
+              Skill
+            </p>
+          )}
+        </div>
       </div>
-      {/* )} */}
-    </>
+
+      {rosterAthletes &&
+        rosterAthletes.map(({ athlete }: RosterData) => {
+          return (
+            <LineupAthleteItem
+              key={athlete.id}
+              width={width}
+              athlete={athlete}
+              athleteId={athlete.id}
+            />
+          );
+        })}
+    </div>
   );
 };
 
