@@ -59,9 +59,12 @@ const LineupAthleteItem = ({
                 .filter(([key, value]) => {
                   return value && key !== "id" && key !== "athleteId";
                 })
-                .map(([key]) => {
+                .map(([key], index) => {
                   return (
-                    <p className="font-normal inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 text-center break-keep">
+                    <p
+                      key={index}
+                      className="font-normal inline-block bg-blue-wavy px-2 py-1 rounded-3xl mx-2 text-center break-keep"
+                    >
                       {convertPaddlerSkillToField(key, 2)}
                     </p>
                   );
