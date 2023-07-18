@@ -25,7 +25,7 @@ export interface CreateNewAthleteFormData {
 }
 
 export interface CreateNewLineupFormData {
-  activeLineup: string;
+  activeLineupName: string;
   lineupName: string;
   boatOrder: (string | null)[];
 }

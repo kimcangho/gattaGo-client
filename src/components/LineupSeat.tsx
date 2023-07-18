@@ -2,7 +2,7 @@ interface SeatProps {
   seat: number;
 }
 
-const Seat = ({ seat }: SeatProps) => {
+const LineupSeat = ({ seat }: SeatProps) => {
   return (
     <>
       {seat > 0 && seat < 11 ? (
@@ -38,4 +38,4 @@ const Seat = ({ seat }: SeatProps) => {
   );
 };
 
-export default Seat;
+export default LineupSeat;

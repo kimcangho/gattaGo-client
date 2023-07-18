@@ -6,7 +6,7 @@ import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
-import DragonBoatSeating from "../components/DragonBoatSeating";
+import LineupBoatSection from "../components/LineupBoatSection";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {} | null>(null);
@@ -24,7 +24,7 @@ const LineupsPage = (): JSX.Element => {
     formState: { errors },
   } = useForm<CreateNewLineupFormData>({
     defaultValues: {
-      activeLineup: "",
+      activeLineupName: "",
       lineupName: "",
       boatOrder: [],
     },
@@ -54,7 +54,7 @@ const LineupsPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  const handleFormSubmit = async ({}: // activeLineup,
+  const handleFormSubmit = async ({}: // activeLineupName,
   // lineupName,
   // boatOrder,
   CreateNewLineupFormData) => {
@@ -123,13 +123,13 @@ const LineupsPage = (): JSX.Element => {
 
       <form className="flex flex-col midMobile:flex-row p-2 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
         <div className="flex flex-col mb-4 midMobile:w-[50%]">
-          <label htmlFor="activeLineup">
+          <label htmlFor="activeLineupName">
             <h3 className="text-blue-light">Active Lineup</h3>
           </label>
           <select
-            {...register("activeLineup")}
-            name="activeLineup"
-            id="activeLineup"
+            {...register("activeLineupName")}
+            name="activeLineupName"
+            id="activeLineupName"
             defaultValue={"select"}
             className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             onChange={handleLineupStatus}
@@ -175,7 +175,7 @@ const LineupsPage = (): JSX.Element => {
         </div>
       </form>
 
-      <DragonBoatSeating
+      <LineupBoatSection
         width={width}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}

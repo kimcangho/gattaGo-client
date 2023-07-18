@@ -1,6 +1,6 @@
-import LineupPanel from "./LineupPanel";
+import LineupRosterSection from "./LineupRosterSection";
 import LineupModalButton from "./LineupModalButton";
-import Seat from "./Seat";
+import LineupSeat from "./LineupSeat";
 import { RosterData } from "../interfaces/EntityData";
 import { dragonBoatArr } from "../data/dragonBoatArr";
 
@@ -12,7 +12,7 @@ interface DragonBoatSeatingProps {
   rosterAthletes: RosterData[];
 }
 
-const DragonBoatSeating = ({
+const LineupBoatSection = ({
   width,
   isModalOpen,
   setIsModalOpen,
@@ -28,7 +28,7 @@ const DragonBoatSeating = ({
 
           <div className="mx-auto">
             {dragonBoatArr.map((_row: number, index: number) => {
-              return <Seat key={index} seat={index} />;
+              return <LineupSeat key={index} seat={index} />;
             })}
           </div>
 
@@ -38,7 +38,7 @@ const DragonBoatSeating = ({
       </div>
 
       {(isModalOpen || width! >= 768) && (
-        <LineupPanel rosterAthletes={rosterAthletes} width={width} />
+        <LineupRosterSection rosterAthletes={rosterAthletes} width={width} />
       )}
       <LineupModalButton
         width={width}
@@ -50,4 +50,4 @@ const DragonBoatSeating = ({
   );
 };
 
-export default DragonBoatSeating;
+export default LineupBoatSection;

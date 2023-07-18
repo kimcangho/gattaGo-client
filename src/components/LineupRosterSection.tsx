@@ -1,12 +1,12 @@
 import LineupAthleteItem from "./LineupAthleteItem";
 import { RosterData } from "../interfaces/EntityData";
 
-interface LineupPanelProps {
+interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
   width: number | undefined;
 }
 
-const LineupPanel = ({ rosterAthletes, width }: LineupPanelProps) => {
+const LineupRosterSection = ({ rosterAthletes, width }: LineupRosterSectionProps) => {
   return (
     <div className="bg-white flex-1 inline-block border tablet:border-none border-gray-border shadow-md tablet:shadow-none fixed top-[7rem] left-0 tablet:static w-[calc(100%-1.5rem)] tablet:w-full h-[calc(90%-4rem-0.5px)] overflow-auto max-h-[80rem] p-2">
       <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
@@ -50,4 +50,4 @@ const LineupPanel = ({ rosterAthletes, width }: LineupPanelProps) => {
   );
 };
 
-export default LineupPanel;
+export default LineupRosterSection;
