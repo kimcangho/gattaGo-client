@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import LineupRosterSection from "./LineupRosterSection";
 import LineupModalButton from "./LineupModalButton";
 import LineupSeat from "./LineupSeat";
@@ -6,21 +7,57 @@ import { dragonBoatArr } from "../data/dragonBoatArr";
 
 interface DragonBoatSeatingProps {
   width: number | undefined;
-  isModalOpen: boolean;
-  setIsModalOpen: Function;
-  handleToggleModal: Function;
   rosterAthletes: RosterData[];
 }
 
 const LineupBoatSection = ({
   width,
-  isModalOpen,
-  setIsModalOpen,
-  handleToggleModal,
   rosterAthletes,
 }: DragonBoatSeatingProps) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleModalKeyEnter = (event: any) => {
+      if (event.key === "ArrowRight") setIsModalOpen(true);
+    };
+
+    const handleModalKeyExit = (event: any) => {
+      if (
+        event.key === "Backspace" ||
+        event.key === "ArrowLeft" ||
+        event.key === "Escape"
+      )
+        setIsModalOpen(false);
+    };
+
+    const handleModalClickExit = () => {
+      setIsModalOpen(false);
+    };
+
+    if (!isModalOpen) window.addEventListener("keydown", handleModalKeyEnter);
+    else {
+      window.addEventListener("keydown", handleModalKeyExit);
+      window.addEventListener("click", handleModalClickExit);
+    }
+
+    return () => {
+      if (isModalOpen)
+        window.removeEventListener("keydown", handleModalKeyEnter);
+      else {
+        window.removeEventListener("keydown", handleModalKeyExit);
+        window.removeEventListener("click", handleModalClickExit);
+      }
+    };
+  }, [isModalOpen]);
+
+  const handleToggleModal = (): void => {
+    setIsModalOpen((prev) => !prev);
+  };
+
   return (
-    <div className="flex justify-center desktop:max-w-[1280px] max-h-[80rem] mx-auto bg-white border rounded-md border-gray-border flex-2">
+    <div
+      className="flex justify-center desktop:max-w-[1280px] max-h-[80rem] mx-auto bg-white border rounded-md border-gray-border flex-2"
+    >
       <div className="flex flex-col max-w-[408px] tablet:w-[408px] my-4 overflow-auto">
         <h3 className="text-center">Front</h3>
         <div className="flex flex-row items-center max-w-[448px]">

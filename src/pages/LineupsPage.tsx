@@ -10,7 +10,6 @@ import LineupBoatSection from "../components/LineupBoatSection";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {} | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
@@ -83,19 +82,11 @@ const LineupsPage = (): JSX.Element => {
   const handleLineupStatus = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    // if (event.target.value === "select") {
-    //   setValue("lineupName", "");
-    //   setIsModalOpen(false);
-    // } else
     if (event.target.value === "new") {
       setValue("lineupName", "");
     } else {
       setValue("lineupName", event.target.value);
     }
-  };
-
-  const handleToggleModal = (): void => {
-    setIsModalOpen((prev) => !prev);
   };
 
   return (
@@ -177,9 +168,6 @@ const LineupsPage = (): JSX.Element => {
 
       <LineupBoatSection
         width={width}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleToggleModal={handleToggleModal}
         rosterAthletes={rosterAthletes}
       />
 
