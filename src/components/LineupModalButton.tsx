@@ -17,29 +17,33 @@ const LineupModalButton = ({
   handleToggleModal,
 }: LineupModalButtonProps) => {
   useEffect(() => {
-    if (width! >= 768) setIsModalOpen(false);
+    if (width! >= 768) {
+      setIsModalOpen(false);
+    }
   }, [width]);
 
   return (
     <>
       {width! < 768 && (
-        <div
-          className={`p-2 fixed bottom-[8.25%] cursor-pointer shadow-xl ${
-            isModalOpen ? "right-0" : "left-0"
-          } rounded-r-lg ${`bg-blue-wavy ${
-            isModalOpen ? "hover:bg-orange-light" : "hover:bg-green-light"
-          }`}`}
-          onClick={handleToggleModal}
-        >
-          {!isModalOpen && (
-            <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />
-          )}
-          <img
-            src={isModalOpen ? chevronIconLeft : chevronIconRight}
-            alt={`Chevron ${isModalOpen ? chevronIconLeft : chevronIconRight}`}
-            className="w-2 h-8 inline"
-          />
-        </div>
+          <div
+            className={`p-2 fixed bottom-[8.25%] cursor-pointer shadow-xl ${
+              isModalOpen ? "right-0" : "left-0"
+            } rounded-r-lg ${`bg-blue-wavy ${
+              isModalOpen ? "hover:bg-orange-light" : "hover:bg-green-light"
+            }`}`}
+            onClick={handleToggleModal}
+          >
+            {!isModalOpen && (
+              <img src={rosterIcon} alt="Roster Icon" className="w-8 inline" />
+            )}
+            <img
+              src={isModalOpen ? chevronIconLeft : chevronIconRight}
+              alt={`Chevron ${
+                isModalOpen ? chevronIconLeft : chevronIconRight
+              }`}
+              className="w-2 h-8 inline"
+            />
+          </div>
       )}
     </>
   );

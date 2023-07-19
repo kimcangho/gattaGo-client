@@ -10,6 +10,7 @@ import LineupBoatSection from "../components/LineupBoatSection";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {} | null>(null);
+  const [activeLineup, setActiveLineup] = useState(null);
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
@@ -30,10 +31,11 @@ const LineupsPage = (): JSX.Element => {
   });
 
   useEffect(() => {
-    const getLineups = async () => {
+    const getTeamLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data);
+        setActiveLineup(data.lineups[0].athletes);
       } catch (err: any) {
         console.log(err);
         logoutRedirect("/login");
@@ -49,7 +51,7 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
-    getLineups();
+    getTeamLineups();
     getAthletes();
   }, []);
 
@@ -169,23 +171,8 @@ const LineupsPage = (): JSX.Element => {
       <LineupBoatSection
         width={width}
         rosterAthletes={rosterAthletes}
+        activeLineup={activeLineup}
       />
-
-      {/* To-do Part 2 - Mobile View Card */}
-      {/* Modal with side tab - contains all team athletes */}
-      {/* Modal will be drag + drop enabled with floating tab on bottom left, can also scroll independent from page */}
-      {/* Athlete bars containg drag and drop tiles that can migrate from modal to dragonboat */}
-      {/* When tile is moved outside of modal, collapse modal. */}
-      {/* When tile is dropped into appropriate spot on dragonboat, uncollapse modal */}
-      {/* Tab visible in mobile from 320px to 448px */}
-      {/* Dragonboat and tiles expand from 320px to 448 px */}
-      {/* From 448px to 768px, can now bring unhide modal and move to right side as column of tiles */}
-
-      {/* To-do Part 3 - Tablet + Desktop Views */}
-      {/* from 768px to 1280 px, show fixed dragonboat on left and roster list on right @ 50% width share */}
-      {/* Dragonboat size expands up to a fixed width ~ 50% of container */}
-      {/* Roster list starts off as single column of tiles, then double column of tiles, then list of athletes with tiles + stats */}
-      {/* container max-width at 1280px, horizontal auto-margins */}
     </div>
   );
 };
