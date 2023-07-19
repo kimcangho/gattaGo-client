@@ -90,12 +90,12 @@ const LineupsPage = (): JSX.Element => {
       setValue("lineupName", "");
       setActiveLineup([]);
     } else {
-      setValue("lineupName", event.target.value);
       try {
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/lineups/${event.target.value}`
         );
         setActiveLineup(data.lineups[0].athletes);
+        setValue("lineupName", data.lineups[0].name);
       } catch (err: any) {
         console.log(err);
       }
