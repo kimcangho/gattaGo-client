@@ -8,7 +8,7 @@ import { transformLineupsToSeats } from "../utils/transformLineupsToSeats";
 interface DragonBoatSeatingProps {
   width: number | undefined;
   rosterAthletes: RosterData[];
-  activeLineup: any;
+  activeLineup: any[];
 }
 
 const LineupBoatSection = ({

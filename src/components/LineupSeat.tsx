@@ -9,7 +9,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
       {row.map(({ athlete, position }: any) => {
         return (
           <>
-            {seat === 0 || seat === 11 ? (
+            { athlete?.length !== 0 && (seat === 0 || seat === 11) ? (
               // Empty Seat
               // <div className="flex justify-center items-center bg-gray-border my-2 w-20 h-20 rounded-xl mx-auto">
               //   <h5 className="text-center text-[2.5rem]">
@@ -20,7 +20,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
               <div className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-20 h-20 rounded-xl mx-auto relative">
                 <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
                   <p>
-                    {athlete.paddleSide === "N/A" ? "N" : athlete.paddleSide}
+                    {athlete.paddleSide && athlete.paddleSide === "N/A" ? "N" : athlete.paddleSide && athlete.paddleSide}
                   </p>
                 </div>
                 <div className="bg-green-light w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full">

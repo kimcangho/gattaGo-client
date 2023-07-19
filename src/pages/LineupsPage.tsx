@@ -3,19 +3,19 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
+// import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
 import LineupBoatSection from "../components/LineupBoatSection";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData | {} | null>(null);
-  const [activeLineup, setActiveLineup] = useState(null);
+  const [activeLineup, setActiveLineup] = useState([]);
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
-  const logoutRedirect = useLogoutRedirect();
+  // const logoutRedirect = useLogoutRedirect();
 
   const {
     register,
@@ -35,10 +35,8 @@ const LineupsPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data);
-        setActiveLineup(data.lineups[0].athletes);
       } catch (err: any) {
         console.log(err);
-        logoutRedirect("/login");
       }
     };
 
@@ -55,7 +53,8 @@ const LineupsPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  const handleFormSubmit = async ({}: // activeLineupName,
+  //  Form submit to create new lineup or update existing lineup
+  const handleFormSubmitCreateUpdateLineup = async ({}: // activeLineupName,
   // lineupName,
   // boatOrder,
   CreateNewLineupFormData) => {
@@ -81,13 +80,25 @@ const LineupsPage = (): JSX.Element => {
     //   } catch (err) {}
   };
 
-  const handleLineupStatus = (
+  //  Delete current lineup
+  // const handleFormSubmitDeleteLineup = async () => {};
+
+  const handleLineupStatus = async (
     event: React.ChangeEvent<HTMLSelectElement>
-  ): void => {
+  ) => {
     if (event.target.value === "new") {
       setValue("lineupName", "");
+      setActiveLineup([]);
     } else {
       setValue("lineupName", event.target.value);
+      try {
+        const { data } = await axiosPrivate.get(
+          `/teams/${teamId}/lineups/${event.target.value}`
+        );
+        setActiveLineup(data.lineups[0].athletes);
+      } catch (err: any) {
+        console.log(err);
+      }
     }
   };
 
@@ -107,7 +118,7 @@ const LineupsPage = (): JSX.Element => {
           )}
         </div>
         <button
-          onClick={handleSubmit(handleFormSubmit)}
+          onClick={handleSubmit(handleFormSubmitCreateUpdateLineup)}
           className="bg-green-light hover:bg-green-dark border-green-dark text-white p-2 rounded border"
         >
           Save Lineup
@@ -137,7 +148,7 @@ const LineupsPage = (): JSX.Element => {
               // @ts-ignore
               teamLineups.lineups.map((lineup) => {
                 return (
-                  <option key={lineup.id} value={lineup.name}>
+                  <option key={lineup.id} value={lineup.id}>
                     {lineup.name}
                   </option>
                 );
