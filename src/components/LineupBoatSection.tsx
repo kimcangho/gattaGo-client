@@ -37,10 +37,10 @@ const LineupBoatSection = ({
 
   return (
     <div className="flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2">
-      <div className="flex flex-col max-w-[448px] tablet:w-[408px] my-4 overflow-auto">
+      <div className="flex flex-col max-w-[448px] tablet:w-[408px] my-2 overflow-auto">
         <h1 className="text-center mb-2">
           Total Weight
-          {`: ${Object.values(boatWeight).reduce((a, b) => a + b, 0)} lbs`}
+          {` - ${Object.values(boatWeight).reduce((a, b) => a + b, 0)} lbs`}
         </h1>
 
         <h3 className="text-center">Front</h3>
