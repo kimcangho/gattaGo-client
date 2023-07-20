@@ -128,7 +128,7 @@ const LineupsPage = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-4 overflow-hidden">
         <div className="mb-4">
           <h1>Lineups</h1>
