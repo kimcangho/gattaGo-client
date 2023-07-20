@@ -19,7 +19,7 @@ const LineupsPage = (): JSX.Element => {
 
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     setValue,
     getValues,
     formState: { errors },
