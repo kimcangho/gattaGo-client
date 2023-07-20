@@ -11,6 +11,5 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
     }
   });
 
-  console.log(lineupWithSeatsArr);
   return lineupWithSeatsArr;
 };
