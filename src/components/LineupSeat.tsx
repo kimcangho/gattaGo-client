@@ -7,11 +7,10 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
   return (
     <div className="flex mx-auto w-fit">
       {row ? (
-        // Map out athlete data in seats
         row.map(({ athlete, position }: any) => {
           return (
             <div key={position}>
-              {athlete?.length !== 0 && (seat === 0 || seat === 11) ? (
+              {!athlete?.length && (seat === 0 || seat === 11) ? (
                 // Empty Seat
                 // <div className="flex justify-center items-center bg-gray-border my-2 w-20 h-20 rounded-xl mx-auto">
                 //   <h5 className="text-center text-[2.5rem]">

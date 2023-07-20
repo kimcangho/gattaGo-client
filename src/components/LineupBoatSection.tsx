@@ -30,8 +30,7 @@ const LineupBoatSection = ({
           <h3 className="text-center -rotate-90 mr-2">Left</h3>
 
           <div className="mx-auto">
-            {activeLineup && activeLineup.length !== 0 ? (
-              // Return actual lineup
+            {activeLineup && !activeLineup.length ? (
               transformLineupsToSeats(activeLineup).map(
                 (row: any, index: number) => {
                   return <LineupSeat key={index} seat={index} row={row} />;
