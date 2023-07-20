@@ -89,17 +89,16 @@ const LineupsPage = (): JSX.Element => {
         setValue("activeLineupId", "new");
         setActiveLineup(generatePlaceholderLineup());
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     } else {
       try {
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/lineups/${event.target.value}`
         );
-        // console.log(data.lineups[0].id);
         setActiveLineup(data.lineups[0].athletes);
         setValue("lineupName", data.lineups[0].name);
-        setValue("activeLineupId", data.lineups[0].id)
+        setValue("activeLineupId", data.lineups[0].id);
       } catch (err: any) {
         console.log(err);
       }
@@ -115,7 +114,7 @@ const LineupsPage = (): JSX.Element => {
 
         setValue("activeLineupId", "new");
         setValue("lineupName", "");
-        setActiveLineup([]);
+        setActiveLineup(generatePlaceholderLineup());
         setTeamLineups((prevLineups) =>
           prevLineups!.filter((lineup: LineupData) => lineup.id !== lineupId)
         );
@@ -150,7 +149,7 @@ const LineupsPage = (): JSX.Element => {
           <div
             onClick={handleDeleteLineup}
             className={`${
-              getValues().activeLineupId === 'new'
+              getValues().activeLineupId === "new"
                 ? "bg-gray-border border-gray-border cursor-not-allowed"
                 : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
             }  text-white p-1 midMobile:p-2 rounded border `}
