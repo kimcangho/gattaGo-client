@@ -13,13 +13,13 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
               {!athlete?.length && (seat === 0 || seat === 11) ? (
                 <>
                   {athlete.isEmpty ? (
-                    <div className="flex justify-center items-center bg-gray-border my-2 w-20 h-20 rounded-xl mx-auto">
+                    <div className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto">
                       <h5 className="text-center text-[2.5rem]">
                         {!seat ? "D" : "S"}
                       </h5>
                     </div>
                   ) : (
-                    <div className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-20 h-20 rounded-xl mx-auto relative">
+                    <div className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto relative">
                       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
                         <p>
                           {athlete.paddleSide && athlete.paddleSide === "N/A"
@@ -30,7 +30,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                       <div className="bg-green-light w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full">
                         <p>{athlete.eligibility}</p>
                       </div>
-                      <h5 className="text-center text-[2.5rem]">
+                      <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
                         {athlete.firstName.charAt(0) +
                           athlete.lastName.charAt(0)}
                       </h5>
@@ -51,14 +51,14 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                   } py-2 border-gray-border`}
                 >
                   {athlete.isEmpty ? (
-                    <div className="flex justify-center items-center bg-gray-border rounded-xl w-20 h-20 border">
+                    <div className="flex justify-center items-center bg-gray-border rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border">
                       <h5 className="text-center text-[2.5rem]">
                         {position % 2 ? "L" : "R"}
                         {seat}
                       </h5>
                     </div>
                   ) : (
-                    <div className="flex relative justify-center items-center bg-blue-wavy rounded-xl w-20 h-20 border text-black">
+                    <div className="flex relative justify-center items-center bg-blue-wavy rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black">
                       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
                         <p>
                           {athlete.paddleSide === "N/A"
@@ -69,7 +69,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                       <div className="bg-green-light w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full">
                         <p>{athlete.eligibility}</p>
                       </div>
-                      <h5 className="text-center text-[2.5rem]">
+                      <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
                         {athlete.firstName.charAt(0) +
                           athlete.lastName.charAt(0)}
                       </h5>
