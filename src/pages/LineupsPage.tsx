@@ -54,33 +54,32 @@ const LineupsPage = (): JSX.Element => {
   }, []);
 
   //  Form submit to create new lineup or update existing lineup
-  const handleFormSubmitCreateUpdateLineup = async ({}: // activeLineupId,
-  // lineupName,
-  CreateNewLineupFormData) => {
-    //  Return if no lineup name and no active lineup selected
-    console.log("Save function");
-    // const getLineupAthletes = async () => {
-    //   try {
-    //     const { data } = await axiosPrivate.get(`teams/${teamId}/athletes`);
-    //     console.log(data);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
+  // const handleUpsertLineup = async ({}: // activeLineupId,
+  // // lineupName,
+  // CreateNewLineupFormData) => {
+  //   //  Return if no lineup name and no active lineup selected
+  //   console.log("Save function");
+  //   // const getLineupAthletes = async () => {
+  //   //   try {
+  //   //     const { data } = await axiosPrivate.get(`teams/${teamId}/athletes`);
+  //   //     console.log(data);
+  //   //   } catch (err) {
+  //   //     console.log(err);
+  //   //   }
 
-    //   //  Create new lineup
-    //   try {
-    //     //  when a lineup is chosen in dropdown list, make api request to get all lineup athletes
-    //     //  API POST Request
-    //   } catch (err) {}
+  //   //   //  Create new lineup
+  //   //   try {
+  //   //     //  when a lineup is chosen in dropdown list, make api request to get all lineup athletes
+  //   //     //  API POST Request
+  //   //   } catch (err) {}
 
-    //   //  Update existing lineup
-    //   try {
-    //     //  API PUT request
-    //   } catch (err) {}
-  };
+  //   //   //  Update existing lineup
+  //   //   try {
+  //   //     //  API PUT request
+  //   //   } catch (err) {}
+  // };
 
-  //  Delete current lineup
-  const handleFormSubmitDeleteLineup = async () => {
+  const handleDeleteLineup = async () => {
     const deleteSingleLineup = async (lineupId: string) => {
       try {
         await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`, {
@@ -102,8 +101,7 @@ const LineupsPage = (): JSX.Element => {
     deleteSingleLineup(getValues().activeLineupId);
   };
 
-  //  Fetch single lineup order/athletes
-  const handleLineupStatus = async (
+  const handleGetSingleLineup = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     if (event.target.value === "new") {
@@ -136,13 +134,13 @@ const LineupsPage = (): JSX.Element => {
         </div>
         <div className="flex flex-col midMobile:flex-row space-y-2 midMobile:space-y-0 midMobile:space-x-2 tablet:space-x-4">
           <button
-            onClick={handleSubmit(handleFormSubmitCreateUpdateLineup)}
+            // onClick={handleSubmit(handleUpsertLineup)}
             className="bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border"
           >
             Save Lineup
           </button>
           <div
-            onClick={handleFormSubmitDeleteLineup}
+            onClick={handleDeleteLineup}
             className={`${
               !activeLineup.length
                 ? "bg-gray-border border-gray-border cursor-not-allowed"
@@ -165,14 +163,13 @@ const LineupsPage = (): JSX.Element => {
             id="activeLineupId"
             defaultValue={"select"}
             className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-            onChange={handleLineupStatus}
+            onChange={handleGetSingleLineup}
           >
             <option disabled value="select">
               Select lineup
             </option>
             <option value="new">New lineup</option>
             {teamLineups &&
-              // @ts-ignore
               teamLineups.map((lineup) => {
                 return (
                   <option key={lineup.id} value={lineup.id}>
