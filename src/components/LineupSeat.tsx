@@ -14,7 +14,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                 <>
                   {athlete.isEmpty ? (
                     <div className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto">
-                      <h5 className="text-center text-[2.5rem]">
+                      <h5 className="text-center text-[2rem] midMobile:text-[2.5rem]">
                         {!seat ? "D" : "S"}
                       </h5>
                     </div>
@@ -52,7 +52,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                 >
                   {athlete.isEmpty ? (
                     <div className="flex justify-center items-center bg-gray-border rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border">
-                      <h5 className="text-center text-[2.5rem]">
+                      <h5 className="text-center text-[2rem] midMobile:text-[2.5rem]">
                         {position % 2 ? "L" : "R"}
                         {seat}
                       </h5>
