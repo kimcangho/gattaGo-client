@@ -7,10 +7,11 @@ import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
 import LineupBoatSection from "../components/LineupBoatSection";
+import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
-  const [activeLineup, setActiveLineup] = useState([]);
+  const [activeLineup, setActiveLineup] = useState(generatePlaceholderLineup());
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
@@ -79,6 +80,32 @@ const LineupsPage = (): JSX.Element => {
   //   //   } catch (err) {}
   // };
 
+  const handleGetSingleLineup = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (event.target.value === "new") {
+      try {
+        setValue("lineupName", "");
+        setValue("activeLineupId", "new");
+        setActiveLineup(generatePlaceholderLineup());
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      try {
+        const { data } = await axiosPrivate.get(
+          `/teams/${teamId}/lineups/${event.target.value}`
+        );
+        // console.log(data.lineups[0].id);
+        setActiveLineup(data.lineups[0].athletes);
+        setValue("lineupName", data.lineups[0].name);
+        setValue("activeLineupId", data.lineups[0].id)
+      } catch (err: any) {
+        console.log(err);
+      }
+    }
+  };
+
   const handleDeleteLineup = async () => {
     const deleteSingleLineup = async (lineupId: string) => {
       try {
@@ -99,25 +126,6 @@ const LineupsPage = (): JSX.Element => {
 
     if (getValues().activeLineupId === "new") return;
     deleteSingleLineup(getValues().activeLineupId);
-  };
-
-  const handleGetSingleLineup = async (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    if (event.target.value === "new") {
-      setValue("lineupName", "");
-      setActiveLineup([]);
-    } else {
-      try {
-        const { data } = await axiosPrivate.get(
-          `/teams/${teamId}/lineups/${event.target.value}`
-        );
-        setActiveLineup(data.lineups[0].athletes);
-        setValue("lineupName", data.lineups[0].name);
-      } catch (err: any) {
-        console.log(err);
-      }
-    }
   };
 
   return (
@@ -142,7 +150,7 @@ const LineupsPage = (): JSX.Element => {
           <div
             onClick={handleDeleteLineup}
             className={`${
-              !activeLineup.length
+              getValues().activeLineupId === 'new'
                 ? "bg-gray-border border-gray-border cursor-not-allowed"
                 : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
             }  text-white p-1 midMobile:p-2 rounded border `}
