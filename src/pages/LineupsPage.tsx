@@ -127,26 +127,27 @@ const LineupsPage = (): JSX.Element => {
       <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-4 overflow-hidden">
         <div className="mb-4">
           <h1>Lineups</h1>
-          {/* @ts-ignore */}
           {teamLineups && (
             <p className="text-black">
-              {/* @ts-ignore */}
               Total: {teamLineups.length} lineup
-              {/* @ts-ignore */}
               {teamLineups.length !== 1 && `s`}
             </p>
           )}
         </div>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col midMobile:flex-row space-y-2 midMobile:space-y-0 midMobile:space-x-2 tablet:space-x-4">
           <button
             onClick={handleSubmit(handleFormSubmitCreateUpdateLineup)}
-            className="bg-green-light hover:bg-green-dark border-green-dark text-white p-2 rounded border"
+            className="bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border"
           >
             Save Lineup
           </button>
           <div
             onClick={handleFormSubmitDeleteLineup}
-            className="bg-orange-light hover:bg-orange-dark border-orange-dark text-white p-2 rounded border"
+            className={`${
+              !activeLineup.length
+                ? "bg-gray-border border-gray-border cursor-not-allowed"
+                : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
+            }  text-white p-1 midMobile:p-2 rounded border `}
           >
             Delete Lineup
           </div>
