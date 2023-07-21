@@ -24,16 +24,7 @@ const LineupBoatSection = ({
   };
 
   const boatWeight = calculateBoatWeights(activeLineup);
-  const frontWeight =
-    boatWeight.drummerWeight +
-    boatWeight.frontLeftWeight +
-    boatWeight.frontRightWeight;
-  const backWeight =
-    boatWeight.steersWeight +
-    boatWeight.backLeftWeight +
-    boatWeight.backRightWeight;
-  const leftWeight = boatWeight.frontLeftWeight + boatWeight.backLeftWeight;
-  const rightWeight = boatWeight.frontRightWeight + boatWeight.backRightWeight;
+  const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
 
   return (
     <div className="flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2">

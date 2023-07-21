@@ -73,5 +73,21 @@ export const calculateBoatWeights = (lineupArr: any) => {
     }
   });
 
-  return boatWeights;
+  const {
+    drummerWeight,
+    frontLeftWeight,
+    frontRightWeight,
+    backLeftWeight,
+    backRightWeight,
+    steersWeight,
+  } = boatWeights;
+
+  const calculatedBoatWeights = {
+    frontWeight: drummerWeight + frontLeftWeight + frontRightWeight,
+    backWeight: steersWeight + backLeftWeight + backRightWeight,
+    leftWeight: frontLeftWeight + backLeftWeight,
+    rightWeight: frontRightWeight + backRightWeight,
+  };
+
+  return calculatedBoatWeights;
 };
