@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import createNew from "../assets/icons/create-new.svg";
 import OverviewTeamItem from "../components/OverviewTeamItem";
 import { TeamData } from "../interfaces/EntityData";
 

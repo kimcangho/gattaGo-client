@@ -18,6 +18,7 @@ export interface CreateNewAthleteFormData {
   firstName: string;
   lastName: string;
   eligibility: "O" | "W" | null;
+  availability: "available" | "unavailable" | null;
   paddleSide: "L" | "R" | "B" | "N" | null;
   weight: string | null;
   paddlerSkills: PaddlerSkills;

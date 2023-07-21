@@ -7,6 +7,7 @@ import RosterItem from "../components/RosterItem";
 import { RosterData } from "../interfaces/EntityData";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
+import { filterFlagsObj } from "../data/filterFlagsObj";
 import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
@@ -18,46 +19,12 @@ const RosterPage = (): JSX.Element => {
   const [isWeightOrderDesc, setIsWeightOrderDesc] = useState<boolean>(false);
   const [isFilterPanelVisible, setIsFilterPanelVisible] =
     useState<boolean>(false);
+  const [filterFlags, setFilterFlags] = useState(filterFlagsObj);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
-
-  //  Filter flags - contains all filter types
-  const [filterFlags, setFilterFlags] = useState({
-    isAvailable: false,
-    isUnavailable: false,
-    isOpen: false,
-    isWomen: false,
-    isLeft: false,
-    isRight: false,
-    isBoth: false,
-    isNone: false,
-    isSteers: false,
-    isDrummer: false,
-    isStroker: false,
-    isCaller: false,
-    isBailer: false,
-    is200m: false,
-    is500m: false,
-    is1000m: false,
-    is2000m: false,
-    isVeteran: false,
-    isSteadyTempo: false,
-    isVocal: false,
-    isTechnicallyProficient: false,
-    isLeader: false,
-    isNewbie: false,
-    isRushing: false,
-    isLagging: false,
-    isTechnicallyPoor: false,
-    isInjuryProne: false,
-    isLoadManaged: false,
-    isPacer: false,
-    isEngine: false,
-    isRocket: false,
-  });
 
   useEffect(() => {
     const getAthletes = async () => {

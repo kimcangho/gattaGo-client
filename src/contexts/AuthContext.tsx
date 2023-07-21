@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import { TeamData } from "../interfaces/EntityData";
 
 export interface AuthContextTypes {
   accessToken: string;

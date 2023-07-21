@@ -36,6 +36,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       weight: null,
       paddleSide: null,
       eligibility: null,
+      availability: null,
       notes: "",
       paddlerSkills: paddlerSkillsDefault,
     },
@@ -56,18 +57,30 @@ const CreateNewAthletePage = (): JSX.Element => {
     lastName,
     paddleSide,
     eligibility,
+    availability,
     weight,
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
+    console.log("creating paddler call...");
+    console.log(email, firstName, lastName, paddleSide, eligibility, availability);
 
-    if (!email || !firstName || !lastName || !paddleSide || !eligibility)
+    if (
+      !email ||
+      !firstName ||
+      !lastName ||
+      !paddleSide ||
+      !eligibility ||
+      !availability
+    )
       return;
 
-    let numericWeight: number;
-    if (!weight) numericWeight = 0;
-    else numericWeight = parseInt(weight, 10);
+    let numericWeight: number = 0;
+    if (weight) parseInt(weight, 10);
+
+    let isAvailable: boolean = false;
+    if (availability === "available") isAvailable = true;
 
     try {
       await axiosPrivate.post(
@@ -79,6 +92,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           lastName,
           paddleSide,
           eligibility,
+          isAvailable,
           weight: numericWeight,
           paddlerSkillsObj,
           notes,
@@ -227,30 +241,58 @@ const CreateNewAthletePage = (): JSX.Element => {
             </div>
           </div>
 
-          {/* Eligibility */}
-          <div className="flex flex-col w-[50%]">
-            <h3>Eligibility</h3>
-            <div>
-              <input
-                type="radio"
-                {...register("eligibility")}
-                name="eligibility"
-                id="eligibility-open"
-                value="O"
-                className="mr-2 tablet:mr-4"
-              />
-              <label htmlFor="eligibility-open">Open</label>
+          <div className="flex flex-col w-[50%] space-y-4">
+            {/* Eligibility */}
+            <div className="flex flex-col">
+              <h3>Eligibility</h3>
+              <div>
+                <input
+                  {...register("eligibility")}
+                  type="radio"
+                  name="eligibility"
+                  id="eligibility-open"
+                  value="O"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="eligibility-open">Open</label>
+              </div>
+              <div>
+                <input
+                  {...register("eligibility")}
+                  type="radio"
+                  name="eligibility"
+                  id="eligibility-women"
+                  value="W"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="eligibility-women">Women</label>
+              </div>
             </div>
-            <div>
-              <input
-                {...register("eligibility")}
-                type="radio"
-                name="eligibility"
-                id="eligibility-women"
-                value="W"
-                className="mr-2 tablet:mr-4"
-              />
-              <label htmlFor="eligibility-women">Women</label>
+            {/* Availability */}
+            <div className="flex flex-col">
+              <h3>Availability</h3>
+              <div>
+                <input
+                  {...register("availability")}
+                  type="radio"
+                  name="availability"
+                  id="availability-available"
+                  value="available"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="availability-available">Available</label>
+              </div>
+              <div>
+                <input
+                  {...register("availability")}
+                  type="radio"
+                  name="availability"
+                  id="availability-unavailable"
+                  value="unavailable"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="availability-unavailable">Unavailable</label>
+              </div>
             </div>
           </div>
         </div>
