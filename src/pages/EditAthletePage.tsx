@@ -10,19 +10,7 @@ import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField"
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
 import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
-import { PaddlerSkills } from "../interfaces/PaddlerSkills";
-
-interface CreateNewAthleteFormData {
-  teamId: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  eligibility: "O" | "W" | null;
-  paddleSide: "L" | "R" | "B" | "N" | null;
-  weight: string | null;
-  paddlerSkills: PaddlerSkills;
-  notes: string;
-}
+import { CreateNewAthleteFormData } from "../interfaces/FormData";
 
 const EditAthletePage = () => {
   const { teamId, athleteId } = useParams();
@@ -48,6 +36,7 @@ const EditAthletePage = () => {
       weight: null,
       paddleSide: null,
       eligibility: null,
+      availability: null,
       notes: "",
       paddlerSkills: {
         //  Roles
@@ -91,6 +80,7 @@ const EditAthletePage = () => {
 
         const {
           eligibility,
+          isAvailable,
           email,
           firstName,
           lastName,
@@ -100,9 +90,13 @@ const EditAthletePage = () => {
           weight,
         } = data;
 
+        // let availability = 'unavailable'
+        // if (isAvailable) availability = 'available'
+
         reset({
           teamId,
           eligibility,
+          availability: isAvailable ? 'available' : 'unavailable',
           email,
           firstName,
           lastName,
@@ -136,18 +130,28 @@ const EditAthletePage = () => {
     lastName,
     paddleSide,
     eligibility,
+    availability,
     weight,
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
-    if (!email || !firstName || !lastName || !paddleSide || !eligibility)
+    if (
+      !email ||
+      !firstName ||
+      !lastName ||
+      !paddleSide ||
+      !eligibility ||
+      !availability
+    )
       return;
 
-    let numericWeight: number;
-    if (!weight) numericWeight = 0;
-    else numericWeight = parseInt(weight, 10);
+    let numericWeight: number = 0;
+    if (weight) parseInt(weight, 10);
+
+    let isAvailable: boolean = false;
+    if (availability === "available") isAvailable = true;
 
     try {
       await axiosPrivate.put(
@@ -159,6 +163,7 @@ const EditAthletePage = () => {
           lastName,
           paddleSide,
           eligibility,
+          isAvailable,
           weight: numericWeight,
           paddlerSkillsObj,
           notes,
@@ -308,29 +313,58 @@ const EditAthletePage = () => {
           </div>
 
           {/* Eligibility */}
-          <div className="flex flex-col w-[50%]">
-            <h3>Eligibility</h3>
-            <div>
-              <input
-                type="radio"
-                {...register("eligibility")}
-                name="eligibility"
-                id="eligibility-open"
-                value="O"
-                className="mr-2 tablet:mr-4"
-              />
-              <label htmlFor="elibigility-open">Open</label>
+          <div className="flex flex-col w-[50%] space-y-4">
+            {/* Eligibility */}
+            <div className="flex flex-col">
+              <h3>Eligibility</h3>
+              <div>
+                <input
+                  {...register("eligibility")}
+                  type="radio"
+                  name="eligibility"
+                  id="eligibility-open"
+                  value="O"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="eligibility-open">Open</label>
+              </div>
+              <div>
+                <input
+                  {...register("eligibility")}
+                  type="radio"
+                  name="eligibility"
+                  id="eligibility-women"
+                  value="W"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="eligibility-women">Women</label>
+              </div>
             </div>
-            <div>
-              <input
-                {...register("eligibility")}
-                type="radio"
-                name="eligibility"
-                id="eligibility-women"
-                value="W"
-                className="mr-2 tablet:mr-4"
-              />
-              <label htmlFor="eligibility-women">Women</label>
+            {/* Availability */}
+            <div className="flex flex-col">
+              <h3>Availability</h3>
+              <div>
+                <input
+                  {...register("availability")}
+                  type="radio"
+                  name="availability"
+                  id="availability-available"
+                  value="available"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="availability-available">Available</label>
+              </div>
+              <div>
+                <input
+                  {...register("availability")}
+                  type="radio"
+                  name="availability"
+                  id="availability-unavailable"
+                  value="unavailable"
+                  className="mr-2 tablet:mr-4"
+                />
+                <label htmlFor="availability-unavailable">Unavailable</label>
+              </div>
             </div>
           </div>
         </div>
