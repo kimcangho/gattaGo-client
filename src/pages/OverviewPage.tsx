@@ -55,18 +55,6 @@ const OverviewPage = (): JSX.Element => {
           />
         );
       })}
-
-      <div
-        className="tablet:hidden flex space-x-2 tablet:space-x-6 items-center p-2 tablet:px-6 bg-white border-x border-b border-gray-border hover:bg-green-light rounded-b cursor-pointer"
-        onClick={handleCreateTeam}
-      >
-        <img
-          src={createNew}
-          alt="Create New Team"
-          className="h-6 tablet:h-10"
-        />
-        <h4 className="tablet:text-xl">Create new team</h4>
-      </div>
     </div>
   );
 };
