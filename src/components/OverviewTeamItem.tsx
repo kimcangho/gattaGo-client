@@ -21,7 +21,7 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
+  const { setCurrentTeamName }: AuthContextTypes = useContext(AuthContext)!;
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -30,17 +30,16 @@ const OverviewTeamItem = ({
     event.stopPropagation();
 
     const { id } = event.target as HTMLInputElement;
-    navigate(`../test/dashboard/${id}`);
+    setCurrentTeamName(name);
+    navigate(`../:userId/dashboard/${id}`);
   };
 
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     try {
-      const headers = { Authorization: `Bearer ${accessToken}` };
       const { id } = event.target as HTMLInputElement;
       await axiosPrivate.delete(`/teams/${id}`, {
-        headers,
         withCredentials: true,
       });
       const currentTeams = myTeams.filter((team: TeamData) => {

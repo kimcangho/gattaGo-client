@@ -5,9 +5,20 @@ import { axiosAuth } from "../services/axios.service";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 
 const Header = (): JSX.Element => {
-  const { accessToken, setEmail, isLoggedIn, setIsLoggedIn }: AuthContextTypes =
-    useContext(AuthContext)!;
+  const {
+    accessToken,
+    setEmail,
+    isLoggedIn,
+    setIsLoggedIn,
+    currentTeamName,
+    setCurrentTeamName,
+  }: AuthContextTypes = useContext(AuthContext)!;
   const navigate: NavigateFunction = useNavigate();
+
+  const handleTeamOverviewRedirect = () => {
+    setCurrentTeamName("");
+    navigate("../:userId/overview");
+  };
 
   const handleLogout = async () => {
     setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
@@ -18,6 +29,7 @@ const Header = (): JSX.Element => {
         withCredentials: true,
       });
       setEmail("");
+      setCurrentTeamName("");
     } catch (err) {
       console.log(err);
     } finally {
@@ -31,23 +43,34 @@ const Header = (): JSX.Element => {
         isLoggedIn ? `justify-between` : `justify-center`
       } items-center border border-gray-border px-1 py-1 tablet:p-4`}
     >
-      <Link
-        to="../"
-        className="flex justify-center items-center space-x-2 tablet:space-x-3"
-      >
-        <img src={gattaGoLogo} alt="gattaGo Logo" className="h-6 tablet:h-10" />
-        {!isLoggedIn && (
-          <h2 className="text-gray-dark text-2xl tablet:text-3xl">gattaGo</h2>
+      <div className="flex space-x-2 tablet:space-x-3 items-center">
+        <Link
+          to="../"
+          className="flex justify-center items-center space-x-2 tablet:space-x-3"
+        >
+          <img
+            src={gattaGoLogo}
+            alt="gattaGo Logo"
+            className="h-6 tablet:h-10"
+          />
+          {!isLoggedIn && (
+            <h2 className="text-gray-dark text-2xl tablet:text-3xl">gattaGo</h2>
+          )}
+        </Link>
+        {isLoggedIn && (
+          <h2 className="text-gray-dark text-sm midMobile:text-2xl tablet:text-3xl truncate max-w-[80%] midMobile:max-w-full">
+            {currentTeamName}
+          </h2>
         )}
-      </Link>
+      </div>
       {isLoggedIn && (
         <div className="flex bg-white border border-gray-border rounded">
-          <Link
-            to="../:userId/overview"
-            className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white"
+          <div
+            onClick={handleTeamOverviewRedirect}
+            className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white cursor-pointer"
           >
             <p className="px-2 py-1 tablet:px-4 tablet:py-2">My Teams</p>
-          </Link>
+          </div>
           <div
             className="hover:bg-orange-dark hover:text-white rounded-r cursor-pointer"
             onClick={handleLogout}

@@ -1,6 +1,5 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
@@ -15,7 +14,6 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 import { paddlerSkillsDefault } from "../data/paddlerSkillsDefault";
 
 const CreateNewAthletePage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const { teamId } = useParams();
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
@@ -72,7 +70,6 @@ const CreateNewAthletePage = (): JSX.Element => {
     else numericWeight = parseInt(weight, 10);
 
     try {
-      const headers = { Authorization: `Bearer ${accessToken}` };
       await axiosPrivate.post(
         "/athletes",
         {
@@ -87,7 +84,6 @@ const CreateNewAthletePage = (): JSX.Element => {
           notes,
         },
         {
-          headers,
           withCredentials: true,
         }
       );

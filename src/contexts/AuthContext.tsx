@@ -1,10 +1,13 @@
 import { createContext, useState } from "react";
+import { TeamData } from "../interfaces/EntityData";
 
 export interface AuthContextTypes {
   accessToken: string;
   setAccessToken: React.Dispatch<React.SetStateAction<string>>;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  currentTeamName: string
+  setCurrentTeamName: React.Dispatch<React.SetStateAction<string>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -18,6 +21,7 @@ const AuthContext = createContext<AuthContextTypes | null>(null);
 export const AuthProvider = ({ children }: AuthContextProps): JSX.Element => {
   const [accessToken, setAccessToken] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [currentTeamName, setCurrentTeamName] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
@@ -29,6 +33,8 @@ export const AuthProvider = ({ children }: AuthContextProps): JSX.Element => {
         setEmail,
         isLoggedIn,
         setIsLoggedIn,
+        currentTeamName,
+        setCurrentTeamName,
       }}
     >
       {children}

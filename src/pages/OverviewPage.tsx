@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import createNew from "../assets/icons/create-new.svg";
@@ -8,19 +7,15 @@ import OverviewTeamItem from "../components/OverviewTeamItem";
 import { TeamData } from "../interfaces/EntityData";
 
 const OverviewPage = (): JSX.Element => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
-
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
 
   useEffect(() => {
     const getAllTeams = async () => {
-      const headers = { Authorization: `Bearer ${accessToken}` };
       try {
         const { data } = await axiosPrivate.get("/teams", {
-          headers,
           withCredentials: true,
         });
         setMyTeams(data);
@@ -34,15 +29,15 @@ const OverviewPage = (): JSX.Element => {
   }, []);
 
   const handleCreateTeam = () => {
-    navigate("../userIdPlaceholder/new");
+    navigate("../:userId/new");
   };
 
   return (
-    <div className="p-4 desktop:w-[1280px] desktop:mx-auto flex flex-col">
+    <div className="p-2 tablet:p-4 desktop:w-[1280px] desktop:mx-auto flex flex-col">
       <div className="flex justify-between items-center text-center p-2 tablet:p-6 bg-white border border-gray-border rounded-t w-full">
         <h1 className="tablet:text-4xl">My Teams</h1>
         <h2
-          className="hidden bg-gray-border tablet:block border-2 border-black rounded p-4 text-black hover:bg-green-light tablet:text-2xl cursor-pointer"
+          className="tablet:block border border-green-dark rounded p-2 text-white bg-green-light hover:bg-green-dark cursor-pointer text-xs tablet:text-lg tablet:font-normal"
           onClick={handleCreateTeam}
         >
           Create New Team

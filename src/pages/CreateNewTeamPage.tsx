@@ -83,7 +83,7 @@ const CreateNewTeamPage = (): JSX.Element => {
 
         <div className="flex w-full mb-4 justify-between">
           <div className="flex flex-col row-auto w-[50%]">
-            <h3 className="text-blue-light">eligibility</h3>
+            <h3 className="text-blue-light">Eligibility</h3>
             <div>
               <input
                 type="radio"

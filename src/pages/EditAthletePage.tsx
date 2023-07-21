@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -26,7 +25,6 @@ interface CreateNewAthleteFormData {
 }
 
 const EditAthletePage = () => {
-  const { accessToken }: AuthContextTypes = useContext(AuthContext)!;
   const { teamId, athleteId } = useParams();
   const [athlete, setAthlete]: any = useState(null);
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] = useState(false);
@@ -86,10 +84,8 @@ const EditAthletePage = () => {
 
   useEffect(() => {
     const getAthleteDetails = async (athleteId: string) => {
-      const headers = { Authorization: `Bearer ${accessToken}` };
       try {
         const { data } = await axiosPrivate.get(`/athletes/${athleteId}`, {
-          headers,
           withCredentials: true,
         });
 
@@ -144,7 +140,6 @@ const EditAthletePage = () => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
-    const headers = { Authorization: `Bearer ${accessToken}` };
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
     if (!email || !firstName || !lastName || !paddleSide || !eligibility)
@@ -169,7 +164,6 @@ const EditAthletePage = () => {
           notes,
         },
         {
-          headers,
           withCredentials: true,
         }
       );
