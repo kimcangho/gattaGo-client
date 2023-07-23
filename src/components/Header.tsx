@@ -1,4 +1,4 @@
-import { Link, useNavigate, NavigateFunction } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { axiosAuth } from "../services/axios.service";
@@ -17,7 +17,11 @@ const Header = (): JSX.Element => {
 
   const handleTeamOverviewRedirect = () => {
     setCurrentTeamName("");
-    navigate("../:userId/overview");
+    if (accessToken) {
+      navigate("../:userId/overview");
+    } else {
+      navigate("../");
+    }
   };
 
   const handleLogout = async () => {
@@ -44,9 +48,9 @@ const Header = (): JSX.Element => {
       } items-center border border-gray-border px-1 py-1 tablet:p-4`}
     >
       <div className="flex space-x-2 tablet:space-x-3 items-center">
-        <Link
-          to="../"
-          className="flex justify-center items-center space-x-2 tablet:space-x-3"
+        <div
+          onClick={handleTeamOverviewRedirect}
+          className="flex justify-center items-center space-x-2 tablet:space-x-3 cursor-pointer"
         >
           <img
             src={gattaGoLogo}
@@ -56,7 +60,7 @@ const Header = (): JSX.Element => {
           {!isLoggedIn && (
             <h2 className="text-gray-dark text-2xl tablet:text-3xl">gattaGo</h2>
           )}
-        </Link>
+        </div>
         {isLoggedIn && (
           <h2 className="text-gray-dark text-sm midMobile:text-2xl tablet:text-3xl truncate max-w-[80%] midMobile:max-w-full">
             {currentTeamName}
