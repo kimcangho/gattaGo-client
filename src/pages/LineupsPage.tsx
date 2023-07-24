@@ -12,6 +12,7 @@ import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
   const [activeLineup, setActiveLineup] = useState(generatePlaceholderLineup());
+  const [selectDefaultValue, setSelectDefaultValue] = useState<string>("new");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
@@ -20,7 +21,7 @@ const LineupsPage = (): JSX.Element => {
 
   const {
     register,
-    // handleSubmit,
+    handleSubmit,
     setValue,
     getValues,
     formState: { errors },
@@ -54,25 +55,43 @@ const LineupsPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  //  Form submit to create new lineup or update existing lineup
-  // const handleUpsertLineup = async ({}: // activeLineupId,
-  // // lineupName,
-  // CreateNewLineupFormData) => {
-  //   //  Return if no lineup name and no active lineup selected
-  //   console.log("Save function");
-  //   // const getLineupAthletes = async () => {
-  //   //   try {
-  //   //     const { data } = await axiosPrivate.get(`teams/${teamId}/athletes`);
-  //   //     console.log(data);
-  //   //   } catch (err) {
-  //   //     console.log(err);
-  //   //   }
+  const handleCreateLineup = async ({
+    lineupName,
+  }: CreateNewLineupFormData) => {
+    const createTeamLineup = async () => {
+      if (!lineupName) return;
+      const duplicateLineup = teamLineups?.find(
+        (lineup) => lineup.name === lineupName
+      );
+      if (duplicateLineup) return;
 
-  //   //   //  Create new lineup
-  //   //   try {
-  //   //     //  when a lineup is chosen in dropdown list, make api request to get all lineup athletes
-  //   //     //  API POST Request
-  //   //   } catch (err) {}
+      try {
+        const { data } = await axiosPrivate.post(`teams/${teamId}/lineups`, {
+          name: lineupName,
+          athletes: activeLineup,
+        });
+
+        setSelectDefaultValue(data.id);
+        setTeamLineups((prevLineups: any) => {
+          return [...prevLineups, data];
+        });
+
+        setValue("activeLineupId", data.id);
+        setValue("lineupName", data.name);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    createTeamLineup();
+  };
+
+  // const handleUpdateLineup = async ({
+  //   activeLineupId,
+  //   lineupName,
+  // }: CreateNewLineupFormData) => {
+  //   //  Return if no lineup name and no active lineup selected
+  //   console.log(activeLineupId, lineupName);
 
   //   //   //  Update existing lineup
   //   //   try {
@@ -85,18 +104,25 @@ const LineupsPage = (): JSX.Element => {
   ) => {
     if (event.target.value === "new") {
       try {
+        setActiveLineup(generatePlaceholderLineup());
+
         setValue("lineupName", "");
         setValue("activeLineupId", "new");
-        setActiveLineup(generatePlaceholderLineup());
       } catch (err) {
         console.log(err);
       }
     } else {
+      // setSelectDefaultValue(event.target.id)
+
       try {
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/lineups/${event.target.value}`
         );
-        setActiveLineup(data.lineups[0].athletes);
+
+        if (data.lineups[0].athletes.length === 0)
+          setActiveLineup(generatePlaceholderLineup);
+        else setActiveLineup(data.lineups[0].athletes);
+
         setValue("lineupName", data.lineups[0].name);
         setValue("activeLineupId", data.lineups[0].id);
       } catch (err: any) {
@@ -112,12 +138,13 @@ const LineupsPage = (): JSX.Element => {
           withCredentials: true,
         });
 
-        setValue("activeLineupId", "new");
-        setValue("lineupName", "");
         setActiveLineup(generatePlaceholderLineup());
         setTeamLineups((prevLineups) =>
           prevLineups!.filter((lineup: LineupData) => lineup.id !== lineupId)
         );
+
+        setValue("activeLineupId", "new");
+        setValue("lineupName", "");
       } catch (err: any) {
         console.log(err);
       }
@@ -141,8 +168,8 @@ const LineupsPage = (): JSX.Element => {
         </div>
         <div className="flex flex-col midMobile:flex-row space-y-2 midMobile:space-y-0 midMobile:space-x-2 tablet:space-x-4">
           <button
-            // onClick={handleSubmit(handleUpsertLineup)}
-            className="bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border"
+            onClick={handleSubmit(handleCreateLineup)}
+            className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border`}
           >
             Save Lineup
           </button>
@@ -168,18 +195,20 @@ const LineupsPage = (): JSX.Element => {
             {...register("activeLineupId")}
             name="activeLineupId"
             id="activeLineupId"
-            defaultValue={"select"}
+            defaultValue={"new"}
             className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             onChange={handleGetSingleLineup}
           >
-            <option disabled value="select">
-              Select lineup
-            </option>
-            <option value="new">New lineup</option>
+            <option disabled>Select lineup</option>
+            <option value={"new"}>New lineup</option>
             {teamLineups &&
-              teamLineups.map((lineup) => {
+              teamLineups.map((lineup, index) => {
                 return (
-                  <option key={lineup.id} value={lineup.id}>
+                  <option
+                    key={index}
+                    value={lineup.id}
+                    selected={selectDefaultValue === lineup.id}
+                  >
                     {lineup.name}
                   </option>
                 );

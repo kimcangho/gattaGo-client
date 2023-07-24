@@ -10,7 +10,7 @@ export const calculateBoatWeights = (lineupArr: any) => {
   };
 
   lineupArr.forEach((paddler: any) => {
-    if (paddler.athlete.weight) {
+    if (paddler?.athlete?.weight) {
       //    Drummer
       if (paddler.position === 0) {
         boatWeights = {

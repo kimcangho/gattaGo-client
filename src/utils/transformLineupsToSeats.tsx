@@ -6,9 +6,9 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
   ];
 
   lineupArr.forEach((paddler) => {
-    if (paddler.position === 0 || paddler.position === 21)
+    if (paddler.position === 0 || paddler.position === 21) {
       lineupWithSeatsArr.push([paddler]);
-    else {
+    } else {
       const rowInBoat = Math.ceil(paddler.position / 2);
       if (!lineupWithSeatsArr[rowInBoat]) lineupWithSeatsArr[rowInBoat] = [];
       lineupWithSeatsArr[rowInBoat].push(paddler);
@@ -33,6 +33,7 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
       ];
     } else {
       if (!lineupWithSeatsArr[insertRow]) lineupWithSeatsArr[insertRow] = [];
+
       if (position % 2 === 1) {
         lineupWithSeatsArr[insertRow].unshift({
           athlete: { isEmpty: true },
