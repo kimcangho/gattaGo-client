@@ -71,7 +71,6 @@ const LineupsPage = (): JSX.Element => {
           athletes: activeLineup,
         });
 
-        console.log("lineup id", data.id);
         setSelectDefaultValue(data.id);
         setTeamLineups((prevLineups: any) => {
           return [...prevLineups, data];
@@ -204,7 +203,6 @@ const LineupsPage = (): JSX.Element => {
             <option value={"new"}>New lineup</option>
             {teamLineups &&
               teamLineups.map((lineup, index) => {
-                console.log("mapping: ", lineup.id);
                 return (
                   <option
                     key={index}
