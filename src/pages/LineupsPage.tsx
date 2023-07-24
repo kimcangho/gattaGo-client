@@ -12,7 +12,7 @@ import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
   const [activeLineup, setActiveLineup] = useState(generatePlaceholderLineup());
-  const [selectDefaultValue, setSelectDefaultValue] = useState<string>("new");
+  const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
@@ -71,6 +71,7 @@ const LineupsPage = (): JSX.Element => {
           athletes: activeLineup,
         });
 
+        console.log("lineup id", data.id);
         setSelectDefaultValue(data.id);
         setTeamLineups((prevLineups: any) => {
           return [...prevLineups, data];
@@ -102,6 +103,7 @@ const LineupsPage = (): JSX.Element => {
   const handleGetSingleLineup = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    setSelectDefaultValue(event.target.value);
     if (event.target.value === "new") {
       try {
         setActiveLineup(generatePlaceholderLineup());
@@ -112,8 +114,6 @@ const LineupsPage = (): JSX.Element => {
         console.log(err);
       }
     } else {
-      // setSelectDefaultValue(event.target.id)
-
       try {
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/lineups/${event.target.value}`
@@ -195,7 +195,8 @@ const LineupsPage = (): JSX.Element => {
             {...register("activeLineupId")}
             name="activeLineupId"
             id="activeLineupId"
-            defaultValue={"new"}
+            // defaultValue={selectDefaultValue}
+            value={selectDefaultValue}
             className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             onChange={handleGetSingleLineup}
           >
@@ -203,11 +204,12 @@ const LineupsPage = (): JSX.Element => {
             <option value={"new"}>New lineup</option>
             {teamLineups &&
               teamLineups.map((lineup, index) => {
+                console.log("mapping: ", lineup.id);
                 return (
                   <option
                     key={index}
                     value={lineup.id}
-                    selected={selectDefaultValue === lineup.id}
+                    // selected={selectDefaultValue === lineup.id}
                   >
                     {lineup.name}
                   </option>
