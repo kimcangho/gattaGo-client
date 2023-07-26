@@ -15,6 +15,7 @@ const LineupAthleteItem = ({
   athleteId,
   width,
 }: LineupAthleteItemProps) => {
+  //  useDraggable hook - each rosterAthleteItem image should be a draggable area
   return (
     <article
       id={athleteId}
@@ -27,6 +28,7 @@ const LineupAthleteItem = ({
           <img
             src={athlete.isAvailable ? dragLeftIcon : noAccessIcon}
             alt={athlete.isAvailable ? "Drag Left" : "No Access"}
+            //  ref={setNodeRef} target this DOM node
             className={`flex justify-center items-center w-12 h-12 p-2 border rounded-lg ${
               athlete.isAvailable
                 ? "border-gray-border hover:bg-blue-wavy cursor-grab"

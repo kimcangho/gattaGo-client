@@ -10,6 +10,7 @@ const LineupRosterSection = ({
   rosterAthletes,
   width,
 }: LineupRosterSectionProps) => {
+
   return (
     <div
       onClick={(event) => {

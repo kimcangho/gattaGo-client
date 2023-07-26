@@ -1,25 +1,38 @@
+import { useDroppable } from "@dnd-kit/core";
+
 interface TestSeatProps {
   seat: number;
   row?: any[];
 }
 
 const LineupSeat = ({ seat, row }: TestSeatProps) => {
+  //  useDroppable hook - each position should be a droppable area
+  const { isOver, setNodeRef } = useDroppable({ id: "droppableTest" });
+
   return (
     <div className="flex mx-auto w-fit">
       {row ? (
         row.map(({ athlete, position }: any) => {
+          console.log(athlete);
           return (
             <div key={position}>
               {!athlete?.length && (seat === 0 || seat === 11) ? (
+                //  Drummer and Steers
                 <>
                   {athlete.isEmpty ? (
-                    <div className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto">
+                    <div
+                      //  target DOM node with ref={setNodeRef
+                      className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto"
+                    >
                       <h5 className="text-center text-[2rem] midMobile:text-[2.5rem]">
                         {!seat ? "D" : "S"}
                       </h5>
                     </div>
                   ) : (
-                    <div className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto relative">
+                    <div
+                      //  target DOM node with ref={setNodeRef
+                      className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto relative"
+                    >
                       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
                         <p>
                           {athlete.paddleSide && athlete.paddleSide === "N/A"
@@ -41,7 +54,9 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                   )}
                 </>
               ) : (
+                // Paddlers - seats 1 to 10
                 <div
+                  //  target DOM node with ref={setNodeRef}
                   className={`${
                     position % 2
                       ? "mx-auto border-r pr-2"

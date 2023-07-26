@@ -194,7 +194,6 @@ const LineupsPage = (): JSX.Element => {
             {...register("activeLineupId")}
             name="activeLineupId"
             id="activeLineupId"
-            // defaultValue={selectDefaultValue}
             value={selectDefaultValue}
             className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             onChange={handleGetSingleLineup}
@@ -207,7 +206,6 @@ const LineupsPage = (): JSX.Element => {
                   <option
                     key={index}
                     value={lineup.id}
-                    // selected={selectDefaultValue === lineup.id}
                   >
                     {lineup.name}
                   </option>
