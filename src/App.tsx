@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -19,8 +19,8 @@ import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 import EditAthletePage from "./pages/EditAthletePage";
 
 const App = (): JSX.Element => {
+
   return (
-    <BrowserRouter>
       <div className="flex flex-col h-screen justify-start">
         <Header />
 
@@ -78,7 +78,6 @@ const App = (): JSX.Element => {
 
         <Footer />
       </div>
-    </BrowserRouter>
   );
 };
 
