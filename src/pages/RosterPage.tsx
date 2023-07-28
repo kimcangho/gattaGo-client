@@ -20,7 +20,7 @@ const RosterPage = (): JSX.Element => {
   const [isFilterPanelVisible, setIsFilterPanelVisible] =
     useState<boolean>(false);
   const [filterFlags, setFilterFlags] = useState(filterFlagsObj);
-  const { teamId } = useParams<string>();
+  const { userId, teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const RosterPage = (): JSX.Element => {
   }, [filterFlags]);
 
   const handleEditAthlete = async (athleteId: string) => {
-    navigate(`/:userId/roster/${teamId}/edit/${athleteId}`);
+    navigate(`/${userId}/roster/${teamId}/edit/${athleteId}`);
   };
 
   const handleDeleteAthlete = async (athleteId: string) => {
@@ -260,7 +260,7 @@ const RosterPage = (): JSX.Element => {
         </div>
 
         <Link
-          to={`../:userId/roster/${teamId}/new`}
+          to={`../${userId}/roster/${teamId}/new`}
           className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
         >
           Add Paddler

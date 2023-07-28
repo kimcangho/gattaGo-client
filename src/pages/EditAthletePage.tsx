@@ -13,7 +13,7 @@ import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
 import { CreateNewAthleteFormData } from "../interfaces/FormData";
 
 const EditAthletePage = () => {
-  const { teamId, athleteId } = useParams();
+  const { userId, teamId, athleteId } = useParams();
   const [athlete, setAthlete]: any = useState(null);
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] = useState(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -172,7 +172,7 @@ const EditAthletePage = () => {
           withCredentials: true,
         }
       );
-      navigate(`/:userId/roster/${teamId}`);
+      navigate(`/${userId}/roster/${teamId}`);
     } catch (err) {
       console.log(err);
       logoutRedirect("/login");
@@ -465,7 +465,7 @@ const EditAthletePage = () => {
 
         <div className="flex space-x-2 tablet:space-x-6">
           <Link
-            to={`../:userId/roster/${teamId}/`}
+            to={`../${userId}/roster/${teamId}/`}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
           >
             <p>Cancel</p>

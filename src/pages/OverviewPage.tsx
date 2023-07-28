@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import OverviewTeamItem from "../components/OverviewTeamItem";
@@ -7,6 +7,7 @@ import { TeamData } from "../interfaces/EntityData";
 
 const OverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
+  const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -14,7 +15,7 @@ const OverviewPage = (): JSX.Element => {
   useEffect(() => {
     const getAllTeams = async () => {
       try {
-        const { data } = await axiosPrivate.get("/teams", {
+        const { data } = await axiosPrivate.get(`/teams/${userId}`, {
           withCredentials: true,
         });
         setMyTeams(data);
@@ -28,7 +29,7 @@ const OverviewPage = (): JSX.Element => {
   }, []);
 
   const handleCreateTeam = () => {
-    navigate("../:userId/new");
+    navigate(`../${userId}/new`);
   };
 
   return (

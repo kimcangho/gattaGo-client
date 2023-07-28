@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 export const generatePlaceholderLineup = () => {
   const placeHolderArr = [];
@@ -7,7 +7,7 @@ export const generatePlaceholderLineup = () => {
     placeHolderArr.push({
       athlete: { isEmpty: true, id: nanoid() },
           athleteId: nanoid(),
-          id: uuidv4(),
+          id: nanoid(),
           position: i,
           updatedAt: null,
     });

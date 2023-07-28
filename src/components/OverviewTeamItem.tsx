@@ -21,7 +21,7 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
-  const { setCurrentTeamName }: AuthContextTypes = useContext(AuthContext)!;
+  const { userId, setCurrentTeamName }: AuthContextTypes = useContext(AuthContext)!;
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -31,7 +31,7 @@ const OverviewTeamItem = ({
 
     const { id } = event.target as HTMLInputElement;
     setCurrentTeamName(name);
-    navigate(`../:userId/dashboard/${id}`);
+    navigate(`../${userId}/dashboard/${id}`);
   };
 
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {

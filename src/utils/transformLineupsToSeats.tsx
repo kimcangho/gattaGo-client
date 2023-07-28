@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 export const transformLineupsToSeats = (lineupArr: any[]) => {
   const lineupWithSeatsArr: any[] = [];
@@ -31,7 +31,7 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
         {
           athlete: { isEmpty: true, id: nanoid() },
           athleteId: nanoid(),
-          id: uuidv4(),
+          id: nanoid(),
           position,
           updatedAt: null,
         },
@@ -43,7 +43,7 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
         lineupWithSeatsArr[insertRow].unshift({
           athlete: { isEmpty: true, id: nanoid() },
           athleteId: nanoid(),
-          id: uuidv4(),
+          id: nanoid(),
           position,
           updatedAt: null,
         });
@@ -51,7 +51,7 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
         lineupWithSeatsArr[insertRow].push({
           athlete: { isEmpty: true, id: nanoid() },
           athleteId: nanoid(),
-          id: uuidv4(),
+          id: nanoid(),
           position,
           updatedAt: null,
         });

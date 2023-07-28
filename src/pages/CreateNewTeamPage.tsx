@@ -1,4 +1,9 @@
-import { Link, NavigateFunction, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavigateFunction,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -6,6 +11,7 @@ import teamIcon from "../assets/icons/roster.svg";
 import { CreateNewTeamFormData } from "../interfaces/FormData";
 
 const CreateNewTeamPage = (): JSX.Element => {
+  const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -32,13 +38,13 @@ const CreateNewTeamPage = (): JSX.Element => {
     if (!eligibility || !level || !division) return;
 
     try {
-      await axiosPrivate.post("/teams", {
+      await axiosPrivate.post(`/teams/${userId}`, {
         name,
         eligibility,
         level,
         division,
       });
-      navigate("../:userId/overview");
+      navigate(`../${userId}/overview`);
     } catch (err) {
       console.log(err);
       logoutRedirect("/login");
@@ -168,7 +174,7 @@ const CreateNewTeamPage = (): JSX.Element => {
 
         <div className="flex space-x-2 tablet:space-x-6">
           <Link
-            to="../user/overview"
+            to={`../${userId}/overview`}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
           >
             <p>Cancel</p>

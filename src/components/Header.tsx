@@ -7,7 +7,10 @@ import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 const Header = (): JSX.Element => {
   const {
     accessToken,
+    setUserId,
+    email,
     setEmail,
+    userId,
     isLoggedIn,
     setIsLoggedIn,
     currentTeamName,
@@ -18,7 +21,7 @@ const Header = (): JSX.Element => {
   const handleTeamOverviewRedirect = () => {
     setCurrentTeamName("");
     if (accessToken) {
-      navigate("../:userId/overview");
+      navigate(`../${userId}/overview`);
     } else {
       navigate("../");
     }
@@ -32,6 +35,7 @@ const Header = (): JSX.Element => {
         data: { accessToken },
         withCredentials: true,
       });
+      setUserId("");
       setEmail("");
       setCurrentTeamName("");
     } catch (err) {
@@ -63,7 +67,7 @@ const Header = (): JSX.Element => {
         </div>
         {isLoggedIn && (
           <h2 className="text-gray-dark text-sm midMobile:text-2xl tablet:text-3xl truncate max-w-[80%] midMobile:max-w-full">
-            {currentTeamName}
+            {currentTeamName ? currentTeamName : email}
           </h2>
         )}
       </div>

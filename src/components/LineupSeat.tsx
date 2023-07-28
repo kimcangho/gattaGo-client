@@ -1,4 +1,4 @@
-import { useDroppable } from "@dnd-kit/core";
+// import { useDroppable } from "@dnd-kit/core";
 
 interface TestSeatProps {
   seat: number;
@@ -7,7 +7,7 @@ interface TestSeatProps {
 
 const LineupSeat = ({ seat, row }: TestSeatProps) => {
   //  useDroppable hook - each position should be a droppable area
-  const { isOver, setNodeRef } = useDroppable({ id: "droppableTest" });
+  // const { isOver, setNodeRef } = useDroppable({ id: "droppableTest" });
 
   return (
     <div className="flex mx-auto w-fit">

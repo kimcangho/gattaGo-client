@@ -8,8 +8,13 @@ import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const LoginPage = (): JSX.Element => {
-  const { setAccessToken, email, setEmail, setIsLoggedIn }: AuthContextTypes =
-    useContext(AuthContext)!;
+  const {
+    setAccessToken,
+    setUserId,
+    email,
+    setEmail,
+    setIsLoggedIn,
+  }: AuthContextTypes = useContext(AuthContext)!;
   const [isInvalidInput, setIsInvalidInput] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
 
@@ -38,9 +43,10 @@ const LoginPage = (): JSX.Element => {
       );
 
       setAccessToken(data.accessToken);
+      setUserId(data.id);
       setEmail(email);
       setIsLoggedIn(true);
-      navigate("../userId/overview");
+      navigate(`../${data.id}/overview`);
     } catch (error) {
       setEmail(email);
       setIsInvalidInput(true);

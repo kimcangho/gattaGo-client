@@ -14,7 +14,7 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 import { paddlerSkillsDefault } from "../data/paddlerSkillsDefault";
 
 const CreateNewAthletePage = (): JSX.Element => {
-  const { teamId } = useParams();
+  const { userId, teamId } = useParams();
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -64,7 +64,14 @@ const CreateNewAthletePage = (): JSX.Element => {
   }: CreateNewAthleteFormData) => {
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
     console.log("creating paddler call...");
-    console.log(email, firstName, lastName, paddleSide, eligibility, availability);
+    console.log(
+      email,
+      firstName,
+      lastName,
+      paddleSide,
+      eligibility,
+      availability
+    );
 
     if (
       !email ||
@@ -101,7 +108,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           withCredentials: true,
         }
       );
-      navigate(`/:userId/roster/${teamId}`);
+      navigate(`/${userId}/roster/${teamId}`);
     } catch (err) {
       console.log(err);
       logoutRedirect("/login");
@@ -392,7 +399,7 @@ const CreateNewAthletePage = (): JSX.Element => {
 
         <div className="flex space-x-2 tablet:space-x-6">
           <Link
-            to={`../:userId/roster/${teamId}/`}
+            to={`../${userId}/roster/${teamId}/`}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
           >
             <p>Cancel</p>
