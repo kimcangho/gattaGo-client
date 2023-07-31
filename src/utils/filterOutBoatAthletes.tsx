@@ -1,9 +1,12 @@
-export const filterOutBoatAthletes = (rosterAthletes: any[], activeLineup: any[]) => {
-    //  accept active roster and active lineup arrays
-    console.log('rosterAthletes')
-    console.log(rosterAthletes)
-    console.log('activeLineup')
-    console.log(activeLineup)
+export const filterOutBoatAthletes = (
+  rosterAthletes: any[],
+  activeLineup: any[]
+) => {
+  const athleteIdArr: any[] = activeLineup.map((seat) => seat.athleteId);
 
-    return rosterAthletes
-}
+  const filteredAthleteArr = rosterAthletes.filter((athlete) => {
+    if (!athleteIdArr.includes(athlete.athleteId)) return athlete;
+  });
+
+  return filteredAthleteArr;
+};

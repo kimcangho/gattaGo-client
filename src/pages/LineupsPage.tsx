@@ -36,6 +36,7 @@ const LineupsPage = (): JSX.Element => {
     const getTeamLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
+        console.log(data.lineups);
         setTeamLineups(data.lineups);
       } catch (err: any) {
         console.log(err);
@@ -203,10 +204,7 @@ const LineupsPage = (): JSX.Element => {
             {teamLineups &&
               teamLineups.map((lineup, index) => {
                 return (
-                  <option
-                    key={index}
-                    value={lineup.id}
-                  >
+                  <option key={index} value={lineup.id}>
                     {lineup.name}
                   </option>
                 );

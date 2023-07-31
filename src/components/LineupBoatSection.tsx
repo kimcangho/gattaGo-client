@@ -65,10 +65,7 @@ const LineupBoatSection = ({
         </div>
 
         {(isModalOpen || width! >= 768) && (
-          <LineupRosterSection
-            rosterAthletes={filterOutBoatAthletes(rosterAthletes, activeLineup)}
-            width={width}
-          />
+          <LineupRosterSection rosterAthletes={filterOutBoatAthletes(rosterAthletes, activeLineup)} width={width} />
         )}
       </DndContext>
 
