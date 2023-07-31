@@ -1,16 +1,16 @@
 import { useDroppable } from "@dnd-kit/core";
 
-interface LineupSpotFilledProps {
+interface TestSpotFilledProps {
   position: number;
   seat: number;
   athlete: any;
 }
 
-const LineupSpotFilled = ({
+const TestSpotFilled = ({
   position,
   seat,
   athlete,
-}: LineupSpotFilledProps) => {
+}: TestSpotFilledProps) => {
   //  useDroppable hook - each position should be a droppable area
   // const { isOver, setNodeRef } = useDroppable({ id: athlete.id });
   console.log(athlete.id, position);
@@ -95,4 +95,4 @@ const LineupSpotFilled = ({
   );
 };
 
-export default LineupSpotFilled;
+export default TestSpotFilled;

@@ -9,21 +9,20 @@ interface LineupSeatProps {
 const LineupSeat = ({ seat, row }: LineupSeatProps) => {
   return (
     <div className="flex mx-auto w-fit">
+      
       {/* Handle filled seats */}
-      {row ? (
+      {row &&
         row.map(({ athlete, position }: any) => {
-          return (
+          return athlete.isEmpty ? (
+            <LineupSpotEmpty seat={seat} position={position} athlete={athlete}/>
+          ) : (
             <LineupSpotFilled
               position={position}
               seat={seat}
               athlete={athlete}
             />
           );
-        })
-      ) : (
-        //  Handle empty seats
-        <LineupSpotEmpty seat={seat} />
-      )}
+        })}
     </div>
   );
 };
