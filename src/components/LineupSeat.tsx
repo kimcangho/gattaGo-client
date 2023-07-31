@@ -13,7 +13,6 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
     <div className="flex mx-auto w-fit">
       {row ? (
         row.map(({ athlete, position }: any) => {
-          // console.log(athlete);
           return (
             <div key={position}>
               {!athlete?.length && (seat === 0 || seat === 11) ? (
@@ -22,7 +21,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                   {athlete.isEmpty ? (
                     <div
                       //  target DOM node with ref={setNodeRef}
-                      className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto"
+                      className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto cursor-grab"
                     >
                       <h5 className="text-center text-[2rem] midMobile:text-[2.5rem]">
                         {!seat ? "D" : "S"}
@@ -31,7 +30,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                   ) : (
                     <div
                       //  target DOM node with ref={setNodeRef}
-                      className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto relative"
+                      className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto relative cursor-grab"
                     >
                       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
                         <p>
@@ -66,14 +65,14 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                   } py-2 border-gray-border`}
                 >
                   {athlete.isEmpty ? (
-                    <div className="flex justify-center items-center bg-gray-border rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border">
+                    <div className="flex justify-center items-center bg-gray-border rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border cursor-grab">
                       <h5 className="text-center text-[2rem] midMobile:text-[2.5rem]">
                         {position % 2 ? "L" : "R"}
                         {seat}
                       </h5>
                     </div>
                   ) : (
-                    <div className="flex relative justify-center items-center bg-blue-wavy rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black">
+                    <div className="flex relative justify-center items-center bg-blue-wavy rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab">
                       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
                         <p>
                           {athlete.paddleSide === "N/A"
@@ -99,7 +98,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
           );
         })
       ) : seat === 0 || seat === 11 ? (
-        <div className="flex justify-center items-center bg-gray-border rounded-xl w-20 h-20 border">
+        <div className="flex justify-center items-center bg-gray-border rounded-xl w-20 h-20 border cursor-grab">
           <h5 className="text-center text-[2.5rem]">{!seat ? "D" : "S"}</h5>
         </div>
       ) : (
