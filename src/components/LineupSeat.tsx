@@ -13,7 +13,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
     <div className="flex mx-auto w-fit">
       {row ? (
         row.map(({ athlete, position }: any) => {
-          console.log(athlete);
+          // console.log(athlete);
           return (
             <div key={position}>
               {!athlete?.length && (seat === 0 || seat === 11) ? (
@@ -21,7 +21,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                 <>
                   {athlete.isEmpty ? (
                     <div
-                      //  target DOM node with ref={setNodeRef
+                      //  target DOM node with ref={setNodeRef}
                       className="flex justify-center items-center bg-gray-border my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto"
                     >
                       <h5 className="text-center text-[2rem] midMobile:text-[2.5rem]">
@@ -30,7 +30,7 @@ const LineupSeat = ({ seat, row }: TestSeatProps) => {
                     </div>
                   ) : (
                     <div
-                      //  target DOM node with ref={setNodeRef
+                      //  target DOM node with ref={setNodeRef}
                       className="flex flex-col justify-center items-center bg-blue-wavy text-black my-2 w-16 midMobile:w-20 h-16 midMobile:h-20 rounded-xl mx-auto relative"
                     >
                       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">

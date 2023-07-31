@@ -23,7 +23,11 @@ const LineupAthleteItem = ({
         !athlete.isAvailable && "bg-red-light"
       }`}
     >
-      <div className="flex items-center tablet:space-x-2 max-w-[calc(100%-3.5rem)] tablet:max-w-full text-black font-bold">
+      <div
+        className={`flex items-center tablet:space-x-2 max-w-[calc(100%-3.5rem)] tablet:max-w-full text-black font-bold ${
+          !athlete.isAvailable && "opacity-50"
+        }`}
+      >
         {width! >= 768 && (
           <img
             src={athlete.isAvailable ? dragLeftIcon : noAccessIcon}

@@ -6,6 +6,7 @@ import { RosterData } from "../interfaces/EntityData";
 import { transformLineupsToSeats } from "../utils/transformLineupsToSeats";
 import { calculateBoatWeights } from "../utils/calculateBoatWeights";
 import { DndContext } from "@dnd-kit/core";
+import { filterOutBoatAthletes } from "../utils/filterOutBoatAthletes";
 
 interface DragonBoatSeatingProps {
   width: number | undefined;
@@ -64,7 +65,10 @@ const LineupBoatSection = ({
         </div>
 
         {(isModalOpen || width! >= 768) && (
-          <LineupRosterSection rosterAthletes={rosterAthletes} width={width} />
+          <LineupRosterSection
+            rosterAthletes={filterOutBoatAthletes(rosterAthletes, activeLineup)}
+            width={width}
+          />
         )}
       </DndContext>
 
