@@ -36,7 +36,6 @@ const LineupsPage = (): JSX.Element => {
     const getTeamLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
-        console.log(data.lineups);
         setTeamLineups(data.lineups);
       } catch (err: any) {
         console.log(err);
@@ -56,10 +55,13 @@ const LineupsPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  const handleCreateLineup = async ({
+  //  Note: function to handle both create/update requests
+  const handleSaveLineup = async ({
     lineupName,
+    activeLineupId
   }: CreateNewLineupFormData) => {
     const createTeamLineup = async () => {
+      console.log(activeLineupId)
       if (!lineupName) return;
       const duplicateLineup = teamLineups?.find(
         (lineup) => lineup.name === lineupName
@@ -84,6 +86,11 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
+    if (activeLineupId !== 'new') {
+      console.log('handling update...')
+      return
+    }
+    
     createTeamLineup();
   };
 
@@ -168,7 +175,7 @@ const LineupsPage = (): JSX.Element => {
         </div>
         <div className="flex flex-col midMobile:flex-row space-y-2 midMobile:space-y-0 midMobile:space-x-2 tablet:space-x-4">
           <button
-            onClick={handleSubmit(handleCreateLineup)}
+            onClick={handleSubmit(handleSaveLineup)}
             className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border`}
           >
             Save Lineup
