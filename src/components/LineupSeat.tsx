@@ -1,6 +1,4 @@
-import LineupSpotFilled from "./LineupSpotFilled";
-import LineupSpotEmpty from "./LineupSpotEmpty";
-// import TestSpotFilled from "./TestSpotFilled";
+import LineupSpot from "./LineupSpot";
 
 interface LineupSeatProps {
   seat: number;
@@ -10,25 +8,16 @@ interface LineupSeatProps {
 const LineupSeat = ({ seat, row }: LineupSeatProps) => {
   return (
     <div className="flex mx-auto w-fit">
-      {/* Handle filled seats */}
-      {row &&
-        row.map(({ athlete, position }: any) => {
-          return athlete.isEmpty ? (
-            <LineupSpotEmpty
-              key={athlete.id}
-              seat={seat}
-              position={position}
-              athlete={athlete}
-            />
-          ) : (
-            <LineupSpotFilled
-              key={athlete.id}
-              position={position}
-              seat={seat}
-              athlete={athlete}
-            />
-          );
-        })}
+      {row?.map(({ athlete, position }: any) => {
+        return (
+          <LineupSpot
+            key={athlete.id}
+            seat={seat}
+            position={position}
+            athlete={athlete}
+          />
+        );
+      })}
     </div>
   );
 };
