@@ -163,8 +163,8 @@ const LineupsPage = (): JSX.Element => {
 
   return (
     <div className="w-full">
-      <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-4 overflow-hidden">
-        <div className="mb-4">
+      <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
+        <div className="mb-2">
           <h1>Lineups</h1>
           {teamLineups && (
             <p className="text-black">
@@ -173,12 +173,12 @@ const LineupsPage = (): JSX.Element => {
             </p>
           )}
         </div>
-        <div className="flex flex-col midMobile:flex-row space-y-2 midMobile:space-y-0 midMobile:space-x-2 tablet:space-x-4">
+        <div className="flex space-x-2 tablet:space-x-4">
           <button
             onClick={handleSubmit(handleSaveLineup)}
-            className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border`}
+            className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32`}
           >
-            Save Lineup
+            Save {width! >= 448 ? "Lineup" : ""}
           </button>
           <div
             onClick={handleDeleteLineup}
@@ -186,14 +186,14 @@ const LineupsPage = (): JSX.Element => {
               getValues().activeLineupId === "new"
                 ? "bg-gray-border border-gray-border cursor-not-allowed"
                 : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
-            }  text-white p-1 midMobile:p-2 rounded border `}
+            }  text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 text-center`}
           >
-            Delete Lineup
+            Delete {width! >= 448 ? "Lineup" : ""}
           </div>
         </div>
       </div>
 
-      <form className="flex flex-col midMobile:flex-row p-2 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+      <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
         <div className="flex flex-col mb-4 midMobile:w-[50%]">
           <label htmlFor="activeLineupId">
             <h3 className="text-blue-light">Active Lineup</h3>
