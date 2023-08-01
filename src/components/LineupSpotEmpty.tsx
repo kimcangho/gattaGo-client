@@ -15,7 +15,7 @@ const LineupSpotEmpty = ({ seat, position, athlete }: LineupSpotEmptyProps) => {
     backgroundColor: isOver ? "#7fc243" : undefined,
   };
 
-//   console.log(athlete.id, position);
+  //   console.log(athlete.id, position);
 
   //  Drummer and Steers Positions
   return seat === 0 || seat === 11 ? (

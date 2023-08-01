@@ -19,6 +19,7 @@ const LineupSpotFilled = ({
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        backgroundColor: "#1a6baf",
       }
     : undefined;
 
@@ -54,14 +55,14 @@ const LineupSpotFilled = ({
       </div>
     ) : (
       // Paddlers - seats 1 to 10
-      // <div className="border rounded-xl bg-gray-border">
-        <div
-          className={`${
-            position % 2 ? "mx-auto border-r pr-2" : "mx-auto border-l pl-2"
-          }  ${seat === 5 && "border-b"} ${
-            seat === 6 && "border-t"
-          } py-2 border-gray-border`}
-        >
+      <div
+        className={`${
+          position % 2 ? "mx-auto border-r pr-2" : "mx-auto border-l pl-2"
+        }  ${seat === 5 && "border-b"} ${
+          seat === 6 && "border-t"
+        } py-2 border-gray-border`}
+      >
+        <div className="border rounded-xl bg-gray-border">
           <div
             style={style}
             {...listeners}
@@ -83,7 +84,7 @@ const LineupSpotFilled = ({
             </div>
           </div>
         </div>
-      // </div>
+      </div>
     )
   );
 };

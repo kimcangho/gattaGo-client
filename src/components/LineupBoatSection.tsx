@@ -6,6 +6,7 @@ import { RosterData } from "../interfaces/EntityData";
 import { transformLineupsToSeats } from "../utils/transformLineupsToSeats";
 import { calculateBoatWeights } from "../utils/calculateBoatWeights";
 import { DndContext, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
+import { restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { filterOutBoatAthletes } from "../utils/filterOutBoatAthletes";
 
 interface DragonBoatSeatingProps {
@@ -38,11 +39,16 @@ const LineupBoatSection = ({
 
   const handleDragStart = (event: DragStartEvent): void => {
     console.log(event);
+    setIsModalOpen(false);
   };
 
   return (
     <div className="flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2">
-      <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <DndContext
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToFirstScrollableAncestor]}
+      >
         <div className="flex flex-col max-w-[448px] tablet:w-[408px] my-2 overflow-auto">
           <h1 className="text-center mb-2">
             Total Weight -{` `} {frontWeight + backWeight} lbs
