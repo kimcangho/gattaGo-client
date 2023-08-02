@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { nanoid } from "nanoid";
 import LineupRosterSection from "./LineupRosterSection";
 import LineupModalButton from "./LineupModalButton";
 import LineupSeat from "./LineupSeat";
@@ -42,17 +43,27 @@ const LineupBoatSection = ({
       (athlete) => athlete.athlete.id === over?.id
     );
 
-    //  Dropped outside boat area
     if (!foundOver) {
-      console.log(
-        "outside droppable seat, delete from boat section and add back to roster athletes"
-      );
+      setActiveLineup((prevLineup: any) => {
+        const newLineup = prevLineup;
+
+        newLineup.forEach((athlete: any) => {
+          if (athlete.athleteId === active.id) {
+            newLineup[athlete.position] = {
+              athlete: { isEmpty: true, id: nanoid() },
+              athleteId: nanoid(),
+              id: nanoid(),
+              position: athlete.position,
+              updatedAt: null,
+            };
+          }
+        });
+
+        return [...newLineup];
+      });
       return;
-      //  Dropped over empty seat
     } else if (active.id === over?.id) {
-      console.log("same id, no action, return");
       return;
-      //  Dropped over different seat
     } else {
       setActiveLineup((prevLineup: any) => {
         const newLineup = prevLineup;
