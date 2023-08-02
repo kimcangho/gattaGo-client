@@ -7,7 +7,6 @@ interface LineupSpotProps {
 }
 
 const LineupSpot = ({ seat, position, athlete }: LineupSpotProps) => {
-  console.log(athlete);
   return (
     <div
       className={`py-2 mx-auto border-gray-border

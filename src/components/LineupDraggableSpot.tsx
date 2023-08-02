@@ -5,7 +5,6 @@ interface LineupDraggableSpotProps {
 }
 
 const LineupDraggableSpot = ({ athlete }: LineupDraggableSpotProps) => {
-  //  useDraggable hook - each filled seat is a draggable element
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
   });
@@ -14,10 +13,10 @@ const LineupDraggableSpot = ({ athlete }: LineupDraggableSpotProps) => {
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
         backgroundColor: "#1a6baf",
+        zIndex: 20,
       }
     : undefined;
 
-  // console.log(athlete.id, position);
   return (
     <div
       style={style}

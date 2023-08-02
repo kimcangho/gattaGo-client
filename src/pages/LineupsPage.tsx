@@ -8,6 +8,7 @@ import { LineupData, RosterData } from "../interfaces/EntityData";
 import { CreateNewLineupFormData } from "../interfaces/FormData";
 import LineupBoatSection from "../components/LineupBoatSection";
 import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
+import { injectIntoLineup } from "../utils/injectIntoLineup";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -58,10 +59,10 @@ const LineupsPage = (): JSX.Element => {
   //  Note: function to handle both create/update requests
   const handleSaveLineup = async ({
     lineupName,
-    activeLineupId
+    activeLineupId,
   }: CreateNewLineupFormData) => {
     const createTeamLineup = async () => {
-      console.log(activeLineupId)
+      console.log(activeLineupId);
       if (!lineupName) return;
       const duplicateLineup = teamLineups?.find(
         (lineup) => lineup.name === lineupName
@@ -86,11 +87,11 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
-    if (activeLineupId !== 'new') {
-      console.log('handling update...')
-      return
+    if (activeLineupId !== "new") {
+      console.log("handling update...");
+      return;
     }
-    
+
     createTeamLineup();
   };
 
@@ -113,8 +114,7 @@ const LineupsPage = (): JSX.Element => {
     setSelectDefaultValue(event.target.value);
     if (event.target.value === "new") {
       try {
-        setActiveLineup(generatePlaceholderLineup());
-
+        setActiveLineup(injectIntoLineup([]));
         setValue("lineupName", "");
         setValue("activeLineupId", "new");
       } catch (err) {
@@ -126,10 +126,7 @@ const LineupsPage = (): JSX.Element => {
           `/teams/${teamId}/lineups/${event.target.value}`
         );
 
-        if (data.lineups[0].athletes.length === 0)
-          setActiveLineup(generatePlaceholderLineup);
-        else setActiveLineup(data.lineups[0].athletes);
-
+        setActiveLineup(injectIntoLineup(data.lineups[0].athletes));
         setValue("lineupName", data.lineups[0].name);
         setValue("activeLineupId", data.lineups[0].id);
       } catch (err: any) {
@@ -246,6 +243,7 @@ const LineupsPage = (): JSX.Element => {
         width={width}
         rosterAthletes={rosterAthletes}
         activeLineup={activeLineup}
+        setActiveLineup={setActiveLineup}
       />
     </div>
   );

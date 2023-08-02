@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid'
-// import { v4 as uuidv4 } from 'uuid';
 
 export const transformLineupsToSeats = (lineupArr: any[]) => {
   const lineupWithSeatsArr: any[] = [];
@@ -8,7 +7,7 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
     21,
   ];
 
-  
+  // console.log(lineupArr)
 
   lineupArr.forEach((paddler) => {
     if (paddler.position === 0 || paddler.position === 21) {
@@ -22,6 +21,8 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
     const index = trackerArr.indexOf(paddler.position);
     trackerArr.splice(index, 1);
   });
+
+  // console.log(lineupWithSeatsArr)
 
   trackerArr.forEach((position) => {
     const insertRow = Math.ceil(position / 2);
@@ -58,6 +59,8 @@ export const transformLineupsToSeats = (lineupArr: any[]) => {
       }
     }
   });
+
+  // console.log(lineupWithSeatsArr)
 
   return lineupWithSeatsArr;
 };

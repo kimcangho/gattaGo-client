@@ -13,12 +13,14 @@ interface DragonBoatSeatingProps {
   width: number | undefined;
   rosterAthletes: RosterData[];
   activeLineup: any[];
+  setActiveLineup: any;
 }
 
 const LineupBoatSection = ({
   width,
   rosterAthletes,
   activeLineup,
+  setActiveLineup,
 }: DragonBoatSeatingProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -31,14 +33,45 @@ const LineupBoatSection = ({
 
   const handleDragEnd = (event: DragEndEvent): void => {
     const { over, active } = event;
-    console.log(`Active: ${active.id}`);
-    console.log(`Over: ${over?.id}`);
-    console.log(activeLineup);
-    console.log(event);
+
+    const foundActive = activeLineup.find(
+      (athlete) => athlete.athlete.id === active.id
+    );
+
+    const foundOver = activeLineup.find(
+      (athlete) => athlete.athlete.id === over?.id
+    );
+
+    //  Dropped outside boat area
+    if (!foundOver) {
+      console.log(
+        "outside droppable seat, delete from boat section and add back to roster athletes"
+      );
+      return;
+      //  Dropped over empty seat
+    } else if (active.id === over?.id) {
+      console.log("same id, no action, return");
+      return;
+      //  Dropped over different seat
+    } else {
+      setActiveLineup((prevLineup: any) => {
+        const newLineup = prevLineup;
+
+        const tempPosition = foundActive.position;
+        newLineup[foundActive.position].position = foundOver.position;
+        newLineup[foundOver.position].position = tempPosition;
+
+        newLineup.sort((a: any, b: any) => {
+          if (a.position < b.position) return -1;
+          else return 1;
+        });
+
+        return [...newLineup];
+      });
+    }
   };
 
-  const handleDragStart = (event: DragStartEvent): void => {
-    console.log(event);
+  const handleDragStart = (_event: DragStartEvent): void => {
     setIsModalOpen(false);
   };
 
