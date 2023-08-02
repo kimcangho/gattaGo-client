@@ -31,10 +31,13 @@ const LineupBoatSection = ({
 
   // drag event listeners
   const handleDragEnd = (event: DragEndEvent): void => {
-    const { over } = event;
-    console.log(over);
-    console.log(event);
+    const { over, active } = event;
+    console.log(`Active: ${active.id}`);
+    console.log(`Over: ${over?.id}`);
     console.log(activeLineup);
+    console.log(event);
+
+    // const foundActive = activeLineup.find(athlete)
   };
 
   const handleDragStart = (event: DragStartEvent): void => {
