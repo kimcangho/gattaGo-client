@@ -64,7 +64,6 @@ const LineupsPage = (): JSX.Element => {
     activeLineupId,
   }: SaveNewLineupFormData) => {
     const createTeamLineup = async () => {
-      console.log(activeLineupId);
       if (!lineupName) return;
       const duplicateLineup = teamLineups?.find(
         (lineup) => lineup.name === lineupName
@@ -94,10 +93,7 @@ const LineupsPage = (): JSX.Element => {
       const duplicateLineup = teamLineups?.find(
         (lineup) => lineup.name === lineupName && lineup.id !== activeLineupId
       );
-      if (duplicateLineup) {
-        console.log("found dupe!");
-        return;
-      }
+      if (duplicateLineup) return;
 
       try {
         const { data } = await axiosPrivate.put(
