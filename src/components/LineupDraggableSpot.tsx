@@ -23,7 +23,9 @@ const LineupDraggableSpot = ({ athlete }: LineupDraggableSpotProps) => {
       {...listeners}
       {...attributes}
       ref={setNodeRef}
-      className="flex relative justify-center items-center bg-blue-wavy rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-10"
+      className={`flex relative justify-center items-center ${
+        athlete.isAvailable ? "bg-blue-wavy" : "bg-red-light"
+      } rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-10`}
     >
       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
         <p>{athlete.paddleSide === "N/A" ? "N" : athlete.paddleSide}</p>

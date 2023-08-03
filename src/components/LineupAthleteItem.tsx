@@ -24,19 +24,15 @@ const LineupAthleteItem = ({
       }`}
     >
       <div
-        className={`flex items-center tablet:space-x-2 max-w-[calc(100%-3.5rem)] tablet:max-w-full text-black font-bold ${
-          !athlete.isAvailable && "opacity-50"
-        }`}
+        className={`flex items-center tablet:space-x-2 max-w-[calc(100%-3.5rem)] tablet:max-w-full text-black font-bold `}
       >
         {width! >= 768 && (
           <img
-            src={athlete.isAvailable ? dragLeftIcon : noAccessIcon}
-            alt={athlete.isAvailable ? "Drag Left" : "No Access"}
+            src={dragLeftIcon}
+            alt={"Drag Athlete Left"}
             //  ref={setNodeRef} target this DOM node
-            className={`flex justify-center items-center w-12 h-12 p-2 border rounded-lg ${
-              athlete.isAvailable
-                ? "border-gray-border hover:bg-blue-wavy cursor-grab"
-                : "border-red-light over:bg-red-light cursor-not-allowed"
+            className={`flex justify-center items-center w-12 h-12 p-2 border border-gray-border rounded-lg cursor-grab ${
+              athlete.isAvailable ? "hover:bg-blue-wavy" : "hover:bg-red-dark"
             } `}
           />
         )}
@@ -82,15 +78,13 @@ const LineupAthleteItem = ({
       <div className="flex text-black font-bold items-center">
         {width! < 768 && (
           <div
-            className={`flex justify-center items-center w-12 h-12 p-2 border rounded-lg ${
-              athlete.isAvailable
-                ? "border-gray-border hover:bg-blue-wavy cursor-grab"
-                : "border-red-light cursor-not-allowed"
+            className={`flex justify-center items-center w-12 h-12 p-2 border rounded-lg border-gray-border cursor-grab ${
+              athlete.isAvailable ? "hover:bg-blue-wavy " : "hover:bg-red-dark"
             } `}
           >
             <img
-              src={athlete.isAvailable ? dragRightIcon : noAccessIcon}
-              alt={athlete.isAvailable ? "Drag Right" : "No Access"}
+              src={dragRightIcon}
+              alt={"Drag Athlete Right"}
               className="w-full h-full"
             />
           </div>
