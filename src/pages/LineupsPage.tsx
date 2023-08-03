@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-// import useLogoutRedirect from "../hooks/useLogoutRedirect";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import { LineupData, RosterData } from "../interfaces/EntityData";
-import { CreateNewLineupFormData } from "../interfaces/FormData";
+import { SaveNewLineupFormData } from "../interfaces/FormData";
 import LineupBoatSection from "../components/LineupBoatSection";
 import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
 import { injectIntoLineup } from "../utils/injectIntoLineup";
+import { trimActiveLineup } from "../utils/trimActiveLineup";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -18,7 +19,7 @@ const LineupsPage = (): JSX.Element => {
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
-  // const logoutRedirect = useLogoutRedirect();
+  const logoutRedirect = useLogoutRedirect();
 
   const {
     register,
@@ -26,7 +27,7 @@ const LineupsPage = (): JSX.Element => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm<CreateNewLineupFormData>({
+  } = useForm<SaveNewLineupFormData>({
     defaultValues: {
       activeLineupId: "new",
       lineupName: "",
@@ -40,6 +41,7 @@ const LineupsPage = (): JSX.Element => {
         setTeamLineups(data.lineups);
       } catch (err: any) {
         console.log(err);
+        logoutRedirect("/login");
       }
     };
 
@@ -60,7 +62,7 @@ const LineupsPage = (): JSX.Element => {
   const handleSaveLineup = async ({
     lineupName,
     activeLineupId,
-  }: CreateNewLineupFormData) => {
+  }: SaveNewLineupFormData) => {
     const createTeamLineup = async () => {
       console.log(activeLineupId);
       if (!lineupName) return;
@@ -87,26 +89,48 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
+    const updateTeamLineup = async () => {
+      if (!lineupName) return;
+      const duplicateLineup = teamLineups?.find(
+        (lineup) => lineup.name === lineupName && lineup.id !== activeLineupId
+      );
+      if (duplicateLineup) {
+        console.log("found dupe!");
+        return;
+      }
+
+      try {
+        const { data } = await axiosPrivate.put(
+          `teams/${teamId}/lineups/${activeLineupId}`,
+          {
+            name: lineupName,
+            athletes: trimActiveLineup(activeLineup),
+          }
+        );
+
+        setTeamLineups((prevLineups: any) => {
+          const updatedLineups = prevLineups;
+          updatedLineups.forEach((lineup: any) => {
+            if (lineup.id === data.lineupId) lineup.name = data.name;
+          });
+
+          return [...updatedLineups];
+        });
+
+        setSelectDefaultValue(data.lineupId);
+        setValue("activeLineupId", data.lineupId);
+        setValue("lineupName", data.name);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     if (activeLineupId !== "new") {
-      console.log("handling update...");
-      return;
+      updateTeamLineup();
+    } else {
+      createTeamLineup();
     }
-
-    createTeamLineup();
   };
-
-  // const handleUpdateLineup = async ({
-  //   activeLineupId,
-  //   lineupName,
-  // }: CreateNewLineupFormData) => {
-  //   //  Return if no lineup name and no active lineup selected
-  //   console.log(activeLineupId, lineupName);
-
-  //   //   //  Update existing lineup
-  //   //   try {
-  //   //     //  API PUT request
-  //   //   } catch (err) {}
-  // };
 
   const handleGetSingleLineup = async (
     event: React.ChangeEvent<HTMLSelectElement>

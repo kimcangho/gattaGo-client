@@ -93,7 +93,7 @@ const LineupBoatSection = ({
         onDragEnd={handleDragEnd}
         modifiers={[restrictToFirstScrollableAncestor]}
       >
-        <div className="flex flex-col max-w-[448px] tablet:w-[408px] my-2 overflow-auto">
+        <div className="flex flex-col max-w-[448px] midMobile:max-w-full tablet:w-[408px] my-2 overflow-auto">
           <h1 className="text-center mb-2">
             Total Weight -{` `} {frontWeight + backWeight} lbs
           </h1>
