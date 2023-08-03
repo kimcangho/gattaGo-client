@@ -2,7 +2,6 @@ import { AthleteData } from "../interfaces/EntityData";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import dragRightIcon from "../assets/icons/drag-right.svg";
 import dragLeftIcon from "../assets/icons/drag-left.svg";
-import noAccessIcon from "../assets/icons/no-access.svg";
 
 interface LineupAthleteItemProps {
   athleteId: string;
