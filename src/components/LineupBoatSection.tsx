@@ -24,6 +24,7 @@ const LineupBoatSection = ({
   setActiveLineup,
 }: DragonBoatSeatingProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<any>("")
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -35,6 +36,8 @@ const LineupBoatSection = ({
   const handleDragEnd = (event: DragEndEvent): void => {
     const { over, active } = event;
 
+    setActiveId("")
+    console.log(over, active);
     const foundActive = activeLineup.find(
       (athlete) => athlete.athlete.id === active.id
     );
@@ -79,11 +82,15 @@ const LineupBoatSection = ({
 
         return [...newLineup];
       });
+
     }
+    
   };
 
-  const handleDragStart = (_event: DragStartEvent): void => {
+  const handleDragStart = (event: DragStartEvent): void => {
     setIsModalOpen(false);
+    setActiveId(event.active.id)
+    console.log(event.active.id);
   };
 
   return (
@@ -91,11 +98,12 @@ const LineupBoatSection = ({
       <DndContext
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        modifiers={[restrictToFirstScrollableAncestor]}
+        // modifiers={[restrictToFirstScrollableAncestor]}
       >
         <div className="flex flex-col max-w-[448px] midMobile:max-w-full tablet:w-[408px] my-2 overflow-auto">
           <h1 className="text-center mb-2">
             Total Weight -{` `} {frontWeight + backWeight} lbs
+            {activeId}
           </h1>
 
           <h3 className="text-center">Front</h3>
@@ -130,6 +138,7 @@ const LineupBoatSection = ({
           <LineupRosterSection
             rosterAthletes={filterOutBoatAthletes(rosterAthletes, activeLineup)}
             width={width}
+            activeId={activeId}
           />
         )}
       </DndContext>

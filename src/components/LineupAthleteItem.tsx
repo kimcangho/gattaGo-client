@@ -2,6 +2,7 @@ import { AthleteData } from "../interfaces/EntityData";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import dragRightIcon from "../assets/icons/drag-right.svg";
 import dragLeftIcon from "../assets/icons/drag-left.svg";
+import { useDraggable } from "@dnd-kit/core";
 
 interface LineupAthleteItemProps {
   athleteId: string;
@@ -15,6 +16,19 @@ const LineupAthleteItem = ({
   width,
 }: LineupAthleteItemProps) => {
   //  useDraggable hook - each rosterAthleteItem image should be a draggable area
+  // console.log(athlete, athleteId)
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: athlete.id,
+  });
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        backgroundColor: "#1a6baf",
+        zIndex: 20,
+      }
+    : undefined;
+
   return (
     <article
       id={athleteId}
@@ -29,7 +43,10 @@ const LineupAthleteItem = ({
           <img
             src={dragLeftIcon}
             alt={"Drag Athlete Left"}
-            //  ref={setNodeRef} target this DOM node
+            {...listeners}
+            {...attributes}
+            ref={setNodeRef}
+            // style={style}
             className={`flex justify-center items-center w-12 h-12 p-2 border border-gray-border rounded-lg cursor-grab ${
               athlete.isAvailable ? "hover:bg-blue-wavy" : "hover:bg-red-dark"
             } `}
@@ -77,6 +94,10 @@ const LineupAthleteItem = ({
       <div className="flex text-black font-bold items-center">
         {width! < 768 && (
           <div
+            {...listeners}
+            {...attributes}
+            ref={setNodeRef}
+            style={style}
             className={`flex justify-center items-center w-12 h-12 p-2 border rounded-lg border-gray-border cursor-grab ${
               athlete.isAvailable ? "hover:bg-blue-wavy " : "hover:bg-red-dark"
             } `}
