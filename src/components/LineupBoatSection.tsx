@@ -26,7 +26,6 @@ const LineupBoatSection = ({
 }: DragonBoatSeatingProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<any>("");
-  console.log(lineupId);
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);

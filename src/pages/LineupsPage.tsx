@@ -72,7 +72,7 @@ const LineupsPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.post(`teams/${teamId}/lineups`, {
           name: lineupName,
-          athletes: activeLineup,
+          athletes: trimActiveLineup(activeLineup),
         });
 
         setSelectDefaultValue(data.id);
