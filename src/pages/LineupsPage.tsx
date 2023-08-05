@@ -58,7 +58,6 @@ const LineupsPage = (): JSX.Element => {
     getAthletes();
   }, []);
 
-  //  Note: function to handle both create/update requests
   const handleSaveLineup = async ({
     lineupName,
     activeLineupId,
@@ -264,6 +263,7 @@ const LineupsPage = (): JSX.Element => {
         rosterAthletes={rosterAthletes}
         activeLineup={activeLineup}
         setActiveLineup={setActiveLineup}
+        lineupId={getValues("activeLineupId")}
       />
     </div>
   );

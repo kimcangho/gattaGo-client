@@ -1,6 +1,7 @@
 import LineupAthleteItem from "./LineupAthleteItem";
 import { RosterData } from "../interfaces/EntityData";
 import { DragOverlay } from "@dnd-kit/core";
+import LineupDragOverlaySpot from "./LineupDragOverlaySpot";
 
 interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
@@ -13,6 +14,17 @@ const LineupRosterSection = ({
   width,
   activeId,
 }: LineupRosterSectionProps) => {
+  const selectDraggableAthlete = (
+    rosterAthletes: RosterData[],
+    activeId: any
+  ) => {
+    const foundAthlete = rosterAthletes.find(
+      (athlete) => athlete.athleteId === activeId
+    );
+
+    return foundAthlete;
+  };
+
   return (
     <>
       <div
@@ -60,29 +72,11 @@ const LineupRosterSection = ({
           })}
       </div>
       <DragOverlay>
-        {
-          //  Consider creating a new component to pass in athlete prop based on activeId
-          //  e.g. <DraggableRosterAthlete athlete={sendAthleteThrough(activeId)} />
-          activeId ? (
-            <div
-              className={`flex relative justify-center items-center bg-blue-wavy
-      rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-10`}
-            >
-              <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
-                <p>L</p>
-              </div>
-              <div className="bg-green-light w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full">
-                <p>O</p>
-              </div>
-              <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
-                KH
-              </h5>
-              <div className="bg-orange-light w-fit h-fit px-2 absolute bottom-0.5 flex items-center justify-center rounded-full text-xs">
-                <p>213</p>
-              </div>
-            </div>
-          ) : null
-        }
+        {activeId ? (
+          <LineupDragOverlaySpot
+            athlete={selectDraggableAthlete(rosterAthletes, activeId)}
+          />
+        ) : null}
       </DragOverlay>
     </>
   );
