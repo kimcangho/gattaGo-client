@@ -6,7 +6,12 @@ import LineupSeat from "./LineupSeat";
 import { RosterData } from "../interfaces/EntityData";
 import { transformLineupsToSeats } from "../utils/transformLineupsToSeats";
 import { calculateBoatWeights } from "../utils/calculateBoatWeights";
-import { DndContext, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragEndEvent,
+  DragMoveEvent,
+  DragStartEvent,
+} from "@dnd-kit/core";
 import { filterOutBoatAthletes } from "../utils/filterOutBoatAthletes";
 
 interface DragonBoatSeatingProps {
@@ -26,6 +31,7 @@ const LineupBoatSection = ({
 }: DragonBoatSeatingProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<any>("");
+  const [overId, setOverId] = useState<any>("");
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -43,9 +49,17 @@ const LineupBoatSection = ({
     }
   };
 
+  const handleWhileDrag = (event: DragMoveEvent) => {
+    const { over } = event;
+
+    setOverId(over?.id);
+  };
+
   const handleDragEnd = (event: DragEndEvent): void => {
     const { over, active } = event;
+    console.log(over?.id, overId);
     setActiveId("");
+    setOverId("");
 
     const foundAthleteInActiveLineup = activeLineup.find(
       (paddler) => paddler.athleteId == event.active.id
@@ -141,7 +155,11 @@ const LineupBoatSection = ({
 
   return (
     <div className="flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2">
-      <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <DndContext
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragMove={handleWhileDrag}
+      >
         <div className="flex flex-col max-w-[448px] midMobile:max-w-full tablet:w-[408px] my-2 overflow-auto">
           <h1 className="text-center mb-2">
             Total Weight -{` `} {frontWeight + backWeight} lbs
@@ -161,7 +179,14 @@ const LineupBoatSection = ({
                 activeLineup.length &&
                 transformLineupsToSeats(activeLineup).map(
                   (row: any, index: number) => {
-                    return <LineupSeat key={index} seat={index} row={row} />;
+                    return (
+                      <LineupSeat
+                        key={index}
+                        seat={index}
+                        row={row}
+                        overId={overId}
+                      />
+                    );
                   }
                 )}
             </div>
@@ -180,6 +205,7 @@ const LineupBoatSection = ({
             rosterAthletes={filterOutBoatAthletes(rosterAthletes, activeLineup)}
             width={width}
             activeId={activeId}
+            overId={overId}
           />
         )}
       </DndContext>

@@ -4,9 +4,10 @@ interface LineupSpotProps {
   seat: number;
   position: number;
   athlete: any;
+  overId: any;
 }
 
-const LineupSpot = ({ seat, position, athlete }: LineupSpotProps) => {
+const LineupSpot = ({ seat, position, athlete, overId }: LineupSpotProps) => {
   return (
     <div
       className={`py-2 mx-auto border-gray-border
@@ -24,7 +25,12 @@ const LineupSpot = ({ seat, position, athlete }: LineupSpotProps) => {
         ${seat === 6 ? "border-t" : ""}
       `}
     >
-      <LineupDroppableSpot seat={seat} position={position} athlete={athlete} />
+      <LineupDroppableSpot
+        seat={seat}
+        position={position}
+        athlete={athlete}
+        overId={overId}
+      />
     </div>
   );
 };

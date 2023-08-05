@@ -2,17 +2,20 @@ import { useDraggable } from "@dnd-kit/core";
 
 interface LineupDraggableSpotProps {
   athlete: any;
+  overId: any;
 }
 
-const LineupDraggableSpot = ({ athlete }: LineupDraggableSpotProps) => {
+const LineupDraggableSpot = ({ athlete, overId }: LineupDraggableSpotProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
   });
 
+  console.log(transform)
+
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        backgroundColor: "#1a6baf",
+        backgroundColor: athlete.isAvailable ? "#1a6baf" : "#c55a5a",
         zIndex: 20,
       }
     : undefined;
@@ -23,9 +26,17 @@ const LineupDraggableSpot = ({ athlete }: LineupDraggableSpotProps) => {
       {...listeners}
       {...attributes}
       ref={setNodeRef}
-      className={`flex relative justify-center items-center ${
-        athlete.isAvailable ? "bg-blue-wavy" : "bg-red-light"
-      } rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-10`}
+      className={`flex relative justify-center items-center 
+      ${
+        athlete.id === overId
+          ? "bg-green-light"
+          : athlete.isAvailable
+          ? "bg-blue-wavy"
+          : "bg-red-light"
+      } 
+      rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-15 
+      
+      `}
     >
       <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
         <p>{athlete.paddleSide === "N/A" ? "N" : athlete.paddleSide}</p>

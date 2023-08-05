@@ -7,6 +7,7 @@ interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
   width: number | undefined;
   activeId: any;
+  overId: any;
 }
 
 const LineupRosterSection = ({
@@ -16,7 +17,7 @@ const LineupRosterSection = ({
 }: LineupRosterSectionProps) => {
   const selectDraggableAthlete = (
     rosterAthletes: RosterData[],
-    activeId: any
+    activeId: any,
   ) => {
     const foundAthlete = rosterAthletes.find(
       (athlete) => athlete.athleteId === activeId
@@ -37,7 +38,7 @@ const LineupRosterSection = ({
       >
         <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
           <div className="text-black mb-2">
-            <h1>Roster {activeId}</h1>
+            <h1>Roster</h1>
             <p className="text-black">
               Total: {rosterAthletes.length} paddler
               {rosterAthletes.length !== 1 && `s`}

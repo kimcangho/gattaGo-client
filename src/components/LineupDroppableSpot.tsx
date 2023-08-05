@@ -5,12 +5,14 @@ interface LineupDroppableSpotProps {
   athlete: any;
   position: number;
   seat: number;
+  overId: any;
 }
 
 const LineupDroppableSpot = ({
   athlete,
   position,
   seat,
+  overId,
 }: LineupDroppableSpotProps) => {
   const { isOver, setNodeRef } = useDroppable({
     id: athlete.id,
@@ -33,7 +35,9 @@ const LineupDroppableSpot = ({
           : `${position % 2 === 1 ? "L" : "R"}${seat}`}
       </h5>
 
-      {!athlete.isEmpty && <LineupDraggableSpot athlete={athlete} />}
+      {!athlete.isEmpty && (
+        <LineupDraggableSpot athlete={athlete} overId={overId} />
+      )}
     </div>
   );
 };
