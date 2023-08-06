@@ -8,5 +8,5 @@ export const filterOutBoatAthletes = (
     if (!athleteIdArr.includes(athlete.athleteId)) return athlete;
   });
 
-  return filteredAthleteArr;
+  return [...filteredAthleteArr];
 };

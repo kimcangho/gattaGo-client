@@ -11,8 +11,10 @@ import {
   DragEndEvent,
   DragMoveEvent,
   DragStartEvent,
+  DragOverlay,
 } from "@dnd-kit/core";
 import { filterOutBoatAthletes } from "../utils/filterOutBoatAthletes";
+import LineupDragOverlaySpot from "./LineupDragOverlaySpot";
 
 interface DragonBoatSeatingProps {
   width: number | undefined;
@@ -41,33 +43,28 @@ const LineupBoatSection = ({
   const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
 
   const handleDragStart = (event: DragStartEvent): void => {
-    const foundAthleteInActiveLineup = activeLineup.find(
-      (paddler) => paddler.athleteId == event.active.id
-    );
-    if (!foundAthleteInActiveLineup) {
-      setActiveId(event.active.id);
-    }
+    setActiveId(event.active.id);
   };
 
-  const handleWhileDrag = (event: DragMoveEvent) => {
+  const handleWhileDrag = (event: DragMoveEvent): void => {
     const { over } = event;
-
     setOverId(over?.id);
   };
 
   const handleDragEnd = (event: DragEndEvent): void => {
     const { over, active } = event;
-    console.log(over?.id, overId);
     setActiveId("");
     setOverId("");
 
     const foundAthleteInActiveLineup = activeLineup.find(
       (paddler) => paddler.athleteId == event.active.id
     );
+
     if (foundAthleteInActiveLineup) {
       const foundActive = activeLineup.find(
         (athlete) => athlete.athlete.id === active.id
       );
+
       const foundOver = activeLineup.find(
         (athlete) => athlete.athlete.id === over?.id
       );
@@ -91,9 +88,8 @@ const LineupBoatSection = ({
           return [...newLineup];
         });
         return;
-      } else if (active.id === over?.id) {
-        return;
-      } else {
+      } else if (active.id === over?.id) return;
+      else {
         setActiveLineup((prevLineup: any) => {
           const newLineup = prevLineup;
 
@@ -153,6 +149,16 @@ const LineupBoatSection = ({
     }
   };
 
+  const selectDraggableAthlete = (
+    rosterAthletes: RosterData[],
+    activeId: any
+  ) => {
+    const foundAthlete = rosterAthletes.find(
+      (athlete) => athlete.athleteId === activeId
+    );
+    return foundAthlete;
+  };
+
   return (
     <div className="flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2">
       <DndContext
@@ -174,6 +180,14 @@ const LineupBoatSection = ({
               <h4 className="text-center">lbs</h4>
             </div>
 
+            <DragOverlay dropAnimation={null}>
+              {activeId ? (
+                <LineupDragOverlaySpot
+                  athlete={selectDraggableAthlete(rosterAthletes, activeId)}
+                />
+              ) : null}
+            </DragOverlay>
+
             <div className="mx-auto">
               {activeLineup &&
                 activeLineup.length &&
@@ -184,6 +198,7 @@ const LineupBoatSection = ({
                         key={index}
                         seat={index}
                         row={row}
+                        activeId={activeId}
                         overId={overId}
                       />
                     );
@@ -215,6 +230,7 @@ const LineupBoatSection = ({
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         handleToggleModal={handleToggleModal}
+        activeId={activeId}
       />
     </div>
   );

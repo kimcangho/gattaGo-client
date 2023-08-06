@@ -3,13 +3,12 @@ interface LineupDragOverlaySpotProps {
 }
 
 const LineupDragOverlaySpot = ({ athlete }: LineupDragOverlaySpotProps) => {
-  console.log(athlete);
   return (
     athlete && (
       <div
         className={`flex relative justify-center items-center 
       rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-10 ${
-        athlete.athlete.isAvailable ? "bg-blue-wavy" : "bg-red-dark"
+        athlete.athlete.isAvailable ? "bg-blue-dark" : "bg-red-dark"
       }`}
       >
         <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">

@@ -1,7 +1,5 @@
 import LineupAthleteItem from "./LineupAthleteItem";
 import { RosterData } from "../interfaces/EntityData";
-import { DragOverlay } from "@dnd-kit/core";
-import LineupDragOverlaySpot from "./LineupDragOverlaySpot";
 
 interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
@@ -15,17 +13,6 @@ const LineupRosterSection = ({
   width,
   activeId,
 }: LineupRosterSectionProps) => {
-  const selectDraggableAthlete = (
-    rosterAthletes: RosterData[],
-    activeId: any,
-  ) => {
-    const foundAthlete = rosterAthletes.find(
-      (athlete) => athlete.athleteId === activeId
-    );
-
-    return foundAthlete;
-  };
-
   return (
     <>
       <div
@@ -74,13 +61,6 @@ const LineupRosterSection = ({
             );
           })}
       </div>
-      <DragOverlay dropAnimation={null}>
-        {activeId ? (
-          <LineupDragOverlaySpot
-            athlete={selectDraggableAthlete(rosterAthletes, activeId)}
-          />
-        ) : null}
-      </DragOverlay>
     </>
   );
 };

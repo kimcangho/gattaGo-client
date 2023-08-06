@@ -15,8 +15,6 @@ const LineupAthleteItem = ({
   athleteId,
   width,
 }: LineupAthleteItemProps) => {
-  //  useDraggable hook - each rosterAthleteItem image should be a draggable area
-  // console.log(athlete, athleteId)
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
   });
@@ -46,9 +44,8 @@ const LineupAthleteItem = ({
             {...listeners}
             {...attributes}
             ref={setNodeRef}
-            // style={style}
             className={`flex justify-center items-center w-12 h-12 p-2 border border-gray-border rounded-lg cursor-grab ${
-              athlete.isAvailable ? "hover:bg-blue-wavy" : "hover:bg-red-dark"
+              athlete.isAvailable ? "hover:bg-blue-dark" : "hover:bg-red-dark"
             } `}
           />
         )}

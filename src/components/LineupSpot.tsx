@@ -5,9 +5,10 @@ interface LineupSpotProps {
   position: number;
   athlete: any;
   overId: any;
+  activeId: any;
 }
 
-const LineupSpot = ({ seat, position, athlete, overId }: LineupSpotProps) => {
+const LineupSpot = ({ seat, position, athlete, overId, activeId }: LineupSpotProps) => {
   return (
     <div
       className={`py-2 mx-auto border-gray-border
@@ -30,6 +31,7 @@ const LineupSpot = ({ seat, position, athlete, overId }: LineupSpotProps) => {
         position={position}
         athlete={athlete}
         overId={overId}
+        activeId={activeId}
       />
     </div>
   );
