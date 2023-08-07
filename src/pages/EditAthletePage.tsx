@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
@@ -90,13 +90,10 @@ const EditAthletePage = () => {
           weight,
         } = data;
 
-        // let availability = 'unavailable'
-        // if (isAvailable) availability = 'available'
-
         reset({
           teamId,
           eligibility,
-          availability: isAvailable ? 'available' : 'unavailable',
+          availability: isAvailable ? "available" : "unavailable",
           email,
           firstName,
           lastName,
@@ -177,6 +174,10 @@ const EditAthletePage = () => {
       console.log(err);
       logoutRedirect("/login");
     }
+  };
+
+  const handleCancelRedirect = () => {
+    navigate(`../${userId}/roster/${teamId}/`);
   };
 
   return (
@@ -464,12 +465,13 @@ const EditAthletePage = () => {
         </div>
 
         <div className="flex space-x-2 tablet:space-x-6">
-          <Link
-            to={`../${userId}/roster/${teamId}/`}
+          <button
+            // to={`../${userId}/roster/${teamId}/`}
+            onClick={handleCancelRedirect}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
           >
             <p>Cancel</p>
-          </Link>
+          </button>
           <button
             type="submit"
             className="p-4 w-full text-center flex justify-center text-white bg-green-light hover:bg-green-dark rounded"

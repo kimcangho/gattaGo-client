@@ -7,6 +7,7 @@ import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 const Header = (): JSX.Element => {
   const {
     accessToken,
+    setAccessToken,
     setUserId,
     email,
     setEmail,
@@ -20,11 +21,8 @@ const Header = (): JSX.Element => {
 
   const handleTeamOverviewRedirect = () => {
     setCurrentTeamName("");
-    if (accessToken) {
-      navigate(`../${userId}/overview`);
-    } else {
-      navigate("../");
-    }
+    if (accessToken) navigate(`../${userId}/overview`);
+    else navigate("../");
   };
 
   const handleLogout = async () => {
@@ -35,6 +33,7 @@ const Header = (): JSX.Element => {
         data: { accessToken },
         withCredentials: true,
       });
+      setAccessToken("");
       setUserId("");
       setEmail("");
       setCurrentTeamName("");

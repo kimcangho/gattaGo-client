@@ -14,9 +14,8 @@ const OverviewPage = (): JSX.Element => {
   useEffect(() => {
     const getAllTeams = async () => {
       try {
-        const { data } = await axiosPrivate.get(`/teams/user/${userId}`, {
-          withCredentials: true,
-        });
+        const { data } = await axiosPrivate.get(`/teams/user/${userId}`);
+        console.log(data)
         setMyTeams(data);
       } catch (err) {
         console.log(err);
@@ -28,7 +27,7 @@ const OverviewPage = (): JSX.Element => {
   }, []);
 
   return (
-    <>
+    <div className="desktop:mx-auto">
       <div className="flex justify-between items-center tablet:max-w-full desktop:max-w-[1280px] my-4 tablet:mb-0 overflow-hidden mx-2 tablet:mx-4">
         <div>
           <h1>Teams</h1>
@@ -52,13 +51,16 @@ const OverviewPage = (): JSX.Element => {
               key={team.id}
               id={team.id}
               name={team.name}
+              eligibility={team.eligibility}
+              level={team.level}
+              division={team.division}
               myTeams={myTeams}
               setMyTeams={setMyTeams}
             />
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 
