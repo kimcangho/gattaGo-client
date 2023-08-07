@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
@@ -21,7 +21,8 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
-  const { userId, setCurrentTeamName }: AuthContextTypes = useContext(AuthContext)!;
+  const { userId, setCurrentTeamName }: AuthContextTypes =
+    useContext(AuthContext)!;
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -31,7 +32,7 @@ const OverviewTeamItem = ({
 
     const { id } = event.target as HTMLInputElement;
     setCurrentTeamName(name);
-    navigate(`../${userId}/dashboard/${id}`);
+    navigate(`../${userId}/edit/${id}`);
   };
 
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
@@ -57,14 +58,21 @@ const OverviewTeamItem = ({
       id={id}
       className="flex justify-between space-x-2 items-center h-12 p-2 tablet:p-6 bg-white border-x border-b border-gray-border hover:bg-blue-wavy rounded-b"
     >
-      <div className="flex items-center space-x-2 tablet:space-x-6">
+      <Link
+        to={`../${userId}/roster/${id}`}
+        onClick={() => {
+          console.log("clicked");
+        }}
+        className="flex items-center space-x-2 tablet:space-x-6"
+      >
         <img
           src={boatIcon}
           alt="Team Logo Placeholder"
           className="h-8 tablet:h-10"
         />
+
         <h4 className="truncate tablet:text-xl">{name}</h4>
-      </div>
+      </Link>
       <div className="flex items-center space-x-2">
         <img
           src={editIcon}

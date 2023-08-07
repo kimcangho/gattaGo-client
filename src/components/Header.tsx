@@ -77,7 +77,7 @@ const Header = (): JSX.Element => {
             onClick={handleTeamOverviewRedirect}
             className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white cursor-pointer"
           >
-            <p className="px-2 py-1 tablet:px-4 tablet:py-2">My Teams</p>
+            <p className="px-2 py-1 tablet:px-4 tablet:py-2">Teams</p>
           </div>
           <div
             className="hover:bg-orange-dark hover:text-white rounded-r cursor-pointer"

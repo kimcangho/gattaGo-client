@@ -263,7 +263,7 @@ const RosterPage = (): JSX.Element => {
           to={`../${userId}/roster/${teamId}/new`}
           className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
         >
-          Add Paddler
+          Create Paddler
         </Link>
       </div>
 

@@ -6,6 +6,7 @@ import ChangePasswordPage from "./pages/ChangePasswordPage";
 import HomePage from "./pages/HomePage";
 import OverviewPage from "./pages/OverviewPage";
 import CreateNewTeamPage from "./pages/CreateNewTeamPage";
+import EditTeamPage from "./pages/EditTeamPage";
 import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
 import RosterPage from "./pages/RosterPage";
@@ -19,65 +20,62 @@ import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 import EditAthletePage from "./pages/EditAthletePage";
 
 const App = (): JSX.Element => {
-
   return (
-      <div className="flex flex-col h-screen justify-start">
-        <Header />
+    <div className="flex flex-col h-screen justify-start">
+      <Header />
 
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/reset_password" element={<ResetPasswordPage />} />
-          <Route
-            path="/reset_password/:resetCodeId"
-            element={<ChangePasswordPage />}
-          />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/reset_password" element={<ResetPasswordPage />} />
+        <Route
+          path="/reset_password/:resetCodeId"
+          element={<ChangePasswordPage />}
+        />
 
-          {/* Private Routes */}
-          <Route element={<ProtectedRoute redirectPath="login" />}>
-            {/* Team Overview Page */}
-            <Route path="/:userId/overview" element={<OverviewPage />} />
-            <Route path="/:userId/new" element={<CreateNewTeamPage />} />
+        {/* Private Routes */}
+        <Route element={<ProtectedRoute redirectPath="login" />}>
+          {/* Team Overview Page */}
+          <Route path="/:userId/overview" element={<OverviewPage />} />
+          <Route path="/:userId/new" element={<CreateNewTeamPage />} />
+          <Route path="/:userId/edit/:teamId/" element={<EditTeamPage />} />
 
-            <Route element={<NavbarRoute />}>
-              {/* Dashboard Page */}
-              <Route
-                path="/:userId/dashboard/:teamId"
-                element={<DashboardPage />}
-              />
+          <Route element={<NavbarRoute />}>
+            {/* Dashboard Page */}
+            <Route
+              path="/:userId/dashboard/:teamId"
+              element={<DashboardPage />}
+            />
 
-              {/* Roster Page */}
-              <Route path="/:userId/roster/:teamId" element={<RosterPage />} />
-              <Route
-                path="/:userId/roster/:teamId/new"
-                element={<CreateNewAthletePage />}
-              />
-              <Route
-                path="/:userId/roster/:teamId/edit/:athleteId"
-                element={<EditAthletePage />}
-              />
+            {/* Roster Page */}
+            <Route path="/:userId/roster/:teamId" element={<RosterPage />} />
+            <Route
+              path="/:userId/roster/:teamId/new"
+              element={<CreateNewAthletePage />}
+            />
+            <Route
+              path="/:userId/roster/:teamId/edit/:athleteId"
+              element={<EditAthletePage />}
+            />
 
-              {/* Lineup Page */}
-              <Route
-                path="/:userId/lineups/:teamId"
-                element={<LineupsPage />}
-              />
+            {/* Lineup Page */}
+            <Route path="/:userId/lineups/:teamId" element={<LineupsPage />} />
 
-              {/* Regatta Schedule Page */}
-              <Route
-                path="/:userId/schedule/:teamId"
-                element={<SchedulePage />}
-              />
-            </Route>
+            {/* Regatta Schedule Page */}
+            <Route
+              path="/:userId/schedule/:teamId"
+              element={<SchedulePage />}
+            />
           </Route>
+        </Route>
 
-          <Route path="/*" element={<ErrorPage />} />
-        </Routes>
+        <Route path="/*" element={<ErrorPage />} />
+      </Routes>
 
-        <Footer />
-      </div>
+      <Footer />
+    </div>
   );
 };
 

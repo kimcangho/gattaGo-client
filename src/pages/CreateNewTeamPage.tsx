@@ -38,7 +38,7 @@ const CreateNewTeamPage = (): JSX.Element => {
     if (!eligibility || !level || !division) return;
 
     try {
-      await axiosPrivate.post(`/teams/${userId}`, {
+      await axiosPrivate.post(`/teams/user/${userId}`, {
         name,
         eligibility,
         level,
