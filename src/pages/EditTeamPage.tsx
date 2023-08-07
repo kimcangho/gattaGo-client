@@ -64,6 +64,7 @@ const EditTeamPage = (): JSX.Element => {
         level,
         division,
       });
+      setCurrentTeamName("");
       navigate(`../${userId}/overview`);
     } catch (err) {
       console.log(err);
