@@ -15,7 +15,7 @@ const OverviewPage = (): JSX.Element => {
   useEffect(() => {
     const getAllTeams = async () => {
       try {
-        const { data } = await axiosPrivate.get(`/teams/${userId}`, {
+        const { data } = await axiosPrivate.get(`/teams/user/${userId}`, {
           withCredentials: true,
         });
         setMyTeams(data);
