@@ -120,91 +120,72 @@ const OverviewTeamItem = ({
 
     <article
       key={id}
-      className={`shadow-lg tablet:shadow-none tablet:flex mx-auto tablet:mx-0 w-full max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
+      className={`shadow-lg tablet:shadow-none mx-auto w-full max-w-[448px] tablet:max-w-full border tablet:border-t-0 border-black mb-4 tablet:mb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
+      // className={`shadow-lg tablet:shadow-none tablet:flex mx-auto tablet:mx-0 w-full max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-x tablet:border-b tablet:border-t-0 border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-xl tablet:rounded-none items-center hover:bg-gray-border`}
     >
-      <div className="flex justify-between w-full bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl">
+      <div className="flex items-center justify-between bg-gray-border tablet:bg-inherit border-b tablet:border-b-0 border-black rounded-t-xl tablet:rounded-t-none">
+      {/* <div className="flex justify-between items-center tablet:w-full bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-xl"> */}
+        {/* Redirect - Image and Name */}
         <div
           onClick={redirectTeamPage}
-          className="flex items-center m-2 space-x-2 w-[calc(100%-88px)] tablet:w-[200px] cursor-pointer"
+          className="flex items-center m-2 space-x-2 w-[calc(100%-88px)] cursor-pointer"
+          // className="flex items-center m-2 space-x-2 tablet:space-x-4 w-[calc(100%-88px)] tablet:-w-[calc(100%-120px)] cursor-pointer"
         >
+          {/* Image */}
           <img
             src={boatIcon}
             alt="Team Logo Placeholder"
             className="h-8 tablet:h-10"
           />
-          <h3 className="text-blue-light truncate midMobile:w-full">{name}</h3>
+          {/* Name */}
+          <h3 className="text-blue-light truncate midMobile:w-full">
+          {/* <h3 className="text-blue-light truncate midMobile:w-full tablet:w-[10%]"> */}
+            {name}
+          </h3>
+          {/* Categories */}
         </div>
-
-        <div className="flex m-3 w-12 tablet:hidden">
-          <div className="flex items-center space-x-2">
-            <img
-              src={editIcon}
-              alt="Edit Team"
-              className="h-6 tablet:h-8 cursor-pointer"
-              id={id}
-              onClick={handleEditTeam}
-            />
-            <img
-              src={deleteIcon}
-              alt="Delete Team"
-              className="h-6 tablet:h-8 cursor-pointer"
-              id={id}
-              onClick={handleDeleteTeam}
-            />
-          </div>
-        </div>
-
-        {/* <div className="hidden tablet:flex items-center tablet:w-[100px]">
-          <h3 className="m-2.5 text-center w-4 text-black">{eligibility}</h3>
-          <h3 className="text-center w-8 ml-[26px] text-black">
+        <div className="hidden tablet:flex w-[288px]">
+          <h3 className="m-1 w-24 text-center text-black font-normal">
             {eligibility}
           </h3>
-        </div> */}
-      </div>
+          <h3 className="m-1 text-center w-24 text-black font-normal">
+            {level}
+          </h3>
+          <h3 className="m-1 text-center w-24 text-black font-normal">
+            {division}
+          </h3>
+        </div>
 
-      <div className="flex flex-wrap justify-start mt-3.5 tablet:mt-0 p-1 text-black w-[calc(100%-80px)] w-full tablet:w-full">
-        <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
-          {eligibility}
-        </h3>
-        <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
-          {level}
-        </h3>
-        <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
-          {division}
-        </h3>
-      </div>
-
-      <div
-        // className={`flex pl-2 rounded-b-xl tablet:w-auto justify-center ${
-        //   !isNotesVisible ? `justify-between` : `flex-col tablet:flex-row`
-        // } `}
-        className={`flex pl-2 rounded-b-xl tablet:w-auto justify-center`}
-      >
-        {/* <div className="flex space-x-1 items-center tablet:w-[108px]">
-          
-        </div> */}
-
-        <div className="tablet:flex justify-end hidden">
+        {/* Edit/Delete */}
+        <div className="flex items-center justify-center m-2 space-x-2 tablet:mx-6 tablet:w-[10rem]">
           <img
             src={editIcon}
-            alt="Edit"
-            // onClick={() => handleEditAthlete(athleteId)}
-            // className={`ml-2 mr-1 ${
-            //   isNotesVisible ? `mt-1 tablet:mt-0` : ``
-            // } w-6 cursor-pointer`}
-            className={`ml-2 mr-1  w-6 cursor-pointer`}
+            alt="Edit Team"
+            className="h-6 tablet:h-8 cursor-pointer"
+            id={id}
+            onClick={handleEditTeam}
           />
           <img
             src={deleteIcon}
-            alt="Delete"
-            // id={athlete?.id}
-            // onClick={() => handleDeleteAthlete(athleteId)}
-            // className={`ml-1 mr-2 ${
-            //   isNotesVisible && `mt-1 tablet:mt-0`
-            // } w-6 cursor-pointer`}
-            className={`ml-1 mr-2 w-6 cursor-pointer`}
+            alt="Delete Team"
+            className="h-6 tablet:h-8 cursor-pointer"
+            id={id}
+            onClick={handleDeleteTeam}
           />
         </div>
+      </div>
+
+      {/* Team Categories - Mobile */}
+      <div className="flex flex-wrap tablet:hidden justify-start mt-2 tablet:mt-0 p-1 text-black w-full tablet:w-full">
+        <h3 className="bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
+          {eligibility}
+        </h3>
+        <h3 className="bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
+          {level}
+        </h3>
+        <h3 className="bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
+          {division}
+        </h3>
       </div>
     </article>
   );
