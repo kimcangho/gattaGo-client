@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
-// import { v4 as uuidv4 } from 'uuid';
+import { ActiveLineupData } from "../interfaces/EntityData";
 
-export const generatePlaceholderLineup = () => {
+export const generatePlaceholderLineup = (): ActiveLineupData[] => {
   const placeHolderArr = [];
   for (let i = 0; i < 22; i++) {
     placeHolderArr.push({
@@ -9,7 +9,7 @@ export const generatePlaceholderLineup = () => {
           athleteId: nanoid(),
           id: nanoid(),
           position: i,
-          updatedAt: null,
+          updatedAt: new Date(),
     });
   }
   return placeHolderArr;

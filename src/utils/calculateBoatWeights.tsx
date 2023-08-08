@@ -1,5 +1,13 @@
-export const calculateBoatWeights = (lineupArr: any) => {
-  //  Initialize object containing all types of weights
+import { ActiveLineupData } from "../interfaces/EntityData";
+
+interface CalculatedWeightData {
+  frontWeight: number;
+  backWeight: number;
+  leftWeight: number;
+  rightWeight: number;
+}
+
+export const calculateBoatWeights = (lineupArr: ActiveLineupData[]) => {
   let boatWeights = {
     drummerWeight: 0,
     frontLeftWeight: 0,
@@ -82,7 +90,7 @@ export const calculateBoatWeights = (lineupArr: any) => {
     steersWeight,
   } = boatWeights;
 
-  const calculatedBoatWeights = {
+  const calculatedBoatWeights: CalculatedWeightData = {
     frontWeight: drummerWeight + frontLeftWeight + frontRightWeight,
     backWeight: steersWeight + backLeftWeight + backRightWeight,
     leftWeight: frontLeftWeight + backLeftWeight,

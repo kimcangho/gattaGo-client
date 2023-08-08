@@ -1,4 +1,7 @@
-export const convertPaddlerSkillToField = (paddlerSkill: string, truncateNumber: number) => {
+export const convertPaddlerSkillToField = (
+  paddlerSkill: string,
+  truncateNumber: number
+) => {
   return paddlerSkill
     .slice(truncateNumber)
     .split("")

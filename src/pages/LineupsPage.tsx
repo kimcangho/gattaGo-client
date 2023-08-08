@@ -10,10 +10,11 @@ import LineupBoatSection from "../components/LineupBoatSection";
 import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
 import { injectIntoLineup } from "../utils/injectIntoLineup";
 import { trimActiveLineup } from "../utils/trimActiveLineup";
+import { ActiveLineupData } from "../interfaces/EntityData";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
-  const [activeLineup, setActiveLineup] = useState(generatePlaceholderLineup());
+  const [activeLineup, setActiveLineup] = useState<ActiveLineupData[]>(generatePlaceholderLineup());
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();

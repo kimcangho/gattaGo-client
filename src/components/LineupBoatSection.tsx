@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import LineupRosterSection from "./LineupRosterSection";
 import LineupModalButton from "./LineupModalButton";
 import LineupSeat from "./LineupSeat";
-import { RosterData } from "../interfaces/EntityData";
+import { ActiveLineupData, RosterData } from "../interfaces/EntityData";
 import { transformLineupsToSeats } from "../utils/transformLineupsToSeats";
 import { calculateBoatWeights } from "../utils/calculateBoatWeights";
 import {
@@ -12,15 +12,17 @@ import {
   DragMoveEvent,
   DragStartEvent,
   DragOverlay,
+  Active,
+  Over
 } from "@dnd-kit/core";
 import { filterOutBoatAthletes } from "../utils/filterOutBoatAthletes";
 import LineupDragOverlaySpot from "./LineupDragOverlaySpot";
 
-interface DragonBoatSeatingProps {
-  width: number | undefined;
+interface LineupBoatSectionProps {
+  width?: number;
   rosterAthletes: RosterData[];
-  activeLineup: any[];
-  setActiveLineup: any;
+  activeLineup: ActiveLineupData[];
+  setActiveLineup: React.Dispatch<React.SetStateAction<ActiveLineupData[]>>;
   lineupId: string;
 }
 
@@ -30,10 +32,10 @@ const LineupBoatSection = ({
   activeLineup,
   setActiveLineup,
   lineupId,
-}: DragonBoatSeatingProps) => {
+}: LineupBoatSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [activeId, setActiveId] = useState<any>("");
-  const [overId, setOverId] = useState<any>("");
+  const [activeId, setActiveId] = useState<Active | string | number>("");
+  const [overId, setOverId] = useState<Over | string | number>("");
 
   const handleToggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -43,12 +45,13 @@ const LineupBoatSection = ({
   const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
 
   const handleDragStart = (event: DragStartEvent): void => {
-    setActiveId(event.active.id);
+    const {active} = event
+    setActiveId(active.id);
   };
 
   const handleWhileDrag = (event: DragMoveEvent): void => {
     const { over } = event;
-    setOverId(over?.id);
+    if (over) setOverId(over.id)
   };
 
   const handleDragEnd = (event: DragEndEvent): void => {
@@ -70,7 +73,7 @@ const LineupBoatSection = ({
       );
 
       if (!foundOver) {
-        setActiveLineup((prevLineup: any) => {
+        setActiveLineup((prevLineup: ActiveLineupData[]) => {
           const newLineup = prevLineup;
 
           newLineup.forEach((athlete: any) => {
@@ -80,7 +83,7 @@ const LineupBoatSection = ({
                 athleteId: nanoid(),
                 id: nanoid(),
                 position: athlete.position,
-                updatedAt: null,
+                updatedAt: new Date(),
               };
             }
           });
@@ -90,11 +93,11 @@ const LineupBoatSection = ({
         return;
       } else if (active.id === over?.id) return;
       else {
-        setActiveLineup((prevLineup: any) => {
+        setActiveLineup((prevLineup: ActiveLineupData[]) => {
           const newLineup = prevLineup;
 
-          const tempPosition = foundActive.position;
-          newLineup[foundActive.position].position = foundOver.position;
+          const tempPosition = foundActive!.position;
+          newLineup[foundActive!.position].position = foundOver.position;
           newLineup[foundOver.position].position = tempPosition;
 
           newLineup.sort((a: any, b: any) => {

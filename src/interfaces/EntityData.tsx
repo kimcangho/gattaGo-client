@@ -8,6 +8,14 @@ export interface TeamData {
   eligibility: string;
 }
 
+export interface ActiveLineupData {
+  athlete: any;
+  athleteId: string;
+  id: string;
+  position: number;
+  updatedAt: Date;
+}
+
 export interface LineupData {
   id: string;
   name: string;
@@ -33,14 +41,15 @@ export interface RosterData {
 
 export interface AthleteData {
   id: string;
-  firstName: string;
-  lastName: string;
-  eligibility: string;
-  paddleSide: string;
-  notes: string;
-  isAvailable: boolean;
-  email: string;
-  isManager: boolean;
-  weight: number;
-  paddlerSkills: PaddlerSkills;
+  firstName?: string;
+  lastName?: string;
+  eligibility?: string;
+  paddleSide?: string;
+  notes?: string;
+  isEmpty?: boolean;
+  isAvailable?: boolean;
+  email?: string;
+  isManager?: boolean;
+  weight?: number;
+  paddlerSkills?: PaddlerSkills;
 }

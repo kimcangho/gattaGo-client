@@ -69,11 +69,11 @@ const OverviewTeamItem = ({
   return (
     <article
       key={id}
-      className={`shadow-lg tablet:shadow-none mx-auto w-full max-w-[448px] tablet:max-w-[768px] border tablet:border-t-0 border-black mb-4 tablet:mb-0 rounded-xl tablet:rounded-none ${
+      className={`shadow-lg tablet:shadow-none mx-auto w-full max-w-[448px] tablet:max-w-[768px] border tablet:border-t-0 border-black mb-4 tablet:mb-0 rounded-md tablet:rounded-none ${
         index === myTeams.length - 1 ? "tablet:rounded-b-md" : ""
       } items-center`}
     >
-      <div className="flex items-center bg-gray-border tablet:bg-inherit border-b tablet:border-b-0 border-black rounded-t-xl tablet:rounded-t-none">
+      <div className="flex items-center bg-gray-border tablet:bg-inherit border-b tablet:border-b-0 border-black rounded-t-md tablet:rounded-t-none">
         <div className="flex items-center m-2 tablet:mx-0 space-x-2 tablet:space-x-4 w-[calc(100%-88px)] tablet:w-[45rem] truncate">
           <img
             src={boatIcon}

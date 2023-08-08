@@ -1,10 +1,11 @@
-export const filterOutBoatAthletes = (
-  rosterAthletes: any[],
-  activeLineup: any[]
-) => {
-  const athleteIdArr: any[] = activeLineup.map((seat) => seat.athleteId);
+import { ActiveLineupData, RosterData } from "../interfaces/EntityData";
 
-  const filteredAthleteArr = rosterAthletes.filter((athlete) => {
+export const filterOutBoatAthletes = (
+  rosterAthletes: RosterData[],
+  activeLineup: ActiveLineupData[]
+) => {
+  const athleteIdArr: string[] = activeLineup.map((seat) => seat.athleteId);
+  const filteredAthleteArr: RosterData[] = rosterAthletes.filter((athlete) => {
     if (!athleteIdArr.includes(athlete.athleteId)) return athlete;
   });
 

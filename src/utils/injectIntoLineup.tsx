@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
+import { ActiveLineupData } from "../interfaces/EntityData";
 
-export const injectIntoLineup = (incompleteLineupArr: any[]) => {
+export const injectIntoLineup = (incompleteLineupArr: ActiveLineupData[]) => {
   const trackerArr = [
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
     21,
@@ -19,7 +20,7 @@ export const injectIntoLineup = (incompleteLineupArr: any[]) => {
       athleteId: nanoid(),
       id: nanoid(),
       position,
-      updatedAt: null,
+      updatedAt: new Date(),
     });
   });
 

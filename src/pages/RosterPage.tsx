@@ -149,9 +149,9 @@ const RosterPage = (): JSX.Element => {
     setSortableRoster((prevRoster) =>
       prevRoster
         .sort((a, b) => {
-          if (a.athlete.firstName > b.athlete.firstName)
+          if (a.athlete.firstName! > b.athlete.firstName!)
             return isNameOrderDesc ? -1 : 1;
-          if (a.athlete.firstName < b.athlete.firstName)
+          if (a.athlete.firstName! < b.athlete.firstName!)
             return isNameOrderDesc ? 1 : -1;
           return 0;
         })
@@ -164,9 +164,9 @@ const RosterPage = (): JSX.Element => {
     setSortableRoster((prevRoster) =>
       prevRoster
         .sort((a, b) => {
-          if (a.athlete.weight > b.athlete.weight)
+          if (a.athlete.weight! > b.athlete.weight!)
             return isWeightOrderDesc ? -1 : 1;
-          if (a.athlete.weight < b.athlete.weight)
+          if (a.athlete.weight! < b.athlete.weight!)
             return isWeightOrderDesc ? 1 : -1;
           return 0;
         })
