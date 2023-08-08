@@ -42,7 +42,7 @@ const OverviewPage = (): JSX.Element => {
 
   return (
     <div className="desktop:mx-auto p-2">
-      <div className="flex justify-between items-center mx-auto max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] my-4 tablet:mb-0 overflow-hidden">
+      <div className="flex justify-between items-center mx-auto max-w-[448px] tablet:max-w-[768px] my-4 tablet:mb-4 overflow-hidden">
         <div>
           <h1>Teams</h1>
           <p className="text-black">
@@ -58,39 +58,32 @@ const OverviewPage = (): JSX.Element => {
         </Link>
       </div>
 
-      <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b border-black rounded-t-xl">
+      <div className="hidden bg-gray-border tablet:flex w-full mx-auto tablet:max-w-[768px] py-2 text-black font-semibold border border-b border-black rounded-t-md">
         <div className="flex flex-row w-full">
-          {/* Name */}
-          <div
-            // onClick={handleSortByName}
-            className="w-full flex space-x-2 items-center cursor-pointer"
-          >
-            <h2 className="mx-16">
-              Name
-              <span>&#8645;</span>
-            </h2>
-          </div>
+          <h2 className="w-[15rem] flex space-x-2 items-center ml-16">
+            Select Team
+          </h2>
         </div>
-        {/* Categories */}
-        <div className="flex w-[288px] text-center">
-          <h2 className="mx-2 w-24">Eligibility</h2>
-          <h2 className="mx-2 w-24">Level</h2>
-          <h2 className="mx-2 w-24">Division</h2>
+      
+        <div className="flex text-center w-72">
+          <h2 className="w-24">Eligibility</h2>
+          <h2 className="w-24">Level</h2>
+          <h2 className="w-24">Division</h2>
         </div>
 
-        {/* Edit / Delete */}
-        <div className="flex text-center w-[10rem]">
-          <h2 className="w-[120px] mx-4">Edit / Delete</h2>
+        <div className="flex w-[15rem] justify-center">
+          <h2 className="text-center">Edit / Delete</h2>
         </div>
       </div>
 
       <div className="desktop:w-[1280px] desktop:mx-auto flex flex-col">
-        {myTeams.map((team) => {
+        {myTeams.map((team, index) => {
           return (
             <OverviewTeamItem
               key={team.id}
               id={team.id}
               name={team.name}
+              index={index}
               eligibility={capitalizeFirstLetter(team.eligibility)}
               level={capitalizeFirstLetter(team.level)}
               division={capitalizeFirstLetter(

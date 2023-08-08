@@ -431,7 +431,7 @@ const RosterPage = (): JSX.Element => {
 
       {roster.length !== 0 && (
         <>
-          <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-xl">
+          <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-md">
             <div className="flex flex-row w-[448px] pl-16">
               <div
                 onClick={handleSortByName}
@@ -455,7 +455,7 @@ const RosterPage = (): JSX.Element => {
             <h2 className="w-[142px] text-center">Edit / Delete</h2>
           </div>
 
-          <div className="tablet:border-x tablet:border-b border-black rounded-b-2xl max-w-[1280px] mx-auto">
+          <div className="tablet:border-x tablet:border-b border-black rounded-b-md max-w-[1280px] mx-auto">
             {sortableRoster.map((paddler) => {
               return (
                 <RosterItem
