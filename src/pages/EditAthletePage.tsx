@@ -14,8 +14,9 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 
 const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();
-  const [athlete, setAthlete]: any = useState(null);
-  const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] = useState(false);
+  const [athlete, setAthlete] = useState<any>([]);
+  const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
+    useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
     useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();

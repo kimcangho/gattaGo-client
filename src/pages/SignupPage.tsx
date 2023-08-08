@@ -149,10 +149,6 @@ const SignupPage = (): JSX.Element => {
           <Link to="../login">Log in here!</Link>
         </span>
       </p>
-      <p className="mt-4 mb-2.5">
-        gattaGo is an online dragonboat team manager used to organize regattas,
-        race progressions, lineups and athletes.
-      </p>
     </div>
   );
 };

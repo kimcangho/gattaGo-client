@@ -1,10 +1,11 @@
+import { Active, Over } from "@dnd-kit/core";
 import LineupSpot from "./LineupSpot";
 
 interface LineupSeatProps {
   seat: number;
   row?: any[];
-  overId: any;
-  activeId: any;
+  overId: Over | string | number;
+  activeId: Active | string | number;
 }
 
 const LineupSeat = ({ seat, row, overId, activeId }: LineupSeatProps) => {

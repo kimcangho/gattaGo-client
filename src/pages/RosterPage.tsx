@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -19,7 +19,7 @@ const RosterPage = (): JSX.Element => {
   const [isWeightOrderDesc, setIsWeightOrderDesc] = useState<boolean>(false);
   const [isFilterPanelVisible, setIsFilterPanelVisible] =
     useState<boolean>(false);
-  const [filterFlags, setFilterFlags] = useState(filterFlagsObj);
+  const [filterFlags, setFilterFlags] = useState<any>(filterFlagsObj);
   const { userId, teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -85,7 +85,7 @@ const RosterPage = (): JSX.Element => {
               return true;
           })
           .filter((paddler: any) => {
-            const newFlags = {
+            const newFlags: any = {
               ...filterFlags,
               isAvailable: false,
               isUnavailable: false,
@@ -99,15 +99,13 @@ const RosterPage = (): JSX.Element => {
 
             let flag = false;
             const foundFlags: any[] = Object.keys(newFlags).filter((flag) => {
-              //  @ts-ignore
               if (newFlags[flag] === true) return flag;
             });
 
             if (foundFlags.length === 0) return true;
 
-            foundFlags.forEach((foundFlag) => {
+            foundFlags.forEach((foundFlag: any) => {
               if (
-                //  @ts-ignore
                 newFlags[foundFlag] &&
                 paddler.athlete.paddlerSkills[0][foundFlag]
               ) {
@@ -180,8 +178,10 @@ const RosterPage = (): JSX.Element => {
     setIsFilterPanelVisible((prev) => !prev);
   };
 
-  const handleSetFilterFlags = async (event: any) => {
-    const { checked, value } = event.target;
+  const handleSetFilterFlags = async (
+    event: ChangeEvent<HTMLInputElement> | undefined
+  ) => {
+    const { checked, value } = event!.target;
 
     switch (value) {
       //  Availability
@@ -240,8 +240,10 @@ const RosterPage = (): JSX.Element => {
     }
   };
 
-  const handleSetSkillFlags = async (event: any) => {
-    const { checked, value } = event.target;
+  const handleSetSkillFlags = async (
+    event: ChangeEvent<HTMLInputElement> | undefined
+  ) => {
+    const { checked, value } = event!.target;
 
     setFilterFlags({
       ...filterFlags,
@@ -411,7 +413,6 @@ const RosterPage = (): JSX.Element => {
                             id={`paddlerSkills-${skill}`}
                             value={skill}
                             onChange={handleSetSkillFlags}
-                            // @ts-ignore
                             checked={filterFlags[skill]}
                             className="mr-2 tablet:mr-4"
                           />

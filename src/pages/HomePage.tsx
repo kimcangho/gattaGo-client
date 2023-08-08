@@ -10,6 +10,7 @@ const HomePage = (): JSX.Element => {
           <br />
           Please check back soon...
         </h2>
+
         <img
           src={constructionCrane}
           alt="Under Construction Crane"
@@ -31,6 +32,12 @@ const HomePage = (): JSX.Element => {
           >
             <p>Log In</p>
           </Link>
+        </div>
+        <div className="bg-blue-light text-white mt-4 mb-2.5">
+          <h2>
+            gattaGo is an online dragonboat team manager used to organize
+            regattas, race progressions, lineups and athletes.
+          </h2>
         </div>
       </div>
     </div>

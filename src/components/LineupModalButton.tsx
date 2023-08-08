@@ -2,13 +2,14 @@ import { useEffect } from "react";
 import rosterIcon from "../assets/icons/roster.svg";
 import chevronIconRight from "../assets/icons/chevron-right.svg";
 import chevronIconLeft from "../assets/icons/chevron-left.svg";
+import { Active } from "@dnd-kit/core";
 
 interface LineupModalButtonProps {
   width: number | undefined;
   isModalOpen: boolean;
   setIsModalOpen: Function;
-  handleToggleModal: any;
-  activeId: any;
+  handleToggleModal: React.MouseEventHandler<HTMLDivElement> | undefined;
+  activeId: Active | string | number;
 }
 
 const LineupModalButton = ({
@@ -31,7 +32,7 @@ const LineupModalButton = ({
         activeId ||
         (activeId && !isModalOpen)) && (
         <div
-          className={`${
+          className={`z-50 ${
             isModalOpen && activeId ? "opacity-0" : ""
           } p-2 fixed bottom-[8.25%] cursor-pointer shadow-xl ${
             isModalOpen ? "right-0" : "left-0"

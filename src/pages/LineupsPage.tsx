@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import { LineupData, RosterData } from "../interfaces/EntityData";
+import { LineupData, RosterData, TeamData } from "../interfaces/EntityData";
 import { SaveNewLineupFormData } from "../interfaces/FormData";
 import LineupBoatSection from "../components/LineupBoatSection";
 import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
@@ -14,7 +14,9 @@ import { ActiveLineupData } from "../interfaces/EntityData";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
-  const [activeLineup, setActiveLineup] = useState<ActiveLineupData[]>(generatePlaceholderLineup());
+  const [activeLineup, setActiveLineup] = useState<ActiveLineupData[]>(
+    generatePlaceholderLineup()
+  );
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const { teamId } = useParams<string>();
@@ -40,7 +42,7 @@ const LineupsPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data.lineups);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
       }
@@ -50,7 +52,7 @@ const LineupsPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`);
         setRosterAthletes(data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.log(err);
       }
     };
@@ -106,7 +108,7 @@ const LineupsPage = (): JSX.Element => {
 
         setTeamLineups((prevLineups: any) => {
           const updatedLineups = prevLineups;
-          updatedLineups.forEach((lineup: any) => {
+          updatedLineups.forEach((lineup: TeamData) => {
             if (lineup.id === data.lineupId) lineup.name = data.name;
           });
 
@@ -149,7 +151,7 @@ const LineupsPage = (): JSX.Element => {
         setActiveLineup(injectIntoLineup(data.lineups[0].athletes));
         setValue("lineupName", data.lineups[0].name);
         setValue("activeLineupId", data.lineups[0].id);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.log(err);
       }
     }
@@ -169,7 +171,7 @@ const LineupsPage = (): JSX.Element => {
 
         setValue("activeLineupId", "new");
         setValue("lineupName", "");
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.log(err);
       }
     };

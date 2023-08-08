@@ -13,7 +13,7 @@ import {
   DragStartEvent,
   DragOverlay,
   Active,
-  Over
+  Over,
 } from "@dnd-kit/core";
 import { filterOutBoatAthletes } from "../utils/filterOutBoatAthletes";
 import LineupDragOverlaySpot from "./LineupDragOverlaySpot";
@@ -45,13 +45,13 @@ const LineupBoatSection = ({
   const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
 
   const handleDragStart = (event: DragStartEvent): void => {
-    const {active} = event
+    const { active } = event;
     setActiveId(active.id);
   };
 
   const handleWhileDrag = (event: DragMoveEvent): void => {
     const { over } = event;
-    if (over) setOverId(over.id)
+    if (over) setOverId(over.id);
   };
 
   const handleDragEnd = (event: DragEndEvent): void => {
@@ -76,7 +76,8 @@ const LineupBoatSection = ({
         setActiveLineup((prevLineup: ActiveLineupData[]) => {
           const newLineup = prevLineup;
 
-          newLineup.forEach((athlete: any) => {
+          newLineup.forEach((athlete: ActiveLineupData) => {
+            console.log(athlete);
             if (athlete.athleteId === active.id) {
               newLineup[athlete.position] = {
                 athlete: { isEmpty: true, id: nanoid() },
@@ -94,13 +95,13 @@ const LineupBoatSection = ({
       } else if (active.id === over?.id) return;
       else {
         setActiveLineup((prevLineup: ActiveLineupData[]) => {
-          const newLineup = prevLineup;
+          const newLineup: ActiveLineupData[] = prevLineup;
 
           const tempPosition = foundActive!.position;
           newLineup[foundActive!.position].position = foundOver.position;
           newLineup[foundOver.position].position = tempPosition;
 
-          newLineup.sort((a: any, b: any) => {
+          newLineup.sort((a: ActiveLineupData, b: ActiveLineupData) => {
             if (a.position < b.position) return -1;
             else return 1;
           });
@@ -128,10 +129,15 @@ const LineupBoatSection = ({
           };
           delete newLineup[foundOver.position].teamId;
 
-          newLineup.sort((a: any, b: any) => {
-            if (a.position < b.position) return -1;
-            else return 1;
-          });
+          newLineup.sort(
+            (
+              initialAthlete: ActiveLineupData,
+              nextAthlete: ActiveLineupData
+            ) => {
+              if (initialAthlete.position < nextAthlete.position) return -1;
+              else return 1;
+            }
+          );
 
           return [...newLineup];
         });
@@ -154,7 +160,7 @@ const LineupBoatSection = ({
 
   const selectDraggableAthlete = (
     rosterAthletes: RosterData[],
-    activeId: any
+    activeId: Active | string | number
   ) => {
     const foundAthlete = rosterAthletes.find(
       (athlete) => athlete.athleteId === activeId
@@ -195,7 +201,7 @@ const LineupBoatSection = ({
               {activeLineup &&
                 activeLineup.length &&
                 transformLineupsToSeats(activeLineup).map(
-                  (row: any, index: number) => {
+                  (row: ActiveLineupData[], index: number) => {
                     return (
                       <LineupSeat
                         key={index}

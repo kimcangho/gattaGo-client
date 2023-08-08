@@ -1,11 +1,12 @@
 import LineupAthleteItem from "./LineupAthleteItem";
 import { RosterData } from "../interfaces/EntityData";
+import { Active, Over } from "@dnd-kit/core";
 
 interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
   width: number | undefined;
-  activeId: any;
-  overId: any;
+  activeId: Active | string | number;
+  overId: Over | string | number;
 }
 
 const LineupRosterSection = ({

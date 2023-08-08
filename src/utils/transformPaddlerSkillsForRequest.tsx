@@ -40,5 +40,5 @@ export const transformPaddlerSkillsForRequest = (paddlerSkills: any) => {
     paddlerStatObj[paddlerSkills[i]] = true;
   }
 
-  return {...allPaddlerSkillsObj, ...paddlerStatObj};
+  return { ...allPaddlerSkillsObj, ...paddlerStatObj };
 };

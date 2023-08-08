@@ -1,12 +1,12 @@
-import { useDroppable } from "@dnd-kit/core";
+import { Active, Over, useDroppable } from "@dnd-kit/core";
 import LineupDraggableSpot from "./LineupDraggableSpot";
 
 interface LineupDroppableSpotProps {
   athlete: any;
   position: number;
   seat: number;
-  overId: any;
-  activeId: any;
+  activeId: Active | string | number;
+  overId: Over | string | number;
 }
 
 const LineupDroppableSpot = ({

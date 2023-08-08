@@ -1,9 +1,9 @@
-import { useDraggable } from "@dnd-kit/core";
+import { useDraggable, Active, Over } from "@dnd-kit/core";
 
 interface LineupDraggableSpotProps {
   athlete: any;
-  overId: any;
-  activeId: any;
+  activeId: Active | string | number;
+  overId: Over | string | number;
 }
 
 const LineupDraggableSpot = ({
