@@ -80,9 +80,10 @@ const OverviewTeamItem = ({
             alt="Team Logo Placeholder"
             className="h-8 tablet:h-10 tablet:ml-2"
           />
+
           <h3
             onClick={redirectTeamPage}
-            className="text-blue-light truncate midMobile:w-full cursor-pointer hover:underline decoration-2"
+            className="text-blue-light truncate cursor-pointer hover:underline decoration-2"
           >
             {name}
           </h3>
