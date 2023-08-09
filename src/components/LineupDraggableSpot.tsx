@@ -1,7 +1,8 @@
 import { useDraggable, Active, Over } from "@dnd-kit/core";
+import { AthleteData } from "../interfaces/EntityData";
 
 interface LineupDraggableSpotProps {
-  athlete: any;
+  athlete: AthleteData;
   activeId: Active | string | number;
   overId: Over | string | number;
 }
@@ -15,6 +16,7 @@ const LineupDraggableSpot = ({
     id: athlete.id,
   });
 
+  console.log(athlete);
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
@@ -48,7 +50,8 @@ const LineupDraggableSpot = ({
             <p>{athlete.eligibility}</p>
           </div>
           <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
-            {athlete.firstName.charAt(0) + athlete.lastName.charAt(0)}
+            {athlete.firstName?.charAt(0)}
+            {athlete.lastName?.charAt(0)}
           </h5>
           <div className="bg-orange-light w-fit h-fit px-2 absolute bottom-0.5 flex items-center justify-center rounded-full text-xs">
             <p>{athlete.weight}</p>

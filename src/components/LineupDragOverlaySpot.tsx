@@ -1,8 +1,11 @@
+import { RosterData } from "../interfaces/EntityData";
+
 interface LineupDragOverlaySpotProps {
-  athlete: any;
+  athlete: RosterData | undefined;
 }
 
 const LineupDragOverlaySpot = ({ athlete }: LineupDragOverlaySpotProps) => {
+  console.log(athlete);
   return (
     athlete && (
       <div
@@ -22,8 +25,8 @@ const LineupDragOverlaySpot = ({ athlete }: LineupDragOverlaySpotProps) => {
           <p>{athlete?.athlete.eligibility}</p>
         </div>
         <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
-          {athlete?.athlete.firstName.charAt(0) +
-            athlete?.athlete.lastName.charAt(0)}
+          {athlete?.athlete?.firstName?.charAt(0)}
+          {athlete?.athlete?.lastName?.charAt(0)}
         </h5>
         <div className="bg-orange-light w-fit h-fit px-2 absolute bottom-0.5 flex items-center justify-center rounded-full text-xs">
           <p>{athlete?.athlete.weight}</p>

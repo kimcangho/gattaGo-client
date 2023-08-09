@@ -57,6 +57,5 @@ export const transformLineupsToSeats = (lineupArr: ActiveLineupData[]) => {
     }
   });
 
-  console.log(lineupWithSeatsArr);
   return lineupWithSeatsArr;
 };

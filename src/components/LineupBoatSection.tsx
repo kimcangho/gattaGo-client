@@ -77,7 +77,6 @@ const LineupBoatSection = ({
           const newLineup = prevLineup;
 
           newLineup.forEach((athlete: ActiveLineupData) => {
-            console.log(athlete);
             if (athlete.athleteId === active.id) {
               newLineup[athlete.position] = {
                 athlete: { isEmpty: true, id: nanoid() },
@@ -101,10 +100,15 @@ const LineupBoatSection = ({
           newLineup[foundActive!.position].position = foundOver.position;
           newLineup[foundOver.position].position = tempPosition;
 
-          newLineup.sort((a: ActiveLineupData, b: ActiveLineupData) => {
-            if (a.position < b.position) return -1;
-            else return 1;
-          });
+          newLineup.sort(
+            (
+              initialAthlete: ActiveLineupData,
+              nextAthlete: ActiveLineupData
+            ) => {
+              if (initialAthlete.position < nextAthlete.position) return -1;
+              else return 1;
+            }
+          );
 
           return [...newLineup];
         });
@@ -120,8 +124,9 @@ const LineupBoatSection = ({
       if (!foundOver) return;
 
       if (foundOver.athlete.isEmpty) {
-        setActiveLineup((prevLineup: any) => {
+        setActiveLineup((prevLineup: ActiveLineupData[]) => {
           const newLineup = prevLineup;
+          //@ts-ignore
           newLineup[foundOver.position] = {
             ...foundActive,
             position: foundOver.position,
@@ -139,12 +144,14 @@ const LineupBoatSection = ({
             }
           );
 
+          console.log(newLineup);
+
           return [...newLineup];
         });
       } else {
-        setActiveLineup((prevLineup: any) => {
+        setActiveLineup((prevLineup: ActiveLineupData[]) => {
           const newLineup = prevLineup;
-
+          //@ts-ignore
           newLineup[foundOver.position] = {
             ...foundActive,
             position: foundOver.position,

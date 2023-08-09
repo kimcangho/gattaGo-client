@@ -14,7 +14,7 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 
 const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();
-  const [athlete, setAthlete] = useState<any>([]);
+  const [athlete, setAthlete] = useState<any>(null);
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -34,7 +34,7 @@ const EditAthletePage = () => {
       email: athlete?.email,
       firstName: "",
       lastName: "",
-      weight: null,
+      weight: "",
       paddleSide: null,
       eligibility: null,
       availability: null,
@@ -78,7 +78,6 @@ const EditAthletePage = () => {
         const { data } = await axiosPrivate.get(`/athletes/${athleteId}`, {
           withCredentials: true,
         });
-
         const {
           eligibility,
           isAvailable,
@@ -103,7 +102,8 @@ const EditAthletePage = () => {
           notes,
           weight,
         });
-        await setAthlete(data);
+        console.log(data)
+        setAthlete(data);
       } catch (err) {
         console.log(err);
         logoutRedirect("/login");
@@ -133,6 +133,8 @@ const EditAthletePage = () => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
+    console.log(paddlerSkills);
+    //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
     if (
@@ -146,7 +148,7 @@ const EditAthletePage = () => {
       return;
 
     let numericWeight: number = 0;
-    if (weight) parseInt(weight, 10);
+    if (weight) numericWeight = parseInt(weight, 10);
 
     let isAvailable: boolean = false;
     if (availability === "available") isAvailable = true;

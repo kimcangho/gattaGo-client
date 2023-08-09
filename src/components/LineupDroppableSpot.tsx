@@ -1,8 +1,9 @@
 import { Active, Over, useDroppable } from "@dnd-kit/core";
 import LineupDraggableSpot from "./LineupDraggableSpot";
+import { AthleteData } from "../interfaces/EntityData";
 
 interface LineupDroppableSpotProps {
-  athlete: any;
+  athlete: AthleteData;
   position: number;
   seat: number;
   activeId: Active | string | number;

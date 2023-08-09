@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import { LineupData, RosterData, TeamData } from "../interfaces/EntityData";
+import { LineupData, RosterData } from "../interfaces/EntityData";
 import { SaveNewLineupFormData } from "../interfaces/FormData";
 import LineupBoatSection from "../components/LineupBoatSection";
 import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
@@ -79,8 +79,8 @@ const LineupsPage = (): JSX.Element => {
         });
 
         setSelectDefaultValue(data.id);
-        setTeamLineups((prevLineups: any) => {
-          return [...prevLineups, data];
+        setTeamLineups((prevLineups: LineupData[] | null) => {
+          return [...prevLineups!, data];
         });
 
         setValue("activeLineupId", data.id);
@@ -106,13 +106,13 @@ const LineupsPage = (): JSX.Element => {
           }
         );
 
-        setTeamLineups((prevLineups: any) => {
-          const updatedLineups = prevLineups;
-          updatedLineups.forEach((lineup: TeamData) => {
+        setTeamLineups((prevLineups: LineupData[] | null) => {
+          const updatedLineups: LineupData[] | null = prevLineups;
+          updatedLineups?.forEach((lineup) => {
             if (lineup.id === data.lineupId) lineup.name = data.name;
           });
 
-          return [...updatedLineups];
+          return [...updatedLineups!];
         });
 
         setSelectDefaultValue(data.lineupId);

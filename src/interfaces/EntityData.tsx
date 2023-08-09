@@ -9,11 +9,14 @@ export interface TeamData {
 }
 
 export interface ActiveLineupData {
-  athlete: any;
-  athleteId: string;
   id: string;
+  athlete: AthleteData;
+  athleteId: string;
   position: number;
   updatedAt: Date;
+  email?: string;
+  lineupId?: string;
+  teamId?: string;
 }
 
 export interface LineupData {
@@ -46,10 +49,11 @@ export interface AthleteData {
   eligibility?: string;
   paddleSide?: string;
   notes?: string;
+  email?: string;
   isEmpty?: boolean;
   isAvailable?: boolean;
-  email?: string;
   isManager?: boolean;
   weight?: number;
   paddlerSkills?: PaddlerSkills;
+  createdAt?: Date;
 }

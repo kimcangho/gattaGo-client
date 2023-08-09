@@ -1,5 +1,34 @@
 interface PaddlerSkillsObjData {
-  [key: string]: boolean;
+  // [key: string]: boolean;
+  isSteers: boolean;
+  isDrummer: boolean;
+  isStroker: boolean;
+  isCaller: boolean;
+  isBailer: boolean;
+  //  Section
+  isPacer: boolean;
+  isEngine: boolean;
+  isRocket: boolean;
+  //  Race Distances
+  is200m: boolean;
+  is500m: boolean;
+  is1000m: boolean;
+  is2000m: boolean;
+  //  Strengths
+  isVeteran: boolean;
+  isSteadyTempo: boolean;
+  isVocal: boolean;
+  isTechnicallyProficient: boolean;
+  isLeader: boolean;
+  //  Weaknesses
+  isNewbie: boolean;
+  isRushing: boolean;
+  isLagging: boolean;
+  isTechnicallyPoor: boolean;
+  isInjuryProne: boolean;
+  isLoadManaged: boolean;
+  athleteId: string;
+  id: string;
 }
 
 const allPaddlerSkillsObj = {
@@ -33,10 +62,13 @@ const allPaddlerSkillsObj = {
   isLoadManaged: false,
 };
 
-export const transformPaddlerSkillsForRequest = (paddlerSkills: any) => {
-  const paddlerStatObj: PaddlerSkillsObjData = {};
+export const transformPaddlerSkillsForRequest = (
+  paddlerSkills: PaddlerSkillsObjData[][] | undefined[]
+) => {
+  const paddlerStatObj: PaddlerSkillsObjData | {} = {};
 
   for (let i = 0; i < paddlerSkills.length; i++) {
+    //@ts-ignore
     paddlerStatObj[paddlerSkills[i]] = true;
   }
 

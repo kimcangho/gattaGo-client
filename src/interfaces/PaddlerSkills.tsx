@@ -1,4 +1,6 @@
 export interface PaddlerSkills {
+  id?: string;
+  athleteId?: string;
   //  Roles
   isSteers: boolean;
   isDrummer: boolean;

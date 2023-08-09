@@ -17,7 +17,7 @@ export const calculateBoatWeights = (lineupArr: ActiveLineupData[]) => {
     steersWeight: 0,
   };
 
-  lineupArr.forEach((paddler: any) => {
+  lineupArr.forEach((paddler: ActiveLineupData) => {
     if (paddler?.athlete?.weight) {
       //    Drummer
       if (paddler.position === 0) {

@@ -33,7 +33,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       email: "",
       firstName: "",
       lastName: "",
-      weight: null,
+      weight: "",
       paddleSide: null,
       eligibility: null,
       availability: null,
@@ -62,16 +62,8 @@ const CreateNewAthletePage = (): JSX.Element => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
+    //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
-    console.log("creating paddler call...");
-    console.log(
-      email,
-      firstName,
-      lastName,
-      paddleSide,
-      eligibility,
-      availability
-    );
 
     if (
       !email ||
@@ -84,7 +76,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       return;
 
     let numericWeight: number = 0;
-    if (weight) parseInt(weight, 10);
+    if (weight) numericWeight = parseInt(weight, 10);
 
     let isAvailable: boolean = false;
     if (availability === "available") isAvailable = true;
