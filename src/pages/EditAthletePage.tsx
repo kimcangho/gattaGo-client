@@ -14,7 +14,7 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 
 const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();
-  const [athlete, setAthlete] = useState<any>(null);
+  const [athlete, setAthlete] = useState<any | null>(null);
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -98,7 +98,7 @@ const EditAthletePage = () => {
           firstName,
           lastName,
           paddleSide,
-          paddlerSkills: paddlerSkills[0],
+          paddlerSkills,  //  paddlerSkills[0] --> paddlerSkills
           notes,
           weight,
         });
@@ -136,6 +136,7 @@ const EditAthletePage = () => {
     console.log(paddlerSkills);
     //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
+    console.log(paddlerSkillsObj)
 
     if (
       !email ||
@@ -422,7 +423,7 @@ const EditAthletePage = () => {
                             {...register(`paddlerSkills`)}
                             id={`paddlerSkills-${skill}`}
                             value={skill}
-                            defaultChecked={!!athlete.paddlerSkills[0][skill]}
+                            defaultChecked={!!athlete.paddlerSkills[skill]}
                             className="mr-2 tablet:mr-4"
                           />
                           <label htmlFor={`paddlerSkills-${skill}`}>

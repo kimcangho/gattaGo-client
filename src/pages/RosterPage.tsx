@@ -85,7 +85,10 @@ const RosterPage = (): JSX.Element => {
               return true;
           })
           .filter((paddler: any) => {
-            const newFlags: any = {
+
+            // console.log(paddler)
+
+            const newFlags = {
               ...filterFlags,
               isAvailable: false,
               isUnavailable: false,
@@ -98,13 +101,15 @@ const RosterPage = (): JSX.Element => {
             };
 
             let flag = false;
-            const foundFlags: any[] = Object.keys(newFlags).filter((flag) => {
-              if (newFlags[flag] === true) return flag;
-            });
+            const foundFlags: string[] = Object.keys(newFlags).filter(
+              (flag) => {
+                if (newFlags[flag] === true) return flag;
+              }
+            );
 
             if (foundFlags.length === 0) return true;
 
-            foundFlags.forEach((foundFlag: any) => {
+            foundFlags.forEach((foundFlag: string) => {
               if (
                 newFlags[foundFlag] &&
                 paddler.athlete.paddlerSkills[0][foundFlag]
@@ -182,7 +187,7 @@ const RosterPage = (): JSX.Element => {
     event: ChangeEvent<HTMLInputElement> | undefined
   ) => {
     const { checked, value } = event!.target;
-
+    console.log(filterFlags)
     switch (value) {
       //  Availability
       case "filter-available":

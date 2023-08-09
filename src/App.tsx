@@ -23,7 +23,6 @@ const App = (): JSX.Element => {
   return (
     <div className="flex flex-col h-screen justify-start">
       <Header />
-
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />

@@ -46,9 +46,8 @@ const Header = (): JSX.Element => {
 
   return (
     <div
-      className={`bg-white flex ${
-        isLoggedIn ? `justify-between` : `justify-center`
-      } items-center border border-gray-border px-1 py-1 tablet:p-4`}
+      className={`bg-white flex justify-between
+       items-center border border-gray-border px-1 py-1 tablet:p-4`}
     >
       <div className="flex space-x-2 tablet:space-x-3 items-center">
         <div
@@ -70,22 +69,39 @@ const Header = (): JSX.Element => {
           </h2>
         )}
       </div>
-      {isLoggedIn && (
-        <div className="flex bg-white border border-gray-border rounded">
-          <div
-            onClick={handleTeamOverviewRedirect}
-            className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white cursor-pointer"
-          >
-            <p className="px-2 py-1 tablet:px-4 tablet:py-2">Teams</p>
-          </div>
-          <div
-            className="hover:bg-orange-dark hover:text-white rounded-r cursor-pointer"
-            onClick={handleLogout}
-          >
-            <p className="px-2 py-1 tablet:px-4 tablet:py-2">Logout</p>
-          </div>
+
+      <div className="flex bg-white border border-gray-border rounded">
+        <div
+          onClick={
+            isLoggedIn
+              ? handleTeamOverviewRedirect
+              : () => {
+                  navigate("../signup");
+                }
+          }
+          className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white cursor-pointer"
+        >
+          <p className="px-2 py-1 tablet:px-4 tablet:py-2">
+            {isLoggedIn ? "Teams" : "Sign-up"}
+          </p>
         </div>
-      )}
+        <div
+          className={`${
+            isLoggedIn ? "hover:bg-orange-light" : "hover:bg-green-light"
+          } hover:text-white rounded-r cursor-pointer`}
+          onClick={
+            isLoggedIn
+              ? handleLogout
+              : () => {
+                  navigate("../login");
+                }
+          }
+        >
+          <p className="px-2 py-1 tablet:px-4 tablet:py-2">
+            {isLoggedIn ? "Logout" : "Login"}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

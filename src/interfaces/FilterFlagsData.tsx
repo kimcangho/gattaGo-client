@@ -1,0 +1,34 @@
+export interface FilterFlagsData {
+    isAvailable: boolean;
+    isUnavailable: boolean;
+    isOpen: boolean;
+    isWomen: boolean;
+    isLeft: boolean;
+    isRight: boolean;
+    isBoth: boolean;
+    isNone: boolean;
+    isSteers: boolean;
+    isDrummer: boolean;
+    isStroker: boolean;
+    isCaller: boolean;
+    isBailer: boolean;
+    is200m: boolean;
+    is500m: boolean;
+    is1000m: boolean;
+    is2000m: boolean;
+    isVeteran: boolean;
+    isSteadyTempo: boolean;
+    isVocal: boolean;
+    isTechnicallyProficient: boolean;
+    isLeader: boolean;
+    isNewbie: boolean;
+    isRushing: boolean;
+    isLagging: boolean;
+    isTechnicallyPoor: boolean;
+    isInjuryProne: boolean;
+    isLoadManaged: boolean;
+    isPacer: boolean;
+    isEngine: boolean;
+    isRocket: boolean;
+  };
+  
