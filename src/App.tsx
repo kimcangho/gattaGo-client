@@ -21,7 +21,7 @@ import EditAthletePage from "./pages/EditAthletePage";
 
 const App = (): JSX.Element => {
   return (
-    <div className="flex flex-col h-screen justify-start">
+    <div className="flex flex-col">
       <Header />
       <Routes>
         {/* Public Routes */}

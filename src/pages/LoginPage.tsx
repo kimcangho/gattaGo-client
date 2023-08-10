@@ -58,7 +58,7 @@ const LoginPage = (): JSX.Element => {
   };
 
   return (
-    <div className="py-5 flex-col justify-center">
+    <div className="py-5 flex-col h-full">
       <h3 className="text-center my-4 tablet:my-5 tablet:text-2xl px-2.5 tablet:px-5">
         {email && !isInvalidInput ? "Hey! You're already signed up!" : "Log In"}
       </h3>
