@@ -137,9 +137,9 @@ const SignupPage = (): JSX.Element => {
 
         <button
           type="submit"
-          className="bg-green-light text-white rounded hover:bg-green-dark p-4"
+          className="bg-blue-light text-white rounded hover:bg-blue-dark p-4"
         >
-          Continue
+          Sign me up!
         </button>
       </form>
 
