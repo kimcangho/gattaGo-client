@@ -16,7 +16,11 @@ const HomePageSection = ({
   backgroundColor,
 }: HomePageSectionProps) => {
   return (
-    <div className="w-full aspect-auto bg-white p-4 tablet:p-8">
+    <div
+      className={`w-full aspect-auto ${
+        index !== 1 ? "bg-white" : ""
+      } p-4 tablet:p-8`}
+    >
       <div
         className={`mx-auto flex flex-col space-y-2 tablet:space-y-0 tablet:${
           index === 1 ? "flex-row-reverse" : "flex-row"
