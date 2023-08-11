@@ -37,7 +37,7 @@ const OverviewTeamItem = ({
 
   const redirectTeamPage = async () => {
     setCurrentTeamName(name);
-    navigate(`../${userId}/roster/${id}`);
+    navigate(`../${userId}/dashboard/${id}`);
   };
 
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {

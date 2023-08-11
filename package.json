@@ -12,9 +12,13 @@
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
+    "@types/chart.js": "^2.9.37",
+    "@types/react-chartjs-2": "^2.5.7",
     "axios": "^1.4.0",
+    "chart.js": "^4.3.3",
     "nanoid": "^4.0.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
     "uuid": "^9.0.0"
