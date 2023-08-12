@@ -14,6 +14,12 @@ const Availability = ({ availabilityCountArr }: AvailabilityProps) => {
     datasets: [
       {
         data: availabilityCountArr,
+        datalabels: {
+          color: "black",
+          font: {
+            size: 20,
+          },
+        },
       },
     ],
   };

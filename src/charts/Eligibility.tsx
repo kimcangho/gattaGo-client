@@ -14,6 +14,12 @@ const Eligibility = ({ eligibilityCountArr }: EligibilityProps) => {
     datasets: [
       {
         data: eligibilityCountArr,
+        datalabels: {
+          color: "black",
+          font: {
+            size: 20,
+          },
+        },
       },
     ],
   };
