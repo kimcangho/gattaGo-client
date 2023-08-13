@@ -13,11 +13,15 @@ const Availability = ({ availabilityCountArr }: AvailabilityProps) => {
     labels: ["Available", "Unavailable"],
     datasets: [
       {
+        backgroundColor: ["#9966FE", "#C8CBCF"],
         data: availabilityCountArr,
         datalabels: {
           color: "black",
           font: {
             size: 20,
+          },
+          display: (context: any) => {
+            return context.dataset.data[context.dataIndex] === 0 ? false : true;
           },
         },
       },
@@ -25,8 +29,8 @@ const Availability = ({ availabilityCountArr }: AvailabilityProps) => {
   };
 
   return (
-    <div className="max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
-      <h2>Availability</h2>
+    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
+      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">Availability</h2>
       {availabilityCountArr && <Doughnut data={availabilityData} />}
     </div>
   );

@@ -14,11 +14,15 @@ const PaddleSide = ({ paddleSideCountArr }: PaddleSideProps) => {
     labels: ["Left", "Right", "Both", "None"],
     datasets: [
       {
+        backgroundColor: ["#36A2EB", "#FFCD56", "#4BC0C0", "#C8CBCF"],
         data: paddleSideCountArr,
         datalabels: {
           color: "black",
           font: {
             size: 20,
+          },
+          display: (context: any) => {
+            return context.dataset.data[context.dataIndex] === 0 ? false : true;
           },
         },
       },
@@ -37,8 +41,10 @@ const PaddleSide = ({ paddleSideCountArr }: PaddleSideProps) => {
   };
 
   return (
-    <div className="max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
-      <h2>Paddle Side</h2>
+    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
+      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">
+        Paddle Side
+      </h2>
       {paddleSideCountArr && (
         <Doughnut data={paddleSideData} options={options} />
       )}

@@ -19,14 +19,19 @@ const Eligibility = ({ eligibilityCountArr }: EligibilityProps) => {
           font: {
             size: 20,
           },
+          display: (context: any) => {
+            return context.dataset.data[context.dataIndex] === 0 ? false : true;
+          },
         },
       },
     ],
   };
 
   return (
-    <div className="max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
-      <h2>Eligibility</h2>
+    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
+      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">
+        Eligibility
+      </h2>
       {eligibilityCountArr && <Doughnut data={eligibilityData} />}
     </div>
   );

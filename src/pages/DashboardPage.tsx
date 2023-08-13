@@ -2,9 +2,10 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import PaddleSide from "../charts/PaddleSide";
-import Availability from "../charts/Availability";
-import Eligibility from "../charts/Eligibility";
+import PaddleSide from "../charts/PaddleSideDoughnutChart";
+import Availability from "../charts/AvailabilityDoughnutChart";
+import Eligibility from "../charts/EligibilityDoughnutChart";
+import Weight from "../charts/WeightBarChart";
 
 const DashboardPage = (): JSX.Element => {
   const { teamId } = useParams();
@@ -28,8 +29,8 @@ const DashboardPage = (): JSX.Element => {
   }, []);
 
   return (
-    <div className="flex flex-col mx-auto items-center max-w-[448px] text-center my-6">
-      <h1>Dashboard</h1>
+    <div className="flex flex-col tablet:flex-row tablet:flex-wrap mx-auto tablet:justify-center items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] text-center my-6">
+      {/* <h1>Dashboard</h1> */}
       {teamDashboardDetails?.paddleSideCountArr && (
         <PaddleSide
           paddleSideCountArr={teamDashboardDetails.paddleSideCountArr}
@@ -45,6 +46,13 @@ const DashboardPage = (): JSX.Element => {
           eligibilityCountArr={teamDashboardDetails.eligibilityCountArr}
         />
       )}
+      {teamDashboardDetails?.weightCountArrOpen &&
+        teamDashboardDetails?.weightCountArrWomen && (
+          <Weight
+            weightCountArrOpen={teamDashboardDetails.weightCountArrOpen}
+            weightCountArrWomen={teamDashboardDetails.weightCountArrWomen}
+          />
+        )}
     </div>
   );
 };
