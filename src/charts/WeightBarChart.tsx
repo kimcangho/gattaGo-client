@@ -37,6 +37,7 @@ const Weight = ({
 
   const teamAnnotation = {
     type: "line",
+    display: avgWomenWeight ? true : false,
     scaleID: "x",
     borderWidth: width! < 768 ? 1.5 : 3,
     borderColor: "#4BC0C0",
@@ -44,7 +45,8 @@ const Weight = ({
     value: (context: any) => {
       if (avgWeight === 0) return;
       if (avgWeight < 100) return -0.5 + avgWeight / 100;
-      if (avgWeight >= 100 && avgWeight < 220) return 0.5 + ((avgWeight - 100) / 120) * 6;
+      if (avgWeight >= 100 && avgWeight < 220)
+        return 0.5 + ((avgWeight - 100) / 120) * 6;
       if (avgWeight >= 220) return context.chart.scales.x.max;
     },
     label: {
@@ -67,6 +69,7 @@ const Weight = ({
 
   const openAnnotation = {
     type: "line",
+    display: avgWomenWeight ? true : false,
     scaleID: "x",
     borderWidth: width! < 768 ? 1.5 : 3,
     borderColor: "#36A2EB",
@@ -74,7 +77,8 @@ const Weight = ({
     value: (context: any) => {
       if (avgOpenWeight === 0) return;
       if (avgOpenWeight < 100) return -0.5 + avgOpenWeight / 100;
-      if (avgOpenWeight >= 100 && avgOpenWeight < 220) return 0.5 + ((avgOpenWeight - 100) / 120) * 6;
+      if (avgOpenWeight >= 100 && avgOpenWeight < 220)
+        return 0.5 + ((avgOpenWeight - 100) / 120) * 6;
       if (avgOpenWeight >= 220) return context.chart.scales.x.max;
     },
     label: {
@@ -98,6 +102,7 @@ const Weight = ({
 
   const womenAnnotation = {
     type: "line",
+    display: avgWomenWeight ? true : false,
     scaleID: "x",
     borderWidth: width! < 768 ? 1.5 : 3,
     borderColor: "#FF6484",
@@ -105,7 +110,8 @@ const Weight = ({
     value: (context: any) => {
       if (avgWomenWeight === 0) return;
       if (avgWomenWeight < 100) return -0.5 + avgWomenWeight / 100;
-      if (avgWomenWeight >= 100 && avgWomenWeight < 220) return 0.5 + ((avgWomenWeight - 100) / 120) * 6;
+      if (avgWomenWeight >= 100 && avgWomenWeight < 220)
+        return 0.5 + ((avgWomenWeight - 100) / 120) * 6;
       if (avgWomenWeight >= 220) return context.chart.scales.x.max;
     },
     label: {
