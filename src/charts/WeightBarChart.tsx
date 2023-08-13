@@ -8,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import annotationPlugin from "chartjs-plugin-annotation";
+import useWindowSize from "../hooks/useWindowSize";
 
 ChartJS.register(
   CategoryScale,
@@ -15,7 +17,8 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  annotationPlugin
 );
 
 interface WeightProps {
@@ -24,7 +27,105 @@ interface WeightProps {
   avgWeights: any;
 }
 
-const Weight = ({ weightCountArrOpen, weightCountArrWomen, avgWeights }: WeightProps) => {
+const Weight = ({
+  weightCountArrOpen,
+  weightCountArrWomen,
+  avgWeights,
+}: WeightProps) => {
+  const { avgWeight, avgOpenWeight, avgWomenWeight } = avgWeights;
+  const { width } = useWindowSize();
+
+  const teamAnnotation = {
+    type: "line",
+    scaleID: "x",
+    borderWidth: width! < 768 ? 1.5 : 3,
+    borderColor: "#4BC0C0",
+    position: "start",
+    value: (context: any) => {
+      if (avgWeight === 0) return;
+      if (avgWeight < 100) return -0.5 + avgWeight / 100;
+      if (avgWeight >= 100 && avgWeight < 220) return 0.5 + ((avgWeight - 100) / 120) * 6;
+      if (avgWeight >= 220) return context.chart.scales.x.max;
+    },
+    label: {
+      content: ["Team Avg", Math.round(avgWeight)],
+      display: false,
+      position: "start",
+      font: {
+        size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
+      },
+    },
+    enter({ element }: any) {
+      element.label.options.display = true;
+      return true;
+    },
+    leave({ element }: any) {
+      element.label.options.display = false;
+      return true;
+    },
+  };
+
+  const openAnnotation = {
+    type: "line",
+    scaleID: "x",
+    borderWidth: width! < 768 ? 1.5 : 3,
+    borderColor: "#36A2EB",
+    position: "start",
+    value: (context: any) => {
+      if (avgOpenWeight === 0) return;
+      if (avgOpenWeight < 100) return -0.5 + avgOpenWeight / 100;
+      if (avgOpenWeight >= 100 && avgOpenWeight < 220) return 0.5 + ((avgOpenWeight - 100) / 120) * 6;
+      if (avgOpenWeight >= 220) return context.chart.scales.x.max;
+    },
+    label: {
+      content: ["Open Avg", Math.round(avgOpenWeight)],
+      display: false,
+      drawTime: "afterDatasetsDraw",
+      position: "start",
+      font: {
+        size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
+      },
+    },
+    enter({ element }: any) {
+      element.label.options.display = true;
+      return true;
+    },
+    leave({ element }: any) {
+      element.label.options.display = false;
+      return true;
+    },
+  };
+
+  const womenAnnotation = {
+    type: "line",
+    scaleID: "x",
+    borderWidth: width! < 768 ? 1.5 : 3,
+    borderColor: "#FF6484",
+    position: "start",
+    value: (context: any) => {
+      if (avgWomenWeight === 0) return;
+      if (avgWomenWeight < 100) return -0.5 + avgWomenWeight / 100;
+      if (avgWomenWeight >= 100 && avgWomenWeight < 220) return 0.5 + ((avgWomenWeight - 100) / 120) * 6;
+      if (avgWomenWeight >= 220) return context.chart.scales.x.max;
+    },
+    label: {
+      content: ["Women Avg", Math.round(avgWomenWeight)],
+      display: false,
+      drawTime: "afterDatasetsDraw",
+      position: "start",
+      font: {
+        size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
+      },
+    },
+    enter({ element }: any) {
+      element.label.options.display = true;
+      return true;
+    },
+    leave({ element }: any) {
+      element.label.options.display = false;
+      return true;
+    },
+  };
 
   const weightData = {
     labels: [
@@ -44,12 +145,9 @@ const Weight = ({ weightCountArrOpen, weightCountArrWomen, avgWeights }: WeightP
         datalabels: {
           color: "black",
           font: {
-            size: 20,
+            size: width! < 448 ? 8 : width! < 768 ? 12 : 20,
           },
         },
-        // backgroundColor: (context: any) => {
-        //     console.log(context.chart)
-        // }
       },
       {
         label: "Women",
@@ -57,17 +155,15 @@ const Weight = ({ weightCountArrOpen, weightCountArrWomen, avgWeights }: WeightP
         datalabels: {
           color: "black",
           font: {
-            size: 20,
+            size: width! < 448 ? 8 : width! < 768 ? 12 : 20,
           },
         },
-        // backgroundColor: (context: any) => {
-        //     console.log(context.chart)
-        // }
       },
     ],
   };
 
   const options = {
+    aspectRatio: 1.75,
     scales: {
       x: {
         stacked: true,
@@ -92,15 +188,27 @@ const Weight = ({ weightCountArrOpen, weightCountArrWomen, avgWeights }: WeightP
         },
       },
       tooltip: {
-        enabled: true,
+        enabled: false,
+      },
+      annotation: {
+        annotations: {
+          teamAnnotation,
+          openAnnotation,
+          womenAnnotation,
+        },
       },
     },
   };
 
   return (
     <div className="w-full tablet:max-w-[992px] my-2 py-4 border border-black rounded-md shadow-lg bg-white">
-      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">Weight (lbs)</h2>
-      {weightCountArrOpen && weightCountArrWomen && <Bar data={weightData} options={options} className="px-2"/>}
+      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">
+        Weight (lbs)
+      </h2>
+      {weightCountArrOpen && weightCountArrWomen && (
+        //  @ts-ignore
+        <Bar data={weightData} options={options} className="px-2" />
+      )}
     </div>
   );
 };

@@ -38,7 +38,7 @@ const PaddleSide = ({ paddleSideCountArr }: PaddleSideProps) => {
         display: true,
       },
     },
-    rotation: 180
+    rotation: 180,
   };
 
   return (
@@ -47,7 +47,7 @@ const PaddleSide = ({ paddleSideCountArr }: PaddleSideProps) => {
         Paddle Side
       </h2>
       {paddleSideCountArr && (
-        <Doughnut data={paddleSideData} options={options}/>
+        <Doughnut data={paddleSideData} options={options} />
       )}
     </div>
   );
