@@ -17,7 +17,6 @@ const DashboardPage = (): JSX.Element => {
     try {
       const getTeamDashboardDetails = async () => {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/dashboard`);
-        console.log(data.avgWeights);
         setTeamDashboardDetails(data);
       };
 
