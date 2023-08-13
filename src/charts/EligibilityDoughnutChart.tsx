@@ -27,12 +27,18 @@ const Eligibility = ({ eligibilityCountArr }: EligibilityProps) => {
     ],
   };
 
+  const options = {
+    rotation: 180,
+  };
+
   return (
-    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
+    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg bg-white">
       <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">
         Eligibility
       </h2>
-      {eligibilityCountArr && <Doughnut data={eligibilityData} />}
+      {eligibilityCountArr && (
+        <Doughnut data={eligibilityData} options={options} />
+      )}
     </div>
   );
 };

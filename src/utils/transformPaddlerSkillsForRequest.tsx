@@ -67,16 +67,10 @@ export const transformPaddlerSkillsForRequest = (
 ) => {
   const paddlerStatObj: PaddlerSkillsObjData | {} = {};
 
-  console.log(paddlerStatObj)
-  console.log(paddlerSkills)
-
   for (let i = 0; i < paddlerSkills.length; i++) {
     //@ts-ignore
     paddlerStatObj[paddlerSkills[i]] = true;
   }
-
-  console.log(allPaddlerSkillsObj)
-  console.log(paddlerStatObj)
 
   return { ...allPaddlerSkillsObj, ...paddlerStatObj };
 };

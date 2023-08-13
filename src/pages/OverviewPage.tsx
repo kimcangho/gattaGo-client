@@ -16,7 +16,6 @@ const OverviewPage = (): JSX.Element => {
     const getAllTeams = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/user/${userId}`);
-        console.log(data);
         setMyTeams(data);
       } catch (err) {
         console.log(err);
@@ -64,7 +63,7 @@ const OverviewPage = (): JSX.Element => {
             Select Team
           </h2>
         </div>
-      
+
         <div className="flex text-center w-72">
           <h2 className="w-24">Eligibility</h2>
           <h2 className="w-24">Level</h2>

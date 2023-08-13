@@ -28,10 +28,18 @@ const Availability = ({ availabilityCountArr }: AvailabilityProps) => {
     ],
   };
 
+  const options = {
+    rotation: 180,
+  };
+
   return (
-    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg">
-      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">Availability</h2>
-      {availabilityCountArr && <Doughnut data={availabilityData} />}
+    <div className="w-full max-w-[448px] tablet:max-w-[320px] m-2 py-4 border border-black rounded-md shadow-lg bg-white">
+      <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">
+        Availability
+      </h2>
+      {availabilityCountArr && (
+        <Doughnut data={availabilityData} options={options} />
+      )}
     </div>
   );
 };

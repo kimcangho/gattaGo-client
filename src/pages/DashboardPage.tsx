@@ -17,7 +17,7 @@ const DashboardPage = (): JSX.Element => {
     try {
       const getTeamDashboardDetails = async () => {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/dashboard`);
-        console.log(data);
+        console.log(data.avgWeights);
         setTeamDashboardDetails(data);
       };
 
@@ -30,7 +30,6 @@ const DashboardPage = (): JSX.Element => {
 
   return (
     <div className="flex flex-col tablet:flex-row tablet:flex-wrap mx-auto tablet:justify-center items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] text-center my-6">
-      {/* <h1>Dashboard</h1> */}
       {teamDashboardDetails?.paddleSideCountArr && (
         <PaddleSide
           paddleSideCountArr={teamDashboardDetails.paddleSideCountArr}
@@ -51,6 +50,7 @@ const DashboardPage = (): JSX.Element => {
           <Weight
             weightCountArrOpen={teamDashboardDetails.weightCountArrOpen}
             weightCountArrWomen={teamDashboardDetails.weightCountArrWomen}
+            avgWeights={teamDashboardDetails.avgWeights}
           />
         )}
     </div>

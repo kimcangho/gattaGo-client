@@ -21,10 +21,10 @@ ChartJS.register(
 interface WeightProps {
   weightCountArrOpen: any[];
   weightCountArrWomen: any[];
+  avgWeights: any;
 }
 
-const Weight = ({ weightCountArrOpen, weightCountArrWomen }: WeightProps) => {
-  //   console.log(weightCountArr);
+const Weight = ({ weightCountArrOpen, weightCountArrWomen, avgWeights }: WeightProps) => {
 
   const weightData = {
     labels: [
@@ -98,7 +98,7 @@ const Weight = ({ weightCountArrOpen, weightCountArrWomen }: WeightProps) => {
   };
 
   return (
-    <div className="w-full tablet:max-w-[992px] my-2 py-4 border border-black rounded-md shadow-lg">
+    <div className="w-full tablet:max-w-[992px] my-2 py-4 border border-black rounded-md shadow-lg bg-white">
       <h2 className="font-bold text-lg midMobile:text-xl tablet:text-2xl desktop:text-3xl">Weight (lbs)</h2>
       {weightCountArrOpen && weightCountArrWomen && <Bar data={weightData} options={options} className="px-2"/>}
     </div>
