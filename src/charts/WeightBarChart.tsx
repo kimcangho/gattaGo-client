@@ -50,12 +50,12 @@ const Weight = ({
       if (avgWeight >= 220) return context.chart.scales.x.max;
     },
     label: {
-      content: ["Team Avg", Math.round(avgWeight)],
+      content: ["Team Avg", `${Math.round(avgWeight)} lbs`],
       display: false,
       drawTime: "afterDatasetsDraw",
       position: "start",
       font: {
-        size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
+        size: width! < 448 ? 8 : width! < 768 ? 10 : 12,
       },
     },
     enter({ element }: any) {
@@ -83,12 +83,12 @@ const Weight = ({
       if (avgOpenWeight >= 220) return context.chart.scales.x.max;
     },
     label: {
-      content: ["Open Avg", Math.round(avgOpenWeight)],
+      content: ["Open Avg", `${Math.round(avgOpenWeight)} lbs`],
       display: false,
       drawTime: "afterDatasetsDraw",
       position: "start",
       font: {
-        size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
+        size: width! < 448 ? 8 : width! < 768 ? 10 : 12,
       },
     },
     enter({ element }: any) {
@@ -116,12 +116,12 @@ const Weight = ({
       if (avgWomenWeight >= 220) return context.chart.scales.x.max;
     },
     label: {
-      content: ["Women Avg", Math.round(avgWomenWeight)],
+      content: ["Women Avg", `${Math.round(avgWomenWeight)} lbs`],
       display: false,
       drawTime: "afterDatasetsDraw",
       position: "start",
       font: {
-        size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
+        size: width! < 448 ? 8 : width! < 768 ? 10 : 12,
       },
     },
     enter({ element }: any) {

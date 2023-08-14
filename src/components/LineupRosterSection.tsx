@@ -9,12 +9,14 @@ interface LineupRosterSectionProps {
   width: number | undefined;
   activeId: Active | string | number;
   overId: Over | string | number;
+  isLoading: boolean;
 }
 
 const LineupRosterSection = ({
   rosterAthletes,
   width,
   activeId,
+  isLoading,
 }: LineupRosterSectionProps) => {
   const { userId, teamId } = useParams();
 
@@ -31,10 +33,12 @@ const LineupRosterSection = ({
         <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
           <div className="text-black mb-2">
             <h1>Roster</h1>
-            <p className="text-black">
-              Total: {rosterAthletes.length} paddler
-              {rosterAthletes.length !== 1 && `s`}
-            </p>
+            {!isLoading && rosterAthletes.length !== 0 && (
+              <p className="text-black">
+                Total: {rosterAthletes.length} paddler
+                {rosterAthletes.length !== 1 && `s`}
+              </p>
+            )}
           </div>
           <div className="flex space-x-2 w-auto text-black font-bold mb-4">
             <p className="h-fit bg-gray-border rounded-3xl w-24 tablet:mt-2 text-center">
@@ -54,7 +58,9 @@ const LineupRosterSection = ({
           </div>
         </div>
 
-        {rosterAthletes.length === 0 ? (
+        {!isLoading && rosterAthletes.length === 0 ? (
+          <h1 className="text-black text-xl">Loading...</h1>
+        ) : rosterAthletes.length === 0 ? (
           <EmptyAthlete userId={userId} teamId={teamId} />
         ) : (
           rosterAthletes &&

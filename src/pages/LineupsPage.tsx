@@ -274,6 +274,7 @@ const LineupsPage = (): JSX.Element => {
         activeLineup={activeLineup}
         setActiveLineup={setActiveLineup}
         lineupId={getValues("activeLineupId")}
+        isLoading={isLoading}
       />
     </div>
   );

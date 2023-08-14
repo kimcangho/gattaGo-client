@@ -24,6 +24,7 @@ interface LineupBoatSectionProps {
   activeLineup: ActiveLineupData[];
   setActiveLineup: React.Dispatch<React.SetStateAction<ActiveLineupData[]>>;
   lineupId: string;
+  isLoading: boolean;
 }
 
 const LineupBoatSection = ({
@@ -32,6 +33,7 @@ const LineupBoatSection = ({
   activeLineup,
   setActiveLineup,
   lineupId,
+  isLoading,
 }: LineupBoatSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<Active | string | number>("");
@@ -235,6 +237,7 @@ const LineupBoatSection = ({
             width={width}
             activeId={activeId}
             overId={overId}
+            isLoading={isLoading}
           />
         )}
       </DndContext>
