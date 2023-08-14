@@ -3,7 +3,6 @@ import { RosterData } from "../interfaces/EntityData";
 import { Active, Over } from "@dnd-kit/core";
 import { useParams } from "react-router-dom";
 import EmptyAthlete from "./EmptyAthlete";
-import LoadingSpinner from "./LoadingSpinner";
 
 interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
