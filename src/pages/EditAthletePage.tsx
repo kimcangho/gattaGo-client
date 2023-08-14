@@ -98,11 +98,10 @@ const EditAthletePage = () => {
           firstName,
           lastName,
           paddleSide,
-          paddlerSkills,  //  paddlerSkills[0] --> paddlerSkills
+          paddlerSkills, //  paddlerSkills[0] --> paddlerSkills
           notes,
           weight,
         });
-        console.log(data)
         setAthlete(data);
       } catch (err) {
         console.log(err);
@@ -133,10 +132,8 @@ const EditAthletePage = () => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
-    console.log(paddlerSkills);
     //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
-    console.log(paddlerSkillsObj)
 
     if (
       !email ||
