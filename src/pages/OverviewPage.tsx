@@ -5,6 +5,7 @@ import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import OverviewTeamItem from "../components/OverviewTeamItem";
 import { TeamData } from "../interfaces/EntityData";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
+import EmptyTeam from "../components/EmptyTeam";
 
 const OverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
@@ -57,43 +58,48 @@ const OverviewPage = (): JSX.Element => {
         </Link>
       </div>
 
-      <div className="hidden bg-gray-border tablet:flex w-full mx-auto tablet:max-w-[768px] py-2 text-black font-semibold border border-b border-black rounded-t-md">
-        <div className="flex flex-row w-full">
-          <h2 className="w-[15rem] flex space-x-2 items-center ml-16">
-            Select Team
-          </h2>
-        </div>
+      {myTeams.length === 0 ? (
+        <EmptyTeam userId={userId} />
+      ) : (
+        <>
+          <div className="hidden bg-gray-border tablet:flex w-full mx-auto tablet:max-w-[768px] py-2 text-black font-semibold border border-b border-black rounded-t-md">
+            <div className="flex flex-row w-full">
+              <h2 className="w-[15rem] flex space-x-2 items-center ml-16">
+                Select Team
+              </h2>
+            </div>
 
-        <div className="flex text-center w-72">
-          <h2 className="w-24">Eligibility</h2>
-          <h2 className="w-24">Level</h2>
-          <h2 className="w-24">Division</h2>
-        </div>
+            <div className="flex text-center w-72">
+              <h2 className="w-24">Eligibility</h2>
+              <h2 className="w-24">Level</h2>
+              <h2 className="w-24">Division</h2>
+            </div>
 
-        <div className="flex w-[15rem] justify-center">
-          <h2 className="text-center">Edit / Delete</h2>
-        </div>
-      </div>
-
-      <div className="desktop:w-[1280px] desktop:mx-auto flex flex-col">
-        {myTeams.map((team, index) => {
-          return (
-            <OverviewTeamItem
-              key={team.id}
-              id={team.id}
-              name={team.name}
-              index={index}
-              eligibility={capitalizeFirstLetter(team.eligibility)}
-              level={capitalizeFirstLetter(team.level)}
-              division={capitalizeFirstLetter(
-                convertSeniorDivisionString(team.division)
-              )}
-              myTeams={myTeams}
-              setMyTeams={setMyTeams}
-            />
-          );
-        })}
-      </div>
+            <div className="flex w-[15rem] justify-center">
+              <h2 className="text-center">Edit / Delete</h2>
+            </div>
+          </div>
+          <div className="desktop:w-[1280px] desktop:mx-auto flex flex-col">
+            {myTeams.map((team, index) => {
+              return (
+                <OverviewTeamItem
+                  key={team.id}
+                  id={team.id}
+                  name={team.name}
+                  index={index}
+                  eligibility={capitalizeFirstLetter(team.eligibility)}
+                  level={capitalizeFirstLetter(team.level)}
+                  division={capitalizeFirstLetter(
+                    convertSeniorDivisionString(team.division)
+                  )}
+                  myTeams={myTeams}
+                  setMyTeams={setMyTeams}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };
