@@ -1,6 +1,7 @@
 import LineupAthleteItem from "./LineupAthleteItem";
 import { RosterData } from "../interfaces/EntityData";
 import { Active, Over } from "@dnd-kit/core";
+import { useParams, Link } from "react-router-dom";
 
 interface LineupRosterSectionProps {
   rosterAthletes: RosterData[];
@@ -14,6 +15,8 @@ const LineupRosterSection = ({
   width,
   activeId,
 }: LineupRosterSectionProps) => {
+  const { userId, teamId } = useParams();
+
   return (
     <>
       <div
@@ -50,7 +53,25 @@ const LineupRosterSection = ({
           </div>
         </div>
 
-        {rosterAthletes &&
+        {rosterAthletes.length === 0 ? (
+          <div className="tablet:w-[448px] mx-auto">
+            <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
+              Oops! Looks like we're fresh out of paddlers...
+            </h3>
+            <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
+              Time to create a new paddler{" "}
+              <span>
+                <Link
+                  to={`../${userId}/roster/${teamId}/new`}
+                  className="underline decoration-2 text-green-light hover:text-green-dark"
+                >
+                  here!
+                </Link>
+              </span>
+            </h3>
+          </div>
+        ) : (
+          rosterAthletes &&
           rosterAthletes.map(({ athlete }: RosterData) => {
             return (
               <LineupAthleteItem
@@ -60,7 +81,8 @@ const LineupRosterSection = ({
                 athleteId={athlete.id}
               />
             );
-          })}
+          })
+        )}
       </div>
     </>
   );

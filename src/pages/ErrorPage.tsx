@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 const ErrorPage = (): JSX.Element => {
   return (
-    <div className="tablet:w-[448px] mx-auto mb-20">
+    <div className="tablet:w-[448px] mx-auto flex flex-col justify-center">
       <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
         Oops! Page does not exist!
       </h3>
