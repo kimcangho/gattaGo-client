@@ -6,6 +6,7 @@ import { axiosAuth } from "../services/axios.service";
 import { LoginFormData } from "../interfaces/FormData";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const LoginPage = (): JSX.Element => {
   const {
@@ -17,6 +18,7 @@ const LoginPage = (): JSX.Element => {
   }: AuthContextTypes = useContext(AuthContext)!;
   const [isInvalidInput, setIsInvalidInput] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const navigate: NavigateFunction = useNavigate();
 
@@ -32,7 +34,9 @@ const LoginPage = (): JSX.Element => {
   });
 
   const handleFormSubmit = async ({ email, password }: LoginFormData) => {
+    if (isSending) return;
     try {
+      setIsSending(true);
       const { data } = await axiosAuth.post(
         "/login",
         {
@@ -48,7 +52,8 @@ const LoginPage = (): JSX.Element => {
       setIsLoggedIn(true);
       navigate(`../${data.id}/overview`);
     } catch (err: unknown) {
-      console.log(err)
+      console.log(err);
+      setIsSending(false);
       setEmail(email);
       setIsInvalidInput(true);
     }
@@ -145,8 +150,12 @@ const LoginPage = (): JSX.Element => {
             </Link>
           </div>
 
-          <button className="p-4 w-full text-white bg-green-light hover:bg-green-dark rounded">
-            Log In
+          <button
+            className={`p-4 w-full text-white ${
+              isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+            } bg-green-light rounded`}
+          >
+            {!isSending ? "Log In" : "Logging In..."}
           </button>
         </form>
         <div className="my-2.5 text-center">
