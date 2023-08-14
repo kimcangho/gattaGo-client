@@ -33,7 +33,7 @@ const RosterPage = (): JSX.Element => {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`);
         setRoster(data);
         setSortableRoster(data);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
       }
@@ -137,7 +137,7 @@ const RosterPage = (): JSX.Element => {
 
       setRoster(rosterAfterDelete);
       setSortableRoster(rosterAfterDelete);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }

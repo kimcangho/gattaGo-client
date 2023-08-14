@@ -13,7 +13,7 @@ const useRefreshToken = () => {
 
       setAccessToken(data.accessToken);
       return data.accessToken;
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
     }
   };

@@ -105,7 +105,7 @@ const CreateNewAthletePage = (): JSX.Element => {
         }
       );
       redirectPreviousPage();
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }

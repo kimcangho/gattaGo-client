@@ -85,7 +85,7 @@ const LineupsPage = (): JSX.Element => {
 
         setValue("activeLineupId", data.id);
         setValue("lineupName", data.name);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
       }
     };
@@ -118,7 +118,7 @@ const LineupsPage = (): JSX.Element => {
         setSelectDefaultValue(data.lineupId);
         setValue("activeLineupId", data.lineupId);
         setValue("lineupName", data.name);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
       }
     };
@@ -139,7 +139,7 @@ const LineupsPage = (): JSX.Element => {
         setActiveLineup(injectIntoLineup([]));
         setValue("lineupName", "");
         setValue("activeLineupId", "new");
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
       }
     } else {

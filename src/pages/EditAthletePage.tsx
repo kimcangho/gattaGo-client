@@ -103,7 +103,7 @@ const EditAthletePage = () => {
           weight,
         });
         setAthlete(data);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
       }
@@ -171,7 +171,7 @@ const EditAthletePage = () => {
         }
       );
       navigate(`/${userId}/roster/${teamId}`);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }

@@ -37,7 +37,7 @@ const ResetPasswordPage = (): JSX.Element => {
             setIsPasswordSent(true);
             try {
               await axiosAuth.post("/reset", { email });
-            } catch (err) {
+            } catch (err: unknown) {
               console.log(err);
             } finally {
               setIsSendingRequest(false);

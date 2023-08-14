@@ -37,7 +37,7 @@ const Header = (): JSX.Element => {
       setUserId("");
       setEmail("");
       setCurrentTeamName("");
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
     } finally {
       navigate("../login");

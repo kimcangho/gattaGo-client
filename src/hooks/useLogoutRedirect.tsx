@@ -15,7 +15,7 @@ const useLogoutRedirect = () => {
         withCredentials: true,
       });
       setIsLoggedIn(false);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
     } finally {
       navigate(redirectPage);

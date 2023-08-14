@@ -17,7 +17,7 @@ const OverviewPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.get(`/teams/user/${userId}`);
         setMyTeams(data);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
       }

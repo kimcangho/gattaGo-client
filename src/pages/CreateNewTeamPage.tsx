@@ -45,7 +45,7 @@ const CreateNewTeamPage = (): JSX.Element => {
         division,
       });
       navigate(`../${userId}/overview`);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }

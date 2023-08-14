@@ -35,7 +35,7 @@ const ChangePasswordPage = (): JSX.Element => {
         const { data } = await axiosAuth.get(`/reset/${resetCode}`);
         setEmail(data!.foundEmail);
         setIsResetCodeValid(true);
-      } catch (err) {
+      } catch (err: unknown) {
         navigate("../");
       }
     };
@@ -74,7 +74,7 @@ const ChangePasswordPage = (): JSX.Element => {
                     resetCode: resetCodeId,
                   });
                   setIsPasswordChanged(true);
-                } catch (err) {
+                } catch (err: unknown) {
                   console.log(err);
                 }
               })}

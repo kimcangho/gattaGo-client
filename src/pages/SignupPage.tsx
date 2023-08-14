@@ -52,7 +52,7 @@ const SignupPage = (): JSX.Element => {
               password,
             });
             navigate("../");
-          } catch (err) {
+          } catch (err: unknown) {
             console.log(err);
             navigate("/login");
           }

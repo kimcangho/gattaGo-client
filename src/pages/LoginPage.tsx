@@ -47,7 +47,8 @@ const LoginPage = (): JSX.Element => {
       setEmail(email);
       setIsLoggedIn(true);
       navigate(`../${data.id}/overview`);
-    } catch (error) {
+    } catch (err: unknown) {
+      console.log(err)
       setEmail(email);
       setIsInvalidInput(true);
     }

@@ -60,7 +60,7 @@ const OverviewTeamItem = ({
         return team.id !== id;
       });
       setMyTeams(currentTeams);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }

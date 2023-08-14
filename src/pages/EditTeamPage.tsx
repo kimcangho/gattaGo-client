@@ -40,7 +40,7 @@ const EditTeamPage = (): JSX.Element => {
         setValue("eligibility", data.team.eligibility);
         setValue("level", data.team.level);
         setValue("division", data.team.division);
-      } catch (err) {
+      } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
       }
@@ -66,7 +66,7 @@ const EditTeamPage = (): JSX.Element => {
       });
       setCurrentTeamName("");
       navigate(`../${userId}/overview`);
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }

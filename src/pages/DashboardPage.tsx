@@ -22,7 +22,7 @@ const DashboardPage = (): JSX.Element => {
       };
 
       getTeamDashboardDetails();
-    } catch (err) {
+    } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
     }
