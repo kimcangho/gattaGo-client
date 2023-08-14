@@ -19,6 +19,7 @@ const LineupsPage = (): JSX.Element => {
   );
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -57,8 +58,14 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
-    getTeamLineups();
-    getAthletes();
+    try {
+      getTeamLineups();
+      getAthletes();
+    } catch (err: unknown) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   const handleSaveLineup = async ({
@@ -185,10 +192,10 @@ const LineupsPage = (): JSX.Element => {
       <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
         <div className="mb-2">
           <h1>Lineups</h1>
-          {teamLineups && (
+          {!isLoading && teamLineups && (
             <p className="text-black">
-              Total: {teamLineups.length} lineup
-              {teamLineups.length !== 1 && `s`}
+              Total: {isLoading ? 0 : teamLineups?.length} lineup
+              {teamLineups?.length !== 1 && `s`}
             </p>
           )}
         </div>

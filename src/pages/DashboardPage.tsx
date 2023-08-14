@@ -11,6 +11,7 @@ import EmptyAthlete from "../components/EmptyAthlete";
 const DashboardPage = (): JSX.Element => {
   const { userId, teamId } = useParams();
   const [teamDashboardDetails, setTeamDashboardDetails] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
 
@@ -19,6 +20,7 @@ const DashboardPage = (): JSX.Element => {
       const getTeamDashboardDetails = async () => {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/dashboard`);
         setTeamDashboardDetails(data);
+        setIsLoading(false);
       };
 
       getTeamDashboardDetails();
@@ -30,7 +32,9 @@ const DashboardPage = (): JSX.Element => {
 
   return (
     <>
-      {!teamDashboardDetails?.athleteCount ? (
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : !teamDashboardDetails?.athleteCount ? (
         <EmptyAthlete userId={userId} teamId={teamId} />
       ) : (
         <div className="flex flex-col tablet:flex-row tablet:flex-wrap mx-auto tablet:justify-center items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] text-center my-6">

@@ -9,6 +9,7 @@ import EmptyTeam from "../components/EmptyTeam";
 
 const OverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -18,6 +19,7 @@ const OverviewPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.get(`/teams/user/${userId}`);
         setMyTeams(data);
+        setIsLoading(false)
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
@@ -46,7 +48,7 @@ const OverviewPage = (): JSX.Element => {
         <div>
           <h1>Teams</h1>
           <p className="text-black">
-            Total: {myTeams.length} team{myTeams.length !== 1 && `s`}
+            Total: {myTeams?.length} team{myTeams?.length !== 1 && `s`}
           </p>
         </div>
 
@@ -58,7 +60,9 @@ const OverviewPage = (): JSX.Element => {
         </Link>
       </div>
 
-      {myTeams.length === 0 ? (
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : myTeams.length === 0 ? (
         <EmptyTeam userId={userId} />
       ) : (
         <>

@@ -21,6 +21,7 @@ const RosterPage = (): JSX.Element => {
   const [isFilterPanelVisible, setIsFilterPanelVisible] =
     useState<boolean>(false);
   const [filterFlags, setFilterFlags] = useState<any>(filterFlagsObj);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { userId, teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -33,6 +34,7 @@ const RosterPage = (): JSX.Element => {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/athletes`);
         setRoster(data);
         setSortableRoster(data);
+        setIsLoading(false);
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
@@ -185,7 +187,7 @@ const RosterPage = (): JSX.Element => {
     event: ChangeEvent<HTMLInputElement> | undefined
   ) => {
     const { checked, value } = event!.target;
-    
+
     switch (value) {
       //  Availability
       case "filter-available":
@@ -259,9 +261,12 @@ const RosterPage = (): JSX.Element => {
       <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Roster</h1>
-          <p className="text-black">
-            Total: {roster.length} paddler{roster.length !== 1 && `s`}
-          </p>
+          {!isLoading && (
+            <p className="text-black">
+              Total: {roster.length} paddler
+              {roster.length !== 1 && `s`}
+            </p>
+          )}
         </div>
 
         <Link
@@ -273,23 +278,9 @@ const RosterPage = (): JSX.Element => {
       </div>
 
       {/* Filter Panel */}
-      {roster.length === 0 ? (
-        // <div className="tablet:w-[448px] mx-auto">
-        //   <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
-        //     Oops! Looks like we're fresh out of paddlers...
-        //   </h3>
-        //   <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
-        //     Time to create a new paddler{" "}
-        //     <span>
-        //       <Link
-        //         to={`../${userId}/roster/${teamId}/new`}
-        //         className="underline decoration-2 text-green-light hover:text-green-dark"
-        //       >
-        //         here!
-        //       </Link>
-        //     </span>
-        //   </h3>
-        // </div>
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : roster.length === 0 ? (
         <EmptyAthlete userId={userId} teamId={teamId} />
       ) : (
         <div
