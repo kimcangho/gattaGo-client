@@ -11,6 +11,7 @@ import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
 import { injectIntoLineup } from "../utils/injectIntoLineup";
 import { trimActiveLineup } from "../utils/trimActiveLineup";
 import { ActiveLineupData } from "../interfaces/EntityData";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -58,14 +59,13 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
-    try {
-      getTeamLineups();
-      getAthletes();
-    } catch (err: unknown) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
+    Promise.all([getTeamLineups(), getAthletes()])
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((err: unknown) => {
+        console.log(err);
+      });
   }, []);
 
   const handleSaveLineup = async ({
@@ -188,94 +188,100 @@ const LineupsPage = (): JSX.Element => {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
-        <div className="mb-2">
-          <h1>Lineups</h1>
-          <p className="text-black">
-            {`Total: ${!teamLineups ? "-" : teamLineups?.length} lineup${
-              teamLineups?.length !== 1 && `s`
-            }`}
-          </p>
-        </div>
-        <div className="flex space-x-2 tablet:space-x-4">
-          <button
-            onClick={handleSubmit(handleSaveLineup)}
-            className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32`}
-          >
-            Save {width! >= 448 ? "Lineup" : ""}
-          </button>
-          <div
-            onClick={handleDeleteLineup}
-            className={`${
-              getValues().activeLineupId === "new"
-                ? "bg-gray-border border-gray-border cursor-not-allowed"
-                : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
-            }  text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 text-center`}
-          >
-            Delete {width! >= 448 ? "Lineup" : ""}
+    <>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="w-full">
+          <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
+            <div className="mb-2">
+              <h1>Lineups</h1>
+              <p className="text-black">
+                {`Total: ${!teamLineups ? "-" : teamLineups?.length} lineup${
+                  teamLineups?.length !== 1 ? `s` : ""
+                }`}
+              </p>
+            </div>
+            <div className="flex space-x-2 tablet:space-x-4">
+              <button
+                onClick={handleSubmit(handleSaveLineup)}
+                className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32`}
+              >
+                Save {width! >= 448 ? "Lineup" : ""}
+              </button>
+              <div
+                onClick={handleDeleteLineup}
+                className={`${
+                  getValues().activeLineupId === "new"
+                    ? "bg-gray-border border-gray-border cursor-not-allowed"
+                    : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
+                }  text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 text-center`}
+              >
+                Delete {width! >= 448 ? "Lineup" : ""}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
-        <div className="flex flex-col mb-4 midMobile:w-[50%]">
-          <label htmlFor="activeLineupId">
-            <h3 className="text-blue-light">Active Lineup</h3>
-          </label>
-          <select
-            {...register("activeLineupId")}
-            name="activeLineupId"
-            id="activeLineupId"
-            value={selectDefaultValue}
-            className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-            onChange={handleGetSingleLineup}
-          >
-            <option disabled>Select lineup</option>
-            <option value={"new"}>New lineup</option>
-            {teamLineups &&
-              teamLineups.map((lineup, index) => {
-                return (
-                  <option key={index} value={lineup.id}>
-                    {lineup.name}
-                  </option>
-                );
-              })}
-          </select>
-        </div>
+          <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+            <div className="flex flex-col mb-4 midMobile:w-[50%]">
+              <label htmlFor="activeLineupId">
+                <h3 className="text-blue-light">Active Lineup</h3>
+              </label>
+              <select
+                {...register("activeLineupId")}
+                name="activeLineupId"
+                id="activeLineupId"
+                value={selectDefaultValue}
+                className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+                onChange={handleGetSingleLineup}
+              >
+                <option disabled>Select lineup</option>
+                <option value={"new"}>New lineup</option>
+                {teamLineups &&
+                  teamLineups.map((lineup, index) => {
+                    return (
+                      <option key={index} value={lineup.id}>
+                        {lineup.name}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
 
-        <div className="flex flex-col midMobile:w-[50%]">
-          <label htmlFor="lineupName">
-            <h3 className="text-blue-light">Lineup Name</h3>
-          </label>
-          <input
-            {...register("lineupName", {
-              required: {
-                value: true,
-                message: "Lineup name field can't be empty!",
-              },
-            })}
-            type="text"
-            id="lineupName"
-            name="lineupName"
-            placeholder="Input lineup name"
-            className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+            <div className="flex flex-col midMobile:w-[50%]">
+              <label htmlFor="lineupName">
+                <h3 className="text-blue-light">Lineup Name</h3>
+              </label>
+              <input
+                {...register("lineupName", {
+                  required: {
+                    value: true,
+                    message: "Lineup name field can't be empty!",
+                  },
+                })}
+                type="text"
+                id="lineupName"
+                name="lineupName"
+                placeholder="Input lineup name"
+                className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+              />
+              {errors.lineupName && (
+                <p className="text-red-500">{errors.lineupName.message}</p>
+              )}
+            </div>
+          </form>
+
+          <LineupBoatSection
+            width={width}
+            rosterAthletes={rosterAthletes}
+            activeLineup={activeLineup}
+            setActiveLineup={setActiveLineup}
+            lineupId={getValues("activeLineupId")}
+            isLoading={isLoading}
           />
-          {errors.lineupName && (
-            <p className="text-red-500">{errors.lineupName.message}</p>
-          )}
         </div>
-      </form>
-
-      <LineupBoatSection
-        width={width}
-        rosterAthletes={rosterAthletes}
-        activeLineup={activeLineup}
-        setActiveLineup={setActiveLineup}
-        lineupId={getValues("activeLineupId")}
-        isLoading={isLoading}
-      />
-    </div>
+      )}
+    </>
   );
 };
 

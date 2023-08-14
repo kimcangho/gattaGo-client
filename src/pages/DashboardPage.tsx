@@ -7,6 +7,7 @@ import Availability from "../charts/AvailabilityDoughnutChart";
 import Eligibility from "../charts/EligibilityDoughnutChart";
 import Weight from "../charts/WeightBarChart";
 import EmptyAthlete from "../components/EmptyAthlete";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const DashboardPage = (): JSX.Element => {
   const { userId, teamId } = useParams();
@@ -33,7 +34,7 @@ const DashboardPage = (): JSX.Element => {
   return (
     <>
       {isLoading ? (
-        <h1>Loading...</h1>
+        <LoadingSpinner />
       ) : !teamDashboardDetails?.athleteCount ? (
         <EmptyAthlete userId={userId} teamId={teamId} />
       ) : (
