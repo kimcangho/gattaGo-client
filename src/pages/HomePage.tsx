@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import { homePageTextBlocks } from "../data/HomePageTextBlocks";
+import { homePageTextBlocks } from "../data/homePageTextBlocks";
 import HomePageSection from "../components/HomePageSection";
 
 const HomePage = (): JSX.Element => {
   return (
     <div className="h-full">
       <div
-        className="flex flex-col justify-center items-center bg-cover bg-no-repeat bg-center w-full h-[80vw] tablet:h-[60vw]"
+        className="flex flex-col justify-center items-center bg-cover bg-no-repeat bg-center w-full h-[80vw] tablet:h-[60vw] bg-gray-border"
         style={{
           backgroundImage: `url(https://res.cloudinary.com/di7kiyj3y/image/upload/v1691605926/dragonboat-racing_gyey8x.jpg)`,
         }}

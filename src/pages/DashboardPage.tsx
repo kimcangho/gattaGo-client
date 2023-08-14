@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -6,6 +6,7 @@ import PaddleSide from "../charts/PaddleSideDoughnutChart";
 import Availability from "../charts/AvailabilityDoughnutChart";
 import Eligibility from "../charts/EligibilityDoughnutChart";
 import Weight from "../charts/WeightBarChart";
+import EmptyAthlete from "../components/EmptyAthlete";
 
 const DashboardPage = (): JSX.Element => {
   const { userId, teamId } = useParams();
@@ -30,22 +31,7 @@ const DashboardPage = (): JSX.Element => {
   return (
     <>
       {!teamDashboardDetails?.athleteCount ? (
-        <div className="tablet:w-[448px] mx-auto">
-          <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
-            Oops! Looks like we're fresh out of paddlers...
-          </h3>
-          <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
-            Time to create a new paddler{" "}
-            <span>
-              <Link
-                to={`../${userId}/roster/${teamId}/new`}
-                className="underline decoration-2 text-green-light hover:text-green-dark"
-              >
-                here!
-              </Link>
-            </span>
-          </h3>
-        </div>
+        <EmptyAthlete userId={userId} teamId={teamId} />
       ) : (
         <div className="flex flex-col tablet:flex-row tablet:flex-wrap mx-auto tablet:justify-center items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] text-center my-6">
           {teamDashboardDetails?.paddleSideCountArr && (
