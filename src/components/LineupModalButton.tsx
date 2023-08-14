@@ -33,7 +33,7 @@ const LineupModalButton = ({
         (activeId && !isModalOpen)) && (
         <div
           className={`z-50 ${
-            isModalOpen && activeId ? "opacity-0" : ""
+            isModalOpen && activeId || width! >= 768 ? "opacity-0" : ""
           } p-2 fixed bottom-[8.25%] cursor-pointer shadow-xl ${
             isModalOpen ? "right-0" : "left-0"
           } rounded-r-lg ${`bg-blue-wavy ${
