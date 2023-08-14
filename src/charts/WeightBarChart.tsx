@@ -52,6 +52,7 @@ const Weight = ({
     label: {
       content: ["Team Avg", Math.round(avgWeight)],
       display: false,
+      drawTime: "afterDatasetsDraw",
       position: "start",
       font: {
         size: width! < 448 ? 6 : width! < 768 ? 8 : 12,
@@ -69,7 +70,7 @@ const Weight = ({
 
   const openAnnotation = {
     type: "line",
-    display: avgWomenWeight ? true : false,
+    display: avgOpenWeight ? true : false,
     scaleID: "x",
     borderWidth: width! < 768 ? 1.5 : 3,
     borderColor: "#36A2EB",

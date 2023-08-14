@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
@@ -14,7 +14,7 @@ import { CreateNewAthleteFormData } from "../interfaces/FormData";
 import { paddlerSkillsDefault } from "../data/paddlerSkillsDefault";
 
 const CreateNewAthletePage = (): JSX.Element => {
-  const { userId, teamId } = useParams();
+  const { teamId } = useParams();
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -41,6 +41,10 @@ const CreateNewAthletePage = (): JSX.Element => {
       paddlerSkills: paddlerSkillsDefault,
     },
   });
+
+  const redirectPreviousPage = () => {
+    navigate(-1);
+  };
 
   const handleTogglePaddlerSkills = () => {
     setIsPaddlerSkillsVisible((prev) => !prev);
@@ -100,7 +104,7 @@ const CreateNewAthletePage = (): JSX.Element => {
           withCredentials: true,
         }
       );
-      navigate(`/${userId}/roster/${teamId}`);
+      redirectPreviousPage();
     } catch (err) {
       console.log(err);
       logoutRedirect("/login");
@@ -388,14 +392,13 @@ const CreateNewAthletePage = (): JSX.Element => {
             </div>
           )}
         </div>
-
-        <div className="flex space-x-2 tablet:space-x-6">
-          <Link
-            to={`../${userId}/roster/${teamId}/`}
-            className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
+        <div className="flex space-x-2 tablet:space-x-6 ">
+          <div
+            onClick={redirectPreviousPage}
+            className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded cursor-pointer"
           >
             <p>Cancel</p>
-          </Link>
+          </div>
           <button
             type="submit"
             className="p-4 w-full text-center flex justify-center text-white bg-green-light hover:bg-green-dark rounded"
