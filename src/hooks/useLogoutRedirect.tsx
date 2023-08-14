@@ -4,12 +4,11 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { axiosAuth } from "../services/axios.service";
 
 const useLogoutRedirect = () => {
-  const { accessToken, setAccessToken, setIsLoggedIn }: AuthContextTypes =
+  const { setAccessToken, setIsLoggedIn }: AuthContextTypes =
     useContext(AuthContext)!;
   const navigate = useNavigate();
 
   const logoutRedirect = async (redirectPage: string) => {
-    console.log(accessToken)
     setAccessToken("");
     try {
       await axiosAuth.delete(`/logout`, {

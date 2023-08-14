@@ -15,8 +15,6 @@ const LineupDraggableSpot = ({
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
   });
-
-  console.log(athlete);
   const style = transform
     ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,

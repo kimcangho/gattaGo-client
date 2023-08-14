@@ -144,8 +144,6 @@ const LineupBoatSection = ({
             }
           );
 
-          console.log(newLineup);
-
           return [...newLineup];
         });
       } else {

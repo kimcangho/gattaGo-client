@@ -5,7 +5,6 @@ interface LineupDragOverlaySpotProps {
 }
 
 const LineupDragOverlaySpot = ({ athlete }: LineupDragOverlaySpotProps) => {
-  console.log(athlete);
   return (
     athlete && (
       <div

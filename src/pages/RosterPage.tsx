@@ -86,8 +86,6 @@ const RosterPage = (): JSX.Element => {
               return true;
           })
           .filter((paddler: any) => {
-            // console.log(paddler)
-
             const newFlags = {
               ...filterFlags,
               isAvailable: false,
@@ -187,7 +185,7 @@ const RosterPage = (): JSX.Element => {
     event: ChangeEvent<HTMLInputElement> | undefined
   ) => {
     const { checked, value } = event!.target;
-    console.log(filterFlags);
+    
     switch (value) {
       //  Availability
       case "filter-available":
