@@ -7,9 +7,10 @@ import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const SignupPage = (): JSX.Element => {
-  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
+  const { email }: AuthContextTypes = useContext(AuthContext)!;
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -45,16 +46,17 @@ const SignupPage = (): JSX.Element => {
 
       <form
         onSubmit={handleSubmit(async ({ email, password }) => {
-          setEmail(email);
+          if (isSending) return;
           try {
+            setIsSending(true);
             await axiosAuth.post("/register", {
               email,
               password,
             });
-            navigate("../");
+            navigate("../login");
           } catch (err: unknown) {
             console.log(err);
-            navigate("/login");
+            navigate("../login");
           }
           return;
         })}
@@ -137,9 +139,11 @@ const SignupPage = (): JSX.Element => {
 
         <button
           type="submit"
-          className="bg-blue-light text-white rounded hover:bg-blue-dark p-4"
+          className={`bg-blue-light text-white rounded p-4 ${
+            isSending ? "opacity-50 cursor-wait" : "hover:bg-blue-dark"
+          } `}
         >
-          Sign me up!
+          {!isSending ? "Sign me up!" : "Signing up..."}
         </button>
       </form>
 

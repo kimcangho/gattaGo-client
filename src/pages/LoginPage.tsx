@@ -6,7 +6,6 @@ import { axiosAuth } from "../services/axios.service";
 import { LoginFormData } from "../interfaces/FormData";
 import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
-import LoadingSpinner from "../components/LoadingSpinner";
 
 const LoginPage = (): JSX.Element => {
   const {
