@@ -12,7 +12,7 @@ const EmptyAthlete = ({ userId, teamId }: EmptyAthleteProps) => {
       <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
         Looks like it's been awhile...
       </h3>
-      <img src={emptyIcon} alt="Empty" className="max-w-[240px] opacity-75"/>
+      <img src={emptyIcon} alt="Empty" className="max-w-[240px] opacity-75" />
       <h3 className="text-center my-4 mx-2.5 tablet:mx-5 tablet:mt-10 tablet:mb-5 tablet:text-2xl">
         ...time to create a new paddler{" "}
         <span>
