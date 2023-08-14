@@ -192,12 +192,11 @@ const LineupsPage = (): JSX.Element => {
       <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
         <div className="mb-2">
           <h1>Lineups</h1>
-          {!isLoading && teamLineups && (
-            <p className="text-black">
-              Total: {isLoading ? 0 : teamLineups?.length} lineup
-              {teamLineups?.length !== 1 && `s`}
-            </p>
-          )}
+          <p className="text-black">
+            {`Total: ${!teamLineups ? "-" : teamLineups?.length} lineup${
+              teamLineups?.length !== 1 && `s`
+            }`}
+          </p>
         </div>
         <div className="flex space-x-2 tablet:space-x-4">
           <button

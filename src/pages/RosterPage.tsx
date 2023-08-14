@@ -261,12 +261,11 @@ const RosterPage = (): JSX.Element => {
       <div className="flex flex-wrap justify-between items-center max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto my-4 tablet:mb-0 overflow-hidden">
         <div className="mb-4">
           <h1>Roster</h1>
-          {!isLoading && (
-            <p className="text-black">
-              Total: {roster.length} paddler
-              {roster.length !== 1 && `s`}
-            </p>
-          )}
+          <p className="text-black">
+            {`Total: ${!roster.length ? "-" : roster?.length} paddler${
+              roster.length !== 1 && `s`
+            }`}
+          </p>
         </div>
 
         <Link

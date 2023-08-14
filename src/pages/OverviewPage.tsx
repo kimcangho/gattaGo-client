@@ -19,7 +19,7 @@ const OverviewPage = (): JSX.Element => {
       try {
         const { data } = await axiosPrivate.get(`/teams/user/${userId}`);
         setMyTeams(data);
-        setIsLoading(false)
+        setIsLoading(false);
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
@@ -48,7 +48,10 @@ const OverviewPage = (): JSX.Element => {
         <div>
           <h1>Teams</h1>
           <p className="text-black">
-            Total: {myTeams?.length} team{myTeams?.length !== 1 && `s`}
+            {`
+            Total: ${!myTeams.length ? "-" : myTeams?.length} team${
+              myTeams?.length !== 1 && `s`
+            }`}
           </p>
         </div>
 
