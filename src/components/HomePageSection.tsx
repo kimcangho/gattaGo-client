@@ -22,8 +22,8 @@ const HomePageSection = ({
       } p-4 tablet:p-8`}
     >
       <div
-        className={`mx-auto flex flex-col space-y-2 tablet:space-y-0 tablet:${
-          index === 1 ? "flex-row-reverse" : "flex-row"
+        className={`mx-auto flex flex-col space-y-2 tablet:space-y-0 ${
+          index === 1 ? "tablet:flex-row-reverse" : "tablet:flex-row"
         } justify-center tablet:justify-between items-center desktop:max-w-[1280px]`}
       >
         <div
