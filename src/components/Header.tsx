@@ -1,5 +1,5 @@
-import { useNavigate, NavigateFunction } from "react-router-dom";
-import { useContext } from "react";
+import { useNavigate, NavigateFunction, useLocation } from "react-router-dom";
+import { useContext, useState } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { axiosAuth } from "../services/axios.service";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
@@ -17,7 +17,12 @@ const Header = (): JSX.Element => {
     currentTeamName,
     setCurrentTeamName,
   }: AuthContextTypes = useContext(AuthContext)!;
+  const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
+  const location = useLocation();
+
+  // console.log(location);
+  if (location.pathname === "/login") console.log("BOOYAKASHA");
 
   const handleTeamOverviewRedirect = () => {
     setCurrentTeamName("");
@@ -26,9 +31,9 @@ const Header = (): JSX.Element => {
   };
 
   const handleLogout = async () => {
-    setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
-
+    if (isLoggingOut) return;
     try {
+      setIsLoggingOut(true);
       await axiosAuth.delete(`/logout`, {
         data: { accessToken },
         withCredentials: true,
@@ -37,9 +42,11 @@ const Header = (): JSX.Element => {
       setUserId("");
       setEmail("");
       setCurrentTeamName("");
+      setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
     } catch (err: unknown) {
       console.log(err);
     } finally {
+      setIsLoggingOut(false);
       navigate("../login");
     }
   };
@@ -79,7 +86,9 @@ const Header = (): JSX.Element => {
                   navigate("../signup");
                 }
           }
-          className="border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white cursor-pointer"
+          className={`border-r border-gray-border rounded-l hover:bg-blue-light hover:text-white ${
+            location.pathname === "/signup" ? "bg-blue-light text-white" : ""
+          }  cursor-pointer`}
         >
           <p className="px-2 py-1 tablet:px-4 tablet:py-2">
             {isLoggedIn ? "Teams" : "Sign-up"}
@@ -88,7 +97,13 @@ const Header = (): JSX.Element => {
         <div
           className={`${
             isLoggedIn ? "hover:bg-orange-light" : "hover:bg-green-light"
-          } hover:text-white rounded-r cursor-pointer`}
+          } hover:text-white rounded-r ${
+            !isLoggingOut
+              ? "cursor-pointer"
+              : "bg-orange-light text-white cursor-wait"
+          } ${
+            location.pathname === "/login" ? "bg-green-light text-white" : ""
+          } `}
           onClick={
             isLoggedIn
               ? handleLogout
@@ -98,7 +113,11 @@ const Header = (): JSX.Element => {
           }
         >
           <p className="px-2 py-1 tablet:px-4 tablet:py-2">
-            {isLoggedIn ? "Logout" : "Login"}
+            {isLoggedIn
+              ? !isLoggingOut
+                ? "Logout"
+                : "Logging Out..."
+              : "Login"}
           </p>
         </div>
       </div>
