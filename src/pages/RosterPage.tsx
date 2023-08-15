@@ -308,7 +308,7 @@ const RosterPage = (): JSX.Element => {
 
               {isFilterPanelVisible && (
                 <motion.div
-                  layout
+                  layout={ false}
                   style={{ position: isPresent ? "static" : "absolute" }}
                   initial={{ opacity: 0 }}
                   animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
@@ -470,12 +470,12 @@ const RosterPage = (): JSX.Element => {
 
           {roster.length !== 0 && (
             <motion.div
-              layout
-              style={{ position: isPresent ? "static" : "absolute" }}
+              //  layout occurs when
+              //
+              //  layout does not occur when
+              //
+              layout={ false}
               key="filterPanel"
-              initial={{ opacity: 0 }}
-              animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
-              exit={{ opacity: 0 }}
               transition={{
                 type: "spring",
                 stiffness: 500,
@@ -511,11 +511,13 @@ const RosterPage = (): JSX.Element => {
                 {sortableRoster.map((paddler) => {
                   return (
                     <motion.div
-                      layout
+                      layout={
+                         false
+                      }
                       style={{ position: isPresent ? "static" : "absolute" }}
                       key={paddler.athleteId}
                       initial={{ opacity: 0 }}
-                      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{
                         type: "spring",

@@ -22,6 +22,7 @@ const LineupsPage = (): JSX.Element => {
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSending, setIsSending] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -74,6 +75,8 @@ const LineupsPage = (): JSX.Element => {
     lineupName,
     activeLineupId,
   }: SaveNewLineupFormData) => {
+    if (isSending) return;
+
     const createTeamLineup = async () => {
       if (!lineupName) return;
       const duplicateLineup = teamLineups?.find(
@@ -82,6 +85,7 @@ const LineupsPage = (): JSX.Element => {
       if (duplicateLineup) return;
 
       try {
+        setIsSending(true);
         const { data } = await axiosPrivate.post(`teams/${teamId}/lineups`, {
           name: lineupName,
           athletes: trimActiveLineup(activeLineup),
@@ -91,6 +95,7 @@ const LineupsPage = (): JSX.Element => {
         setTeamLineups((prevLineups: LineupData[] | null) => {
           return [...prevLineups!, data];
         });
+        setIsSending(false);
 
         setValue("activeLineupId", data.id);
         setValue("lineupName", data.name);
@@ -107,6 +112,7 @@ const LineupsPage = (): JSX.Element => {
       if (duplicateLineup) return;
 
       try {
+        setIsSending(true);
         const { data } = await axiosPrivate.put(
           `teams/${teamId}/lineups/${activeLineupId}`,
           {
@@ -127,6 +133,7 @@ const LineupsPage = (): JSX.Element => {
         setSelectDefaultValue(data.lineupId);
         setValue("activeLineupId", data.lineupId);
         setValue("lineupName", data.name);
+        setIsSending(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -167,6 +174,7 @@ const LineupsPage = (): JSX.Element => {
   };
 
   const handleDeleteLineup = async () => {
+    if (isSending) return
     const deleteSingleLineup = async (lineupId: string) => {
       try {
         await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`, {
@@ -211,9 +219,13 @@ const LineupsPage = (): JSX.Element => {
             <div className="flex space-x-2 tablet:space-x-4">
               <button
                 onClick={handleSubmit(handleSaveLineup)}
-                className={`bg-green-light hover:bg-green-dark border-green-dark text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32`}
+                className={`bg-green-light text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 ${
+                  isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+                }`}
               >
-                Save {width! >= 448 ? "Lineup" : ""}
+                {!isSending
+                  ? `Save ${width! >= 448 ? "Lineup" : ""}`
+                  : "Saving..."}
               </button>
               <div
                 onClick={handleDeleteLineup}
