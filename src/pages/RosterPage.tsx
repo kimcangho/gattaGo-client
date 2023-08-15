@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, ChangeEvent } from "react";
-import { motion, AnimatePresence, useIsPresent } from "framer-motion";
+import { motion, useIsPresent } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -286,11 +286,8 @@ const RosterPage = (): JSX.Element => {
           </div>
 
           {/* Filter Panel */}
-          <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
-              exit={{ opacity: 0 }}
+          <>
+            <div
               className={`flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full shadow-sm`}
             >
               <div
@@ -311,8 +308,8 @@ const RosterPage = (): JSX.Element => {
 
               {isFilterPanelVisible && (
                 <motion.div
+                  layout
                   style={{ position: isPresent ? "static" : "absolute" }}
-                  key="test"
                   initial={{ opacity: 0 }}
                   animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
                   exit={{ opacity: 0 }}
@@ -468,23 +465,25 @@ const RosterPage = (): JSX.Element => {
                   </div>
                 </motion.div>
               )}
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          </>
 
           {roster.length !== 0 && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 50,
-                  mass: 1,
-                }}
-                className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-md"
-              >
+            <motion.div
+              layout
+              style={{ position: isPresent ? "static" : "absolute" }}
+              key="filterPanel"
+              initial={{ opacity: 0 }}
+              animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 500,
+                damping: 50,
+                mass: 1,
+              }}
+            >
+              <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-md">
                 <div className="flex flex-row w-[448px] pl-16">
                   <div
                     onClick={handleSortByName}
@@ -506,40 +505,38 @@ const RosterPage = (): JSX.Element => {
                 </div>
                 <h2 className="self-start">Skills</h2>
                 <h2 className="w-[142px] text-center">Edit / Delete</h2>
-              </motion.div>
+              </div>
 
               <div className="tablet:border-x tablet:border-b border-black rounded-b-md max-w-[1280px] mx-auto">
-                <AnimatePresence>
-                  {sortableRoster.map((paddler) => {
-                    return (
-                      <motion.div
-                        layout
-                        style={{ position: isPresent ? "static" : "absolute" }}
+                {sortableRoster.map((paddler) => {
+                  return (
+                    <motion.div
+                      layout
+                      style={{ position: isPresent ? "static" : "absolute" }}
+                      key={paddler.athleteId}
+                      initial={{ opacity: 0 }}
+                      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 50,
+                        mass: 1,
+                      }}
+                    >
+                      <RosterItem
                         key={paddler.athleteId}
-                        initial={{ opacity: 0 }}
-                        animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 50,
-                          mass: 1,
-                        }}
-                      >
-                        <RosterItem
-                          key={paddler.athleteId}
-                          athleteId={paddler.athleteId}
-                          athlete={paddler.athlete}
-                          width={width}
-                          deleteAthlete={deleteAthlete}
-                          editAthlete={editAthlete}
-                        />
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
+                        athleteId={paddler.athleteId}
+                        athlete={paddler.athlete}
+                        width={width}
+                        deleteAthlete={deleteAthlete}
+                        editAthlete={editAthlete}
+                      />
+                    </motion.div>
+                  );
+                })}
               </div>
-            </>
+            </motion.div>
           )}
         </>
       )}
