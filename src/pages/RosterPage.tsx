@@ -1,5 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, ChangeEvent } from "react";
+import { motion, AnimatePresence, useIsPresent } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -28,6 +29,7 @@ const RosterPage = (): JSX.Element => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
+  const isPresent = useIsPresent();
 
   useEffect(() => {
     const getAthletes = async () => {
@@ -284,170 +286,213 @@ const RosterPage = (): JSX.Element => {
           </div>
 
           {/* Filter Panel */}
-          <div
-            className={`flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full shadow-sm`}
-          >
-            <div
-              onClick={handleToggleFilterPanel}
-              className="flex space-x-2 cursor-pointer w-fit"
+          <AnimatePresence>
+            <motion.div
+              // style={{ position: isPresent ? "static" : "absolute" }}
+              // key="test"
+              initial={{ opacity: 0 }}
+              animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+              exit={{ opacity: 0 }}
+              // transition={{
+              //   type: "spring",
+              //   stiffness: 500,
+              //   damping: 50,
+              //   mass: 1,
+              // }}
+              className={`flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full shadow-sm`}
             >
-              <h3 className="text-blue-light">Filter Panel</h3>
-              {isFilterPanelVisible ? (
-                <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
-              ) : (
-                <img src={chevronDownIcon} alt="Chevron Down" className="w-4" />
-              )}
-            </div>
+              <div
+                onClick={handleToggleFilterPanel}
+                className="flex space-x-2 cursor-pointer w-fit"
+              >
+                <h3 className="text-blue-light">Filter Panel</h3>
+                {isFilterPanelVisible ? (
+                  <img src={chevronUpIcon} alt="Chevron Up" className="w-4" />
+                ) : (
+                  <img
+                    src={chevronDownIcon}
+                    alt="Chevron Down"
+                    className="w-4"
+                  />
+                )}
+              </div>
 
-            {isFilterPanelVisible && (
-              <>
-                <h3 className="text-black mt-2">General</h3>
-                <div className="w-full flex flex-wrap tablet:flex-nowrap">
-                  {/* Availability */}
-                  <div className="flex flex-col w-[50%] mb-4">
-                    <h3>Status</h3>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-available"
-                        value="filter-available"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isAvailable}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-available" className="truncate">
-                        Available
-                      </label>
-                    </div>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-unavailable"
-                        value="filter-unavailable"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isUnavailable}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-unavailable" className="truncate">
-                        Unavailable
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* Eligibility */}
-                  <div className="flex flex-col w-[50%] mb-4">
-                    <h3>Eligibility</h3>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-open"
-                        value="filter-open"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isOpen}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-open">Open</label>
-                    </div>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-women"
-                        value="filter-women"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isWomen}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-women">Women</label>
-                    </div>
-                  </div>
-
-                  {/* Paddle Side */}
-                  <div className="flex flex-col w-[50%] mb-4">
-                    <h3>Paddle Side</h3>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-left"
-                        value="filter-left"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isLeft}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-left">Left</label>
-                    </div>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-right"
-                        value="filter-right"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isRight}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-right">Right</label>
-                    </div>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-both"
-                        value="filter-both"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isBoth}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-both">Both</label>
-                    </div>
-                    <div className="flex">
-                      <input
-                        type="checkbox"
-                        id="filter-none"
-                        value="filter-none"
-                        onChange={handleSetFilterFlags}
-                        checked={filterFlags.isNone}
-                        className="mr-2 tablet:mr-4"
-                      />
-                      <label htmlFor="filter-none">None</label>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-black mt-2">Paddle Skills</h3>{" "}
-                <div className="flex flex-wrap tablet:flex-nowrap">
-                  {paddlerSkillsArr.map(({ category, fields }, index) => {
-                    return (
-                      <div className="w-[50%] flex flex-col" key={index}>
-                        <h3 className="w-full">
-                          {capitalizeFirstLetter(
-                            convertPaddlerSkillToField(category, 0)
-                          )}
-                        </h3>
-                        {fields.map((skill, index) => {
-                          return (
-                            <div key={index} className="mr-2">
-                              <input
-                                type="checkbox"
-                                id={`paddlerSkills-${skill}`}
-                                value={skill}
-                                onChange={handleSetSkillFlags}
-                                checked={filterFlags[skill]}
-                                className="mr-2 tablet:mr-4"
-                              />
-                              <label htmlFor={`paddlerSkills-${skill}`}>
-                                {convertPaddlerSkillToField(skill, 2)}
-                              </label>
-                            </div>
-                          );
-                        })}
+              {isFilterPanelVisible && (
+                <motion.div
+                  style={{ position: isPresent ? "static" : "absolute" }}
+                  key="test"
+                  initial={{ opacity: 0 }}
+                  animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 50,
+                    mass: 1,
+                  }}
+                >
+                  <h3 className="text-black mt-2">General</h3>
+                  <div className="w-full flex flex-wrap tablet:flex-nowrap">
+                    {/* Availability */}
+                    <div className="flex flex-col w-[50%] mb-4">
+                      <h3>Status</h3>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-available"
+                          value="filter-available"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isAvailable}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-available" className="truncate">
+                          Available
+                        </label>
                       </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-          </div>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-unavailable"
+                          value="filter-unavailable"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isUnavailable}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label
+                          htmlFor="filter-unavailable"
+                          className="truncate"
+                        >
+                          Unavailable
+                        </label>
+                      </div>
+                    </div>
+
+                    {/* Eligibility */}
+                    <div className="flex flex-col w-[50%] mb-4">
+                      <h3>Eligibility</h3>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-open"
+                          value="filter-open"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isOpen}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-open">Open</label>
+                      </div>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-women"
+                          value="filter-women"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isWomen}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-women">Women</label>
+                      </div>
+                    </div>
+
+                    {/* Paddle Side */}
+                    <div className="flex flex-col w-[50%] mb-4">
+                      <h3>Paddle Side</h3>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-left"
+                          value="filter-left"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isLeft}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-left">Left</label>
+                      </div>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-right"
+                          value="filter-right"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isRight}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-right">Right</label>
+                      </div>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-both"
+                          value="filter-both"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isBoth}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-both">Both</label>
+                      </div>
+                      <div className="flex">
+                        <input
+                          type="checkbox"
+                          id="filter-none"
+                          value="filter-none"
+                          onChange={handleSetFilterFlags}
+                          checked={filterFlags.isNone}
+                          className="mr-2 tablet:mr-4"
+                        />
+                        <label htmlFor="filter-none">None</label>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="text-black mt-2">Paddle Skills</h3>{" "}
+                  <div className="flex flex-wrap tablet:flex-nowrap">
+                    {paddlerSkillsArr.map(({ category, fields }, index) => {
+                      return (
+                        <div className="w-[50%] flex flex-col" key={index}>
+                          <h3 className="w-full">
+                            {capitalizeFirstLetter(
+                              convertPaddlerSkillToField(category, 0)
+                            )}
+                          </h3>
+                          {fields.map((skill, index) => {
+                            return (
+                              <div key={index} className="mr-2">
+                                <input
+                                  type="checkbox"
+                                  id={`paddlerSkills-${skill}`}
+                                  value={skill}
+                                  onChange={handleSetSkillFlags}
+                                  checked={filterFlags[skill]}
+                                  className="mr-2 tablet:mr-4"
+                                />
+                                <label htmlFor={`paddlerSkills-${skill}`}>
+                                  {convertPaddlerSkillToField(skill, 2)}
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          </AnimatePresence>
 
           {roster.length !== 0 && (
             <>
-              <div className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-md">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                  damping: 50,
+                  mass: 1,
+                }}
+                className="hidden bg-gray-border tablet:flex w-full max-w-[1280px] mx-auto py-2 justify-between text-black font-semibold border border-b-0 border-black rounded-t-md"
+              >
                 <div className="flex flex-row w-[448px] pl-16">
                   <div
                     onClick={handleSortByName}
@@ -469,21 +514,38 @@ const RosterPage = (): JSX.Element => {
                 </div>
                 <h2 className="self-start">Skills</h2>
                 <h2 className="w-[142px] text-center">Edit / Delete</h2>
-              </div>
+              </motion.div>
 
               <div className="tablet:border-x tablet:border-b border-black rounded-b-md max-w-[1280px] mx-auto">
-                {sortableRoster.map((paddler) => {
-                  return (
-                    <RosterItem
-                      key={paddler.athleteId}
-                      athleteId={paddler.athleteId}
-                      athlete={paddler.athlete}
-                      width={width}
-                      handleDeleteAthlete={handleDeleteAthlete}
-                      handleEditAthlete={handleEditAthlete}
-                    />
-                  );
-                })}
+                <AnimatePresence>
+                  {sortableRoster.map((paddler) => {
+                    return (
+                      <motion.div
+                        layout
+                        style={{ position: isPresent ? "static" : "absolute" }}
+                        key={paddler.athleteId}
+                        initial={{ opacity: 0 }}
+                        animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 50,
+                          mass: 1,
+                        }}
+                      >
+                        <RosterItem
+                          key={paddler.athleteId}
+                          athleteId={paddler.athleteId}
+                          athlete={paddler.athlete}
+                          width={width}
+                          handleDeleteAthlete={handleDeleteAthlete}
+                          handleEditAthlete={handleEditAthlete}
+                        />
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
               </div>
             </>
           )}

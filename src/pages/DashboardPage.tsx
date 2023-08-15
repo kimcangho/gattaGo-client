@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { motion, useIsPresent } from "framer-motion";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import PaddleSide from "../charts/PaddleSideDoughnutChart";
@@ -15,6 +16,7 @@ const DashboardPage = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
+  const isPresent = useIsPresent();
 
   useEffect(() => {
     try {
@@ -32,7 +34,11 @@ const DashboardPage = (): JSX.Element => {
   }, []);
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+      exit={{ opacity: 0 }}
+    >
       {isLoading ? (
         <LoadingSpinner />
       ) : !teamDashboardDetails?.athleteCount ? (
@@ -64,7 +70,7 @@ const DashboardPage = (): JSX.Element => {
             )}
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

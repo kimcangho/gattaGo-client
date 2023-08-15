@@ -1,4 +1,5 @@
 import LineupAthleteItem from "./LineupAthleteItem";
+import { motion, AnimatePresence, useIsPresent } from "framer-motion";
 import { RosterData } from "../interfaces/EntityData";
 import { Active, Over } from "@dnd-kit/core";
 import { useParams } from "react-router-dom";
@@ -19,6 +20,7 @@ const LineupRosterSection = ({
   isLoading,
 }: LineupRosterSectionProps) => {
   const { userId, teamId } = useParams();
+  const isPresent = useIsPresent();
 
   return (
     <div
@@ -56,22 +58,38 @@ const LineupRosterSection = ({
           )}
         </div>
       </div>
-
-      {rosterAthletes.length === 0 ? (
-        <EmptyAthlete userId={userId} teamId={teamId} />
-      ) : (
-        rosterAthletes &&
-        rosterAthletes.map(({ athlete }: RosterData) => {
-          return (
-            <LineupAthleteItem
-              key={athlete.id}
-              width={width}
-              athlete={athlete}
-              athleteId={athlete.id}
-            />
-          );
-        })
-      )}
+      <AnimatePresence>
+        {rosterAthletes.length === 0 ? (
+          <EmptyAthlete userId={userId} teamId={teamId} />
+        ) : (
+          rosterAthletes &&
+          rosterAthletes.map(({ athlete }: RosterData) => {
+            return (
+              <motion.div
+                layout
+                style={{ position: isPresent ? "static" : "absolute" }}
+                key={athlete.id}
+                initial={{ opacity: 0 }}
+                animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 500,
+                  damping: 50,
+                  mass: 1,
+                }}
+              >
+                <LineupAthleteItem
+                  key={athlete.id}
+                  width={width}
+                  athlete={athlete}
+                  athleteId={athlete.id}
+                />
+              </motion.div>
+            );
+          })
+        )}
+      </AnimatePresence>
     </div>
   );
 };

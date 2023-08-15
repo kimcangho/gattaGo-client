@@ -12,6 +12,7 @@ import { injectIntoLineup } from "../utils/injectIntoLineup";
 import { trimActiveLineup } from "../utils/trimActiveLineup";
 import { ActiveLineupData } from "../interfaces/EntityData";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { motion, useIsPresent } from "framer-motion";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -25,6 +26,7 @@ const LineupsPage = (): JSX.Element => {
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
+  const isPresent = useIsPresent();
 
   const {
     register,
@@ -188,7 +190,11 @@ const LineupsPage = (): JSX.Element => {
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+      exit={{ opacity: 0 }}
+    >
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -281,7 +287,7 @@ const LineupsPage = (): JSX.Element => {
           />
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

@@ -5,7 +5,15 @@ import gmailLogo from "../assets/logos/gmail.svg";
 
 const Footer = (): JSX.Element => {
   return (
-    <motion.div layout>
+    <motion.div
+      layout
+      transition={{
+        type: "spring",
+        stiffness: 500,
+        damping: 50,
+        mass: 1,
+      }}
+    >
       <div className="flex justify-center space-x-4 midMobile:space-x-6 tablet:space-x-8 desktop:space-x-12 my-4 tablet:my-8 ">
         <a href="https://github.com/kimcangho" target="_blank">
           <img

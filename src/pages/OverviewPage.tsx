@@ -97,13 +97,9 @@ const OverviewPage = (): JSX.Element => {
                     layout
                     style={{ position: isPresent ? "static" : "absolute" }}
                     key={team.id}
-                    initial={{ scaleY: 0, opacity: 0, zIndex: -1 }}
-                    animate={
-                      isPresent
-                        ? { scaleY: 1, opacity: 1, zIndex: 0 }
-                        : { scaleY: 0, opacity: 0, zIndex: -1 }
-                    }
-                    exit={{ scaleY: 0, opacity: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                    exit={{ opacity: 0 }}
                     transition={{
                       type: "spring",
                       stiffness: 500,
