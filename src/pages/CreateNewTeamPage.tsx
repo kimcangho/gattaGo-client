@@ -4,6 +4,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -12,6 +13,7 @@ import { CreateNewTeamFormData } from "../interfaces/FormData";
 
 const CreateNewTeamPage = (): JSX.Element => {
   const { userId } = useParams();
+  const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -35,9 +37,10 @@ const CreateNewTeamPage = (): JSX.Element => {
     level,
     division,
   }: CreateNewTeamFormData) => {
+    if (isSending) return;
     if (!eligibility || !level || !division) return;
-
     try {
+      setIsSending(true);
       await axiosPrivate.post(`/teams/user/${userId}`, {
         name,
         eligibility,
@@ -181,9 +184,11 @@ const CreateNewTeamPage = (): JSX.Element => {
           </Link>
           <button
             type="submit"
-            className="p-4 w-full text-center flex justify-center text-white bg-green-light hover:bg-green-dark rounded"
+            className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
+              isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+            }`}
           >
-            Create Team
+            {!isSending ? "Create Team" : "Creating Team..."}
           </button>
         </div>
       </form>

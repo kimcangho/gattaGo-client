@@ -17,6 +17,7 @@ const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();
   const [athlete, setAthlete] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSending, setIsSending] = useState<boolean>(false);
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -135,6 +136,7 @@ const EditAthletePage = () => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
+    if (isSending) return;
     //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
@@ -155,6 +157,7 @@ const EditAthletePage = () => {
     if (availability === "available") isAvailable = true;
 
     try {
+      setIsSending(true);
       await axiosPrivate.put(
         `/athletes/${athleteId}`,
         {
@@ -488,7 +491,6 @@ const EditAthletePage = () => {
 
             <div className="flex space-x-2 tablet:space-x-6">
               <button
-                // to={`../${userId}/roster/${teamId}/`}
                 onClick={handleCancelRedirect}
                 className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
               >
@@ -496,9 +498,11 @@ const EditAthletePage = () => {
               </button>
               <button
                 type="submit"
-                className="p-4 w-full text-center flex justify-center text-white bg-green-light hover:bg-green-dark rounded"
+                className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
+                  isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+                }`}
               >
-                Confirm Changes
+                {!isSending ? "Save Changes" : "Saving..."}
               </button>
             </div>
           </form>

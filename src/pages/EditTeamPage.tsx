@@ -12,6 +12,7 @@ const EditTeamPage = (): JSX.Element => {
   const { userId, teamId } = useParams();
   const { setCurrentTeamName }: AuthContextTypes = useContext(AuthContext)!;
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -58,9 +59,11 @@ const EditTeamPage = (): JSX.Element => {
     level,
     division,
   }: CreateNewTeamFormData) => {
+    if (isSending) return;
     if (!eligibility || !level || !division) return;
 
     try {
+      setIsSending(true);
       await axiosPrivate.put(`/teams/${teamId}`, {
         name,
         eligibility,
@@ -219,9 +222,11 @@ const EditTeamPage = (): JSX.Element => {
               </button>
               <button
                 type="submit"
-                className="p-4 w-full text-center flex justify-center text-white bg-green-light hover:bg-green-dark rounded"
+                className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
+                  isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+                }`}
               >
-                Confirm Changes
+                {!isSending ? "Save Changes" : "Saving..."}
               </button>
             </div>
           </form>

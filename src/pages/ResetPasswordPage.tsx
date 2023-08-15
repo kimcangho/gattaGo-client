@@ -32,7 +32,7 @@ const ResetPasswordPage = (): JSX.Element => {
       {!isPasswordSent ? (
         <form
           onSubmit={handleSubmit(async ({ email }) => {
-            await setEmail(email);
+            setEmail(email);
             setIsSendingRequest(true);
             setIsPasswordSent(true);
             try {

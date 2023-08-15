@@ -19,6 +19,7 @@ const CreateNewAthletePage = (): JSX.Element => {
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
     useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -66,6 +67,7 @@ const CreateNewAthletePage = (): JSX.Element => {
     paddlerSkills,
     notes,
   }: CreateNewAthleteFormData) => {
+    if (isSending) return;
     //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
@@ -86,6 +88,7 @@ const CreateNewAthletePage = (): JSX.Element => {
     if (availability === "available") isAvailable = true;
 
     try {
+      setIsSending(true);
       await axiosPrivate.post(
         "/athletes",
         {
@@ -401,9 +404,11 @@ const CreateNewAthletePage = (): JSX.Element => {
           </div>
           <button
             type="submit"
-            className="p-4 w-full text-center flex justify-center text-white bg-green-light hover:bg-green-dark rounded"
+            className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
+              isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+            }`}
           >
-            Create Athlete
+            {!isSending ? "Create Athlete" : "Creating..."}
           </button>
         </div>
       </form>
