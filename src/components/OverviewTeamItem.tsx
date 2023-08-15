@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -31,7 +31,7 @@ const OverviewTeamItem = ({
 }: OverviewTeamProps): JSX.Element => {
   const { userId, setCurrentTeamName }: AuthContextTypes =
     useContext(AuthContext)!;
-  const [isSending, setIsSending] = useState<boolean>(false);
+  // const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -44,6 +44,7 @@ const OverviewTeamItem = ({
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
+    // if (isSending) return;
     const { id } = event.target as HTMLInputElement;
     setCurrentTeamName(name);
     navigate(`../${userId}/edit/${id}`);
@@ -52,6 +53,7 @@ const OverviewTeamItem = ({
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
+    // if (isSending) return; //  prevents double-click
     try {
       const { id } = event.target as HTMLInputElement;
       await axiosPrivate.delete(`/teams/${id}`, {

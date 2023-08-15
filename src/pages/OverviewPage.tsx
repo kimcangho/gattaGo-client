@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion, AnimatePresence, useIsPresent } from "framer-motion";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import OverviewTeamItem from "../components/OverviewTeamItem";
@@ -14,6 +15,7 @@ const OverviewPage = (): JSX.Element => {
   const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
+  const isPresent = useIsPresent();
 
   useEffect(() => {
     const getAllTeams = async () => {
@@ -88,23 +90,44 @@ const OverviewPage = (): JSX.Element => {
             </div>
           </div>
           <div className="desktop:w-[1280px] desktop:mx-auto flex flex-col">
-            {myTeams.map((team, index) => {
-              return (
-                <OverviewTeamItem
-                  key={team.id}
-                  id={team.id}
-                  name={team.name}
-                  index={index}
-                  eligibility={capitalizeFirstLetter(team.eligibility)}
-                  level={capitalizeFirstLetter(team.level)}
-                  division={capitalizeFirstLetter(
-                    convertSeniorDivisionString(team.division)
-                  )}
-                  myTeams={myTeams}
-                  setMyTeams={setMyTeams}
-                />
-              );
-            })}
+            <AnimatePresence>
+              {myTeams.map((team, index) => {
+                return (
+                  <motion.div
+                    layout
+                    style={{ position: isPresent ? "static" : "absolute" }}
+                    key={team.id}
+                    initial={{ scaleY: 0, opacity: 0, zIndex: -1 }}
+                    animate={
+                      isPresent
+                        ? { scaleY: 1, opacity: 1, zIndex: 0 }
+                        : { scaleY: 0, opacity: 0, zIndex: -1 }
+                    }
+                    exit={{ scaleY: 0, opacity: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 50,
+                      mass: 1,
+                    }}
+                  >
+                    <OverviewTeamItem
+                      key={team.id}
+                      id={team.id}
+                      name={team.name}
+                      index={index}
+                      eligibility={capitalizeFirstLetter(team.eligibility)}
+                      level={capitalizeFirstLetter(team.level)}
+                      division={capitalizeFirstLetter(
+                        convertSeniorDivisionString(team.division)
+                      )}
+                      myTeams={myTeams}
+                      setMyTeams={setMyTeams}
+                    />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </div>
         </div>
       )}

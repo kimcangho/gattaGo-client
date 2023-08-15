@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { LayoutGroup } from "framer-motion";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -22,58 +23,63 @@ import EditAthletePage from "./pages/EditAthletePage";
 const App = (): JSX.Element => {
   return (
     <div className="flex flex-col">
-      <Header />
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/reset_password" element={<ResetPasswordPage />} />
-        <Route
-          path="/reset_password/:resetCodeId"
-          element={<ChangePasswordPage />}
-        />
+      <LayoutGroup>
+        <Header />
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset_password" element={<ResetPasswordPage />} />
+          <Route
+            path="/reset_password/:resetCodeId"
+            element={<ChangePasswordPage />}
+          />
 
-        {/* Private Routes */}
-        <Route element={<ProtectedRoute redirectPath="login" />}>
-          {/* Team Overview Page */}
-          <Route path="/:userId/overview" element={<OverviewPage />} />
-          <Route path="/:userId/new" element={<CreateNewTeamPage />} />
-          <Route path="/:userId/edit/:teamId/" element={<EditTeamPage />} />
+          {/* Private Routes */}
+          <Route element={<ProtectedRoute redirectPath="login" />}>
+            {/* Team Overview Page */}
+            <Route path="/:userId/overview" element={<OverviewPage />} />
+            <Route path="/:userId/new" element={<CreateNewTeamPage />} />
+            <Route path="/:userId/edit/:teamId/" element={<EditTeamPage />} />
 
-          <Route element={<NavbarRoute />}>
-            {/* Dashboard Page */}
-            <Route
-              path="/:userId/dashboard/:teamId"
-              element={<DashboardPage />}
-            />
+            <Route element={<NavbarRoute />}>
+              {/* Dashboard Page */}
+              <Route
+                path="/:userId/dashboard/:teamId"
+                element={<DashboardPage />}
+              />
 
-            {/* Roster Page */}
-            <Route path="/:userId/roster/:teamId" element={<RosterPage />} />
-            <Route
-              path="/:userId/roster/:teamId/new"
-              element={<CreateNewAthletePage />}
-            />
-            <Route
-              path="/:userId/roster/:teamId/edit/:athleteId"
-              element={<EditAthletePage />}
-            />
+              {/* Roster Page */}
+              <Route path="/:userId/roster/:teamId" element={<RosterPage />} />
+              <Route
+                path="/:userId/roster/:teamId/new"
+                element={<CreateNewAthletePage />}
+              />
+              <Route
+                path="/:userId/roster/:teamId/edit/:athleteId"
+                element={<EditAthletePage />}
+              />
 
-            {/* Lineup Page */}
-            <Route path="/:userId/lineups/:teamId" element={<LineupsPage />} />
+              {/* Lineup Page */}
+              <Route
+                path="/:userId/lineups/:teamId"
+                element={<LineupsPage />}
+              />
 
-            {/* Regatta Schedule Page */}
-            <Route
-              path="/:userId/schedule/:teamId"
-              element={<SchedulePage />}
-            />
+              {/* Regatta Schedule Page */}
+              <Route
+                path="/:userId/schedule/:teamId"
+                element={<SchedulePage />}
+              />
+            </Route>
           </Route>
-        </Route>
 
-        <Route path="/*" element={<ErrorPage />} />
-      </Routes>
+          <Route path="/*" element={<ErrorPage />} />
+        </Routes>
 
-      <Footer />
+        <Footer />
+      </LayoutGroup>
     </div>
   );
 };
