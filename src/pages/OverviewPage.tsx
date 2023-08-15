@@ -46,7 +46,11 @@ const OverviewPage = (): JSX.Element => {
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+      exit={{ opacity: 0 }}
+    >
       {isLoading ? (
         <LoadingSpinner />
       ) : myTeams.length === 0 ? (
@@ -98,7 +102,7 @@ const OverviewPage = (): JSX.Element => {
                     style={{ position: isPresent ? "static" : "absolute" }}
                     key={team.id}
                     initial={{ opacity: 0 }}
-                    animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{
                       type: "spring",
@@ -127,7 +131,7 @@ const OverviewPage = (): JSX.Element => {
           </div>
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

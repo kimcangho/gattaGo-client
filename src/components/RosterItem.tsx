@@ -16,8 +16,8 @@ import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField"
 
 interface RosterItemProps {
   athleteId: string;
-  handleEditAthlete: any;
-  handleDeleteAthlete: any;
+  editAthlete: any;
+  deleteAthlete: any;
   width: number | undefined;
   athlete: any;
 }
@@ -26,12 +26,26 @@ const RosterItem = ({
   athleteId,
   athlete,
   width,
-  handleDeleteAthlete,
-  handleEditAthlete,
+  deleteAthlete,
+  editAthlete,
 }: RosterItemProps): JSX.Element => {
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
+
   const handleToggleNotes = () => {
     setIsNotesVisible((isNotesVisible) => !isNotesVisible);
+  };
+
+  const handleDeleteAthlete = async (athleteId: string) => {
+    if (isSending) return;
+    setIsSending(true);
+    await deleteAthlete(athleteId);
+  };
+
+  const handleEditAthlete = async (athleteId: string) => {
+    if (isSending) return;
+    setIsSending(true);
+    await editAthlete(athleteId);
   };
 
   return (
@@ -81,8 +95,12 @@ const RosterItem = ({
               />
             </div>
             <div className="hidden tablet:flex items-center tablet:w-[100px]">
-              <h3 className="m-2.5 text-center w-4 text-black">{athlete.eligibility}</h3>
-              <h3 className="text-center w-8 ml-[26px] text-black">{athlete.weight}</h3>
+              <h3 className="m-2.5 text-center w-4 text-black">
+                {athlete.eligibility}
+              </h3>
+              <h3 className="text-center w-8 ml-[26px] text-black">
+                {athlete.weight}
+              </h3>
             </div>
           </div>
 
@@ -100,7 +118,7 @@ const RosterItem = ({
             ) : (
               <>
                 <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
-                  {athlete?.eligibility === 'O' ? 'Open' : 'Women'}
+                  {athlete?.eligibility === "O" ? "Open" : "Women"}
                 </h3>
                 {athlete.weight ? (
                   <h3 className="inline-block tablet:hidden bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-2 mb-2 tablet:mt-2">
@@ -136,48 +154,66 @@ const RosterItem = ({
               !isNotesVisible ? `justify-between` : `flex-col tablet:flex-row`
             } `}
           >
-            <div className="flex space-x-1 items-center tablet:w-[108px]">
+            <div
+              className={`flex space-x-1 items-center tablet:w-[108px] ${
+                !isSending ? "tablet:w-[108px]" : ""
+              }`}
+            >
               <span
                 onClick={handleToggleNotes}
                 className="flex space-x-1 mt-1 tablet:mt-0 items-center cursor-pointer"
               >
-                <h4 className="tablet:order-last">Notes</h4>
-                <img
-                  src={
-                    width! < 768
-                      ? isNotesVisible
-                        ? chevronUpIcon
-                        : chevronDownIcon
-                      : isNotesVisible
-                      ? chevronRightIcon
-                      : chevronLeftIcon
-                  }
-                  alt={isNotesVisible ? "Chevron Up" : "Chevron Down"}
-                  className="w-4"
-                />
+                {(!isSending || (isSending && width! < 768)) && (
+                  <>
+                    <h4 className="tablet:order-last">Notes</h4>
+                    <img
+                      src={
+                        width! < 768
+                          ? isNotesVisible
+                            ? chevronUpIcon
+                            : chevronDownIcon
+                          : isNotesVisible
+                          ? chevronRightIcon
+                          : chevronLeftIcon
+                      }
+                      alt={isNotesVisible ? "Chevron Up" : "Chevron Down"}
+                      className="w-4"
+                    />
+                  </>
+                )}
               </span>
             </div>
-            {isNotesVisible && (
+
+            {isNotesVisible && (!isSending || (isSending && width! < 768)) && (
               <p className="tablet:hidden text-black">{athlete?.notes}</p>
             )}
+
             <div className="flex justify-end">
-              <img
-                src={editIcon}
-                alt="Edit"
-                onClick={() => handleEditAthlete(athleteId)}
-                className={`ml-2 mr-1 ${
-                  isNotesVisible ? `mt-1 tablet:mt-0` : ``
-                } w-6 cursor-pointer`}
-              />
-              <img
-                src={deleteIcon}
-                alt="Delete"
-                id={athlete?.id}
-                onClick={() => handleDeleteAthlete(athleteId)}
-                className={`ml-1 mr-2 ${
-                  isNotesVisible && `mt-1 tablet:mt-0`
-                } w-6 cursor-pointer`}
-              />
+              {!isSending ? (
+                <>
+                  <img
+                    src={editIcon}
+                    alt="Edit"
+                    onClick={() => handleEditAthlete(athleteId)}
+                    className={`ml-2 mr-1 ${
+                      isNotesVisible ? `mt-1 tablet:mt-0` : ``
+                    } w-6 cursor-pointer`}
+                  />
+                  <img
+                    src={deleteIcon}
+                    alt="Delete"
+                    id={athlete?.id}
+                    onClick={() => handleDeleteAthlete(athleteId)}
+                    className={`ml-1 mr-2 ${
+                      isNotesVisible && `mt-1 tablet:mt-0`
+                    } w-6 cursor-pointer`}
+                  />
+                </>
+              ) : (
+                <div className="flex justify-end">
+                  <h2 className="mr-2 tablet:mr-[30px]">Deleting...</h2>
+                </div>
+              )}
             </div>
           </div>
         </article>

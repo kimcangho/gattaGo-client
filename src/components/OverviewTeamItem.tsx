@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -31,7 +31,7 @@ const OverviewTeamItem = ({
 }: OverviewTeamProps): JSX.Element => {
   const { userId, setCurrentTeamName }: AuthContextTypes =
     useContext(AuthContext)!;
-  // const [isSending, setIsSending] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -44,7 +44,7 @@ const OverviewTeamItem = ({
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
-    // if (isSending) return;
+    if (isSending) return;
     const { id } = event.target as HTMLInputElement;
     setCurrentTeamName(name);
     navigate(`../${userId}/edit/${id}`);
@@ -53,8 +53,9 @@ const OverviewTeamItem = ({
   const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
-    // if (isSending) return; //  prevents double-click
+    if (isSending) return;
     try {
+      setIsSending(true);
       const { id } = event.target as HTMLInputElement;
       await axiosPrivate.delete(`/teams/${id}`, {
         withCredentials: true,
@@ -103,20 +104,26 @@ const OverviewTeamItem = ({
         </div>
 
         <div className="flex justify-center items-center m-2 space-x-2 tablet:mx-0 tablet:w-[14rem]">
-          <img
-            src={editIcon}
-            alt="Edit Team"
-            className="h-6 tablet:h-8 cursor-pointer"
-            id={id}
-            onClick={handleEditTeam}
-          />
-          <img
-            src={deleteIcon}
-            alt="Delete Team"
-            className="h-6 tablet:h-8 cursor-pointer"
-            id={id}
-            onClick={handleDeleteTeam}
-          />
+          {!isSending ? (
+            <>
+              <img
+                src={editIcon}
+                alt="Edit Team"
+                className="h-6 tablet:h-8 cursor-pointer"
+                id={id}
+                onClick={handleEditTeam}
+              />
+              <img
+                src={deleteIcon}
+                alt="Delete Team"
+                className="h-6 tablet:h-8 cursor-pointer"
+                id={id}
+                onClick={handleDeleteTeam}
+              />
+            </>
+          ) : (
+            <h2>Deleting...</h2>
+          )}
         </div>
       </div>
 

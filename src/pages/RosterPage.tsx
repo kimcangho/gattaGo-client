@@ -127,11 +127,11 @@ const RosterPage = (): JSX.Element => {
     }
   }, [filterFlags]);
 
-  const handleEditAthlete = async (athleteId: string) => {
+  const editAthlete = async (athleteId: string) => {
     navigate(`/${userId}/roster/${teamId}/edit/${athleteId}`);
   };
 
-  const handleDeleteAthlete = async (athleteId: string) => {
+  const deleteAthlete = async (athleteId: string) => {
     try {
       await axiosPrivate.delete(`/athletes/${athleteId}`, {
         withCredentials: true,
@@ -288,17 +288,9 @@ const RosterPage = (): JSX.Element => {
           {/* Filter Panel */}
           <AnimatePresence>
             <motion.div
-              // style={{ position: isPresent ? "static" : "absolute" }}
-              // key="test"
               initial={{ opacity: 0 }}
               animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
               exit={{ opacity: 0 }}
-              // transition={{
-              //   type: "spring",
-              //   stiffness: 500,
-              //   damping: 50,
-              //   mass: 1,
-              // }}
               className={`flex flex-col mb-4 p-2 tablet:p-6 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full shadow-sm`}
             >
               <div
@@ -539,8 +531,8 @@ const RosterPage = (): JSX.Element => {
                           athleteId={paddler.athleteId}
                           athlete={paddler.athlete}
                           width={width}
-                          handleDeleteAthlete={handleDeleteAthlete}
-                          handleEditAthlete={handleEditAthlete}
+                          deleteAthlete={deleteAthlete}
+                          editAthlete={editAthlete}
                         />
                       </motion.div>
                     );
