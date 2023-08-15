@@ -8,12 +8,18 @@ interface LineupAthleteItemProps {
   athleteId: string;
   athlete: AthleteData;
   width: number | undefined;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
 const LineupAthleteItem = ({
   athlete,
   athleteId,
   width,
+  isSaving,
+  isDeleting,
+  isFetching,
 }: LineupAthleteItemProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
@@ -45,7 +51,11 @@ const LineupAthleteItem = ({
             {...attributes}
             ref={setNodeRef}
             className={`flex justify-center items-center w-12 h-12 p-2 border border-gray-border rounded-lg cursor-grab ${
-              athlete.isAvailable ? "hover:bg-blue-dark" : "hover:bg-red-dark"
+              isSaving || isDeleting || isFetching
+                ? "cursor-wait"
+                : athlete.isAvailable
+                ? "hover:bg-blue-dark"
+                : "hover:bg-red-dark"
             } `}
           />
         )}
@@ -96,7 +106,11 @@ const LineupAthleteItem = ({
             ref={setNodeRef}
             style={style}
             className={`flex justify-center items-center w-12 h-12 p-2 border rounded-lg border-gray-border cursor-grab ${
-              athlete.isAvailable ? "hover:bg-blue-wavy " : "hover:bg-red-dark"
+              isSaving || isDeleting || isFetching
+                ? "cursor-wait"
+                : athlete.isAvailable
+                ? "hover:bg-blue-wavy "
+                : "hover:bg-red-dark"
             } `}
           >
             <img

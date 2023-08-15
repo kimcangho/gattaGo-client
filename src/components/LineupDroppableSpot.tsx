@@ -8,6 +8,9 @@ interface LineupDroppableSpotProps {
   seat: number;
   activeId: Active | string | number;
   overId: Over | string | number;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
 const LineupDroppableSpot = ({
@@ -16,6 +19,9 @@ const LineupDroppableSpot = ({
   seat,
   overId,
   activeId,
+  isSaving,
+  isDeleting,
+  isFetching
 }: LineupDroppableSpotProps) => {
   const { isOver, setNodeRef } = useDroppable({
     id: athlete.id,
@@ -43,6 +49,9 @@ const LineupDroppableSpot = ({
           athlete={athlete}
           overId={overId}
           activeId={activeId}
+          isSaving={isSaving}
+          isDeleting={isDeleting}
+          isFetching={isFetching}
         />
       )}
     </div>

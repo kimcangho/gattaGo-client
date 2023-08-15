@@ -11,6 +11,9 @@ interface LineupRosterSectionProps {
   activeId: Active | string | number;
   overId: Over | string | number;
   isLoading: boolean;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
 const LineupRosterSection = ({
@@ -18,6 +21,9 @@ const LineupRosterSection = ({
   width,
   activeId,
   isLoading,
+  isSaving,
+  isDeleting,
+  isFetching,
 }: LineupRosterSectionProps) => {
   const { userId, teamId } = useParams();
   const isPresent = useIsPresent();
@@ -84,6 +90,9 @@ const LineupRosterSection = ({
                   width={width}
                   athlete={athlete}
                   athleteId={athlete.id}
+                  isSaving={isSaving}
+                  isDeleting={isDeleting}
+                  isFetching={isFetching}
                 />
               </motion.div>
             );

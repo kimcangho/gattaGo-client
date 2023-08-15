@@ -22,7 +22,9 @@ const LineupsPage = (): JSX.Element => {
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [rosterAthletes, setRosterAthletes] = useState<RosterData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSending, setIsSending] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -75,7 +77,7 @@ const LineupsPage = (): JSX.Element => {
     lineupName,
     activeLineupId,
   }: SaveNewLineupFormData) => {
-    if (isSending) return;
+    if (isSaving || isDeleting || isFetching) return;
 
     const createTeamLineup = async () => {
       if (!lineupName) return;
@@ -85,7 +87,7 @@ const LineupsPage = (): JSX.Element => {
       if (duplicateLineup) return;
 
       try {
-        setIsSending(true);
+        setIsSaving(true);
         const { data } = await axiosPrivate.post(`teams/${teamId}/lineups`, {
           name: lineupName,
           athletes: trimActiveLineup(activeLineup),
@@ -95,10 +97,10 @@ const LineupsPage = (): JSX.Element => {
         setTeamLineups((prevLineups: LineupData[] | null) => {
           return [...prevLineups!, data];
         });
-        setIsSending(false);
 
         setValue("activeLineupId", data.id);
         setValue("lineupName", data.name);
+        setIsSaving(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -112,7 +114,7 @@ const LineupsPage = (): JSX.Element => {
       if (duplicateLineup) return;
 
       try {
-        setIsSending(true);
+        setIsSaving(true);
         const { data } = await axiosPrivate.put(
           `teams/${teamId}/lineups/${activeLineupId}`,
           {
@@ -133,7 +135,7 @@ const LineupsPage = (): JSX.Element => {
         setSelectDefaultValue(data.lineupId);
         setValue("activeLineupId", data.lineupId);
         setValue("lineupName", data.name);
-        setIsSending(false);
+        setIsSaving(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -160,6 +162,7 @@ const LineupsPage = (): JSX.Element => {
       }
     } else {
       try {
+        setIsFetching(true);
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/lineups/${event.target.value}`
         );
@@ -167,6 +170,7 @@ const LineupsPage = (): JSX.Element => {
         setActiveLineup(injectIntoLineup(data.lineups[0].athletes));
         setValue("lineupName", data.lineups[0].name);
         setValue("activeLineupId", data.lineups[0].id);
+        setIsFetching(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -174,9 +178,11 @@ const LineupsPage = (): JSX.Element => {
   };
 
   const handleDeleteLineup = async () => {
-    if (isSending) return
+    if (isSaving || isDeleting || isFetching) return;
+
     const deleteSingleLineup = async (lineupId: string) => {
       try {
+        setIsDeleting(true);
         await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`, {
           withCredentials: true,
         });
@@ -188,6 +194,7 @@ const LineupsPage = (): JSX.Element => {
 
         setValue("activeLineupId", "new");
         setValue("lineupName", "");
+        setIsDeleting(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -220,10 +227,12 @@ const LineupsPage = (): JSX.Element => {
               <button
                 onClick={handleSubmit(handleSaveLineup)}
                 className={`bg-green-light text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 ${
-                  isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
+                  isSaving || isDeleting || isFetching
+                    ? "opacity-50 cursor-wait"
+                    : "hover:bg-green-dark"
                 }`}
               >
-                {!isSending
+                {!isSaving
                   ? `Save ${width! >= 448 ? "Lineup" : ""}`
                   : "Saving..."}
               </button>
@@ -232,10 +241,18 @@ const LineupsPage = (): JSX.Element => {
                 className={`${
                   getValues().activeLineupId === "new"
                     ? "bg-gray-border border-gray-border cursor-not-allowed"
-                    : "bg-orange-light hover:bg-orange-dark border-orange-dark cursor-pointer"
-                }  text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 text-center`}
+                    : "bg-orange-light cursor-pointer"
+                }  text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 text-center ${
+                  isSaving || isDeleting || isFetching
+                    ? "opacity-50 cursor-wait"
+                    : getValues().activeLineupId === "new"
+                    ? "cursor-auto"
+                    : "hover:bg-orange-dark"
+                }`}
               >
-                Delete {width! >= 448 ? "Lineup" : ""}
+                {!isDeleting
+                  ? `Delete ${width! >= 448 ? "Lineup" : ""}`
+                  : "Deleting..."}
               </div>
             </div>
           </div>
@@ -296,6 +313,9 @@ const LineupsPage = (): JSX.Element => {
             setActiveLineup={setActiveLineup}
             lineupId={getValues("activeLineupId")}
             isLoading={isLoading}
+            isSaving={isSaving}
+            isDeleting={isDeleting}
+            isFetching={isFetching}
           />
         </div>
       )}

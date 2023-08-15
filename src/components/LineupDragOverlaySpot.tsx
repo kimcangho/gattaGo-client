@@ -2,15 +2,27 @@ import { RosterData } from "../interfaces/EntityData";
 
 interface LineupDragOverlaySpotProps {
   athlete: RosterData | undefined;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
-const LineupDragOverlaySpot = ({ athlete }: LineupDragOverlaySpotProps) => {
+const LineupDragOverlaySpot = ({
+  athlete,
+  isSaving,
+  isDeleting,
+  isFetching,
+}: LineupDragOverlaySpotProps) => {
   return (
     athlete && (
       <div
         className={`flex relative justify-center items-center 
       rounded-xl w-16 midMobile:w-20 h-16 midMobile:h-20 border text-black cursor-grab z-10 ${
-        athlete.athlete.isAvailable ? "bg-blue-dark" : "bg-red-dark"
+        isSaving || isDeleting || isFetching
+          ? "cursor-wait"
+          : athlete.athlete.isAvailable
+          ? "bg-blue-dark"
+          : "bg-red-dark"
       }`}
       >
         <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">

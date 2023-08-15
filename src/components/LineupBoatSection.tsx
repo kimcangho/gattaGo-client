@@ -25,6 +25,9 @@ interface LineupBoatSectionProps {
   setActiveLineup: React.Dispatch<React.SetStateAction<ActiveLineupData[]>>;
   lineupId: string;
   isLoading: boolean;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
 const LineupBoatSection = ({
@@ -34,12 +37,16 @@ const LineupBoatSection = ({
   setActiveLineup,
   lineupId,
   isLoading,
+  isSaving,
+  isDeleting,
+  isFetching,
 }: LineupBoatSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<Active | string | number>("");
   const [overId, setOverId] = useState<Over | string | number>("");
 
   const handleToggleModal = () => {
+    if (isSaving || isDeleting || isFetching) return;
     setIsModalOpen((prev) => !prev);
   };
 
@@ -47,16 +54,19 @@ const LineupBoatSection = ({
   const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
 
   const handleDragStart = (event: DragStartEvent): void => {
+    if (isSaving || isDeleting || isFetching) return;
     const { active } = event;
     setActiveId(active.id);
   };
 
   const handleWhileDrag = (event: DragMoveEvent): void => {
+    if (isSaving || isDeleting || isFetching) return;
     const { over } = event;
     if (over) setOverId(over.id);
   };
 
   const handleDragEnd = (event: DragEndEvent): void => {
+    if (isSaving || isDeleting || isFetching) return;
     const { over, active } = event;
     setActiveId("");
     setOverId("");
@@ -176,7 +186,11 @@ const LineupBoatSection = ({
   };
 
   return (
-    <div className="flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2">
+    <div
+      className={`flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2 ${
+        isSaving || isDeleting || isFetching ? "cursor-wait opacity-50" : ""
+      }`}
+    >
       <DndContext
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
@@ -200,6 +214,9 @@ const LineupBoatSection = ({
               {activeId ? (
                 <LineupDragOverlaySpot
                   athlete={selectDraggableAthlete(rosterAthletes, activeId)}
+                  isSaving={isSaving}
+                  isDeleting={isDeleting}
+                  isFetching={isFetching}
                 />
               ) : null}
             </DragOverlay>
@@ -216,6 +233,9 @@ const LineupBoatSection = ({
                         row={row}
                         activeId={activeId}
                         overId={overId}
+                        isSaving={isSaving}
+                        isDeleting={isDeleting}
+                        isFetching={isFetching}
                       />
                     );
                   }
@@ -238,6 +258,9 @@ const LineupBoatSection = ({
             activeId={activeId}
             overId={overId}
             isLoading={isLoading}
+            isSaving={isSaving}
+            isDeleting={isDeleting}
+            isFetching={isFetching}
           />
         )}
       </DndContext>
@@ -248,6 +271,9 @@ const LineupBoatSection = ({
         setIsModalOpen={setIsModalOpen}
         handleToggleModal={handleToggleModal}
         activeId={activeId}
+        isSaving={isSaving}
+        isDeleting={isDeleting}
+        isFetching={isFetching}
       />
     </div>
   );

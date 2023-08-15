@@ -8,6 +8,9 @@ interface LineupSpotProps {
   athlete: AthleteData;
   overId: Over | string | number;
   activeId: Active | string | number;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
 const LineupSpot = ({
@@ -16,6 +19,9 @@ const LineupSpot = ({
   athlete,
   overId,
   activeId,
+  isSaving,
+  isDeleting,
+  isFetching
 }: LineupSpotProps) => {
   return (
     <div
@@ -40,6 +46,9 @@ const LineupSpot = ({
         athlete={athlete}
         overId={overId}
         activeId={activeId}
+        isSaving={isSaving}
+        isDeleting={isDeleting}
+        isFetching={isFetching}
       />
     </div>
   );

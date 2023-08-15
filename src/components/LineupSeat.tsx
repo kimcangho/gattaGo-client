@@ -7,9 +7,12 @@ interface LineupSeatProps {
   row?: ActiveLineupData[];
   overId: Over | string | number;
   activeId: Active | string | number;
+  isSaving: boolean;
+  isDeleting: boolean;
+  isFetching: boolean;
 }
 
-const LineupSeat = ({ seat, row, overId, activeId }: LineupSeatProps) => {
+const LineupSeat = ({ seat, row, overId, activeId, isSaving, isDeleting, isFetching }: LineupSeatProps) => {
   return (
     <div className="flex mx-auto w-fit">
       {row?.map(({ athlete, position }: ActiveLineupData) => {
@@ -21,6 +24,9 @@ const LineupSeat = ({ seat, row, overId, activeId }: LineupSeatProps) => {
             athlete={athlete}
             overId={overId}
             activeId={activeId}
+            isSaving={isSaving}
+            isDeleting={isDeleting}
+            isFetching={isFetching}
           />
         );
       })}
