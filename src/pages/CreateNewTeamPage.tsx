@@ -22,6 +22,7 @@ const CreateNewTeamPage = (): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<CreateNewTeamFormData>({
     defaultValues: {
       name: "",
@@ -38,7 +39,33 @@ const CreateNewTeamPage = (): JSX.Element => {
     division,
   }: CreateNewTeamFormData) => {
     if (isSending) return;
-    if (!eligibility || !level || !division) return;
+
+    if (!name) {
+      setError("name", {
+        type: "custom",
+        message: `Please include team name!`,
+      });
+    }
+    if (!eligibility) {
+      setError("eligibility", {
+        type: "custom",
+        message: `Please include team eligibility!`,
+      });
+    }
+    if (!level) {
+      setError("level", {
+        type: "custom",
+        message: `Please include team level!`,
+      });
+    }
+    if (!division) {
+      setError("division", {
+        type: "custom",
+        message: `Please include team division!`,
+      });
+    }
+
+    if (!name || !eligibility || !level || !division) return;
     try {
       setIsSending(true);
       await axiosPrivate.post(`/teams/user/${userId}`, {
@@ -76,10 +103,10 @@ const CreateNewTeamPage = (): JSX.Element => {
           </label>
           <input
             {...register("name", {
-              required: {
-                value: true,
-                message: "Team name field can't be empty!",
-              },
+              // required: {
+              //   value: true,
+              //   message: "Team name field can't be empty!",
+              // },
             })}
             type="text"
             id="name"
@@ -126,6 +153,9 @@ const CreateNewTeamPage = (): JSX.Element => {
               />
               <label htmlFor="mixed">Mixed</label>
             </div>
+            {errors.eligibility && (
+              <p className="text-red-500">{errors?.eligibility?.message}</p>
+            )}
           </div>
 
           <div className="flex flex-col w-[50%]">
@@ -150,6 +180,9 @@ const CreateNewTeamPage = (): JSX.Element => {
               />
               <label htmlFor="level-sport">Sport</label>
             </div>
+            {errors.level && (
+              <p className="text-red-500">{errors.level.message}</p>
+            )}
           </div>
         </div>
 
@@ -173,6 +206,9 @@ const CreateNewTeamPage = (): JSX.Element => {
             <option value="seniorc">Senior C</option>
             <option value="para">Para</option>
           </select>
+          {errors.division && (
+            <p className="text-red-500">{errors?.division?.message}</p>
+          )}
         </div>
 
         <div className="flex space-x-2 tablet:space-x-6">
