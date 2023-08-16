@@ -31,6 +31,7 @@ const EditAthletePage = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setError,
   } = useForm<CreateNewAthleteFormData>({
     defaultValues: {
       teamId,
@@ -140,15 +141,26 @@ const EditAthletePage = () => {
     //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
-    if (
-      !email ||
-      !firstName ||
-      !lastName ||
-      !paddleSide ||
-      !eligibility ||
-      !availability
-    )
-      return;
+    if (!email) {
+      setError("email", {
+        type: "custom",
+        message: `Please include email!`,
+      });
+    }
+    if (!firstName) {
+      setError("firstName", {
+        type: "custom",
+        message: `Please include first name!`,
+      });
+    }
+    if (!lastName) {
+      setError("lastName", {
+        type: "custom",
+        message: `Please include last name!`,
+      });
+    }
+
+    if (!email || !firstName || !lastName) return;
 
     let numericWeight: number = 0;
     if (weight) numericWeight = parseInt(weight, 10);
@@ -177,7 +189,15 @@ const EditAthletePage = () => {
         }
       );
       navigate(`/${userId}/roster/${teamId}`);
-    } catch (err: unknown) {
+    } catch (err: any) {
+      if (err?.response?.status === 400) {
+        setError("email", {
+          type: "custom",
+          message: `Email ${email} already in use!`,
+        });
+        setIsSending(false);
+        return;
+      }
       console.log(err);
       logoutRedirect("/login");
     }
@@ -219,12 +239,7 @@ const EditAthletePage = () => {
                 <h3>Email</h3>
               </label>
               <input
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Email field can't be empty!",
-                  },
-                })}
+                {...register("email")}
                 type="text"
                 id="email"
                 name="email"
@@ -242,12 +257,7 @@ const EditAthletePage = () => {
                 <h3>First Name</h3>
               </label>
               <input
-                {...register("firstName", {
-                  required: {
-                    value: true,
-                    message: "First name field can't be empty!",
-                  },
-                })}
+                {...register("firstName")}
                 type="text"
                 id="firstName"
                 name="firstName"
@@ -265,12 +275,7 @@ const EditAthletePage = () => {
                 <h3>Last Name</h3>
               </label>
               <input
-                {...register("lastName", {
-                  required: {
-                    value: true,
-                    message: "Last name field can't be empty!",
-                  },
-                })}
+                {...register("lastName")}
                 type="text"
                 id="lastName"
                 name="lastName"

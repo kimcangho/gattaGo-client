@@ -148,7 +148,7 @@ const CreateNewAthletePage = (): JSX.Element => {
 
       redirectPreviousPage();
     } catch (err: any) {
-      if (err?.response?.status === 404) {
+      if (err?.response?.status === 400) {
         setError("email", {
           type: "custom",
           message: `Email ${email} already in use!`,
