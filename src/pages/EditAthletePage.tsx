@@ -170,24 +170,18 @@ const EditAthletePage = () => {
 
     try {
       setIsSending(true);
-      await axiosPrivate.put(
-        `/athletes/${athleteId}`,
-        {
-          teamId,
-          email,
-          firstName,
-          lastName,
-          paddleSide,
-          eligibility,
-          isAvailable,
-          weight: numericWeight,
-          paddlerSkillsObj,
-          notes,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      await axiosPrivate.put(`/athletes/${athleteId}`, {
+        teamId,
+        email,
+        firstName,
+        lastName,
+        paddleSide,
+        eligibility,
+        isAvailable,
+        weight: numericWeight,
+        paddlerSkillsObj,
+        notes,
+      });
       navigate(`/${userId}/roster/${teamId}`);
     } catch (err: any) {
       if (err?.response?.status === 400) {

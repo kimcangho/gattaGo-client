@@ -470,10 +470,6 @@ const RosterPage = (): JSX.Element => {
 
           {roster.length !== 0 && (
             <motion.div
-              //  layout occurs when
-              //
-              //  layout does not occur when
-              //
               layout={ false}
               key="filterPanel"
               transition={{

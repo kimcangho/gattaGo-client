@@ -54,7 +54,7 @@ const OverviewPage = (): JSX.Element => {
       {isLoading ? (
         <LoadingSpinner />
       ) : myTeams.length === 0 ? (
-        <EmptyTeam userId={userId} />
+        <EmptyTeam userId={userId} setMyTeams={setMyTeams} />
       ) : (
         <div className="desktop:mx-auto p-2">
           <div className="flex justify-between items-center mx-auto max-w-[448px] tablet:max-w-[768px] my-4 tablet:mb-4 overflow-hidden">

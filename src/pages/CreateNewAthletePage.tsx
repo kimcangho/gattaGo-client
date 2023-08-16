@@ -127,25 +127,18 @@ const CreateNewAthletePage = (): JSX.Element => {
 
     try {
       setIsSending(true);
-      await axiosPrivate.post(
-        "/athletes",
-        {
-          teamId,
-          email,
-          firstName,
-          lastName,
-          paddleSide,
-          eligibility,
-          isAvailable,
-          weight: numericWeight,
-          paddlerSkillsObj,
-          notes,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
+      await axiosPrivate.post("/athletes", {
+        teamId,
+        email,
+        firstName,
+        lastName,
+        paddleSide,
+        eligibility,
+        isAvailable,
+        weight: numericWeight,
+        paddlerSkillsObj,
+        notes,
+      });
       redirectPreviousPage();
     } catch (err: any) {
       if (err?.response?.status === 400) {
