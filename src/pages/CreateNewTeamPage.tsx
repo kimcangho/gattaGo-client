@@ -102,12 +102,7 @@ const CreateNewTeamPage = (): JSX.Element => {
             <h3 className="text-blue-light">Team Name</h3>
           </label>
           <input
-            {...register("name", {
-              // required: {
-              //   value: true,
-              //   message: "Team name field can't be empty!",
-              // },
-            })}
+            {...register("name")}
             type="text"
             id="name"
             name="name"

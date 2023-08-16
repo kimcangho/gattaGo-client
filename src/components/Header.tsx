@@ -1,4 +1,9 @@
-import { useNavigate, NavigateFunction, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  NavigateFunction,
+  useLocation,
+  Location,
+} from "react-router-dom";
 import { useContext, useState } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { axiosAuth } from "../services/axios.service";
@@ -19,10 +24,7 @@ const Header = (): JSX.Element => {
   }: AuthContextTypes = useContext(AuthContext)!;
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
-  const location = useLocation();
-
-  // console.log(location);
-  if (location.pathname === "/login") console.log("BOOYAKASHA");
+  const location: Location = useLocation();
 
   const handleTeamOverviewRedirect = () => {
     setCurrentTeamName("");

@@ -185,12 +185,7 @@ const CreateNewAthletePage = (): JSX.Element => {
             <h3>Email</h3>
           </label>
           <input
-            {...register("email", {
-              // required: {
-              //   value: true,
-              //   message: "Email field can't be empty!",
-              // },
-            })}
+            {...register("email")}
             type="text"
             id="email"
             name="email"
@@ -208,12 +203,7 @@ const CreateNewAthletePage = (): JSX.Element => {
             <h3>First Name</h3>
           </label>
           <input
-            {...register("firstName", {
-              // required: {
-              //   value: true,
-              //   message: "First name field can't be empty!",
-              // },
-            })}
+            {...register("firstName")}
             type="text"
             id="firstName"
             name="firstName"
@@ -231,12 +221,7 @@ const CreateNewAthletePage = (): JSX.Element => {
             <h3>Last Name</h3>
           </label>
           <input
-            {...register("lastName", {
-              // required: {
-              //   value: true,
-              //   message: "Last name field can't be empty!",
-              // },
-            })}
+            {...register("lastName")}
             type="text"
             id="lastName"
             name="lastName"
