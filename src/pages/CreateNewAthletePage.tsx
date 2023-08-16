@@ -27,6 +27,7 @@ const CreateNewAthletePage = (): JSX.Element => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<CreateNewAthleteFormData>({
     defaultValues: {
@@ -71,6 +72,43 @@ const CreateNewAthletePage = (): JSX.Element => {
     //@ts-ignore
     const paddlerSkillsObj = transformPaddlerSkillsForRequest(paddlerSkills);
 
+    if (!email) {
+      setError("email", {
+        type: "custom",
+        message: `Please include email!`,
+      });
+    }
+    if (!firstName) {
+      setError("firstName", {
+        type: "custom",
+        message: `Please include first name!`,
+      });
+    }
+    if (!lastName) {
+      setError("lastName", {
+        type: "custom",
+        message: `Please include last name!`,
+      });
+    }
+    if (!paddleSide) {
+      setError("paddleSide", {
+        type: "custom",
+        message: `Please select paddle side!`,
+      });
+    }
+    if (!eligibility) {
+      setError("eligibility", {
+        type: "custom",
+        message: `Please select eligibility!`,
+      });
+    }
+    if (!availability) {
+      setError("availability", {
+        type: "custom",
+        message: `Please select availability!`,
+      });
+    }
+
     if (
       !email ||
       !firstName ||
@@ -107,8 +145,17 @@ const CreateNewAthletePage = (): JSX.Element => {
           withCredentials: true,
         }
       );
+
       redirectPreviousPage();
-    } catch (err: unknown) {
+    } catch (err: any) {
+      if (err?.response?.status === 404) {
+        setError("email", {
+          type: "custom",
+          message: `Email ${email} already in use!`,
+        });
+        setIsSending(false);
+        return;
+      }
       console.log(err);
       logoutRedirect("/login");
     }
@@ -139,10 +186,10 @@ const CreateNewAthletePage = (): JSX.Element => {
           </label>
           <input
             {...register("email", {
-              required: {
-                value: true,
-                message: "Email field can't be empty!",
-              },
+              // required: {
+              //   value: true,
+              //   message: "Email field can't be empty!",
+              // },
             })}
             type="text"
             id="email"
@@ -162,10 +209,10 @@ const CreateNewAthletePage = (): JSX.Element => {
           </label>
           <input
             {...register("firstName", {
-              required: {
-                value: true,
-                message: "First name field can't be empty!",
-              },
+              // required: {
+              //   value: true,
+              //   message: "First name field can't be empty!",
+              // },
             })}
             type="text"
             id="firstName"
@@ -185,10 +232,10 @@ const CreateNewAthletePage = (): JSX.Element => {
           </label>
           <input
             {...register("lastName", {
-              required: {
-                value: true,
-                message: "Last name field can't be empty!",
-              },
+              // required: {
+              //   value: true,
+              //   message: "Last name field can't be empty!",
+              // },
             })}
             type="text"
             id="lastName"
@@ -245,6 +292,9 @@ const CreateNewAthletePage = (): JSX.Element => {
               />
               <label htmlFor="side-none">Neither</label>
             </div>
+            {errors.paddleSide && (
+              <p className="text-red-500">{errors.paddleSide.message}</p>
+            )}
           </div>
 
           <div className="flex flex-col w-[50%] space-y-4">
@@ -273,6 +323,9 @@ const CreateNewAthletePage = (): JSX.Element => {
                 />
                 <label htmlFor="eligibility-women">Women</label>
               </div>
+              {errors.eligibility && (
+                <p className="text-red-500">{errors.eligibility.message}</p>
+              )}
             </div>
             {/* Availability */}
             <div className="flex flex-col">
@@ -299,6 +352,9 @@ const CreateNewAthletePage = (): JSX.Element => {
                 />
                 <label htmlFor="availability-unavailable">Unavailable</label>
               </div>
+              {errors.availability && (
+                <p className="text-red-500">{errors.availability.message}</p>
+              )}
             </div>
           </div>
         </div>
