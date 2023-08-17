@@ -3,6 +3,7 @@ import rosterIcon from "../assets/icons/roster.svg";
 import chevronIconRight from "../assets/icons/chevron-right.svg";
 import chevronIconLeft from "../assets/icons/chevron-left.svg";
 import { Active } from "@dnd-kit/core";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface LineupModalButtonProps {
   width: number | undefined;
@@ -32,12 +33,14 @@ const LineupModalButton = ({
   }, [width]);
 
   return (
-    <>
+    <AnimatePresence>
       {((width! < 768 && !isModalOpen) ||
         isModalOpen ||
         activeId ||
         (activeId && !isModalOpen)) && (
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           className={`z-50 ${
             (isModalOpen && activeId) || width! >= 768 ? "opacity-0" : ""
           } p-2 fixed bottom-[8.25%] cursor-pointer shadow-xl ${
@@ -59,9 +62,9 @@ const LineupModalButton = ({
             alt={`Chevron ${isModalOpen ? chevronIconLeft : chevronIconRight}`}
             className="w-2 h-8 inline"
           />
-        </div>
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 };
 
