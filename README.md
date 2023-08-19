@@ -42,7 +42,9 @@
 
 
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Empty Overview Page]([https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-empty-overview_miszyl.png])
+
+![Team Overview Page]([[https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-overview-team_thyzfs.png])
 
 
 ## Setup
