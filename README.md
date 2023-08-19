@@ -42,9 +42,24 @@
 
 
 ## Screenshots
-![Empty Overview Page]([https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-empty-overview_miszyl.png])
 
-![Team Overview Page]([[https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-overview-team_thyzfs.png])
+Empty Overview Page
+![Empty Overview Page](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-empty-overview_miszyl.png)
+
+Team Overview Page
+![Team Overview Page](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-overview-team_thyzfs.png)
+
+Team Dashboard Page
+![Team Dashboard Page](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409325/gattago-dashboard_umznra.png)
+
+Team Roster Page
+![Team Roster Page](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409326/gattago-roster_opynqh.png)
+
+Team Lineup Page
+![Team Lineup Page](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409326/gattago-lineups_eyu4rd.png)
+
+Team Lineup Page with Mobile and Drag-and-Drop
+![Team Lineup Page with Mobile and Drag-and-Drop](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409326/gattago-lineups-responsive_oso1ph.png)
 
 
 ## Setup
