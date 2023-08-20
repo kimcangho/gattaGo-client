@@ -1,5 +1,6 @@
 # gattaGo
 > gattaGo is a dragonboat team coaching tool designed to track teams, manage athletes and build boat lineups.
+> NOTE: for back-end documentation, see [here](https://github.com/kimcangho/gattaGo-server).
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -68,7 +69,7 @@ Setup and installation instructions coming soon!
 
 ## Usage
 Details coming soon!
-`write-your-code-here`
+<!-- `write-your-code-here` -->
 
 
 ## Project Status
@@ -81,11 +82,11 @@ Room for improvement:
 - General refactoring and type-checking
 
 To do:
-- Reset password functionality
-- Feature to be added 2
+- Reset password functionality (backend emailing with Typescript compatible library)
 
 Known issues:
 - Touch events interfering with scrolling in lineup page.
+- Password reset email feature non-functional.
 
 
 ## Contact
