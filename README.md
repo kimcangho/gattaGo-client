@@ -1,4 +1,4 @@
-# gattaGo
+# gattaGo-client
 
 > gattaGo is a dragonboat team coaching tool designed to track teams, manage athletes and build boat lineups.
 
