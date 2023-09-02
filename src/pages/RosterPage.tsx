@@ -531,6 +531,12 @@ const RosterPage = (): JSX.Element => {
                         deleteAthlete={deleteAthlete}
                         editAthlete={editAthlete}
                         currentTeamDetails={currentTeamDetails}
+                        isIneligible={
+                          currentTeamDetails?.eligibility === "Women" &&
+                          paddler.athlete.eligibility !== "W"
+                            ? true
+                            : false
+                        }
                       />
                     </motion.div>
                   );
