@@ -20,6 +20,11 @@ interface RosterItemProps {
   deleteAthlete: any;
   width: number | undefined;
   athlete: any;
+  currentTeamDetails: {
+    name?: string;
+    eligibility?: string;
+    division?: string;
+  };
 }
 
 const RosterItem = ({
@@ -28,6 +33,7 @@ const RosterItem = ({
   width,
   deleteAthlete,
   editAthlete,
+  currentTeamDetails,
 }: RosterItemProps): JSX.Element => {
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -53,7 +59,12 @@ const RosterItem = ({
       {athlete && (
         <article
           key={athlete.id}
-          className={`shadow-lg tablet:shadow-none tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-md tablet:rounded-none items-center hover:bg-gray-border`}
+          className={`shadow-lg tablet:shadow-none tablet:flex mx-auto tablet:mx-0 max-w-[448px] tablet:max-w-full desktop:max-w-[1280px] border tablet:border-0 tablet:border-t border-black mb-4 tablet:mb-0 pb-2 tablet:pb-0 rounded-md tablet:rounded-none items-center ${
+            currentTeamDetails?.eligibility === "Women" &&
+            athlete.eligibility !== "W"
+              ? "bg-red-light hover:bg-red-dark"
+              : "hover:bg-gray-border"
+          }`}
         >
           <div className="flex justify-between bg-gray-border tablet:bg-inherit border-b border-black tablet:border-none rounded-t-md">
             <div className="flex items-center tablet:justify-between m-2 space-x-2 tablet:w-[200px]">

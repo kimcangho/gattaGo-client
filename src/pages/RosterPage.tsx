@@ -1,5 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, useContext, ChangeEvent } from "react";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { motion, useIsPresent } from "framer-motion";
 import useWindowSize from "../hooks/useWindowSize";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
@@ -16,6 +17,9 @@ import EmptyAthlete from "../components/EmptyAthlete";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const RosterPage = (): JSX.Element => {
+  const { userId, teamId } = useParams<string>();
+  const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
+
   const [roster, setRoster] = useState<RosterData[]>([]);
   const [sortableRoster, setSortableRoster] = useState<RosterData[]>([]);
   const [isNameOrderDesc, setIsNameOrderDesc] = useState<boolean>(false);
@@ -24,7 +28,6 @@ const RosterPage = (): JSX.Element => {
     useState<boolean>(false);
   const [filterFlags, setFilterFlags] = useState<any>(filterFlagsObj);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { userId, teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -308,7 +311,7 @@ const RosterPage = (): JSX.Element => {
 
               {isFilterPanelVisible && (
                 <motion.div
-                  layout={ false}
+                  layout={false}
                   style={{ position: isPresent ? "static" : "absolute" }}
                   initial={{ opacity: 0 }}
                   animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
@@ -470,7 +473,7 @@ const RosterPage = (): JSX.Element => {
 
           {roster.length !== 0 && (
             <motion.div
-              layout={ false}
+              layout={false}
               key="filterPanel"
               transition={{
                 type: "spring",
@@ -507,9 +510,7 @@ const RosterPage = (): JSX.Element => {
                 {sortableRoster.map((paddler) => {
                   return (
                     <motion.div
-                      layout={
-                         false
-                      }
+                      layout={false}
                       style={{ position: isPresent ? "static" : "absolute" }}
                       key={paddler.athleteId}
                       initial={{ opacity: 0 }}
@@ -529,6 +530,7 @@ const RosterPage = (): JSX.Element => {
                         width={width}
                         deleteAthlete={deleteAthlete}
                         editAthlete={editAthlete}
+                        currentTeamDetails={currentTeamDetails}
                       />
                     </motion.div>
                   );
