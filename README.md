@@ -42,7 +42,6 @@ NOTE: for back-end documentation, see [here](https://github.com/kimcangho/gattaG
 - Create, edit and delete boat lineups by using drag-and-drop functionality.
 - Generate a sample team with 30 athletes and 1 lineup (for demo purposes)
 
-
 ## Screenshots
 
 Empty Overview Page
@@ -63,15 +62,12 @@ Team Lineup Page
 Team Lineup Page with Mobile and Drag-and-Drop
 ![Team Lineup Page with Mobile and Drag-and-Drop](https://res.cloudinary.com/di7kiyj3y/image/upload/v1692409326/gattago-lineups-responsive_oso1ph.png)
 
-
 ## Setup
 Setup and installation instructions coming soon!
-
 
 ## Usage
 Details coming soon!
 <!-- `write-your-code-here` -->
-
 
 ## Project Status
 Project is: _in progress_ 
@@ -84,6 +80,7 @@ Room for improvement:
 
 To do:
 - Reset password functionality (backend emailing with Typescript compatible library)
+- Eligibility restrictions for women-only teams
 
 Known issues:
 - Touch events interfering with scrolling in lineup page.
