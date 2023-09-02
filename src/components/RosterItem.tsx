@@ -56,8 +56,6 @@ const RosterItem = ({
     await editAthlete(athleteId);
   };
 
-  console.log(athlete.paddlerSkills[0].isIneligible);
-
   return (
     <>
       {athlete && (

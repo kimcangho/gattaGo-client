@@ -110,6 +110,11 @@ const EditAthletePage = () => {
         });
         setAthlete(data);
         setIsLoading(false);
+        if (notes) setIsPaddlerNotesVisible(true);
+
+        Object.entries(paddlerSkills).forEach((skill) => {
+          if (skill[1] === true) setIsPaddlerSkillsVisible(true);
+        });
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
