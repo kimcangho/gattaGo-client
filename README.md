@@ -89,7 +89,7 @@ RECOMMENDED: follow setup steps in backend documentation for server/database fir
 ## Project Status
 
 Project is: _in progress_.  
-Currently working on: _documentation_.
+Currently working on: _cleanup_.
 
 ## Room for Improvement
 
