@@ -9,8 +9,16 @@ export interface AuthContextTypes {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   currentTeamName: string;
   setCurrentTeamName: React.Dispatch<React.SetStateAction<string>>;
+  currentTeamDetails: CurrentTeamDetails;
+  setCurrentTeamDetails: React.Dispatch<React.SetStateAction<object>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface CurrentTeamDetails {
+  name?: string;
+  eligibility?: string;
+  division?: string;
 }
 
 interface AuthContextProps {
@@ -24,6 +32,8 @@ export const AuthProvider = ({ children }: AuthContextProps): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
   const [currentTeamName, setCurrentTeamName] = useState<string>("");
+  const [currentTeamDetails, setCurrentTeamDetails] =
+    useState<CurrentTeamDetails>({});
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   return (
@@ -39,6 +49,8 @@ export const AuthProvider = ({ children }: AuthContextProps): JSX.Element => {
         setIsLoggedIn,
         currentTeamName,
         setCurrentTeamName,
+        currentTeamDetails,
+        setCurrentTeamDetails,
       }}
     >
       {children}

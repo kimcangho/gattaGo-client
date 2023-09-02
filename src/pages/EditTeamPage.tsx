@@ -10,7 +10,8 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 const EditTeamPage = (): JSX.Element => {
   const { userId, teamId } = useParams();
-  const { setCurrentTeamName }: AuthContextTypes = useContext(AuthContext)!;
+  const { setCurrentTeamName, setCurrentTeamDetails }: AuthContextTypes =
+    useContext(AuthContext)!;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
@@ -71,6 +72,7 @@ const EditTeamPage = (): JSX.Element => {
         division,
       });
       setCurrentTeamName("");
+      setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
       navigate(`../${userId}/overview`);
     } catch (err: unknown) {
       console.log(err);
@@ -80,6 +82,7 @@ const EditTeamPage = (): JSX.Element => {
 
   const handleCancelRedirect = () => {
     setCurrentTeamName("");
+    setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
     navigate(`../${userId}/overview`);
   };
 

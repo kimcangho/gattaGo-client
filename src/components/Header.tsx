@@ -19,15 +19,19 @@ const Header = (): JSX.Element => {
     userId,
     isLoggedIn,
     setIsLoggedIn,
-    currentTeamName,
-    setCurrentTeamName,
+    // currentTeamName,
+    // setCurrentTeamName,
+    currentTeamDetails,
+    setCurrentTeamDetails,
   }: AuthContextTypes = useContext(AuthContext)!;
+  const { name, eligibility, division } = currentTeamDetails;
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
 
   const handleTeamOverviewRedirect = () => {
-    setCurrentTeamName("");
+    // setCurrentTeamName("");
+    setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
     if (accessToken) navigate(`../${userId}/overview`);
     else navigate("../");
   };
@@ -43,7 +47,8 @@ const Header = (): JSX.Element => {
       setAccessToken("");
       setUserId("");
       setEmail("");
-      setCurrentTeamName("");
+      // setCurrentTeamName("");
+      setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
       setIsLoggedIn((isLoggedIn: boolean) => !isLoggedIn);
     } catch (err: unknown) {
       console.log(err);
@@ -74,7 +79,8 @@ const Header = (): JSX.Element => {
         </div>
         {isLoggedIn && (
           <h2 className="text-gray-dark text-sm midMobile:text-2xl tablet:text-3xl truncate max-w-[80%] midMobile:max-w-full">
-            {currentTeamName ? currentTeamName : email}
+            {/* {currentTeamName ? currentTeamName : email} */}
+            {name ? `${name} - ${eligibility} - ${division}` : email}
           </h2>
         )}
       </div>

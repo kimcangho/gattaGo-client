@@ -29,8 +29,11 @@ const OverviewTeamItem = ({
   myTeams,
   setMyTeams,
 }: OverviewTeamProps): JSX.Element => {
-  const { userId, setCurrentTeamName }: AuthContextTypes =
-    useContext(AuthContext)!;
+  const {
+    userId,
+    setCurrentTeamName,
+    setCurrentTeamDetails,
+  }: AuthContextTypes = useContext(AuthContext)!;
   const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -38,6 +41,7 @@ const OverviewTeamItem = ({
 
   const redirectTeamPage = async () => {
     setCurrentTeamName(name);
+    setCurrentTeamDetails({ name, eligibility, division });
     navigate(`../${userId}/dashboard/${id}`);
   };
 
@@ -47,6 +51,7 @@ const OverviewTeamItem = ({
     if (isSending) return;
     const { id } = event.target as HTMLInputElement;
     setCurrentTeamName(name);
+    setCurrentTeamDetails({ name, eligibility, division });
     navigate(`../${userId}/edit/${id}`);
   };
 
