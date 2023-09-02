@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
@@ -15,6 +16,7 @@ import { paddlerSkillsDefault } from "../data/paddlerSkillsDefault";
 
 const CreateNewAthletePage = (): JSX.Element => {
   const { teamId } = useParams();
+  const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
   const [isPaddlerSkillsVisible, setIsPaddlerSkillsVisible] =
     useState<boolean>(false);
   const [isPaddlerNotesVisible, setIsPaddlerNotesVisible] =
@@ -101,7 +103,16 @@ const CreateNewAthletePage = (): JSX.Element => {
         type: "custom",
         message: `Please select eligibility!`,
       });
+    } else if (
+      currentTeamDetails.eligibility === "Women" &&
+      eligibility !== "W"
+    ) {
+      setError("eligibility", {
+        type: "custom",
+        message: `Athletes in ${currentTeamDetails.name} are restricted to women for eligibility!`,
+      });
     }
+
     if (!availability) {
       setError("availability", {
         type: "custom",
@@ -115,6 +126,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       !lastName ||
       !paddleSide ||
       !eligibility ||
+      (currentTeamDetails.eligibility === "Women" && eligibility !== "W") ||
       !availability
     )
       return;
@@ -159,7 +171,10 @@ const CreateNewAthletePage = (): JSX.Element => {
       <div className="flex justify-start items-center p-2 my-2.5 tablet:my-5 space-x-2 tablet:space-x-6 tablet:p-6 max-w-[448px] bg-white border border-gray-border rounded-t w-full">
         <img src={userIcon} alt="New Athlete" className="h-12 tablet:h-16" />
         <div>
-          <h3 className="text-blue-light">Create a New Athlete</h3>
+          <h3 className="text-blue-light">
+            Create a New Athlete {currentTeamDetails.name}{" "}
+            {currentTeamDetails.eligibility}
+          </h3>
           <p>
             Let's add a new athlete to your dragonboat team with some general
             information, optional paddler skills and notes!
