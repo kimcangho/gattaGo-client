@@ -11,6 +11,7 @@ interface LineupSpotProps {
   isSaving: boolean;
   isDeleting: boolean;
   isFetching: boolean;
+  isIneligible: boolean;
 }
 
 const LineupSpot = ({
@@ -21,7 +22,8 @@ const LineupSpot = ({
   activeId,
   isSaving,
   isDeleting,
-  isFetching
+  isFetching,
+  isIneligible,
 }: LineupSpotProps) => {
   return (
     <div
@@ -49,6 +51,7 @@ const LineupSpot = ({
         isSaving={isSaving}
         isDeleting={isDeleting}
         isFetching={isFetching}
+        isIneligible={isIneligible}
       />
     </div>
   );

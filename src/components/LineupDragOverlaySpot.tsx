@@ -1,4 +1,6 @@
 import { RosterData } from "../interfaces/EntityData";
+import { useContext } from "react";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 interface LineupDragOverlaySpotProps {
   athlete: RosterData | undefined;
@@ -13,6 +15,8 @@ const LineupDragOverlaySpot = ({
   isDeleting,
   isFetching,
 }: LineupDragOverlaySpotProps) => {
+  const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
+
   return (
     athlete && (
       <div
@@ -32,7 +36,14 @@ const LineupDragOverlaySpot = ({
               : athlete?.athlete.paddleSide}
           </p>
         </div>
-        <div className="bg-green-light w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full">
+        <div
+          className={` w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full ${
+            currentTeamDetails.eligibility === "Women" &&
+            athlete.athlete.eligibility !== "W"
+              ? "bg-red-dark"
+              : "bg-green-light"
+          }`}
+        >
           <p>{athlete?.athlete.eligibility}</p>
         </div>
         <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">

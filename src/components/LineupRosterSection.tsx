@@ -3,6 +3,8 @@ import { motion, AnimatePresence, useIsPresent } from "framer-motion";
 import { RosterData } from "../interfaces/EntityData";
 import { Active, Over } from "@dnd-kit/core";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import EmptyAthlete from "./EmptyAthlete";
 
 interface LineupRosterSectionProps {
@@ -26,6 +28,7 @@ const LineupRosterSection = ({
   isFetching,
 }: LineupRosterSectionProps) => {
   const { userId, teamId } = useParams();
+  const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
   const isPresent = useIsPresent();
 
   return (
@@ -93,6 +96,12 @@ const LineupRosterSection = ({
                   isSaving={isSaving}
                   isDeleting={isDeleting}
                   isFetching={isFetching}
+                  isIneligible={
+                    currentTeamDetails?.eligibility === "Women" &&
+                    athlete.eligibility !== "W"
+                      ? true
+                      : false
+                  }
                 />
               </motion.div>
             );
