@@ -341,7 +341,6 @@ const EditAthletePage = () => {
                 </div>
               </div>
 
-              {/* Eligibility */}
               <div className="flex flex-col w-[50%] space-y-4">
                 {/* Eligibility */}
                 <div className="flex flex-col">
@@ -404,7 +403,6 @@ const EditAthletePage = () => {
             </div>
 
             {/* Optional Paddler Skill Set */}
-
             <div className="border-y">
               <label
                 htmlFor="weight"
