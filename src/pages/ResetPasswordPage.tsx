@@ -41,6 +41,7 @@ const ResetPasswordPage = (): JSX.Element => {
               console.log(err);
             } finally {
               setIsSendingRequest(false);
+              setEmail("");
             }
           })}
           className="max-w-[448px] m-auto px-2.5 tablet:px-5 py-6 bg-white border border-gray-border rounded"
