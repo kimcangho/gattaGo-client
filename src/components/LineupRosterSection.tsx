@@ -36,9 +36,10 @@ const LineupRosterSection = ({
       onClick={(event) => {
         event?.stopPropagation();
       }}
-      className={`bg-white flex-1 inline-block border tablet:border-none border-gray-border shadow-md tablet:shadow-lg fixed top-[7rem] left-0 tablet:static w-[calc(100%-1.5rem)] tablet:w-full h-[calc(90%-4rem-0.5px)] overflow-auto max-h-[80rem] p-2 z-30 ${
-        width! < 768 && activeId && "opacity-0"
-      }`}
+      className={`
+        bg-white flex-1 inline-block border tablet:border-none border-gray-border shadow-md tablet:shadow-lg fixed top-[7rem] left-0 tablet:static w-[calc(100%-1.5rem)] tablet:w-full h-[calc(90%-4rem-0.5px)] overflow-auto max-h-[80rem] p-2 z-30 ${
+          width! < 768 && activeId && "opacity-0"
+        }`}
     >
       <div className="flex flex-col tablet:flex-row justify-between tablet:items-center">
         <div className="text-black mb-2">
