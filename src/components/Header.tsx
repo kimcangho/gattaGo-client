@@ -75,7 +75,7 @@ const Header = (): JSX.Element => {
         </div>
         {isLoggedIn && (
           <h2 className="text-gray-dark text-sm midMobile:text-2xl tablet:text-3xl truncate max-w-[80%] midMobile:max-w-full">
-            {name ? `${name} - ${eligibility} - ${division}` : email}
+            {name ? name : email}
           </h2>
         )}
       </div>
