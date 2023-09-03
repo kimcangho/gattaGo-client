@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 
-const SchedulePage = () => {
+const RaceDayPage = () => {
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
 
@@ -23,4 +23,4 @@ const SchedulePage = () => {
   return <div>SchedulePage</div>;
 };
 
-export default SchedulePage;
+export default RaceDayPage;
