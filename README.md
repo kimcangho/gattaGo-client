@@ -99,11 +99,14 @@ Room for improvement:
 
 To do:
 
--  Optimize touch features for lineup page.
-
-Future Phase:
-
+- Optimize touch features for lineup page.
 - Team race day tab with exportable lineups, race plans, team site location.
+
+Future Phase Ideas:
+
+- User roles: managers (read+write), athletes (read-only), event organizers.
+- Regatta and event support for event organizers.
+- Live race day progressions and results using websockets.
 
 Known issues:
 
