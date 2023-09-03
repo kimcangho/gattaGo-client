@@ -12,7 +12,7 @@ import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
 import RosterPage from "./pages/RosterPage";
 import LineupsPage from "./pages/LineupsPage";
-import SchedulePage from "./pages/RaceDayPage";
+import RaceDayPage from "./pages/RaceDayPage";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import NavbarRoute from "./Routes/NavbarRoute";
 import Header from "./components/Header";
@@ -67,11 +67,19 @@ const App = (): JSX.Element => {
                 element={<LineupsPage />}
               />
 
-              {/* Regatta Schedule Page */}
+              {/* Race Day Page */}
               <Route
                 path="/:userId/race_day/:teamId"
-                element={<SchedulePage />}
+                element={<RaceDayPage />}
               />
+              {/* <Route
+                path="/:userId/race_day/:teamId/new/"
+                element={<CreateRaceDayPage />}
+              /> */}
+              {/* <Route
+                path="/:userId/race_day/:teamId/edit/:racedayId"
+                element={<EditRaceDayPage />}
+              /> */}
             </Route>
           </Route>
 
