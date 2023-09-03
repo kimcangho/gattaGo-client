@@ -22,7 +22,7 @@ const Header = (): JSX.Element => {
     currentTeamDetails,
     setCurrentTeamDetails,
   }: AuthContextTypes = useContext(AuthContext)!;
-  const { name, eligibility, division } = currentTeamDetails;
+  const { name } = currentTeamDetails;
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
