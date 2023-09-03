@@ -34,10 +34,8 @@ const LineupModalButton = ({
 
   return (
     <>
-      {((width! < 768 && !isModalOpen) ||
-        isModalOpen ||
-        activeId ||
-        (activeId && !isModalOpen)) && (
+      {((width! < 768 && !activeId) ||
+        (width! < 768 && activeId && !isModalOpen)) && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
