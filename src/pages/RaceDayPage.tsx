@@ -19,24 +19,25 @@ const RaceDayPage = () => {
   useEffect(() => {
     const getAllRegattas = async () => {
       try {
-        // const { data } = await axiosPrivate.get(`/regattas`);
+        const { data } = await axiosPrivate.get(`teams/${teamId}/raceDayPlans`);
         //  NOTE: should sort by ascending date.
-        setMyRaceDays([
-          {
-            id: "test1",
-            name: "Pickering",
-            startDate: new Date("2012-01-26") ,
-            endDate: new Date("2012-01-26"),
-            location: "Pickering, ON",
-          },
-          {
-            id: "test2",
-            name: "Woodstock",
-            startDate: new Date("2012-01-26") ,
-            endDate: new Date("2012-01-26"),
-            location: "Woodstock, ON",
-          },
-        ]); //  hard code with sample data until API call built in
+        // setMyRaceDays([
+        //   {
+        //     id: "test1",
+        //     name: "Pickering",
+        //     startDate: new Date("2012-01-26"),
+        //     endDate: new Date("2012-01-26"),
+        //     location: "Pickering, ON",
+        //   },
+        //   {
+        //     id: "test2",
+        //     name: "Woodstock",
+        //     startDate: new Date("2012-01-26"),
+        //     endDate: new Date("2012-01-26"),
+        //     location: "Woodstock, ON",
+        //   },
+        // ]); //  hard code with sample data until API call built in
+        setMyRaceDays(data);
         setIsLoading(false);
       } catch (err: unknown) {
         console.log(err);
@@ -66,7 +67,7 @@ const RaceDayPage = () => {
             </div>
 
             <Link
-              to={`../${userId}/race_day/${teamId}/new`}  //  Team Race Day Plan page to be built
+              to={`../${userId}/race_day/${teamId}/new`} //  Team Race Day Plan page to be built
               className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
             >
               Create Race Plan
