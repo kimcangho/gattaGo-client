@@ -19,6 +19,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 import EditAthletePage from "./pages/EditAthletePage";
+import TeamRaceDayPage from "./pages/TeamRaceDayPage";
 
 const App = (): JSX.Element => {
   return (
@@ -72,14 +73,14 @@ const App = (): JSX.Element => {
                 path="/:userId/race_day/:teamId"
                 element={<RaceDayPage />}
               />
-              {/* <Route
-                path="/:userId/race_day/:teamId/new/"
+              <Route
+                path="/:userId/race_day/:teamId/plan/"
                 element={<TeamRaceDayPage />}
-              /> */}
-              {/* <Route
-                path="/:userId/race_day/:teamId/:raceDayId"
+              />
+              <Route
+                path="/:userId/race_day/:teamId/plan/:raceDayPlanId"
                 element={<TeamRaceDayPage />}
-              /> */}
+              />
             </Route>
           </Route>
 

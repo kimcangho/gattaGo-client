@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import boatIcon from "../assets/icons/boat.svg";
+import calendarIcon from "../assets/icons/calendar.svg";
 import printIcon from "../assets/icons/print.svg";
 import deleteIcon from "../assets/icons/delete-entity.svg";
 import { RaceDayData } from "../interfaces/EntityData";
@@ -37,19 +37,16 @@ const RaceDayItem = ({
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
 
-  const redirectRaceDayPlanPage = async () => {
-    // setCurrentTeamDetails({ name, eligibility, division });
-    navigate(`../${userId}/dashboard/${id}`);
+  const redirectTeamRaceDayPlanPage = async () => {
+    navigate(`../${userId}/race_day/${teamId}/plan/${id}`);
   };
 
-  const handleEditRaceDayPlan = async (
+  const handleExportRaceDayPlan = async (
     event: React.MouseEvent<HTMLElement>
   ) => {
     event.stopPropagation();
-    console.log("Export race day plan..."); //  Export function to be determined
+    console.log("Export race day plan..."); //  Export function to be built in future
     if (isSending) return;
-    // const { id } = event.target as HTMLInputElement;
-    // navigate(`../${userId}/edit/${id}`);
   };
 
   const handleDeleteRaceDayPlan = async (
@@ -83,13 +80,13 @@ const RaceDayItem = ({
       <div className="flex items-center bg-gray-border tablet:bg-inherit border-b tablet:border-b-0 border-black rounded-t-md tablet:rounded-t-none">
         <div className="flex items-center m-2 tablet:mx-0 space-x-2 tablet:space-x-4 w-[calc(100%-88px)] tablet:w-[45rem] truncate">
           <img
-            src={boatIcon}
+            src={calendarIcon}
             alt="Team Logo Placeholder"
             className="h-8 tablet:h-10 tablet:ml-2"
           />
 
           <h3
-            onClick={redirectRaceDayPlanPage}
+            onClick={redirectTeamRaceDayPlanPage}
             className="text-blue-light truncate cursor-pointer hover:underline decoration-2"
           >
             {name}
@@ -101,7 +98,9 @@ const RaceDayItem = ({
             {location}
           </h3>
           <h3 className="text-center w-36 text-black font-normal">
-            {startDate.toString()} - {endDate.toString()}
+            {startDate !== endDate
+              ? `${startDate.toString()} - ${endDate.toString()}`
+              : `${startDate.toString()}`}
           </h3>
         </div>
 
@@ -110,21 +109,21 @@ const RaceDayItem = ({
             <>
               <img
                 src={printIcon}
-                alt="Edit Team"
+                alt="Export Plan"
                 className="h-6 tablet:h-8 cursor-pointer"
                 id={id}
-                // onClick={handleExportRaceDayPlan}
+                onClick={handleExportRaceDayPlan}
               />
               <img
                 src={deleteIcon}
-                alt="Delete Team"
+                alt="Delete Plan"
                 className="h-6 tablet:h-8 cursor-pointer"
                 id={id}
                 onClick={handleDeleteRaceDayPlan}
               />
             </>
           ) : (
-            <h2>Deleting...</h2>
+            <h2>Executing...</h2>
           )}
         </div>
       </div>

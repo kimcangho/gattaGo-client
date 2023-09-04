@@ -67,7 +67,7 @@ const RaceDayPage = () => {
             </div>
 
             <Link
-              to={`../${userId}/race_day/${teamId}/new`} //  Team Race Day Plan page to be built
+              to={`../${userId}/race_day/${teamId}/plan`} //  Team Race Day Plan page to be built
               className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
             >
               Create Race Plan
