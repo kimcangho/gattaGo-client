@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # gattaGo-client
 
 > gattaGo is a dragonboat team coaching tool designed to track teams, manage athletes and build boat lineups.
@@ -118,3 +119,6 @@ Known issues:
 Created by [Kent K.C. Ho](https://www.linkedin.com/in/kentkcho/) - feel free to contact me!
 
 > Written with [StackEdit](https://stackedit.io/).
+=======
+
+>>>>>>> 70be8305cc1d2fa135975e03781fbeb29a3d95ad
