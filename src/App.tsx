@@ -74,11 +74,11 @@ const App = (): JSX.Element => {
               />
               {/* <Route
                 path="/:userId/race_day/:teamId/new/"
-                element={<CreateRaceDayPage />}
+                element={<TeamRaceDayPage />}
               /> */}
               {/* <Route
-                path="/:userId/race_day/:teamId/edit/:racedayId"
-                element={<EditRaceDayPage />}
+                path="/:userId/race_day/:teamId/:raceDayId"
+                element={<TeamRaceDayPage />}
               /> */}
             </Route>
           </Route>
