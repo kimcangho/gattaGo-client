@@ -12,8 +12,8 @@ interface RaceDayItemProps {
   index: number;
   id: string;
   name: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   location: string;
   myRaceDays: RaceDayData[];
   setMyRaceDays: any;
@@ -29,8 +29,7 @@ const RaceDayItem = ({
   myRaceDays,
   setMyRaceDays,
 }: RaceDayItemProps): JSX.Element => {
-  const { userId }: AuthContextTypes =
-    useContext(AuthContext)!;
+  const { userId }: AuthContextTypes = useContext(AuthContext)!;
   const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -99,7 +98,7 @@ const RaceDayItem = ({
             {location}
           </h3>
           <h3 className="text-center w-36 text-black font-normal">
-            {startDate} - {endDate}
+            {startDate.toString()} - {endDate.toString()}
           </h3>
         </div>
 
@@ -132,7 +131,7 @@ const RaceDayItem = ({
           {location}
         </h3>
         <h3 className="bg-gray-border tablet:bg-blue-wavy px-2 tablet:py-1 rounded-3xl mx-1 mb-2 tablet:mt-2 font-normal">
-          {startDate} - {endDate}
+          {startDate.toString()} - {endDate.toString()}
         </h3>
       </div>
     </article>

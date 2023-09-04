@@ -25,15 +25,15 @@ const RaceDayPage = () => {
           {
             id: "test1",
             name: "Pickering",
-            startDate: "06/10/23",
-            endDate: "06/11/23",
+            startDate: new Date("2012-01-26") ,
+            endDate: new Date("2012-01-26"),
             location: "Pickering, ON",
           },
           {
             id: "test2",
             name: "Woodstock",
-            startDate: "08/30/23",
-            endDate: "09/01/23",
+            startDate: new Date("2012-01-26") ,
+            endDate: new Date("2012-01-26"),
             location: "Woodstock, ON",
           },
         ]); //  hard code with sample data until API call built in
