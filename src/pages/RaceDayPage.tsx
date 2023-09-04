@@ -104,6 +104,7 @@ const RaceDayPage = () => {
                     location={raceDay.location}
                     myRaceDays={myRaceDays}
                     setMyRaceDays={setMyRaceDays}
+                    teamId={teamId}
                   />
                 </div>
               );

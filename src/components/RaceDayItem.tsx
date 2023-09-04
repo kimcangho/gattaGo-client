@@ -17,6 +17,7 @@ interface RaceDayItemProps {
   location: string;
   myRaceDays: RaceDayData[];
   setMyRaceDays: any;
+  teamId?: string;
 }
 
 const RaceDayItem = ({
@@ -28,6 +29,7 @@ const RaceDayItem = ({
   location,
   myRaceDays,
   setMyRaceDays,
+  teamId,
 }: RaceDayItemProps): JSX.Element => {
   const { userId }: AuthContextTypes = useContext(AuthContext)!;
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -54,20 +56,21 @@ const RaceDayItem = ({
     event: React.MouseEvent<HTMLElement>
   ) => {
     event.stopPropagation();
-    console.log("Deleting race plan...");
+
     if (isSending) return;
-    // try {
-    //   setIsSending(true);
-    //   const { id } = event.target as HTMLInputElement;
-    //   await axiosPrivate.delete(`/teams/${id}`);
-    //   const currentRaceDays = myRaceDays.filter((raceDay: RaceDayData) => {
-    //     return raceDay.id !== id;
-    //   });
-    //   setMyRaceDays(currentRaceDays);
-    // } catch (err: unknown) {
-    //   console.log(err);
-    //   logoutRedirect("/login");
-    // }
+    try {
+      setIsSending(true);
+      const { id } = event.target as HTMLInputElement;
+      await axiosPrivate.delete(`/teams/${teamId}/raceDayPlans/${id}`);
+      const currentRaceDays = myRaceDays.filter((raceDay: RaceDayData) => {
+        return raceDay.id !== id;
+      });
+      setMyRaceDays(currentRaceDays);
+      setIsSending(false);
+    } catch (err: unknown) {
+      console.log(err);
+      logoutRedirect("/login");
+    }
   };
 
   return (
@@ -117,7 +120,7 @@ const RaceDayItem = ({
                 alt="Delete Team"
                 className="h-6 tablet:h-8 cursor-pointer"
                 id={id}
-                // onClick={handleDeleteRaceDayPlan}
+                onClick={handleDeleteRaceDayPlan}
               />
             </>
           ) : (
