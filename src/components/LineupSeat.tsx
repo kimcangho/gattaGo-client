@@ -1,6 +1,8 @@
 import { Active, Over } from "@dnd-kit/core";
 import LineupSpot from "./LineupSpot";
 import { ActiveLineupData } from "../interfaces/EntityData";
+import { useContext } from "react";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 
 interface LineupSeatProps {
   seat: number;
@@ -12,7 +14,16 @@ interface LineupSeatProps {
   isFetching: boolean;
 }
 
-const LineupSeat = ({ seat, row, overId, activeId, isSaving, isDeleting, isFetching }: LineupSeatProps) => {
+const LineupSeat = ({
+  seat,
+  row,
+  overId,
+  activeId,
+  isSaving,
+  isDeleting,
+  isFetching,
+}: LineupSeatProps) => {
+  const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
   return (
     <div className="flex mx-auto w-fit">
       {row?.map(({ athlete, position }: ActiveLineupData) => {
@@ -27,6 +38,12 @@ const LineupSeat = ({ seat, row, overId, activeId, isSaving, isDeleting, isFetch
             isSaving={isSaving}
             isDeleting={isDeleting}
             isFetching={isFetching}
+            isIneligible={
+              currentTeamDetails.eligibility === "Women" &&
+              athlete.eligibility !== "W"
+                ? true
+                : false
+            }
           />
         );
       })}

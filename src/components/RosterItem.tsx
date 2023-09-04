@@ -20,6 +20,12 @@ interface RosterItemProps {
   deleteAthlete: any;
   width: number | undefined;
   athlete: any;
+  currentTeamDetails: {
+    name?: string;
+    eligibility?: string;
+    division?: string;
+  };
+  isIneligible: boolean;
 }
 
 const RosterItem = ({
@@ -28,6 +34,7 @@ const RosterItem = ({
   width,
   deleteAthlete,
   editAthlete,
+  isIneligible,
 }: RosterItemProps): JSX.Element => {
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -145,6 +152,11 @@ const RosterItem = ({
                         );
                     }
                   )}
+                {isIneligible && (
+                  <p className="inline-block bg-red-dark px-2 py-1 rounded-3xl mx-2 mb-2 tablet:mt-2 text-center">
+                    Ineligible
+                  </p>
+                )}
               </>
             )}
           </div>

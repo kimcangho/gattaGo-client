@@ -186,96 +186,113 @@ const LineupBoatSection = ({
   };
 
   return (
-    <div
-      className={`flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2 ${
-        isSaving || isDeleting || isFetching ? "cursor-wait opacity-50" : ""
-      }`}
-    >
-      <DndContext
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        onDragMove={handleWhileDrag}
+    <>
+      <div
+        className={`flex justify-center max-w-full desktop:max-w-[1280px] max-h-[84rem] mx-auto bg-white border rounded-md border-gray-border flex-2 ${
+          isSaving || isDeleting || isFetching ? "cursor-wait opacity-50" : ""
+        }`}
       >
-        <div className="flex flex-col max-w-[448px] midMobile:max-w-full tablet:w-[408px] my-2 overflow-auto">
-          <h1 className="text-center mb-2">
-            Total Weight -{` `} {frontWeight + backWeight} lbs
-          </h1>
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onDragMove={handleWhileDrag}
+        >
+          <div className="flex flex-col max-w-[448px] midMobile:max-w-full tablet:w-[408px] my-2 overflow-auto">
+            <h1 className="text-center mb-2">
+              Total Weight -{` `} {frontWeight + backWeight} lbs
+            </h1>
 
-          <h3 className="text-center">Front</h3>
-          <h4 className="text-center">{frontWeight} lbs</h4>
-          <div className="flex flex-row justify-center items-center max-w-[448px] space-x-2">
-            <div className="w-12">
-              <h3 className="text-center flex flex-col items-center">Left</h3>
-              <h4 className="text-center">{leftWeight}</h4>
-              <h4 className="text-center">lbs</h4>
-            </div>
+            <h3 className="text-center">Front</h3>
+            <h4 className="text-center">{frontWeight} lbs</h4>
+            <div className="flex flex-row justify-center items-center max-w-[448px] space-x-2">
+              <div className="w-12">
+                <h3 className="text-center flex flex-col items-center">Left</h3>
+                <h4 className="text-center">{leftWeight}</h4>
+                <h4 className="text-center">lbs</h4>
+              </div>
 
-            <DragOverlay dropAnimation={null}>
-              {activeId ? (
-                <LineupDragOverlaySpot
-                  athlete={selectDraggableAthlete(rosterAthletes, activeId)}
-                  isSaving={isSaving}
-                  isDeleting={isDeleting}
-                  isFetching={isFetching}
-                />
-              ) : null}
-            </DragOverlay>
+              <DragOverlay dropAnimation={null}>
+                {activeId ? (
+                  <LineupDragOverlaySpot
+                    athlete={selectDraggableAthlete(rosterAthletes, activeId)}
+                    isSaving={isSaving}
+                    isDeleting={isDeleting}
+                    isFetching={isFetching}
+                  />
+                ) : null}
+              </DragOverlay>
 
-            <div className="mx-auto">
-              {activeLineup &&
-                activeLineup.length &&
-                transformLineupsToSeats(activeLineup).map(
-                  (row: ActiveLineupData[], index: number) => {
-                    return (
-                      <LineupSeat
-                        key={index}
-                        seat={index}
-                        row={row}
-                        activeId={activeId}
-                        overId={overId}
-                        isSaving={isSaving}
-                        isDeleting={isDeleting}
-                        isFetching={isFetching}
-                      />
-                    );
-                  }
-                )}
+              <div className="mx-auto">
+                {activeLineup &&
+                  activeLineup.length &&
+                  transformLineupsToSeats(activeLineup).map(
+                    (row: ActiveLineupData[], index: number) => {
+                      return (
+                        <LineupSeat
+                          key={index}
+                          seat={index}
+                          row={row}
+                          activeId={activeId}
+                          overId={overId}
+                          isSaving={isSaving}
+                          isDeleting={isDeleting}
+                          isFetching={isFetching}
+                        />
+                      );
+                    }
+                  )}
+              </div>
+              <div className="flex flex-col items-center">
+                <h3 className="text-center">Right</h3>
+                <h4 className="text-center">{rightWeight}</h4>
+                <h4 className="text-center">lbs</h4>
+              </div>
             </div>
-            <div className="flex flex-col items-center">
-              <h3 className="text-center">Right</h3>
-              <h4 className="text-center">{rightWeight}</h4>
-              <h4 className="text-center">lbs</h4>
-            </div>
+            <h3 className="text-center">Back</h3>
+            <h4 className="text-center">{backWeight} lbs</h4>
           </div>
-          <h3 className="text-center">Back</h3>
-          <h4 className="text-center">{backWeight} lbs</h4>
-        </div>
 
-        {(isModalOpen || width! >= 768) && (
-          <LineupRosterSection
-            rosterAthletes={filterOutBoatAthletes(rosterAthletes, activeLineup)}
-            width={width}
-            activeId={activeId}
-            overId={overId}
-            isLoading={isLoading}
-            isSaving={isSaving}
-            isDeleting={isDeleting}
-            isFetching={isFetching}
-          />
-        )}
-      </DndContext>
+          {(isModalOpen || width! >= 768) && (
+            <LineupRosterSection
+              rosterAthletes={filterOutBoatAthletes(
+                rosterAthletes,
+                activeLineup
+              )}
+              width={width}
+              activeId={activeId}
+              overId={overId}
+              isLoading={isLoading}
+              isSaving={isSaving}
+              isDeleting={isDeleting}
+              isFetching={isFetching}
+            />
+          )}
+        </DndContext>
 
-      <LineupModalButton
-        width={width}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleToggleModal={handleToggleModal}
-        activeId={activeId}
-        isSaving={isSaving}
-        isDeleting={isDeleting}
-        isFetching={isFetching}
-      />
-    </div>
+        <LineupModalButton
+          width={width}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          handleToggleModal={handleToggleModal}
+          activeId={activeId}
+          isSaving={isSaving}
+          isDeleting={isDeleting}
+          isFetching={isFetching}
+        />
+      </div>
+      {isModalOpen && (
+        <div
+          className={`${
+            width! < 768 && !activeId
+              ? "bg-black opacity-20 fixed top-0 left-0 w-screen h-screen"
+              : ""
+          }`}
+          onClick={() => {
+            setIsModalOpen(false);
+          }}
+        ></div>
+      )}
+    </>
   );
 };
 

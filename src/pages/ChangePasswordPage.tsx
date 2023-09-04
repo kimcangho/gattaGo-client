@@ -8,8 +8,7 @@ import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const ChangePasswordPage = (): JSX.Element => {
   const { resetCodeId } = useParams<string>();
-  const { email, setEmail }: AuthContextTypes =
-    useContext(AuthContext)!;
+  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
   const [isResetCodeValid, setIsResetCodeValid] = useState<boolean>(false);
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
@@ -74,6 +73,7 @@ const ChangePasswordPage = (): JSX.Element => {
                     resetCode: resetCodeId,
                   });
                   setIsPasswordChanged(true);
+                  setEmail("");
                 } catch (err: unknown) {
                   console.log(err);
                 }

@@ -7,7 +7,7 @@ import visiblePassword from "../assets/icons/visible-password.svg";
 import hiddenPassword from "../assets/icons/hidden-password.svg";
 
 const SignupPage = (): JSX.Element => {
-  const { email }: AuthContextTypes = useContext(AuthContext)!;
+  const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -56,6 +56,7 @@ const SignupPage = (): JSX.Element => {
             navigate("../login");
           } catch (err: unknown) {
             console.log(err);
+            setEmail(email)
             navigate("../login");
           }
           return;

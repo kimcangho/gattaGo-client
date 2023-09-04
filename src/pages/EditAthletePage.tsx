@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
@@ -15,6 +16,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 
 const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();
+  const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
   const [athlete, setAthlete] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -108,6 +110,11 @@ const EditAthletePage = () => {
         });
         setAthlete(data);
         setIsLoading(false);
+        if (notes) setIsPaddlerNotesVisible(true);
+
+        Object.entries(paddlerSkills).forEach((skill) => {
+          if (skill[1] === true) setIsPaddlerSkillsVisible(true);
+        });
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
@@ -159,8 +166,20 @@ const EditAthletePage = () => {
         message: `Please include last name!`,
       });
     }
+    if (currentTeamDetails.eligibility === "Women" && eligibility !== "W") {
+      setError("eligibility", {
+        type: "custom",
+        message: `Athletes in ${currentTeamDetails.name} are restricted to women for eligibility!`,
+      });
+    }
 
-    if (!email || !firstName || !lastName) return;
+    if (
+      !email ||
+      !firstName ||
+      !lastName ||
+      (currentTeamDetails.eligibility === "Women" && eligibility !== "W")
+    )
+      return;
 
     let numericWeight: number = 0;
     if (weight) numericWeight = parseInt(weight, 10);
@@ -327,7 +346,6 @@ const EditAthletePage = () => {
                 </div>
               </div>
 
-              {/* Eligibility */}
               <div className="flex flex-col w-[50%] space-y-4">
                 {/* Eligibility */}
                 <div className="flex flex-col">
@@ -354,6 +372,9 @@ const EditAthletePage = () => {
                     />
                     <label htmlFor="eligibility-women">Women</label>
                   </div>
+                  {errors.eligibility && (
+                    <p className="text-red-500">{errors.eligibility.message}</p>
+                  )}
                 </div>
                 {/* Availability */}
                 <div className="flex flex-col">
@@ -387,7 +408,6 @@ const EditAthletePage = () => {
             </div>
 
             {/* Optional Paddler Skill Set */}
-
             <div className="border-y">
               <label
                 htmlFor="weight"
