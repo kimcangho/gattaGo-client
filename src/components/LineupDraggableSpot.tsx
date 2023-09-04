@@ -8,7 +8,8 @@ interface LineupDraggableSpotProps {
   isSaving: boolean;
   isDeleting: boolean;
   isFetching: boolean;
-  isIneligible: boolean;
+  isWomenIneligible: boolean;
+  isPaddleSideIneligible: boolean;
 }
 
 const LineupDraggableSpot = ({
@@ -18,7 +19,8 @@ const LineupDraggableSpot = ({
   isSaving,
   isDeleting,
   isFetching,
-  isIneligible,
+  isWomenIneligible,
+  isPaddleSideIneligible,
 }: LineupDraggableSpotProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
@@ -54,12 +56,16 @@ const LineupDraggableSpot = ({
             }`
       } `}
         >
-          <div className="bg-gray-border w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full">
+          <div
+            className={`bg-gray-border ${
+              isPaddleSideIneligible ? "bg-red-dark" : "bg-gray-border"
+            } w-4 h-4 absolute top-1 left-1 flex items-center justify-center rounded-full`}
+          >
             <p>{athlete.paddleSide === "N/A" ? "N" : athlete.paddleSide}</p>
           </div>
           <div
             className={` w-4 h-4 absolute top-1 right-1 flex items-center justify-center rounded-full ${
-              isIneligible ? "bg-red-dark" : "bg-green-light"
+              isWomenIneligible ? "bg-red-dark" : "bg-green-light"
             }`}
           >
             <p>{athlete.eligibility}</p>

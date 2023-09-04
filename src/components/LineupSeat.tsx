@@ -38,7 +38,7 @@ const LineupSeat = ({
             isSaving={isSaving}
             isDeleting={isDeleting}
             isFetching={isFetching}
-            isIneligible={
+            isWomenIneligible={
               currentTeamDetails.eligibility === "Women" &&
               athlete.eligibility !== "W"
                 ? true

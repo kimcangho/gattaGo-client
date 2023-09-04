@@ -11,7 +11,7 @@ interface LineupDroppableSpotProps {
   isSaving: boolean;
   isDeleting: boolean;
   isFetching: boolean;
-  isIneligible: boolean;
+  isWomenIneligible: boolean;
 }
 
 const LineupDroppableSpot = ({
@@ -23,7 +23,7 @@ const LineupDroppableSpot = ({
   isSaving,
   isDeleting,
   isFetching,
-  isIneligible,
+  isWomenIneligible,
 }: LineupDroppableSpotProps) => {
   const { isOver, setNodeRef } = useDroppable({
     id: athlete.id,
@@ -54,7 +54,14 @@ const LineupDroppableSpot = ({
           isSaving={isSaving}
           isDeleting={isDeleting}
           isFetching={isFetching}
-          isIneligible={isIneligible}
+          isWomenIneligible={isWomenIneligible}
+          isPaddleSideIneligible={
+            (athlete.paddleSide === "L" && position % 2 === 0) ||
+            (athlete.paddleSide === "R" && position % 2 === 1) ||
+            (athlete.paddleSide === "N" && position !== 0 && position !== 21)
+              ? true
+              : false
+          }
         />
       )}
     </div>

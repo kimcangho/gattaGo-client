@@ -11,7 +11,7 @@ interface LineupAthleteItemProps {
   isSaving: boolean;
   isDeleting: boolean;
   isFetching: boolean;
-  isIneligible: boolean;
+  isWomenIneligible: boolean;
 }
 
 const LineupAthleteItem = ({
@@ -21,7 +21,7 @@ const LineupAthleteItem = ({
   isSaving,
   isDeleting,
   isFetching,
-  isIneligible,
+  isWomenIneligible,
 }: LineupAthleteItemProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: athlete.id,
@@ -71,7 +71,7 @@ const LineupAthleteItem = ({
             </p>
             <p
               className={`inline-block px-2 rounded-3xl text-center h-fit ${
-                isIneligible ? "bg-red-dark" : "bg-green-light"
+                isWomenIneligible ? "bg-red-dark" : "bg-green-light"
               }`}
             >
               {athlete.eligibility}
@@ -100,7 +100,7 @@ const LineupAthleteItem = ({
                     </p>
                   );
                 })}
-            {isIneligible && (
+            {isWomenIneligible && (
               <p className="font-normal inline-block bg-red-dark px-2 py-1 rounded-3xl mx-2 text-center break-keep">
                 Ineligible
               </p>
