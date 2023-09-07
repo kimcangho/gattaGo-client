@@ -4,9 +4,12 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
+import userFilledIcon from "../assets/icons/user-filled.svg";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
+import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useWindowSize from "../hooks/useWindowSize";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
@@ -25,6 +28,7 @@ const CreateNewAthletePage = (): JSX.Element => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
+  const { width } = useWindowSize();
 
   const {
     register,
@@ -171,10 +175,7 @@ const CreateNewAthletePage = (): JSX.Element => {
       <div className="flex justify-start items-center p-2 my-2.5 tablet:my-5 space-x-2 tablet:space-x-6 tablet:p-6 max-w-[448px] bg-white border border-gray-border rounded-t w-full">
         <img src={userIcon} alt="New Athlete" className="h-12 tablet:h-16" />
         <div>
-          <h3 className="text-blue-light">
-            Create a New Athlete {currentTeamDetails.name}{" "}
-            {currentTeamDetails.eligibility}
-          </h3>
+          <h3 className="text-blue-light">Create a New Athlete</h3>
           <p>
             Let's add a new athlete to your dragonboat team with some general
             information, optional paddler skills and notes!
@@ -449,7 +450,8 @@ const CreateNewAthletePage = (): JSX.Element => {
             onClick={redirectPreviousPage}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded cursor-pointer"
           >
-            <p>Cancel</p>
+            {width! >= 768 && <p className="mr-2">Cancel</p>}
+            <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
           </div>
           <button
             type="submit"
@@ -457,7 +459,15 @@ const CreateNewAthletePage = (): JSX.Element => {
               isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
             }`}
           >
-            {!isSending ? "Create Athlete" : "Creating..."}
+            {!isSending ? (
+              <div className="flex items-center">
+                {width! >= 768 && <p className="mr-2">Create Athlete</p>}
+                <p className="font-bold">+</p>
+                <img src={userFilledIcon} alt="Add Team" className="h-6" />
+              </div>
+            ) : (
+              "Creating..."
+            )}
           </button>
         </div>
       </form>

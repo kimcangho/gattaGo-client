@@ -15,7 +15,7 @@ import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import EmptyAthlete from "../components/EmptyAthlete";
 import LoadingSpinner from "../components/LoadingSpinner";
-import addUserIcon from "../assets/icons/add-user.svg";
+import userIcon from "../assets/icons/user-filled.svg";
 
 const RosterPage = (): JSX.Element => {
   const { userId, teamId } = useParams<string>();
@@ -285,8 +285,9 @@ const RosterPage = (): JSX.Element => {
               to={`../${userId}/roster/${teamId}/new`}
               className="flex bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white items-center"
             >
-              {width! >= 448 ? <p className="mr-2">Create Paddler</p> : ""}
-              <img src={addUserIcon} alt="Add User" className="h-6" />
+              {width! >= 768 && <p className="mr-2">Create Athlete</p>}
+              <p className="font-bold">+</p>
+              <img src={userIcon} alt="Add User" className="h-6" />
             </Link>
           </div>
 

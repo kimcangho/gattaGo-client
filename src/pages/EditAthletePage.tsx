@@ -7,12 +7,15 @@ import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import userIcon from "../assets/icons/user.svg";
 import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
+import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
+import checkIcon from "../assets/icons/check.svg";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
 import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
 import { CreateNewAthleteFormData } from "../interfaces/FormData";
 import LoadingSpinner from "../components/LoadingSpinner";
+import useWindowSize from "../hooks/useWindowSize";
 
 const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();
@@ -27,6 +30,7 @@ const EditAthletePage = () => {
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
   const navigate = useNavigate();
+  const { width } = useWindowSize();
 
   const {
     register,
@@ -513,7 +517,8 @@ const EditAthletePage = () => {
                 onClick={handleCancelRedirect}
                 className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
               >
-                <p>Cancel</p>
+                {width! >= 768 && <p className="mr-2">Cancel</p>}
+                <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
               </button>
               <button
                 type="submit"
@@ -521,7 +526,14 @@ const EditAthletePage = () => {
                   isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
                 }`}
               >
-                {!isSending ? "Save Changes" : "Saving..."}
+                {!isSending ? (
+                  <div className="flex items-center">
+                    {width! >= 768 && <p className="mr-2">Save Changes</p>}
+                    <img src={checkIcon} alt="Add Team" className="h-6" />
+                  </div>
+                ) : (
+                  "Saving..."
+                )}
               </button>
             </div>
           </form>
