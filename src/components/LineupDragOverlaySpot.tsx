@@ -1,6 +1,7 @@
 import { RosterData } from "../interfaces/EntityData";
 import { useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import userIcon from "../assets/icons/user.svg";
 
 interface LineupDragOverlaySpotProps {
   athlete: RosterData | undefined;
@@ -46,10 +47,17 @@ const LineupDragOverlaySpot = ({
         >
           <p>{athlete?.athlete.eligibility}</p>
         </div>
-        <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
-          {athlete?.athlete?.firstName?.charAt(0)}
-          {athlete?.athlete?.lastName?.charAt(0)}
-        </h5>
+        <div className="w-fit h-fit px-2 absolute top-1 flex items-center justify-center text-xs">
+          <p>
+            {athlete?.athlete?.firstName?.charAt(0)}
+            {athlete?.athlete?.lastName?.charAt(0)}
+          </p>
+        </div>
+        <img
+          src={userIcon}
+          alt="User Avatar Placeholder"
+          className="h-6 midMobile:h-10"
+        />
         <div className="bg-orange-light w-fit h-fit px-2 absolute bottom-0.5 flex items-center justify-center rounded-full text-xs">
           <p>{athlete?.athlete.weight}</p>
         </div>

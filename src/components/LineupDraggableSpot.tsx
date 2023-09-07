@@ -1,5 +1,6 @@
 import { useDraggable, Active, Over } from "@dnd-kit/core";
 import { AthleteData } from "../interfaces/EntityData";
+import userIcon from "../assets/icons/user.svg";
 
 interface LineupDraggableSpotProps {
   athlete: AthleteData;
@@ -70,10 +71,17 @@ const LineupDraggableSpot = ({
           >
             <p>{athlete.eligibility}</p>
           </div>
-          <h5 className="text-center text-[1.5rem] midMobile:text-[2.5rem]">
-            {athlete.firstName?.charAt(0)}
-            {athlete.lastName?.charAt(0)}
-          </h5>
+          <div className="w-fit h-fit px-2 absolute top-1 flex items-center justify-center text-xs">
+            <p>
+              {athlete.firstName?.charAt(0)}
+              {athlete.lastName?.charAt(0)}
+            </p>
+          </div>
+          <img
+            src={userIcon}
+            alt="User Avatar Placeholder"
+            className="h-6 midMobile:h-10"
+          />
           <div className="bg-orange-light w-fit h-fit px-2 absolute bottom-0.5 flex items-center justify-center rounded-full text-xs">
             <p>{athlete.weight}</p>
           </div>
