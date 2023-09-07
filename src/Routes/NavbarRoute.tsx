@@ -5,7 +5,7 @@ const NavbarRoute = (): JSX.Element => {
   const { userId, teamId } = useParams<string>();
 
   if (!userId || !teamId) {
-    return <Navigate to={`/${userId}/overview`} />;
+    return <Navigate to={`/${userId}/team-overview`} />;
   }
 
   return (

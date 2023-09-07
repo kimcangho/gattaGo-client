@@ -1,22 +1,30 @@
 import { useState, useEffect, useContext } from "react";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import {
+  NavigateFunction,
+  useNavigate,
+  useParams,
+  Link,
+} from "react-router-dom";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
+import useWindowSize from "../hooks/useWindowSize";
 import teamIcon from "../assets/icons/roster.svg";
 import { CreateNewTeamFormData } from "../interfaces/FormData";
 import LoadingSpinner from "../components/LoadingSpinner";
+import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
+import checkIcon from "../assets/icons/check.svg";
 
 const EditTeamPage = (): JSX.Element => {
   const { userId, teamId } = useParams();
-  const { setCurrentTeamDetails }: AuthContextTypes =
-    useContext(AuthContext)!;
+  const { setCurrentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSending, setIsSending] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
+  const { width } = useWindowSize();
 
   const {
     register,
@@ -72,7 +80,7 @@ const EditTeamPage = (): JSX.Element => {
         division,
       });
       setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
-      navigate(`../${userId}/overview`);
+      navigate(`../${userId}/team-overview`);
     } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
@@ -81,7 +89,7 @@ const EditTeamPage = (): JSX.Element => {
 
   const handleCancelRedirect = () => {
     setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
-    navigate(`../${userId}/overview`);
+    navigate(`../${userId}/team-overview`);
   };
 
   return (
@@ -214,20 +222,28 @@ const EditTeamPage = (): JSX.Element => {
             </div>
 
             <div className="flex space-x-2 tablet:space-x-6">
-              <button
-                // to={`../${userId}/overview`}
+              <Link
+                to={`../${userId}/team-overview`}
                 onClick={handleCancelRedirect}
                 className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
               >
-                <p>Cancel</p>
-              </button>
+                {width! >= 768 && <p className="mr-2">Cancel</p>}
+                <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
+              </Link>
               <button
                 type="submit"
                 className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
                   isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
                 }`}
               >
-                {!isSending ? "Save Changes" : "Saving..."}
+                {!isSending ? (
+                  <div className="flex items-center">
+                    {width! >= 768 && <p className="mr-2">Save Changes</p>}
+                    <img src={checkIcon} alt="Add Team" className="h-6" />
+                  </div>
+                ) : (
+                  "Saving..."
+                )}
               </button>
             </div>
           </form>

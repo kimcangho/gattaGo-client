@@ -10,6 +10,9 @@ import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import teamIcon from "../assets/icons/roster.svg";
 import { CreateNewTeamFormData } from "../interfaces/FormData";
+import useWindowSize from "../hooks/useWindowSize";
+import rosterFilledIcon from "../assets/icons/roster-filled.svg";
+import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
 
 const CreateNewTeamPage = (): JSX.Element => {
   const { userId } = useParams();
@@ -17,6 +20,7 @@ const CreateNewTeamPage = (): JSX.Element => {
   const axiosPrivate = useAxiosPrivate();
   const navigate: NavigateFunction = useNavigate();
   const logoutRedirect = useLogoutRedirect();
+  const { width } = useWindowSize();
 
   const {
     register,
@@ -74,7 +78,7 @@ const CreateNewTeamPage = (): JSX.Element => {
         level,
         division,
       });
-      navigate(`../${userId}/overview`);
+      navigate(`../${userId}/team-overview`);
     } catch (err: unknown) {
       console.log(err);
       logoutRedirect("/login");
@@ -208,10 +212,11 @@ const CreateNewTeamPage = (): JSX.Element => {
 
         <div className="flex space-x-2 tablet:space-x-6">
           <Link
-            to={`../${userId}/overview`}
+            to={`../${userId}/team-overview`}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
           >
-            <p>Cancel</p>
+            {width! >= 768 && <p className="mr-2">Cancel</p>}
+            <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
           </Link>
           <button
             type="submit"
@@ -219,7 +224,15 @@ const CreateNewTeamPage = (): JSX.Element => {
               isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
             }`}
           >
-            {!isSending ? "Create Team" : "Creating Team..."}
+            {!isSending ? (
+              <div className="flex items-center">
+                {width! >= 768 && <p className="mr-2">Create Team</p>}
+                <p className="font-bold">+</p>
+                <img src={rosterFilledIcon} alt="Add Team" className="h-6" />
+              </div>
+            ) : (
+              "Creating Team..."
+            )}
           </button>
         </div>
       </form>

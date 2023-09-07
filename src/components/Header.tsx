@@ -29,7 +29,7 @@ const Header = (): JSX.Element => {
 
   const handleTeamOverviewRedirect = () => {
     setCurrentTeamDetails({ name: "", eligibility: "", division: "" });
-    if (accessToken) navigate(`../${userId}/overview`);
+    if (accessToken) navigate(`../${userId}/team-overview`);
     else navigate("../");
   };
 

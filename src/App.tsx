@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import HomePage from "./pages/HomePage";
-import OverviewPage from "./pages/OverviewPage";
+import TeamOverviewPage from "./pages/TeamOverviewPage";
 import CreateNewTeamPage from "./pages/CreateNewTeamPage";
 import EditTeamPage from "./pages/EditTeamPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -40,7 +40,7 @@ const App = (): JSX.Element => {
           {/* Private Routes */}
           <Route element={<ProtectedRoute redirectPath="login" />}>
             {/* Team Overview Page */}
-            <Route path="/:userId/overview" element={<OverviewPage />} />
+            <Route path="/:userId/team-overview" element={<TeamOverviewPage />} />
             <Route path="/:userId/new" element={<CreateNewTeamPage />} />
             <Route path="/:userId/edit/:teamId/" element={<EditTeamPage />} />
 

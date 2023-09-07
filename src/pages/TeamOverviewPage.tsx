@@ -6,16 +6,19 @@ import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import OverviewTeamItem from "../components/OverviewTeamItem";
 import { TeamData } from "../interfaces/EntityData";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
+import useWindowSize from "../hooks/useWindowSize";
+import rosterFilledIcon from "../assets/icons/roster-filled.svg";
 import EmptyTeam from "../components/EmptyTeam";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-const OverviewPage = (): JSX.Element => {
+const TeamOverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
   const isPresent = useIsPresent();
+  const { width } = useWindowSize();
 
   useEffect(() => {
     const getAllTeams = async () => {
@@ -70,9 +73,11 @@ const OverviewPage = (): JSX.Element => {
 
             <Link
               to={`../${userId}/new`}
-              className="bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white"
+              className="flex bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white items-center"
             >
-              Create Team
+              {width! >= 768 && <p className="mr-2">Create Team </p>}
+              <p className="font-bold">+</p>
+              <img src={rosterFilledIcon} alt="Add Team" className="h-6" />
             </Link>
           </div>
 
@@ -135,4 +140,4 @@ const OverviewPage = (): JSX.Element => {
   );
 };
 
-export default OverviewPage;
+export default TeamOverviewPage;

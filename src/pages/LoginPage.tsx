@@ -49,7 +49,7 @@ const LoginPage = (): JSX.Element => {
       setUserId(data.id);
       setEmail(email);
       setIsLoggedIn(true);
-      navigate(`../${data.id}/overview`);
+      navigate(`../${data.id}/team-overview`);
     } catch (err: unknown) {
       console.log(err);
       setIsSending(false);

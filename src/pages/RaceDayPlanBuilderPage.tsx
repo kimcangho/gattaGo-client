@@ -30,7 +30,7 @@ const RaceDayPlanBuilderPage = () => {
 
           {/* Export Plan Button  */}
           <div className="bg-blue-light text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 hover:bg-blue-dark cursor-pointer">
-            Export {width! >= 448 ? "Plan" : ""}
+            Share {width! >= 448 ? "Plan" : ""}
           </div>
         </div>
       </div>
