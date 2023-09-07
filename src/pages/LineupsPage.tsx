@@ -13,6 +13,9 @@ import { trimActiveLineup } from "../utils/trimActiveLineup";
 import { ActiveLineupData } from "../interfaces/EntityData";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { motion, useIsPresent } from "framer-motion";
+import copyIcon from "../assets/icons/copy.svg";
+import checkIcon from "../assets/icons/check.svg";
+import deleteIcon from "../assets/icons/delete.svg";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -25,6 +28,7 @@ const LineupsPage = (): JSX.Element => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isCopying, setIsCopying] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -204,6 +208,34 @@ const LineupsPage = (): JSX.Element => {
     deleteSingleLineup(getValues().activeLineupId);
   };
 
+  const handleCopyLineup = async () => {
+    if (isSaving || isDeleting || isFetching || isCopying) return;
+
+    const copySingleLineup = async (lineupId: string) => {
+      try {
+        setIsCopying(true);
+        console.log(`Copying ${lineupId}`);
+        // await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`, {
+        //   withCredentials: true,
+        // });
+
+        // setActiveLineup(generatePlaceholderLineup());
+        // setTeamLineups((prevLineups) =>
+        //   prevLineups!.filter((lineup: LineupData) => lineup.id !== lineupId)
+        // );
+
+        // setValue("activeLineupId", "new");
+        // setValue("lineupName", "");
+        setIsCopying(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    };
+
+    if (getValues().activeLineupId === "new") return;
+    copySingleLineup(getValues().activeLineupId);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -224,17 +256,50 @@ const LineupsPage = (): JSX.Element => {
               </p>
             </div>
             <div className="flex space-x-2 tablet:space-x-4">
+              {/* Copy Lineup */}
+              <div
+                onClick={handleCopyLineup}
+                className={`${
+                  getValues().activeLineupId === "new"
+                    ? "bg-gray-border border-gray-border cursor-not-allowed"
+                    : "bg-blue-light cursor-pointer"
+                }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                  isSaving || isDeleting || isFetching
+                    ? "opacity-50 cursor-wait"
+                    : getValues().activeLineupId === "new"
+                    ? "cursor-auto"
+                    : "hover:bg-blue-dark"
+                }`}
+              >
+                {!isDeleting ? (
+                  <div className="flex items-center">
+                    {width! >= 768 && (
+                      <p className="mr-2 text-lg">Copy Lineup</p>
+                    )}
+                    <img src={copyIcon} alt="Delete Lineup" className="h-6" />
+                  </div>
+                ) : (
+                  "Deleting..."
+                )}
+              </div>
               <button
                 onClick={handleSubmit(handleSaveLineup)}
-                className={`bg-green-light text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 ${
+                className={`bg-green-light text-white p-1 midMobile:p-2 rounded border flex items-center ${
                   isSaving || isDeleting || isFetching
                     ? "opacity-50 cursor-wait"
                     : "hover:bg-green-dark"
                 }`}
               >
-                {!isSaving
-                  ? `Save ${width! >= 448 ? "Lineup" : ""}`
-                  : "Saving..."}
+                {!isSaving ? (
+                  <div className="flex items-center">
+                    {width! >= 768 && (
+                      <p className="mr-2 text-lg">Save Lineup</p>
+                    )}
+                    <img src={checkIcon} alt="Save Lineup" className="h-6" />
+                  </div>
+                ) : (
+                  "Saving..."
+                )}
               </button>
               <div
                 onClick={handleDeleteLineup}
@@ -242,7 +307,7 @@ const LineupsPage = (): JSX.Element => {
                   getValues().activeLineupId === "new"
                     ? "bg-gray-border border-gray-border cursor-not-allowed"
                     : "bg-orange-light cursor-pointer"
-                }  text-white p-1 midMobile:p-2 rounded border w-20 midMobile:w-32 text-center ${
+                }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
                   isSaving || isDeleting || isFetching
                     ? "opacity-50 cursor-wait"
                     : getValues().activeLineupId === "new"
@@ -250,9 +315,16 @@ const LineupsPage = (): JSX.Element => {
                     : "hover:bg-orange-dark"
                 }`}
               >
-                {!isDeleting
-                  ? `Delete ${width! >= 448 ? "Lineup" : ""}`
-                  : "Deleting..."}
+                {!isDeleting ? (
+                  <div className="flex items-center">
+                    {width! >= 768 && (
+                      <p className="mr-2 text-lg">Delete Lineup</p>
+                    )}
+                    <img src={deleteIcon} alt="Delete Lineup" className="h-6" />
+                  </div>
+                ) : (
+                  "Deleting..."
+                )}
               </div>
             </div>
           </div>
