@@ -75,7 +75,11 @@ const TeamOverviewPage = (): JSX.Element => {
               to={`../${userId}/new`}
               className="flex bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white items-center"
             >
-              {width! >= 768 && <p className="mr-2">Create Team </p>}
+              {width! >= 448 && (
+                <p className="mr-2 text-lg">
+                  Create {width! >= 1280 && "Team"}{" "}
+                </p>
+              )}
               <p className="font-bold">+</p>
               <img src={rosterFilledIcon} alt="Add Team" className="h-6" />
             </Link>

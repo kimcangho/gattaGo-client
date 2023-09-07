@@ -450,18 +450,22 @@ const CreateNewAthletePage = (): JSX.Element => {
             onClick={redirectPreviousPage}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded cursor-pointer"
           >
-            {width! >= 768 && <p className="mr-2">Cancel</p>}
+            {width! >= 768 && <p className="mr-2 text-lg">Cancel</p>}
             <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
           </div>
           <button
             type="submit"
-            className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
+            className={`py-4 px-2 w-full text-center flex items-center justify-center text-white bg-green-light rounded ${
               isSending ? "opacity-50 cursor-wait" : "hover:bg-green-dark"
             }`}
           >
             {!isSending ? (
               <div className="flex items-center">
-                {width! >= 768 && <p className="mr-2">Create Athlete</p>}
+                {width! >= 768 && (
+                  <p className="mr-2 text-lg">
+                    Create{width! >= 1280 && " Paddler"}
+                  </p>
+                )}
                 <p className="font-bold">+</p>
                 <img src={userFilledIcon} alt="Add Team" className="h-6" />
               </div>

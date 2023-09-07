@@ -271,15 +271,17 @@ const LineupsPage = (): JSX.Element => {
                     : "hover:bg-blue-dark"
                 }`}
               >
-                {!isDeleting ? (
+                {!isCopying ? (
                   <div className="flex items-center">
-                    {width! >= 768 && (
-                      <p className="mr-2 text-lg">Copy Lineup</p>
+                    {width! >= 448 && (
+                      <p className="mr-2 text-lg">
+                        Copy {width! >= 1280 && "Lineup"}
+                      </p>
                     )}
-                    <img src={copyIcon} alt="Delete Lineup" className="h-6" />
+                    <img src={copyIcon} alt="Copy Lineup" className="h-6" />
                   </div>
                 ) : (
-                  "Deleting..."
+                  "Copying..."
                 )}
               </div>
               <button
@@ -292,8 +294,10 @@ const LineupsPage = (): JSX.Element => {
               >
                 {!isSaving ? (
                   <div className="flex items-center">
-                    {width! >= 768 && (
-                      <p className="mr-2 text-lg">Save Lineup</p>
+                    {width! >= 448 && (
+                      <p className="mr-2 text-lg">
+                        Save {width! >= 1280 && "Lineup"}
+                      </p>
                     )}
                     <img src={checkIcon} alt="Save Lineup" className="h-6" />
                   </div>
@@ -317,8 +321,10 @@ const LineupsPage = (): JSX.Element => {
               >
                 {!isDeleting ? (
                   <div className="flex items-center">
-                    {width! >= 768 && (
-                      <p className="mr-2 text-lg">Delete Lineup</p>
+                    {width! >= 448 && (
+                      <p className="mr-2 text-lg">
+                        Delete {width! >= 1280 && "Lineup"}
+                      </p>
                     )}
                     <img src={deleteIcon} alt="Delete Lineup" className="h-6" />
                   </div>

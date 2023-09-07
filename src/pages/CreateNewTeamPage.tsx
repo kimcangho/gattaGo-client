@@ -215,7 +215,7 @@ const CreateNewTeamPage = (): JSX.Element => {
             to={`../${userId}/team-overview`}
             className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
           >
-            {width! >= 768 && <p className="mr-2">Cancel</p>}
+            {width! >= 768 && <p className="mr-2 text-lg">Cancel</p>}
             <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
           </Link>
           <button
@@ -226,7 +226,7 @@ const CreateNewTeamPage = (): JSX.Element => {
           >
             {!isSending ? (
               <div className="flex items-center">
-                {width! >= 768 && <p className="mr-2">Create Team</p>}
+                {width! >= 768 && <p className="mr-2 text-lg">Create{width! >= 1280 && " Team"}</p>}
                 <p className="font-bold">+</p>
                 <img src={rosterFilledIcon} alt="Add Team" className="h-6" />
               </div>

@@ -285,7 +285,11 @@ const RosterPage = (): JSX.Element => {
               to={`../${userId}/roster/${teamId}/new`}
               className="flex bg-green-light hover:bg-green-dark p-2 rounded border border-green-dark text-white items-center"
             >
-              {width! >= 768 && <p className="mr-2">Create Athlete</p>}
+              {width! >= 448 && (
+                <p className="mr-2 text-lg">
+                  Create {width! >= 1280 && "Athlete"}
+                </p>
+              )}
               <p className="font-bold">+</p>
               <img src={userIcon} alt="Add User" className="h-6" />
             </Link>
