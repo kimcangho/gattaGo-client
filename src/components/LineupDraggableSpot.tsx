@@ -1,6 +1,6 @@
 import { useDraggable, Active, Over } from "@dnd-kit/core";
 import { AthleteData } from "../interfaces/EntityData";
-import userIcon from "../assets/icons/user.svg";
+import userIcon from "../assets/icons/user-filled.svg";
 
 interface LineupDraggableSpotProps {
   athlete: AthleteData;

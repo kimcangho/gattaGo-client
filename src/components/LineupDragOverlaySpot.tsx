@@ -1,7 +1,7 @@
 import { RosterData } from "../interfaces/EntityData";
 import { useContext } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-import userIcon from "../assets/icons/user.svg";
+import userIcon from "../assets/icons/user-filled.svg";
 
 interface LineupDragOverlaySpotProps {
   athlete: RosterData | undefined;
