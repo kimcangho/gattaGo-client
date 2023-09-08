@@ -64,9 +64,12 @@ const RaceDayPlanBuilderPage = () => {
           {/* Components */}
           <div className="flex flex-col w-full">
             {["Regatta", "Weather", "Map", "Event", "Lineup", "Note"].map(
-              (component) => {
+              (component, index) => {
                 return (
-                  <div className="flex justify-between mx-4 px-2 border border-black my-1">
+                  <div
+                    key={index}
+                    className="flex justify-between mx-4 px-2 border border-black my-1"
+                  >
                     <h2>{component}</h2>
                   </div>
                 );
