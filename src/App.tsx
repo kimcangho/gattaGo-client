@@ -12,7 +12,6 @@ import DashboardPage from "./pages/DashboardPage";
 import ErrorPage from "./pages/ErrorPage";
 import RosterPage from "./pages/RosterPage";
 import LineupsPage from "./pages/LineupsPage";
-import RaceDayPage from "./pages/RaceDayPage";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import NavbarRoute from "./Routes/NavbarRoute";
 import Header from "./components/Header";
@@ -40,7 +39,10 @@ const App = (): JSX.Element => {
           {/* Private Routes */}
           <Route element={<ProtectedRoute redirectPath="login" />}>
             {/* Team Overview Page */}
-            <Route path="/:userId/team-overview" element={<TeamOverviewPage />} />
+            <Route
+              path="/:userId/team-overview"
+              element={<TeamOverviewPage />}
+            />
             <Route path="/:userId/new" element={<CreateNewTeamPage />} />
             <Route path="/:userId/edit/:teamId/" element={<EditTeamPage />} />
 
@@ -70,15 +72,7 @@ const App = (): JSX.Element => {
 
               {/* Race Day Page */}
               <Route
-                path="/:userId/race_day/:teamId"
-                element={<RaceDayPage />}
-              />
-              <Route
-                path="/:userId/race_day/:teamId/plan/"
-                element={<RaceDayPlanBuilderPage />}
-              />
-              <Route
-                path="/:userId/race_day/:teamId/plan/:raceDayPlanId"
+                path="/:userId/race_day_plan/:teamId"
                 element={<RaceDayPlanBuilderPage />}
               />
             </Route>

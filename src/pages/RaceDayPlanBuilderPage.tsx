@@ -1,13 +1,13 @@
 import { useState } from "react";
 import useWindowSize from "../hooks/useWindowSize";
-import verticalDragIcon from "../assets/icons/vert-drag.svg";
 import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
 import deleteIcon from "../assets/icons/delete.svg";
+import EmptyRaceDay from "../components/EmptyRaceDay";
 
 const RaceDayPlanBuilderPage = () => {
-  const [planTemplate, setPlanTemplate] = useState<string[]>([]);
+  const [_planTemplate, _setPlanTemplate] = useState<string[]>([]);
   const { width } = useWindowSize();
 
   return (
@@ -68,21 +68,10 @@ const RaceDayPlanBuilderPage = () => {
                 return (
                   <div className="flex justify-between mx-4 px-2 border border-black my-1">
                     <h2>{component}</h2>
-                    <img
-                      src={verticalDragIcon}
-                      alt="Vertical Drag"
-                      className="h-4 tablet:h-6"
-                    />
                   </div>
                 );
               }
             )}
-
-            {/* <div className="mx-4">Weather</div>
-            <div className="mx-4">Map</div>
-            <div className="mx-4">Event</div>
-            <div className="mx-4">Lineup</div>
-            <div className="mx-4">Note</div> */}
           </div>
         </div>
 

@@ -57,11 +57,3 @@ export interface AthleteData {
   paddlerSkills?: PaddlerSkills;
   createdAt?: Date;
 }
-
-export interface RaceDayData {
-  id: string;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  location: string;
-}

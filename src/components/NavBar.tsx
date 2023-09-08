@@ -38,7 +38,7 @@ const NavBar = ({ userId, teamId }: NavBarProps) => {
       </NavLink>
 
       <NavLink
-        to={`../${userId}/race_day/${teamId}`}
+        to={`../${userId}/race_day_plan/${teamId}`}
         className="flex flex-col items-center text-center p-2 tablet:p-4 bg-blue-light hover:bg-blue-dark w-[25%] rounded-br-xl border-l border-blue-dark"
       >
         <img src={calendarIcon} alt="Race day" className="w-6 tablet:w-8" />
