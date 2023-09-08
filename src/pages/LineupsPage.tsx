@@ -211,21 +211,12 @@ const LineupsPage = (): JSX.Element => {
   const handleCopyLineup = async () => {
     if (isSaving || isDeleting || isFetching || isCopying) return;
 
-    const copySingleLineup = async (lineupId: string) => {
+    const copySingleLineup = async () => {
       try {
         setIsCopying(true);
-        console.log(`Copying ${lineupId}`);
-        // await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`, {
-        //   withCredentials: true,
-        // });
-
-        // setActiveLineup(generatePlaceholderLineup());
-        // setTeamLineups((prevLineups) =>
-        //   prevLineups!.filter((lineup: LineupData) => lineup.id !== lineupId)
-        // );
-
-        // setValue("activeLineupId", "new");
-        // setValue("lineupName", "");
+        setValue("activeLineupId", "new");
+        setSelectDefaultValue("new");
+        setValue("lineupName", `${getValues("lineupName")} (Copy)`);
         setIsCopying(false);
       } catch (err: unknown) {
         console.log(err);
@@ -233,7 +224,7 @@ const LineupsPage = (): JSX.Element => {
     };
 
     if (getValues().activeLineupId === "new") return;
-    copySingleLineup(getValues().activeLineupId);
+    copySingleLineup();
   };
 
   return (
@@ -256,7 +247,6 @@ const LineupsPage = (): JSX.Element => {
               </p>
             </div>
             <div className="flex space-x-2 tablet:space-x-4">
-              {/* Copy Lineup */}
               <div
                 onClick={handleCopyLineup}
                 className={`${
@@ -264,7 +254,7 @@ const LineupsPage = (): JSX.Element => {
                     ? "bg-gray-border border-gray-border cursor-not-allowed"
                     : "bg-blue-light cursor-pointer"
                 }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
-                  isSaving || isDeleting || isFetching
+                  isSaving || isDeleting || isFetching || isCopying
                     ? "opacity-50 cursor-wait"
                     : getValues().activeLineupId === "new"
                     ? "cursor-auto"
