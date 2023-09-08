@@ -53,9 +53,9 @@ const RaceDayPlanBuilderPage = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden h-screen">
+      <div className="flex justify-between desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
         {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
-        <div className="bg-white-dark w-[30%] h-full hidden tablet:block">
+        <div className="bg-white-dark w-[30%] hidden tablet:block">
           <h1 className="m-4">Components</h1>
           <h2 className="mx-4">
             Build your plan by selecting components below!
@@ -76,8 +76,8 @@ const RaceDayPlanBuilderPage = () => {
         </div>
 
         {/* Plan Section - Viewable/Editable components */}
-        <div className="bg-red-light w-full h-full">
-          <h1 className="m-4">Plan</h1>
+        <div className="bg-red-light w-full">
+          <EmptyRaceDay />
         </div>
       </div>
     </div>
