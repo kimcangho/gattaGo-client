@@ -513,13 +513,13 @@ const EditAthletePage = () => {
             </div>
 
             <div className="flex space-x-2 tablet:space-x-6">
-              <button
+              <div
                 onClick={handleCancelRedirect}
                 className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded"
               >
                 {width! >= 768 && <p className="mr-2 text-lg">Cancel</p>}
                 <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
-              </button>
+              </div>
               <button
                 type="submit"
                 className={`p-4 w-full text-center flex justify-center text-white bg-green-light rounded ${
@@ -529,7 +529,9 @@ const EditAthletePage = () => {
                 {!isSending ? (
                   <div className="flex items-center">
                     {width! >= 768 && (
-                      <p className="mr-2 text-lg">Save {width! >= 1280 && "Changes"}</p>
+                      <p className="mr-2 text-lg">
+                        Save {width! >= 1280 && "Changes"}
+                      </p>
                     )}
                     <img src={checkIcon} alt="Add Team" className="h-6" />
                   </div>
