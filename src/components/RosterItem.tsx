@@ -10,8 +10,10 @@ import chevronDownIcon from "../assets/icons/chevron-down.svg";
 import chevronUpIcon from "../assets/icons/chevron-up.svg";
 import chevronLeftIcon from "../assets/icons/chevron-left.svg";
 import chevronRightIcon from "../assets/icons/chevron-right.svg";
-import editIcon from "../assets/icons/edit-entity.svg";
-import deleteIcon from "../assets/icons/delete-entity.svg";
+import editFilledIcon from "../assets/icons/edit-entity.svg";
+import editUnfilledIcon from "../assets/icons/edit.svg";
+import deleteFilledIcon from "../assets/icons/delete-entity.svg";
+import deleteUnfilledIcon from "../assets/icons/delete.svg";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 
 interface RosterItemProps {
@@ -38,9 +40,18 @@ const RosterItem = ({
 }: RosterItemProps): JSX.Element => {
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isEditHovering, setIsEditHovering] = useState<boolean>(false);
+  const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
 
   const handleToggleNotes = () => {
     setIsNotesVisible((isNotesVisible) => !isNotesVisible);
+  };
+
+  const handleEditHover = () => {
+    setIsEditHovering((prev) => !prev);
+  };
+  const handleDeleteHover = () => {
+    setIsDeleteHovering((prev) => !prev);
   };
 
   const handleDeleteAthlete = async (athleteId: string) => {
@@ -204,18 +215,24 @@ const RosterItem = ({
               {!isSending ? (
                 <>
                   <img
-                    src={editIcon}
+                    src={isEditHovering ? editFilledIcon : editUnfilledIcon}
                     alt="Edit"
                     onClick={() => handleEditAthlete(athleteId)}
+                    onMouseEnter={handleEditHover}
+                    onMouseLeave={handleEditHover}
                     className={`ml-2 mr-1 ${
                       isNotesVisible ? `mt-1 tablet:mt-0` : ``
                     } w-6 cursor-pointer`}
                   />
                   <img
-                    src={deleteIcon}
+                    src={
+                      isDeleteHovering ? deleteFilledIcon : deleteUnfilledIcon
+                    }
                     alt="Delete"
                     id={athlete?.id}
                     onClick={() => handleDeleteAthlete(athleteId)}
+                    onMouseEnter={handleDeleteHover}
+                    onMouseLeave={handleDeleteHover}
                     className={`ml-1 mr-2 ${
                       isNotesVisible && `mt-1 tablet:mt-0`
                     } w-6 cursor-pointer`}

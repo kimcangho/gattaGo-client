@@ -4,8 +4,10 @@ import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import boatIcon from "../assets/icons/boat.svg";
-import editIcon from "../assets/icons/edit-entity.svg";
-import deleteIcon from "../assets/icons/delete-entity.svg";
+import editFilledIcon from "../assets/icons/edit-entity.svg";
+import editUnfilledIcon from "../assets/icons/edit.svg";
+import deleteFilledIcon from "../assets/icons/delete-entity.svg";
+import deleteUnfilledIcon from "../assets/icons/delete.svg";
 import { TeamData } from "../interfaces/EntityData";
 
 interface OverviewTeamProps {
@@ -32,6 +34,8 @@ const OverviewTeamItem = ({
   const { userId, setCurrentTeamDetails }: AuthContextTypes =
     useContext(AuthContext)!;
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isEditHovering, setIsEditHovering] = useState<boolean>(false);
+  const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const logoutRedirect = useLogoutRedirect();
@@ -39,6 +43,13 @@ const OverviewTeamItem = ({
   const redirectTeamPage = async () => {
     setCurrentTeamDetails({ name, eligibility, division });
     navigate(`../${userId}/dashboard/${id}`);
+  };
+
+  const handleEditHover = () => {
+    setIsEditHovering((prev) => !prev);
+  };
+  const handleDeleteHover = () => {
+    setIsDeleteHovering((prev) => !prev);
   };
 
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
@@ -107,15 +118,19 @@ const OverviewTeamItem = ({
           {!isSending ? (
             <>
               <img
-                src={editIcon}
+                src={isEditHovering ? editFilledIcon : editUnfilledIcon}
                 alt="Edit Team"
+                onMouseEnter={handleEditHover}
+                onMouseLeave={handleEditHover}
                 className="h-6 tablet:h-8 cursor-pointer"
                 id={id}
                 onClick={handleEditTeam}
               />
               <img
-                src={deleteIcon}
+                src={isDeleteHovering ? deleteFilledIcon : deleteUnfilledIcon}
                 alt="Delete Team"
+                onMouseEnter={handleDeleteHover}
+                onMouseLeave={handleDeleteHover}
                 className="h-6 tablet:h-8 cursor-pointer"
                 id={id}
                 onClick={handleDeleteTeam}
