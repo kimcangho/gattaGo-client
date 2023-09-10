@@ -509,8 +509,8 @@ const RosterPage = (): JSX.Element => {
                     <span>&#8645;</span>
                   </h2>
                 </div>
-                <h2 className="self-start">Skills</h2>
-                <h2 className="w-[142px] text-center">Edit / Delete</h2>
+                <h2 className="self-start">Skills / Notes</h2>
+                <h2 className="w-[7.125rem] text-center">Edit / Delete</h2>
               </div>
 
               <div className="tablet:border-x tablet:border-b border-black rounded-b-md max-w-[1280px] mx-auto">

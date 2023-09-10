@@ -6,14 +6,15 @@ import leftHandUnhighlightIcon from "../assets/icons/left-hand-unhighlight.svg";
 import leftHandHighlightIcon from "../assets/icons/left-hand-highlight.svg";
 import rightHandUnhighlightIcon from "../assets/icons/right-hand-unhighlight.svg";
 import rightHandHighlightIcon from "../assets/icons/right-hand-highlight.svg";
-import chevronDownIcon from "../assets/icons/chevron-down.svg";
-import chevronUpIcon from "../assets/icons/chevron-up.svg";
-import chevronLeftIcon from "../assets/icons/chevron-left.svg";
-import chevronRightIcon from "../assets/icons/chevron-right.svg";
 import editFilledIcon from "../assets/icons/edit-entity.svg";
 import editUnfilledIcon from "../assets/icons/edit.svg";
 import deleteFilledIcon from "../assets/icons/delete-entity.svg";
 import deleteUnfilledIcon from "../assets/icons/delete.svg";
+import notesFilledIcon from "../assets/icons/notes-filled.svg";
+import notesUnfilledIcon from "../assets/icons/notes-unfilled.svg";
+import skillsFilledIcon from "../assets/icons/skills-filled.svg";
+import skillsUnfilledIcon from "../assets/icons/skills-unfilled.svg";
+
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 
 interface RosterItemProps {
@@ -40,6 +41,8 @@ const RosterItem = ({
 }: RosterItemProps): JSX.Element => {
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [isNotesHovering, setIsNotesHovering] = useState<boolean>(false);
+  const [isSkillsHovering, setIsSkillsHovering] = useState<boolean>(true);
   const [isEditHovering, setIsEditHovering] = useState<boolean>(false);
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
 
@@ -47,6 +50,13 @@ const RosterItem = ({
     setIsNotesVisible((isNotesVisible) => !isNotesVisible);
   };
 
+  const handleNotesHover = () => {
+    setIsNotesHovering((prev) => !prev);
+  };
+
+  const handleSkillsHover = () => {
+    setIsSkillsHovering((prev) => !prev);
+  };
   const handleEditHover = () => {
     setIsEditHovering((prev) => !prev);
   };
@@ -178,11 +188,11 @@ const RosterItem = ({
             } `}
           >
             <div
-              className={`flex space-x-1 items-center tablet:w-[108px] ${
+              className={`flex space-x-1 items-center tablet:w-[84px] ${
                 !isSending ? "tablet:w-[108px]" : ""
               }`}
             >
-              <span
+              {/* <span
                 onClick={handleToggleNotes}
                 className="flex space-x-1 mt-1 tablet:mt-0 items-center cursor-pointer"
               >
@@ -204,16 +214,58 @@ const RosterItem = ({
                     />
                   </>
                 )}
-              </span>
+              </span> */}
+              {!!athlete?.notes &&
+                (isNotesVisible ? (
+                  <img
+                    src={
+                      isSkillsHovering ? skillsFilledIcon : skillsUnfilledIcon
+                    }
+                    alt="Notes"
+                    onClick={handleToggleNotes}
+                    onMouseEnter={handleSkillsHover}
+                    onMouseLeave={handleSkillsHover}
+                    className={`tablet:ml-2 mr-1 ${
+                      isNotesVisible ? `mt-1 tablet:mt-0` : ``
+                    } w-6 cursor-pointer`}
+                  />
+                ) : (
+                  <img
+                    src={isNotesHovering ? notesFilledIcon : notesUnfilledIcon}
+                    alt="Notes"
+                    onClick={handleToggleNotes}
+                    onMouseEnter={handleNotesHover}
+                    onMouseLeave={handleNotesHover}
+                    className={`ml-2 mr-1 ${
+                      isNotesVisible ? `mt-1 tablet:mt-0` : ``
+                    } w-6 cursor-pointer`}
+                  />
+                ))}
             </div>
 
             {isNotesVisible && (!isSending || (isSending && width! < 768)) && (
-              <p className="tablet:hidden text-black">{athlete?.notes}</p>
+              <>
+                <p className="tablet:hidden text-black">{athlete?.notes}</p>
+              </>
             )}
 
             <div className="flex justify-end">
               {!isSending ? (
                 <>
+                  {/* {!!athlete?.notes && (
+                    <img
+                      src={
+                        isNotesHovering ? notesFilledIcon : notesUnfilledIcon
+                      }
+                      alt="Notes"
+                      onClick={handleToggleNotes}
+                      onMouseEnter={handleNotesHover}
+                      onMouseLeave={handleNotesHover}
+                      className={`ml-2 mr-1 ${
+                        isNotesVisible ? `mt-1 tablet:mt-0` : ``
+                      } w-6 cursor-pointer`}
+                    />
+                  )} */}
                   <img
                     src={isEditHovering ? editFilledIcon : editUnfilledIcon}
                     alt="Edit"
