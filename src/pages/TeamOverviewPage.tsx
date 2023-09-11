@@ -10,10 +10,15 @@ import useWindowSize from "../hooks/useWindowSize";
 import rosterFilledIcon from "../assets/icons/roster-filled.svg";
 import EmptyTeam from "../components/EmptyTeam";
 import LoadingSpinner from "../components/LoadingSpinner";
+import DeleteModal from "../components/DeleteModal";
 
 const TeamOverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [teamName, setTeamName] = useState<string>("");
+  const [teamId, setTeamId] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
   const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -132,7 +137,9 @@ const TeamOverviewPage = (): JSX.Element => {
                           convertSeniorDivisionString(team.division)
                         )}
                         myTeams={myTeams}
-                        setMyTeams={setMyTeams}
+                        setShowModal={setShowModal}
+                        setTeamName={setTeamName}
+                        setTeamId={setTeamId}
                       />
                     </motion.div>
                   );
@@ -142,6 +149,18 @@ const TeamOverviewPage = (): JSX.Element => {
           </div>
         )}
       </motion.div>
+      {showModal && (
+        <DeleteModal
+          entityType="team"
+          entityName={teamName}
+          entityId={teamId}
+          setShowModal={setShowModal}
+          entityArray={myTeams}
+          setEntityArray={setMyTeams}
+          isSending={isSending}
+          setIsSending={setIsSending}
+        />
+      )}
     </>
   );
 };

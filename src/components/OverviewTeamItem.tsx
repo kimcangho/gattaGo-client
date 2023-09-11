@@ -7,7 +7,6 @@ import editUnfilledIcon from "../assets/icons/edit.svg";
 import deleteFilledIcon from "../assets/icons/delete-entity.svg";
 import deleteUnfilledIcon from "../assets/icons/delete.svg";
 import { TeamData } from "../interfaces/EntityData";
-import DeleteModal from "./DeleteModal";
 
 interface OverviewTeamProps {
   id: string;
@@ -17,8 +16,9 @@ interface OverviewTeamProps {
   level: string;
   division: string;
   myTeams: TeamData[];
-  setMyTeams: React.Dispatch<React.SetStateAction<TeamData[]>>;
-  
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setTeamName: React.Dispatch<React.SetStateAction<string>>;
+  setTeamId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const OverviewTeamItem = ({
@@ -29,15 +29,16 @@ const OverviewTeamItem = ({
   level,
   division,
   myTeams,
-  setMyTeams,
-  
+  setShowModal,
+  setTeamName,
+  setTeamId,
 }: OverviewTeamProps): JSX.Element => {
   const { userId, setCurrentTeamDetails }: AuthContextTypes =
     useContext(AuthContext)!;
   const [isSending, setIsSending] = useState<boolean>(false);
   const [isEditHovering, setIsEditHovering] = useState<boolean>(false);
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  // const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const redirectTeamPage = async () => {
@@ -63,6 +64,8 @@ const OverviewTeamItem = ({
 
   const handleModalVisibility = async () => {
     if (isSending) return;
+    setTeamName(name);
+    setTeamId(id);
     setShowModal((prev) => !prev);
   };
 
@@ -140,18 +143,6 @@ const OverviewTeamItem = ({
           </h3>
         </div>
       </article>
-      {showModal && (
-        <DeleteModal
-          entityType="team"
-          entityName={name}
-          entityId={id}
-          setShowModal={setShowModal}
-          entityArray={myTeams}
-          setEntityArray={setMyTeams}
-          isSending={isSending}
-          setIsSending={setIsSending}
-        />
-      )}
     </>
   );
 };

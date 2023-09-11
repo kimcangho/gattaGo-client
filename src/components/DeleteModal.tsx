@@ -4,7 +4,9 @@ import useWindowSize from "../hooks/useWindowSize";
 import { TeamData } from "../interfaces/EntityData";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
 import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
+import checkIcon from "../assets/icons/check.svg";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
+import { useState } from "react";
 
 interface DeleteModalProps {
   entityName: string;
@@ -29,6 +31,7 @@ const DeleteModal = ({
   setIsSending,
   handleDeleteAthlete,
 }: DeleteModalProps) => {
+  const [isDeleteConfirmed, setIsDeleteConfirmed] = useState<boolean>(false);
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -42,7 +45,6 @@ const DeleteModal = ({
 
     if (isSending) return;
 
-    setShowModal((prev) => !prev);
     try {
       setIsSending(true);
       console.log(entityType);
@@ -55,7 +57,8 @@ const DeleteModal = ({
         });
         setEntityArray(currentEntityArray);
       }
-      setShowModal(false);
+
+      setIsDeleteConfirmed(true);
       setIsSending(false);
     } catch (err: unknown) {
       console.log(err);
@@ -74,36 +77,58 @@ const DeleteModal = ({
         className="border border-black rounded-md bg-white absolute max-w-[768px] h-[40%] tablet:h-[30%] left-0 right-0 m-2 mt-[30%] midMobile:my-auto tablet:mx-auto top-0 bottom-0 
       flex flex-col justify-between items-center p-4"
       >
-        <h1>Confirm Delete {capitalizeFirstLetter(entityType)}</h1>
+        <h1>
+          {isDeleteConfirmed
+            ? `${capitalizeFirstLetter(entityType)} Deleted!`
+            : `Confirm Delete ${capitalizeFirstLetter(entityType)}`}
+        </h1>
         <h2 className="text-xl text-center">
-          Please confirm if you wish to delete the {entityType}:
+          {isDeleteConfirmed
+            ? `You have successfully deleted:`
+            : `Please confirm if you wish to delete the ${entityType}:`}
         </h2>
         <h2 className="text-3xl text-center">{entityName}</h2>
 
         <div className="flex w-full">
           <div className="flex space-x-2 tablet:space-x-6 w-full">
-            <div
-              onClick={handleCloseModal}
-              className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded cursor-pointer"
-            >
-              {width! >= 768 && <p className="mr-2 text-lg">Cancel</p>}
-              <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
-            </div>
+            {!isDeleteConfirmed && (
+              <div
+                onClick={handleCloseModal}
+                className="p-4 w-full text-center flex justify-center items-center text-white bg-orange-light hover:bg-orange-dark rounded cursor-pointer"
+              >
+                {width! >= 768 && <p className="mr-2 text-lg">Cancel</p>}
+                <img src={cancelFilledIcon} alt="Cancel" className="h-6" />
+              </div>
+            )}
 
             <div
-              onClick={handleDeleteEntity}
-              className={`p-4 w-full text-center flex justify-center items-center text-white bg-red-dark rounded ${
+              onClick={
+                isDeleteConfirmed ? handleCloseModal : handleDeleteEntity
+              }
+              className={`p-4 w-full text-center flex justify-center items-center text-white  rounded ${
+                isDeleteConfirmed ? "bg-green-light" : "bg-red-dark"
+              } ${
                 isSending
                   ? "opacity-50 cursor-wait"
-                  : "hover:bg-red-600 cursor-pointer"
+                  : `${
+                      isDeleteConfirmed
+                        ? "hover:bg-green-dark"
+                        : "hover:bg-red-600"
+                    } cursor-pointer`
               }`}
             >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">
-                  Delete {width! >= 1280 && `${entityType}`}
+                  {isDeleteConfirmed
+                    ? `Close ${width! >= 1280 ? `Modal` : ""}`
+                    : `Delete ${width! >= 1280 ? `${entityType}` : ""}`}
                 </p>
               )}
-              <img src={deleteWhiteIcon} alt="Delete Team" className="h-6" />
+              <img
+                src={isDeleteConfirmed ? checkIcon : deleteWhiteIcon}
+                alt={isDeleteConfirmed ? "Confirm" : "Delete"}
+                className="h-6"
+              />
             </div>
           </div>
         </div>
