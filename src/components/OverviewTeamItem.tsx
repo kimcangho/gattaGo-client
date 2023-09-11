@@ -61,10 +61,8 @@ const OverviewTeamItem = ({
     navigate(`../${userId}/edit/${id}`);
   };
 
-  const handleDeleteTeam = async () => {
+  const handleModalVisibility = async () => {
     if (isSending) return;
-
-    
     setShowModal((prev) => !prev);
   };
 
@@ -121,7 +119,7 @@ const OverviewTeamItem = ({
                   onMouseLeave={handleDeleteHover}
                   className="h-6 tablet:h-8 cursor-pointer"
                   id={id}
-                  onClick={handleDeleteTeam}
+                  onClick={handleModalVisibility}
                 />
               </>
             ) : (

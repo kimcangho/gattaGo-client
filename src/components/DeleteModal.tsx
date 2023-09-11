@@ -10,10 +10,11 @@ interface DeleteModalProps {
   entityType: string;
   entityId: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  entityArray: TeamData[];
-  setEntityArray: React.Dispatch<React.SetStateAction<TeamData[]>>;
+  entityArray?: TeamData[];
+  setEntityArray?: React.Dispatch<React.SetStateAction<TeamData[]>>;
   isSending: boolean;
   setIsSending: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDeleteAthlete?: any;
 }
 
 const DeleteModal = ({
@@ -25,6 +26,7 @@ const DeleteModal = ({
   setEntityArray,
   isSending,
   setIsSending,
+  handleDeleteAthlete,
 }: DeleteModalProps) => {
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -34,7 +36,7 @@ const DeleteModal = ({
     setShowModal(false);
   };
 
-  const handleDeleteTeam = async (event: React.MouseEvent<HTMLElement>) => {
+  const handleDeleteEntity = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
     if (isSending) return;
@@ -42,11 +44,16 @@ const DeleteModal = ({
     setShowModal((prev) => !prev);
     try {
       setIsSending(true);
-      await axiosPrivate.delete(`/teams/${entityId}`);
-      const currentEntityArray = entityArray.filter((entity: TeamData) => {
-        return entity.id !== entityId;
-      });
-      setEntityArray(currentEntityArray);
+      console.log(entityType)
+      if (entityType === "team")
+        await axiosPrivate.delete(`/teams/${entityId}`);
+      if (entityType === "athlete") await handleDeleteAthlete(entityId);
+      if (entityArray && setEntityArray) {
+        const currentEntityArray = entityArray?.filter((entity: TeamData) => {
+          return entity.id !== entityId;
+        });
+        setEntityArray(currentEntityArray);
+      }
       setShowModal(false);
       setIsSending(false);
     } catch (err: unknown) {
@@ -83,7 +90,7 @@ const DeleteModal = ({
             </div>
 
             <div
-              onClick={handleDeleteTeam}
+              onClick={handleDeleteEntity}
               className={`p-4 w-full text-center flex justify-center items-center text-white bg-red-dark rounded ${
                 isSending
                   ? "opacity-50 cursor-wait"
