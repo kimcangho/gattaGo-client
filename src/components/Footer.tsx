@@ -6,7 +6,6 @@ import gmailLogo from "../assets/logos/gmail.svg";
 const Footer = (): JSX.Element => {
   return (
     <motion.div
-      layout
       transition={{
         type: "spring",
         stiffness: 500,
@@ -19,21 +18,21 @@ const Footer = (): JSX.Element => {
           <img
             src={githubLogo}
             alt="Github"
-            className="w-6 midMobile:w-8 tablet:w-10 desktop:w-12 opacity-50 hover:opacity-100 cursor-pointer"
+            className="w-6 midMobile:w-8 tablet:w-10 desktop:w-12 cursor-pointer"
           />
         </a>
         <a href="https://www.linkedin.com/in/kentkcho/" target="_blank">
           <img
             src={linkedInLogo}
             alt="LinkedIn"
-            className="w-6 midMobile:w-8 tablet:w-10 desktop:w-12 opacity-50 hover:opacity-100 cursor-pointer"
+            className="w-6 midMobile:w-8 tablet:w-10 desktop:w-12 cursor-pointer"
           />
         </a>
         <a href="mailto:ho.kimcang@gmail.com?subject=gattaGo Feedback">
           <img
             src={gmailLogo}
             alt="Gmail"
-            className="w-6 midMobile:w-8 tablet:w-10 desktop:w-12 opacity-50 hover:opacity-100 cursor-pointer"
+            className="w-6 midMobile:w-8 tablet:w-10 desktop:w-12 cursor-pointer"
           />
         </a>
       </div>
