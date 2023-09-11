@@ -35,10 +35,9 @@ const OverviewTeamItem = ({
 }: OverviewTeamProps): JSX.Element => {
   const { userId, setCurrentTeamDetails }: AuthContextTypes =
     useContext(AuthContext)!;
-  const [isSending, setIsSending] = useState<boolean>(false);
+  // const [isSending, setIsSending] = useState<boolean>(false);
   const [isEditHovering, setIsEditHovering] = useState<boolean>(false);
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
-  // const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const redirectTeamPage = async () => {
@@ -56,14 +55,14 @@ const OverviewTeamItem = ({
   const handleEditTeam = async (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
 
-    if (isSending) return;
+    // if (isSending) return;
     const { id } = event.target as HTMLInputElement;
     setCurrentTeamDetails({ name, eligibility, division });
     navigate(`../${userId}/edit/${id}`);
   };
 
   const handleModalVisibility = async () => {
-    if (isSending) return;
+    // if (isSending) return;
     setTeamName(name);
     setTeamId(id);
     setShowModal((prev) => !prev);
@@ -104,7 +103,7 @@ const OverviewTeamItem = ({
           </div>
 
           <div className="flex justify-center items-center m-2 space-x-2 tablet:mx-0 tablet:w-[14rem]">
-            {!isSending ? (
+            {/* {!isSending ? ( */}
               <>
                 <img
                   src={isEditHovering ? editFilledIcon : editUnfilledIcon}
@@ -125,9 +124,9 @@ const OverviewTeamItem = ({
                   onClick={handleModalVisibility}
                 />
               </>
-            ) : (
+            {/* ) : (
               <h2>Deleting...</h2>
-            )}
+            )} */}
           </div>
         </div>
 
