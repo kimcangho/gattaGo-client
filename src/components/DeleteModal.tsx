@@ -4,6 +4,7 @@ import useWindowSize from "../hooks/useWindowSize";
 import { TeamData } from "../interfaces/EntityData";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
 import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
+import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 
 interface DeleteModalProps {
   entityName: string;
@@ -73,7 +74,7 @@ const DeleteModal = ({
         className="border border-black rounded-md bg-white absolute max-w-[768px] h-[40%] tablet:h-[30%] left-0 right-0 m-2 mt-[30%] midMobile:my-auto tablet:mx-auto top-0 bottom-0 
       flex flex-col justify-between items-center p-4"
       >
-        <h1>Confirm Delete {entityType}</h1>
+        <h1>Confirm Delete {capitalizeFirstLetter(entityType)}</h1>
         <h2 className="text-xl text-center">
           Please confirm if you wish to delete the {entityType}:
         </h2>
