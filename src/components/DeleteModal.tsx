@@ -44,7 +44,7 @@ const DeleteModal = ({
     setShowModal((prev) => !prev);
     try {
       setIsSending(true);
-      console.log(entityType)
+      console.log(entityType);
       if (entityType === "team")
         await axiosPrivate.delete(`/teams/${entityId}`);
       if (entityType === "athlete") await handleDeleteAthlete(entityId);
@@ -63,9 +63,9 @@ const DeleteModal = ({
   };
 
   return (
-    <div className="absolute top-0 left-0 w-screen h-screen">
+    <div className="absolute top-0 left-0 w-full h-full">
       <div
-        className="w-screen h-screen absolute bg-gray-border opacity-50 z-0"
+        className="w-full h-full fixed bg-gray-border opacity-50 z-0"
         onClick={handleCloseModal}
       ></div>
 
