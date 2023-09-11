@@ -3,7 +3,7 @@ import useWindowSize from "../hooks/useWindowSize";
 import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
-import deleteIcon from "../assets/icons/delete.svg";
+import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
 import EmptyRaceDay from "../components/EmptyRaceDay";
 
 const RaceDayPlanBuilderPage = () => {
@@ -44,11 +44,11 @@ const RaceDayPlanBuilderPage = () => {
           </div>
 
           {/* Delete Plan Button  */}
-          <div className="flex items-center bg-red-dark text-white p-1 midMobile:p-2 rounded border hover:bg-red-light cursor-pointer">
+          <div className="flex items-center bg-red-dark text-white p-1 midMobile:p-2 rounded border hover:bg-red-600 cursor-pointer">
             {width! >= 768 && (
               <p className="mr-2 text-lg">Delete {width! >= 1280 && "Plan"}</p>
             )}
-            <img src={deleteIcon} alt="Share Plan" className="h-6" />
+            <img src={deleteWhiteIcon} alt="Share Plan" className="h-6" />
           </div>
         </div>
       </div>

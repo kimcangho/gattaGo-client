@@ -144,7 +144,7 @@ const OverviewTeamItem = ({
       </article>
       {showModal && (
         <DeleteModal
-          entityType="Team"
+          entityType="team"
           entityName={name}
           entityId={id}
           setShowModal={setShowModal}

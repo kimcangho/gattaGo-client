@@ -15,7 +15,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import { motion, useIsPresent } from "framer-motion";
 import copyIcon from "../assets/icons/copy.svg";
 import checkIcon from "../assets/icons/check.svg";
-import deleteIcon from "../assets/icons/delete.svg";
+import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -300,13 +300,13 @@ const LineupsPage = (): JSX.Element => {
                 className={`${
                   getValues().activeLineupId === "new"
                     ? "bg-gray-border border-gray-border cursor-not-allowed"
-                    : "bg-orange-light cursor-pointer"
+                    : "bg-red-dark cursor-pointer"
                 }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
                   isSaving || isDeleting || isFetching
                     ? "opacity-50 cursor-wait"
                     : getValues().activeLineupId === "new"
                     ? "cursor-auto"
-                    : "hover:bg-orange-dark"
+                    : "hover:bg-red-600"
                 }`}
               >
                 {!isDeleting ? (
@@ -316,7 +316,11 @@ const LineupsPage = (): JSX.Element => {
                         Delete {width! >= 1280 && "Lineup"}
                       </p>
                     )}
-                    <img src={deleteIcon} alt="Delete Lineup" className="h-6" />
+                    <img
+                      src={deleteWhiteIcon}
+                      alt="Delete Lineup"
+                      className="h-6"
+                    />
                   </div>
                 ) : (
                   "Deleting..."
