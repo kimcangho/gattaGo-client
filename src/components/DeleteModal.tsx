@@ -74,7 +74,7 @@ const DeleteModal = ({
       ></div>
 
       <div
-        className="border border-black rounded-md bg-white absolute max-w-[768px] h-[40%] tablet:h-[30%] left-0 right-0 m-2 mt-[30%] midMobile:my-auto tablet:mx-auto top-0 bottom-0 
+        className="border border-black rounded-md bg-white fixed max-w-[768px] h-[40%] tablet:h-[30%] left-0 right-0 m-2 mt-[30%] midMobile:my-auto tablet:mx-auto top-0 bottom-0 
       flex flex-col justify-between items-center p-4"
       >
         <h1>
