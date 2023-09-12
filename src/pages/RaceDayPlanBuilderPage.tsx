@@ -47,10 +47,10 @@ const RaceDayPlanBuilderPage = () => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setPlanOrder((items) => {
-        const oldIndex = items.map((item) => item.id).indexOf(active.id);
-        const newIndex = items.map((item) => item.id).indexOf(over.id);
-        return [...arrayMove(items, oldIndex, newIndex)];
+      setPlanOrder((plans) => {
+        const oldIndex = plans.map((plan) => plan.id).indexOf(active.id);
+        const newIndex = plans.map((plan) => plan.id).indexOf(over.id);
+        return [...arrayMove(plans, oldIndex, newIndex)];
       });
     }
   };
@@ -100,58 +100,63 @@ const RaceDayPlanBuilderPage = () => {
 
       <div className="flex justify-between desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
         {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
-        <div className="bg-white-dark min-w-[20rem] tablet:w-[30%] hidden tablet:block mr-2">
-          <h1>Race Plan</h1>
-          {planOrder.length === 0 ? (
-            <h2 className="mb-4">
-              Select a component below to start building your race plan!
-            </h2>
-          ) : (
-            <>
-              <h2>Drag-and-drop to change plan order!</h2>
-              <div>
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragEnd={handleDragEnd}
-                  modifiers={[restrictToParentElement, restrictToVerticalAxis]}
-                >
-                  <SortableContext
-                    items={planOrder}
-                    strategy={verticalListSortingStrategy}
+        <section>
+          <div className="bg-white-dark min-w-[20rem] tablet:w-[30%] hidden tablet:block mr-2">
+            <h1>Race Plan</h1>
+            {planOrder.length === 0 ? (
+              <h2 className="mb-4">
+                Select a component below to start building your race plan!
+              </h2>
+            ) : (
+              <>
+                <h2>Drag-and-drop to change plan order!</h2>
+                <div>
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                    modifiers={[
+                      restrictToParentElement,
+                      restrictToVerticalAxis,
+                    ]}
                   >
-                    {planOrder.map((planSection) => {
-                      return (
-                        <RaceOrderItem
-                          key={planSection.id}
-                          id={planSection.id}
-                          section={planSection.section}
-                          setPlanOrder={setPlanOrder}
-                        />
-                      );
-                    })}
-                  </SortableContext>
-                </DndContext>
-              </div>
-            </>
-          )}
+                    <SortableContext
+                      items={planOrder}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {planOrder.map((planSection) => {
+                        return (
+                          <RaceOrderItem
+                            key={planSection.id}
+                            id={planSection.id}
+                            section={planSection.section}
+                            setPlanOrder={setPlanOrder}
+                          />
+                        );
+                      })}
+                    </SortableContext>
+                  </DndContext>
+                </div>
+              </>
+            )}
 
-          {/* <h1>Plan Sections</h1> */}
-          <h2 className="mt-4">Click a section below to add to your plan!</h2>
+            {/* <h1>Plan Sections</h1> */}
+            <h2 className="mt-4">Click a section below to add to your plan!</h2>
 
-          {/* Plan Components */}
-          <div className="flex flex-col">
-            {planSections.map((planSection, index) => {
-              return (
-                <RaceSectionItem
-                  key={index}
-                  section={planSection}
-                  setPlanOrder={setPlanOrder}
-                />
-              );
-            })}
+            {/* Plan Components */}
+            <div className="flex flex-col">
+              {planSections.map((planSection, index) => {
+                return (
+                  <RaceSectionItem
+                    key={index}
+                    section={planSection}
+                    setPlanOrder={setPlanOrder}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* Plan Section - Viewable/Editable components */}
         <div className="bg-red-light w-full">
