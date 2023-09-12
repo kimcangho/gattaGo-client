@@ -16,11 +16,12 @@ import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField"
 import EmptyAthlete from "../components/EmptyAthlete";
 import LoadingSpinner from "../components/LoadingSpinner";
 import userIcon from "../assets/icons/user-filled.svg";
+import DeleteModal from "../components/DeleteModal";
 
 const RosterPage = (): JSX.Element => {
   const { userId, teamId } = useParams<string>();
   const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
-
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [roster, setRoster] = useState<RosterData[]>([]);
   const [sortableRoster, setSortableRoster] = useState<RosterData[]>([]);
   const [isNameOrderDesc, setIsNameOrderDesc] = useState<boolean>(false);
@@ -29,6 +30,11 @@ const RosterPage = (): JSX.Element => {
     useState<boolean>(false);
   const [filterFlags, setFilterFlags] = useState<any>(filterFlagsObj);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [athleteName, setAthleteName] = useState<string>("");
+  const [athleteId, setAthleteId] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
+
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -535,7 +541,6 @@ const RosterPage = (): JSX.Element => {
                         athleteId={paddler.athleteId}
                         athlete={paddler.athlete}
                         width={width}
-                        deleteAthlete={deleteAthlete}
                         editAthlete={editAthlete}
                         currentTeamDetails={currentTeamDetails}
                         isWomenIneligible={
@@ -544,12 +549,26 @@ const RosterPage = (): JSX.Element => {
                             ? true
                             : false
                         }
+                        setShowModal={setShowModal}
+                        setAthleteName={setAthleteName}
+                        setAthleteId={setAthleteId}
                       />
                     </motion.div>
                   );
                 })}
               </div>
             </motion.div>
+          )}
+          {showModal && (
+            <DeleteModal
+              entityType="athlete"
+              entityName={athleteName}
+              entityId={athleteId}
+              setShowModal={setShowModal}
+              handleDeleteAthlete={deleteAthlete}
+              isSending={isSending}
+              setIsSending={setIsSending}
+            />
           )}
         </>
       )}

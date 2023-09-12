@@ -14,13 +14,11 @@ import notesFilledIcon from "../assets/icons/notes-filled.svg";
 import notesUnfilledIcon from "../assets/icons/notes-unfilled.svg";
 import skillsFilledIcon from "../assets/icons/skills-filled.svg";
 import skillsUnfilledIcon from "../assets/icons/skills-unfilled.svg";
-import DeleteModal from "./DeleteModal";
 import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
 
 interface RosterItemProps {
   athleteId: string;
   editAthlete: any;
-  deleteAthlete: any;
   width: number | undefined;
   athlete: any;
   currentTeamDetails: {
@@ -29,15 +27,22 @@ interface RosterItemProps {
     division?: string;
   };
   isWomenIneligible: boolean;
+  setShowModal: any;
+  setAthleteName: any;
+  setAthleteId: any;
 }
 
 const RosterItem = ({
   athleteId,
   athlete,
   width,
-  deleteAthlete,
+  // deleteAthlete,
   editAthlete,
   isWomenIneligible,
+  // showModal,
+  setShowModal,
+  setAthleteName,
+  setAthleteId,
 }: RosterItemProps): JSX.Element => {
   const [isNotesVisible, setIsNotesVisible] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -45,7 +50,6 @@ const RosterItem = ({
   const [isSkillsHovering, setIsSkillsHovering] = useState<boolean>(true);
   const [isEditHovering, setIsEditHovering] = useState<boolean>(false);
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleToggleNotes = () => {
     setIsNotesVisible((isNotesVisible) => !isNotesVisible);
@@ -65,16 +69,12 @@ const RosterItem = ({
     setIsDeleteHovering((prev) => !prev);
   };
 
-  const handleDeleteAthlete = async (athleteId: string) => {
-    if (isSending) return;
-    setIsSending(true);
-    await deleteAthlete(athleteId);
-  };
-
   const handleModalVisibility = async () => {
     if (isSending) return;
     console.log(athlete);
-    setShowModal((prev) => !prev);
+    setAthleteName(`${athlete.firstName} ${athlete.lastName}`);
+    setAthleteId(athleteId);
+    setShowModal((prev: boolean) => !prev);
   };
 
   const handleEditAthlete = async (athleteId: string) => {
@@ -273,19 +273,17 @@ const RosterItem = ({
               </div>
             </div>
           </article>
-          {showModal && (
+          {/* {showModal && (
             <DeleteModal
               entityType="athlete"
               entityName={`${athlete.firstName} ${athlete.lastName}`}
               entityId={athlete.id}
               setShowModal={setShowModal}
-              // entityArray={myTeams}
-              // setEntityArray={setMyTeams}
               handleDeleteAthlete={handleDeleteAthlete}
               isSending={isSending}
               setIsSending={setIsSending}
             />
-          )}
+          )} */}
         </>
       )}
     </>
