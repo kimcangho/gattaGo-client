@@ -52,7 +52,6 @@ const LineupBoatSection = ({
 
   const boatWeight = calculateBoatWeights(activeLineup);
   const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
-
   const handleDragStart = (event: DragStartEvent): void => {
     if (isSaving || isDeleting || isFetching) return;
     const { active } = event;

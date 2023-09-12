@@ -5,10 +5,19 @@ import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
 import EmptyRaceDay from "../components/EmptyRaceDay";
+import RaceSectionItem from "../components/RaceSectionItem";
+import RaceOrderItem from "../components/RaceOrderItem";
+
+interface PlanOrderData {
+  id: string;
+  section: string;
+}
 
 const RaceDayPlanBuilderPage = () => {
-  const [_planTemplate, _setPlanTemplate] = useState<string[]>([]);
+  const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]); //  Sidebar plan order
   const { width } = useWindowSize();
+
+  const planSections = ["Regatta", "Weather", "Map", "Event", "Lineup", "Note"];
 
   return (
     <div className="w-full">
@@ -55,26 +64,44 @@ const RaceDayPlanBuilderPage = () => {
 
       <div className="flex justify-between desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
         {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
-        <div className="bg-white-dark w-[30%] hidden tablet:block">
-          <h1 className="m-4">Components</h1>
-          <h2 className="mx-4">
-            Build your plan by selecting components below!
-          </h2>
-
-          {/* Components */}
-          <div className="flex flex-col w-full">
-            {["Regatta", "Weather", "Map", "Event", "Lineup", "Note"].map(
-              (component, index) => {
+        <div className="bg-white-dark min-w-[20rem] tablet:w-[30%] hidden tablet:block">
+          <h1>Race Plan</h1>
+          {planOrder.length === 0 ? (
+            <h2 className="mb-4">
+              Select a component below to start building your race plan!
+            </h2>
+          ) : (
+            <>
+              {/* <h2>
+                Drag-and-drop to change plan order!
+              </h2> */}
+              {planOrder.map((planSection) => {
                 return (
-                  <div
-                    key={index}
-                    className="flex justify-between mx-4 px-2 border border-black my-1"
-                  >
-                    <h2>{component}</h2>
-                  </div>
+                  <RaceOrderItem
+                    key={planSection.id}
+                    id={planSection.id}
+                    section={planSection.section}
+                    setPlanOrder={setPlanOrder}
+                  />
                 );
-              }
-            )}
+              })}
+            </>
+          )}
+
+          {/* <h1>Plan Sections</h1> */}
+          <h2 className="mt-4">Click a section below to add to your plan!</h2>
+
+          {/* Plan Components */}
+          <div className="flex flex-col">
+            {planSections.map((planSection, index) => {
+              return (
+                <RaceSectionItem
+                  key={index}
+                  section={planSection}
+                  setPlanOrder={setPlanOrder}
+                />
+              );
+            })}
           </div>
         </div>
 
