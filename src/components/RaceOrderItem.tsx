@@ -2,7 +2,6 @@ import verticalDragIcon from "../assets/icons/vert-drag.svg";
 import deleteIcon from "../assets/icons/delete.svg";
 import deleteFilledIcon from "../assets/icons/delete-entity.svg";
 import { useState } from "react";
-
 interface PlanOrderData {
   id: string;
   section: string;
