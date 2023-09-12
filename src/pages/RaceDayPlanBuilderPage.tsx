@@ -1,4 +1,22 @@
 import { useState } from "react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from "@dnd-kit/modifiers";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import useWindowSize from "../hooks/useWindowSize";
 import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
@@ -14,10 +32,28 @@ interface PlanOrderData {
 }
 
 const RaceDayPlanBuilderPage = () => {
-  const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]); //  Sidebar plan order
+  const planSections = ["Regatta", "Weather", "Map", "Event", "Lineup", "Note"];
+  const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const { width } = useWindowSize();
 
-  const planSections = ["Regatta", "Weather", "Map", "Event", "Lineup", "Note"];
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setPlanOrder((items) => {
+        const oldIndex = items.map((item) => item.id).indexOf(active.id);
+        const newIndex = items.map((item) => item.id).indexOf(over.id);
+        return [...arrayMove(items, oldIndex, newIndex)];
+      });
+    }
+  };
 
   return (
     <div className="w-full">
@@ -72,19 +108,31 @@ const RaceDayPlanBuilderPage = () => {
             </h2>
           ) : (
             <>
-              {/* <h2>
-                Drag-and-drop to change plan order!
-              </h2> */}
-              {planOrder.map((planSection) => {
-                return (
-                  <RaceOrderItem
-                    key={planSection.id}
-                    id={planSection.id}
-                    section={planSection.section}
-                    setPlanOrder={setPlanOrder}
-                  />
-                );
-              })}
+              <h2>Drag-and-drop to change plan order!</h2>
+              <div>
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleDragEnd}
+                  modifiers={[restrictToParentElement, restrictToVerticalAxis]}
+                >
+                  <SortableContext
+                    items={planOrder}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {planOrder.map((planSection) => {
+                      return (
+                        <RaceOrderItem
+                          key={planSection.id}
+                          id={planSection.id}
+                          section={planSection.section}
+                          setPlanOrder={setPlanOrder}
+                        />
+                      );
+                    })}
+                  </SortableContext>
+                </DndContext>
+              </div>
             </>
           )}
 
