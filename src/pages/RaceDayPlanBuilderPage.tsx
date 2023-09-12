@@ -64,7 +64,7 @@ const RaceDayPlanBuilderPage = () => {
 
       <div className="flex justify-between desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
         {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
-        <div className="bg-white-dark min-w-[20rem] tablet:w-[30%] hidden tablet:block">
+        <div className="bg-white-dark min-w-[20rem] tablet:w-[30%] hidden tablet:block mr-2">
           <h1>Race Plan</h1>
           {planOrder.length === 0 ? (
             <h2 className="mb-4">
