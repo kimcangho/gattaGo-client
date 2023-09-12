@@ -18,7 +18,7 @@ const RaceSectionItem = ({ section, setPlanOrder }: RaceSectionItemProps) => {
   return (
     <div
       onClick={handleSetPlanOrder}
-      className="flex justify-center px-2 border border-black rounded my-1 cursor-pointer hover:bg-gray-border"
+      className="flex justify-center px-2 border border-black rounded-md my-1 p-1 cursor-pointer hover:bg-gray-border"
     >
       <h2 className="text-lg">{section}</h2>
     </div>

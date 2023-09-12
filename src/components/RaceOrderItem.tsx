@@ -30,13 +30,13 @@ const RaceOrderItem = ({ id, section, setPlanOrder }: RaceOrderItemProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between px-2 border border-black my-1 rounded-md hover:bg-gray-border">
-      <img src={verticalDragIcon} alt="Delete" className="h-4 cursor-grab" />
+    <div className="flex items-center justify-between px-1 py-1 border border-black my-2 rounded-md hover:bg-gray-border">
+      <img src={verticalDragIcon} alt="Delete" className="h-6 cursor-grab" />
       <h2 className="text-lg">{section}</h2>
       <img
         src={isDeleteHovering ? deleteFilledIcon : deleteIcon}
         alt="Delete"
-        className="h-4 cursor-pointer"
+        className="h-6 cursor-pointer"
         onClick={handleDeleteOrderItem}
         onMouseEnter={handleHoverDelete}
         onMouseLeave={handleHoverDelete}
