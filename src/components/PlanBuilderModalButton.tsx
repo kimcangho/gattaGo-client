@@ -45,7 +45,7 @@ PlanBuilderModalButtonProps) => {
           onClick={handleToggleModal}
         >
           {!isModalOpen && (
-            <img src={buildPlanIcon} alt="Roster Icon" className="w-8 inline" />
+            <img src={buildPlanIcon} alt="Plan Icon" className="w-8 inline" />
           )}
           <img
             src={isModalOpen ? chevronIconLeft : chevronIconRight}

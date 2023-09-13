@@ -67,7 +67,7 @@ const RaceDayPlanBuilderPage = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full h-[100%]">
         <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
           <div className="mb-2">
             <h1>Race Day</h1>
@@ -114,7 +114,7 @@ const RaceDayPlanBuilderPage = () => {
         <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-y-scroll h-full">
           {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
           {(isModalOpen || width! >= 768) && (
-            <div className="bg-slate-200 min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 z-30 fixed overflow-auto tablet:static w-[calc(100%-2rem)] border-gray-border border">
+            <div className="bg-slate-200 min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 z-30 overflow-auto fixed tablet:static w-[calc(100%-2rem)] border-gray-border border shadow-md">
               <h1>Race Plan</h1>
               {/* Plan Components */}
               <div className="flex flex-col">
@@ -174,7 +174,7 @@ const RaceDayPlanBuilderPage = () => {
           )}
 
           {/* Plan Section - Viewable/Editable components */}
-          <div className="bg-red-light w-full">
+          <div className="bg-red-light w-full min-h-full">
             {planOrder.length === 0 && <EmptyRaceDay />}
           </div>
         </div>
