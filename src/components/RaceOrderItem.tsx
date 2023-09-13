@@ -13,6 +13,8 @@ interface PlanOrderData {
 interface RegattaSectionData {
   id: string;
   regattaName: string;
+  regattaStartDate: Date;
+  regattasEndDate: Date;
   regattaAddress: string;
   regattaContact: string;
   regattaEmail: string;

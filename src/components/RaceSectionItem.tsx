@@ -5,6 +5,17 @@ interface PlanOrderData {
   section: string;
 }
 
+interface RegattaSectionData {
+  id: string;
+  regattaName: string;
+  regattaStartDate: Date;
+  regattaEndDate: Date;
+  regattaAddress: string;
+  regattaContact: string;
+  regattaEmail: string;
+  regattaPhone: string;
+}
+
 interface RaceSectionItemProps {
   section: string;
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
@@ -19,12 +30,14 @@ const RaceSectionItem = ({
   const handleSetPlanOrder = () => {
     const id = nanoid();
     setPlanOrder((planOrder) => [...planOrder, { id, section }]);
-    setRegattaSectionArr((regattaSections: any) => {
+    setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
       return [
         ...regattaSections,
         {
           id,
           regattaName: "",
+          regattaStartDate: null,
+          regattaEndDate: null,
           regattaAddress: "",
           regattaContact: "",
           regattaEmail: "",

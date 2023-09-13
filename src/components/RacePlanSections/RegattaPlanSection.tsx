@@ -1,8 +1,12 @@
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface RegattaSectionData {
   id: string;
   regattaName: string;
+  regattaStartDate: Date;
+  regattaEndDate: Date;
   regattaAddress: string;
   regattaContact: string;
   regattaEmail: string;
@@ -24,18 +28,21 @@ const RegattaPlanSection = ({
   const [contact, setContact] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const handleSetRegattaSection = () => {
     setRegattaSectionArr((currentArr: RegattaSectionData[]) => {
       const filteredArr = currentArr.filter(
-        (regattaSection) => regattaSection.id !== id
+        (regattaSection: RegattaSectionData) => regattaSection.id !== id
       );
-
       return [
         ...filteredArr,
         {
           id,
           regattaName,
+          regattaStartDate: startDate,
+          regattaEndDate: endDate,
           regattaAddress: address,
           regattaContact: contact,
           regattaEmail: email,
@@ -55,77 +62,118 @@ const RegattaPlanSection = ({
         }}
         className={`bg-inherit text-2xl p-2 ${regattaName ? "text-black" : ""}`}
       />
-      {/* Regatta Details */}
-      <div className="mx-2">
-        <div className="flex flex-col my-2">
-          <label htmlFor="address">
-            <h3 className="text-blue-light">Address</h3>
-          </label>
-          <input
-            placeholder="Type address here"
-            name="address"
-            id="address"
-            value={address}
-            onChange={(event) => {
-              setAddress(event.target.value);
-              handleSetRegattaSection();
-            }}
-            className={`bg-inherit p-2 w-full ${address ? "text-black" : ""}`}
-          />
-        </div>
+      <div className="flex flex-col tablet:flex-row">
+        {/* Regatta Details */}
+        <div className="mx-2 w-full">
+          {/* Start Date */}
+          <div className="flex flex-col my-2 w-[50%] tablet:w-full">
+            <label htmlFor="startDate">
+              <h3 className="text-blue-light">Start Date</h3>
+            </label>
+            <DatePicker
+              isClearable
+              placeholderText="Select Start Date"
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+              name="startDate"
+              id="startDate"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+              className="bg-inherit p-2 w-full text-black"
+            />
+          </div>
 
-        {/* Contact */}
-        <div className="flex flex-col my-2">
-          <label htmlFor="contact">
-            <h3 className="text-blue-light">Contact Name</h3>
-          </label>
-          <input
-            placeholder="Type contact name here"
-            name="contact"
-            id="contact"
-            value={contact}
-            onChange={(event) => {
-              setContact(event.target.value);
-              handleSetRegattaSection();
-            }}
-            className={`bg-inherit p-2 w-full ${contact ? "text-black" : ""}`}
-          />
+          {/* End Date */}
+          <div className="flex flex-col my-2 w-[50%] tablet:w-full">
+            <label htmlFor="endDate">
+              <h3 className="text-blue-light">End Date</h3>
+            </label>
+            <DatePicker
+              isClearable
+              placeholderText="Select End Date"
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+              name="endDate"
+              id="endDate"
+              selected={endDate}
+              onChange={(date: Date) => setEndDate(date)}
+              className="bg-inherit p-2 w-full text-black"
+            />
+          </div>
+          {/* Address */}
+          <div className="flex flex-col my-2">
+            <label htmlFor="address">
+              <h3 className="text-blue-light">Address</h3>
+            </label>
+            <input
+              placeholder="Type address here"
+              name="address"
+              id="address"
+              value={address}
+              onChange={(event) => {
+                setAddress(event.target.value);
+                handleSetRegattaSection();
+              }}
+              className={`bg-inherit p-2 w-full ${address ? "text-black" : ""}`}
+            />
+          </div>
         </div>
+        <div className="mx-2 w-full">
+          {/* Contact */}
+          <div className="flex flex-col my-2">
+            <label htmlFor="contact">
+              <h3 className="text-blue-light">Contact Name</h3>
+            </label>
+            <input
+              placeholder="Type contact name here"
+              name="contact"
+              id="contact"
+              value={contact}
+              onChange={(event) => {
+                setContact(event.target.value);
+                handleSetRegattaSection();
+              }}
+              className={`bg-inherit p-2 w-full ${contact ? "text-black" : ""}`}
+            />
+          </div>
 
-        {/* Email */}
-        <div className="flex flex-col my-2">
-          <label htmlFor="email">
-            <h3 className="text-blue-light">Email Address</h3>
-          </label>
-          <input
-            placeholder="Type email address here"
-            name="email"
-            id="email"
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-              handleSetRegattaSection();
-            }}
-            className={`bg-inherit p-2 w-full ${email ? "text-black" : ""}`}
-          />
-        </div>
+          {/* Email */}
+          <div className="flex flex-col my-2">
+            <label htmlFor="email">
+              <h3 className="text-blue-light">Email Address</h3>
+            </label>
+            <input
+              placeholder="Type email address here"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                handleSetRegattaSection();
+              }}
+              className={`bg-inherit p-2 w-full ${email ? "text-black" : ""}`}
+            />
+          </div>
 
-        {/* Phone Number */}
-        <div className="flex flex-col my-2">
-          <label htmlFor="phone">
-            <h3 className="text-blue-light">Phone Number</h3>
-          </label>
-          <input
-            placeholder="Type phone number here"
-            name="phone"
-            id="phone"
-            value={phone}
-            onChange={(event) => {
-              setPhone(event.target.value);
-              handleSetRegattaSection();
-            }}
-            className={`bg-inherit p-2 w-full ${phone ? "text-black" : ""}`}
-          />
+          {/* Phone Number */}
+          <div className="flex flex-col my-2">
+            <label htmlFor="phone">
+              <h3 className="text-blue-light">Phone Number</h3>
+            </label>
+            <input
+              placeholder="Type phone number here"
+              name="phone"
+              id="phone"
+              value={phone}
+              onChange={(event) => {
+                setPhone(event.target.value);
+                handleSetRegattaSection();
+              }}
+              className={`bg-inherit p-2 w-full ${phone ? "text-black" : ""}`}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -36,6 +36,8 @@ interface PlanOrderData {
 interface RegattaSectionData {
   id: string;
   regattaName: string;
+  regattaStartDate: Date;
+  regattaEndDate: Date;
   regattaAddress: string;
   regattaContact: string;
   regattaEmail: string;
