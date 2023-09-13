@@ -14,13 +14,19 @@ interface PlanViewSectionProps {
 }
 
 const PlanViewSection = ({ planOrder }: PlanViewSectionProps) => {
+
   return (
-    <div>
+    <div className="flex flex-col space-y-4">
       {planOrder.map((planSection: PlanOrderData) => {
         switch (planSection.section) {
           //  Regatta Section
           case "Regatta":
-            return <RegattaPlanSection section={planSection.section} />;
+            return (
+              <RegattaPlanSection
+                id={planSection.id}
+                section={planSection.section}
+              />
+            );
           //  Weather Section - Use External API
           case "Weather":
             return <WeatherPlanSection section={planSection.section} />;
