@@ -105,6 +105,7 @@ const RacePlanPage = () => {
               onClick={() => {
                 if (planOrder.length === 0) return;
                 setPlanOrder([]);
+                setRegattaSectionArr([]);
               }}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
               ${
