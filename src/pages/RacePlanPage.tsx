@@ -21,7 +21,7 @@ import useWindowSize from "../hooks/useWindowSize";
 import RaceSectionItem from "../components/RaceSectionItem";
 import RaceOrderItem from "../components/RaceOrderItem";
 import PlanBuilderModalButton from "../components/PlanBuilderModalButton";
-import EmptyRaceDay from "../components/EmptyRaceDay";
+import EmptyRacePlan from "../components/EmptyRacePlan";
 import PlanViewSection from "../components/PlanViewSection";
 import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
@@ -206,7 +206,7 @@ const RacePlanPage = () => {
           {/* Plan Section - Viewable/Editable components */}
           <div className="bg-red-light w-full min-h-full">
             {planOrder.length === 0 ? (
-              <EmptyRaceDay />
+              <EmptyRacePlan />
             ) : (
               <PlanViewSection planOrder={planOrder} />
             )}
