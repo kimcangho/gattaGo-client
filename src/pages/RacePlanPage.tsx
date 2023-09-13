@@ -161,6 +161,7 @@ const RacePlanPage = () => {
                         key={index}
                         section={planSection}
                         setPlanOrder={setPlanOrder}
+                        setRegattaSectionArr={setRegattaSectionArr}
                       />
                     );
                   })}

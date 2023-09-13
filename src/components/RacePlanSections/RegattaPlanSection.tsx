@@ -27,41 +27,21 @@ const RegattaPlanSection = ({
 
   const handleSetRegattaSection = () => {
     setRegattaSectionArr((currentArr: RegattaSectionData[]) => {
-      let newArr = [];
-      const foundRegattaSection = currentArr.find(
-        (regattaSection) => regattaSection.id === id
+      const filteredArr = currentArr.filter(
+        (regattaSection) => regattaSection.id !== id
       );
-      if (foundRegattaSection) {
-        const filteredArr = currentArr.filter(
-          (regattaSection) => regattaSection.id !== id
-        );
 
-        newArr = [
-          ...filteredArr,
-          {
-            id,
-            regattaName,
-            regattaAddress: address,
-            regattaContact: contact,
-            regattaEmail: email,
-            regattaPhone: phone,
-          },
-        ];
-      } else {
-        newArr = [
-          ...currentArr,
-          {
-            id,
-            regattaName,
-            regattaAddress: address,
-            regattaContact: contact,
-            regattaEmail: email,
-            regattaPhone: phone,
-          },
-        ];
-      }
-      console.log(newArr);
-      return newArr;
+      return [
+        ...filteredArr,
+        {
+          id,
+          regattaName,
+          regattaAddress: address,
+          regattaContact: contact,
+          regattaEmail: email,
+          regattaPhone: phone,
+        },
+      ];
     });
   };
 
@@ -142,6 +122,7 @@ const RegattaPlanSection = ({
             value={phone}
             onChange={(event) => {
               setPhone(event.target.value);
+              handleSetRegattaSection();
             }}
             className={`bg-inherit p-2 w-full ${phone ? "text-black" : ""}`}
           />

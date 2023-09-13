@@ -8,11 +8,30 @@ interface PlanOrderData {
 interface RaceSectionItemProps {
   section: string;
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
+  setRegattaSectionArr: Function;
 }
 
-const RaceSectionItem = ({ section, setPlanOrder }: RaceSectionItemProps) => {
+const RaceSectionItem = ({
+  section,
+  setPlanOrder,
+  setRegattaSectionArr,
+}: RaceSectionItemProps) => {
   const handleSetPlanOrder = () => {
-    setPlanOrder((planOrder) => [...planOrder, { id: nanoid(), section }]);
+    const id = nanoid();
+    setPlanOrder((planOrder) => [...planOrder, { id, section }]);
+    setRegattaSectionArr((regattaSections: any) => {
+      return [
+        ...regattaSections,
+        {
+          id,
+          regattaName: "",
+          regattaAddress: "",
+          regattaContact: "",
+          regattaEmail: "",
+          regattaPhone: "",
+        },
+      ];
+    });
   };
 
   return (
