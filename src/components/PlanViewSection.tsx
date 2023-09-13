@@ -1,3 +1,10 @@
+import EventPlanSection from "./RacePlanSections/EventPlanSection";
+import LineupPlanSection from "./RacePlanSections/LineupPlanSection";
+import MapPlanSection from "./RacePlanSections/MapPlanSection";
+import NotesPlanSection from "./RacePlanSections/NotesPlanSection";
+import RegattaPlanSection from "./RacePlanSections/RegattaPlanSection";
+import WeatherPlanSection from "./RacePlanSections/WeatherPlanSection";
+
 interface PlanOrderData {
   id: string;
   section: string;
@@ -13,22 +20,23 @@ const PlanViewSection = ({ planOrder }: PlanViewSectionProps) => {
         switch (planSection.section) {
           //  Regatta Section
           case "Regatta":
-            return <p>{planSection.section} under construction...</p>;
+            return <RegattaPlanSection section={planSection.section} />;
           //  Weather Section - Use External API
           case "Weather":
-            return <p>{planSection.section} under construction...</p>;
+            return <WeatherPlanSection section={planSection.section} />;
           //  Map Section - Use External API
           case "Map":
-            return <p>{planSection.section} under construction...</p>;
+            return <MapPlanSection section={planSection.section} />;
           //  Event Section
           case "Event":
-            return <p>{planSection.section} under construction...</p>;
+            return <EventPlanSection section={planSection.section} />;
           //  Lineup Section
           case "Lineup":
-            return <p>{planSection.section} under construction...</p>;
+            return <LineupPlanSection section={planSection.section} />;
           //  Notes Section
           case "Notes":
-            return <p>{planSection.section} under construction...</p>;
+            return <NotesPlanSection section={planSection.section} />;
+          //  Escape Hatch
           default:
             break;
         }
