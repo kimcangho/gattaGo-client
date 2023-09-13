@@ -92,9 +92,15 @@ const RacePlanPage = () => {
             {/* Clear Plan Button  */}
             <div
               onClick={() => {
+                if (planOrder.length === 0) return;
                 setPlanOrder([]);
               }}
-              className="flex items-center bg-orange-light text-white p-1 midMobile:p-2 rounded border hover:bg-orange-dark cursor-pointer"
+              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
+              ${
+                planOrder.length === 0
+                  ? "bg-gray-border cursor-not-allowed"
+                  : "bg-orange-light hover:bg-orange-dark cursor-pointer"
+              }`}
             >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Clear {width! >= 1280 && "Plan"}</p>
