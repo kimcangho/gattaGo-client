@@ -114,7 +114,7 @@ const RaceDayPlanBuilderPage = () => {
         <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-y-scroll h-full">
           {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
           {(isModalOpen || width! >= 768) && (
-            <div className="bg-slate-200 min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 z-30 overflow-auto fixed tablet:static w-[calc(100%-2rem)] border-gray-border border shadow-md">
+            <div className="bg-slate-200 midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 z-30 overflow-auto fixed tablet:static w-[calc(100%-2rem)] border-gray-border border shadow-md">
               <h1>Race Plan</h1>
               {/* Plan Components */}
               <div className="flex flex-col">
@@ -171,6 +171,20 @@ const RaceDayPlanBuilderPage = () => {
                 </>
               )}
             </div>
+          )}
+
+          {/* Modal Overlay */}
+          {isModalOpen && (
+            <div
+              className={`${
+                width! < 768
+                  ? "bg-black opacity-20 fixed top-0 left-0 w-screen h-screen"
+                  : ""
+              }`}
+              onClick={() => {
+                setIsModalOpen(false);
+              }}
+            ></div>
           )}
 
           {/* Plan Section - Viewable/Editable components */}
