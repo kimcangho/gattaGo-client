@@ -18,16 +18,15 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import useWindowSize from "../hooks/useWindowSize";
+import RaceSectionItem from "../components/RaceSectionItem";
+import RaceOrderItem from "../components/RaceOrderItem";
+import PlanBuilderModalButton from "../components/PlanBuilderModalButton";
+import EmptyRaceDay from "../components/EmptyRaceDay";
+import PlanViewSection from "../components/PlanViewSection";
 import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
-import EmptyRaceDay from "../components/EmptyRaceDay";
-import RaceSectionItem from "../components/RaceSectionItem";
-import RaceOrderItem from "../components/RaceOrderItem";
-
-//  Modal Button
-import PlanBuilderModalButton from "../components/PlanBuilderModalButton";
 
 interface PlanOrderData {
   id: string;
@@ -35,7 +34,14 @@ interface PlanOrderData {
 }
 
 const RacePlanPage = () => {
-  const planSections = ["Regatta", "Weather", "Map", "Event", "Lineup", "Note"];
+  const planSections = [
+    "Regatta",
+    "Weather",
+    "Map",
+    "Event",
+    "Lineup",
+    "Notes",
+  ];
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { width } = useWindowSize();
@@ -84,7 +90,12 @@ const RacePlanPage = () => {
             </div>
 
             {/* Clear Plan Button  */}
-            <div className="flex items-center bg-orange-light text-white p-1 midMobile:p-2 rounded border hover:bg-orange-dark cursor-pointer">
+            <div
+              onClick={() => {
+                setPlanOrder([]);
+              }}
+              className="flex items-center bg-orange-light text-white p-1 midMobile:p-2 rounded border hover:bg-orange-dark cursor-pointer"
+            >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Clear {width! >= 1280 && "Plan"}</p>
               )}
@@ -194,7 +205,11 @@ const RacePlanPage = () => {
 
           {/* Plan Section - Viewable/Editable components */}
           <div className="bg-red-light w-full min-h-full">
-            {planOrder.length === 0 && <EmptyRaceDay />}
+            {planOrder.length === 0 ? (
+              <EmptyRaceDay />
+            ) : (
+              <PlanViewSection planOrder={planOrder} />
+            )}
           </div>
         </div>
       </div>
