@@ -1,5 +1,6 @@
 interface EventPlanSectionProps {
   section: string;
+  id: string;
 }
 
 const EventPlanSection = ({ section }: EventPlanSectionProps) => {

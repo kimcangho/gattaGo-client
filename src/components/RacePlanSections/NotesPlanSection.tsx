@@ -1,5 +1,6 @@
 interface NotesPlanSectionProps {
   section: string;
+  id: string;
 }
 
 const NotesPlanSection = ({ section }: NotesPlanSectionProps) => {

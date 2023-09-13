@@ -1,23 +1,77 @@
 import { useState } from "react";
 
+interface RegattaSectionData {
+  id: string;
+  regattaName: string;
+  regattaAddress: string;
+  regattaContact: string;
+  regattaEmail: string;
+  regattaPhone: string;
+}
+
 interface RegattaPlanSectionProps {
   id: string;
   section: string;
+  setRegattaSectionArr: Function;
 }
 
-const RegattaPlanSection = ({}: RegattaPlanSectionProps) => {
+const RegattaPlanSection = ({
+  id,
+  setRegattaSectionArr,
+}: RegattaPlanSectionProps) => {
   const [regattaName, setRegattaName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
 
+  const handleSetRegattaSection = () => {
+    setRegattaSectionArr((currentArr: RegattaSectionData[]) => {
+      let newArr = [];
+      const foundRegattaSection = currentArr.find(
+        (regattaSection) => regattaSection.id === id
+      );
+      if (foundRegattaSection) {
+        const filteredArr = currentArr.filter(
+          (regattaSection) => regattaSection.id !== id
+        );
+
+        newArr = [
+          ...filteredArr,
+          {
+            id,
+            regattaName,
+            regattaAddress: address,
+            regattaContact: contact,
+            regattaEmail: email,
+            regattaPhone: phone,
+          },
+        ];
+      } else {
+        newArr = [
+          ...currentArr,
+          {
+            id,
+            regattaName,
+            regattaAddress: address,
+            regattaContact: contact,
+            regattaEmail: email,
+            regattaPhone: phone,
+          },
+        ];
+      }
+      console.log(newArr);
+      return newArr;
+    });
+  };
+
   return (
     <div className="flex flex-col border border-black rounded-md p-2">
       <input
-        placeholder={!regattaName ? "Type Regatta Name Here" : regattaName}
+        placeholder="Type regatta name here"
         onChange={(event) => {
           setRegattaName(event.target.value);
+          handleSetRegattaSection();
         }}
         className={`bg-inherit text-2xl p-2 ${regattaName ? "text-black" : ""}`}
       />
@@ -34,6 +88,7 @@ const RegattaPlanSection = ({}: RegattaPlanSectionProps) => {
             value={address}
             onChange={(event) => {
               setAddress(event.target.value);
+              handleSetRegattaSection();
             }}
             className={`bg-inherit p-2 w-full ${address ? "text-black" : ""}`}
           />
@@ -51,6 +106,7 @@ const RegattaPlanSection = ({}: RegattaPlanSectionProps) => {
             value={contact}
             onChange={(event) => {
               setContact(event.target.value);
+              handleSetRegattaSection();
             }}
             className={`bg-inherit p-2 w-full ${contact ? "text-black" : ""}`}
           />
@@ -68,6 +124,7 @@ const RegattaPlanSection = ({}: RegattaPlanSectionProps) => {
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
+              handleSetRegattaSection();
             }}
             className={`bg-inherit p-2 w-full ${email ? "text-black" : ""}`}
           />

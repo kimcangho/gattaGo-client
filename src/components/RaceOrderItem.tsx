@@ -1,24 +1,37 @@
+import { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import verticalDragIcon from "../assets/icons/vert-drag.svg";
 import deleteIcon from "../assets/icons/delete.svg";
 import deleteFilledIcon from "../assets/icons/delete-entity.svg";
-import { useState } from "react";
-
-//  dnd-kit
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 
 interface PlanOrderData {
   id: string;
   section: string;
 }
 
+interface RegattaSectionData {
+  id: string;
+  regattaName: string;
+  regattaAddress: string;
+  regattaContact: string;
+  regattaEmail: string;
+  regattaPhone: string;
+}
+
 interface RaceOrderItemProps {
   id: string;
   section: string;
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
+  setRegattaSectionArr: Function;
 }
 
-const RaceOrderItem = ({ id, section, setPlanOrder }: RaceOrderItemProps) => {
+const RaceOrderItem = ({
+  id,
+  section,
+  setPlanOrder,
+  setRegattaSectionArr,
+}: RaceOrderItemProps) => {
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -34,6 +47,11 @@ const RaceOrderItem = ({ id, section, setPlanOrder }: RaceOrderItemProps) => {
         return item.id !== id;
       })
     );
+    setRegattaSectionArr((prevArr: RegattaSectionData[]) => {
+      return prevArr.filter((item: RegattaSectionData) => {
+        return item.id !== id;
+      });
+    });
   };
 
   const handleHoverDelete = () => {

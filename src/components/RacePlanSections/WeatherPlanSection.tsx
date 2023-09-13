@@ -1,4 +1,5 @@
 interface WeatherPlanSectionProps {
+  id: string;
   section: string;
 }
 

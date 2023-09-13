@@ -33,6 +33,15 @@ interface PlanOrderData {
   section: string;
 }
 
+interface RegattaSectionData {
+  id: string;
+  regattaName: string;
+  regattaAddress: string;
+  regattaContact: string;
+  regattaEmail: string;
+  regattaPhone: string;
+}
+
 const RacePlanPage = () => {
   const planSections = [
     "Regatta",
@@ -42,9 +51,12 @@ const RacePlanPage = () => {
     "Lineup",
     "Notes",
   ];
+  const { width } = useWindowSize();
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { width } = useWindowSize();
+  const [_regattaSectionArr, setRegattaSectionArr] = useState<
+    RegattaSectionData | []
+  >([]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -65,7 +77,6 @@ const RacePlanPage = () => {
     }
   };
 
-  // Modal Toggle
   const handleToggleModal = () => {
     // if (isSaving || isDeleting || isFetching) return;
     setIsModalOpen((prev) => !prev);
@@ -184,6 +195,7 @@ const RacePlanPage = () => {
                               id={planSection.id}
                               section={planSection.section}
                               setPlanOrder={setPlanOrder}
+                              setRegattaSectionArr={setRegattaSectionArr}
                             />
                           );
                         })}
@@ -214,7 +226,10 @@ const RacePlanPage = () => {
             {planOrder.length === 0 ? (
               <EmptyRacePlan />
             ) : (
-              <PlanViewSection planOrder={planOrder} />
+              <PlanViewSection
+                planOrder={planOrder}
+                setRegattaSectionArr={setRegattaSectionArr}
+              />
             )}
           </div>
         </div>

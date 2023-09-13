@@ -1,5 +1,6 @@
 interface MapPlanSectionProps {
   section: string;
+  id: string;
 }
 
 const MapPlanSection = ({ section }: MapPlanSectionProps) => {

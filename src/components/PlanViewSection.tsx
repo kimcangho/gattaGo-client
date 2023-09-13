@@ -1,3 +1,4 @@
+// import { useState } from "react";
 import EventPlanSection from "./RacePlanSections/EventPlanSection";
 import LineupPlanSection from "./RacePlanSections/LineupPlanSection";
 import MapPlanSection from "./RacePlanSections/MapPlanSection";
@@ -9,12 +10,16 @@ interface PlanOrderData {
   id: string;
   section: string;
 }
+
 interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
+  setRegattaSectionArr: Function;
 }
 
-const PlanViewSection = ({ planOrder }: PlanViewSectionProps) => {
-
+const PlanViewSection = ({
+  planOrder,
+  setRegattaSectionArr,
+}: PlanViewSectionProps) => {
   return (
     <div className="flex flex-col space-y-4">
       {planOrder.map((planSection: PlanOrderData) => {
@@ -23,25 +28,57 @@ const PlanViewSection = ({ planOrder }: PlanViewSectionProps) => {
           case "Regatta":
             return (
               <RegattaPlanSection
+                key={planSection.id}
                 id={planSection.id}
                 section={planSection.section}
+                setRegattaSectionArr={setRegattaSectionArr}
               />
             );
           //  Weather Section - Use External API
           case "Weather":
-            return <WeatherPlanSection section={planSection.section} />;
+            return (
+              <WeatherPlanSection
+                key={planSection.id}
+                id={planSection.id}
+                section={planSection.section}
+              />
+            );
           //  Map Section - Use External API
           case "Map":
-            return <MapPlanSection section={planSection.section} />;
+            return (
+              <MapPlanSection
+                key={planSection.id}
+                id={planSection.id}
+                section={planSection.section}
+              />
+            );
           //  Event Section
           case "Event":
-            return <EventPlanSection section={planSection.section} />;
+            return (
+              <EventPlanSection
+                key={planSection.id}
+                id={planSection.id}
+                section={planSection.section}
+              />
+            );
           //  Lineup Section
           case "Lineup":
-            return <LineupPlanSection section={planSection.section} />;
+            return (
+              <LineupPlanSection
+                key={planSection.id}
+                id={planSection.id}
+                section={planSection.section}
+              />
+            );
           //  Notes Section
           case "Notes":
-            return <NotesPlanSection section={planSection.section} />;
+            return (
+              <NotesPlanSection
+                key={planSection.id}
+                id={planSection.id}
+                section={planSection.section}
+              />
+            );
           //  Escape Hatch
           default:
             break;

@@ -1,5 +1,6 @@
 interface LineupPlanSectionProps {
   section: string;
+  id: string;
 }
 
 const LineupPlanSection = ({ section }: LineupPlanSectionProps) => {
