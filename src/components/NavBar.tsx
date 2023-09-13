@@ -42,7 +42,7 @@ const NavBar = ({ userId, teamId }: NavBarProps) => {
         className="flex flex-col items-center text-center p-2 tablet:p-4 bg-blue-light hover:bg-blue-dark w-[25%] rounded-br-xl border-l border-blue-dark"
       >
         <img src={calendarIcon} alt="Race day" className="w-6 tablet:w-8" />
-        {width! >= 448 && <p className="tablet:text-xl">Race Day</p>}
+        {width! >= 448 && <p className="tablet:text-xl">Race Plans</p>}
       </NavLink>
     </div>
   );

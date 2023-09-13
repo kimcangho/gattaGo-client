@@ -18,7 +18,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CreateNewAthletePage from "./pages/CreateNewAthletePage";
 import EditAthletePage from "./pages/EditAthletePage";
-import RaceDayPlanBuilderPage from "./pages/RaceDayPlanBuilderPage";
+import RacePlanPage from "./pages/RacePlanPage";
 
 const App = (): JSX.Element => {
   return (
@@ -73,7 +73,7 @@ const App = (): JSX.Element => {
               {/* Race Day Page */}
               <Route
                 path="/:userId/race_day_plan/:teamId"
-                element={<RaceDayPlanBuilderPage />}
+                element={<RacePlanPage />}
               />
             </Route>
           </Route>

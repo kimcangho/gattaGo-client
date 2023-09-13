@@ -34,7 +34,7 @@ interface PlanOrderData {
   section: string;
 }
 
-const RaceDayPlanBuilderPage = () => {
+const RacePlanPage = () => {
   const planSections = ["Regatta", "Weather", "Map", "Event", "Lineup", "Note"];
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -70,7 +70,7 @@ const RaceDayPlanBuilderPage = () => {
       <div className="w-full h-[100%]">
         <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
           <div className="mb-2">
-            <h1>Race Day</h1>
+            <h1>Race Plans</h1>
             {/* Hardcoded plan number */}
             <p className="text-black">{`Total: 0 Plans`}</p>
           </div>
@@ -111,14 +111,17 @@ const RaceDayPlanBuilderPage = () => {
           </div>
         </div>
 
-        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-y-scroll h-full">
+        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full">
           {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
           {(isModalOpen || width! >= 768) && (
-            <div className="bg-slate-200 midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 z-30 overflow-auto fixed tablet:static w-[calc(100%-2rem)] border-gray-border border shadow-md">
-              <h1>Race Plan</h1>
+            <div className="bg-slate-200 midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] border-gray-border border shadow-md">
+              <h1>Plan Builder</h1>
+              <h2 className="">
+                {planOrder.length} Section{planOrder.length !== 1 && "s"}
+              </h2>
               {/* Plan Components */}
               <div className="flex flex-col">
-                <h2 className="mt-4">
+                <h2 className="mt-4 mb-1 text-center">
                   Click a section below to add to your plan!
                 </h2>
 
@@ -135,12 +138,14 @@ const RaceDayPlanBuilderPage = () => {
                 </div>
               </div>
               {planOrder.length === 0 ? (
-                <h2 className="mb-4">
+                <h2 className="my-4 text-center">
                   Select a component above to start building your race plan!
                 </h2>
               ) : (
                 <>
-                  <h2 className="mt-4">Drag-and-drop to change plan order!</h2>
+                  <h2 className="mt-4 text-center">
+                    Drag-and-drop to change plan order!
+                  </h2>
                   <div className="overflow-auto">
                     <DndContext
                       sensors={sensors}
@@ -206,4 +211,4 @@ const RaceDayPlanBuilderPage = () => {
   );
 };
 
-export default RaceDayPlanBuilderPage;
+export default RacePlanPage;
