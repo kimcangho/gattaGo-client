@@ -26,7 +26,7 @@ const PlanViewSection = ({
     <div className="flex flex-col space-y-4">
       {planOrder.map((planSection: PlanOrderData) => {
         switch (planSection.section) {
-          //  Regatta Section
+          //  Regatta Section - OK
           case "Regatta":
             return (
               <RegattaPlanSection
@@ -72,7 +72,7 @@ const PlanViewSection = ({
                 section={planSection.section}
               />
             );
-          //  Notes Section
+          //  Notes Section - OK
           case "Notes":
             return (
               <NotesPlanSection
@@ -81,7 +81,6 @@ const PlanViewSection = ({
                 setNotesSectionArr={setNotesSectionArr}
               />
             );
-          //  Escape Hatch
           default:
             break;
         }

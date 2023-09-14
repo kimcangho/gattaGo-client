@@ -34,10 +34,9 @@ const RaceSectionItem = ({
   setRegattaSectionArr,
   setNotesSectionArr,
 }: RaceSectionItemProps) => {
-  //  Refactor with switch statement for multiple section types
   const handleSetPlanOrder = () => {
     const id = nanoid();
-    console.log(section)
+    console.log(section);
     setPlanOrder((planOrder) => [...planOrder, { id, section }]);
 
     switch (section) {
@@ -73,21 +72,6 @@ const RaceSectionItem = ({
       default:
         break;
     }
-    // setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
-    //   return [
-    //     ...regattaSections,
-    //     {
-    //       id,
-    //       regattaName: "",
-    //       regattaStartDate: null,
-    //       regattaEndDate: null,
-    //       regattaAddress: "",
-    //       regattaContact: "",
-    //       regattaEmail: "",
-    //       regattaPhone: "",
-    //     },
-    //   ];
-    // });
   };
 
   return (
