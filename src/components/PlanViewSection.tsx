@@ -14,11 +14,13 @@ interface PlanOrderData {
 interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
   setRegattaSectionArr: Function;
+  setNotesSectionArr: Function;
 }
 
 const PlanViewSection = ({
   planOrder,
   setRegattaSectionArr,
+  setNotesSectionArr,
 }: PlanViewSectionProps) => {
   return (
     <div className="flex flex-col space-y-4">
@@ -76,7 +78,7 @@ const PlanViewSection = ({
               <NotesPlanSection
                 key={planSection.id}
                 id={planSection.id}
-                section={planSection.section}
+                setNotesSectionArr={setNotesSectionArr}
               />
             );
           //  Escape Hatch

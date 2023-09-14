@@ -44,6 +44,11 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface NotesSectionData {
+  id: string;
+  notes: string;
+}
+
 const RacePlanPage = () => {
   const planSections = [
     "Regatta",
@@ -57,7 +62,10 @@ const RacePlanPage = () => {
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [_regattaSectionArr, setRegattaSectionArr] = useState<
-    RegattaSectionData | []
+    RegattaSectionData[] | []
+  >([]);
+  const [_notesSectionArr, setNotesSectionArr] = useState<
+    NotesSectionData | []
   >([]);
 
   const sensors = useSensors(
@@ -108,6 +116,7 @@ const RacePlanPage = () => {
                 if (planOrder.length === 0) return;
                 setPlanOrder([]);
                 setRegattaSectionArr([]);
+                setNotesSectionArr([]);
               }}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
               ${
@@ -164,6 +173,7 @@ const RacePlanPage = () => {
                         section={planSection}
                         setPlanOrder={setPlanOrder}
                         setRegattaSectionArr={setRegattaSectionArr}
+                        setNotesSectionArr={setNotesSectionArr}
                       />
                     );
                   })}
@@ -198,8 +208,10 @@ const RacePlanPage = () => {
                               key={planSection.id}
                               id={planSection.id}
                               section={planSection.section}
+                              planOrder={planOrder}
                               setPlanOrder={setPlanOrder}
                               setRegattaSectionArr={setRegattaSectionArr}
+                              setNotesSectionArr={setNotesSectionArr}
                             />
                           );
                         })}
@@ -233,6 +245,7 @@ const RacePlanPage = () => {
               <PlanViewSection
                 planOrder={planOrder}
                 setRegattaSectionArr={setRegattaSectionArr}
+                setNotesSectionArr={setNotesSectionArr}
               />
             )}
           </div>

@@ -21,18 +21,27 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface NotesSectionData {
+  id: string;
+  notes: string;
+}
+
 interface RaceOrderItemProps {
   id: string;
   section: string;
+  planOrder: PlanOrderData[];
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
   setRegattaSectionArr: Function;
+  setNotesSectionArr: Function;
 }
 
 const RaceOrderItem = ({
   id,
   section,
+  planOrder,
   setPlanOrder,
   setRegattaSectionArr,
+  setNotesSectionArr,
 }: RaceOrderItemProps) => {
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
 
@@ -43,17 +52,39 @@ const RaceOrderItem = ({
     transition,
   };
 
-  const handleDeleteOrderItem = () => {
+  const handleDeleteOrderItem = async () => {
+    const foundSectionType = planOrder.find((plan: PlanOrderData) => {
+      return plan.id === id;
+    });
+
     setPlanOrder((prevOrder) =>
       prevOrder.filter((item) => {
         return item.id !== id;
       })
     );
-    setRegattaSectionArr((prevArr: RegattaSectionData[]) => {
-      return prevArr.filter((item: RegattaSectionData) => {
-        return item.id !== id;
-      });
-    });
+
+    switch (foundSectionType?.section) {
+      case "Regatta":
+        //  Regattas
+        setRegattaSectionArr((prevArr: RegattaSectionData[]) => {
+          return prevArr.filter((item: RegattaSectionData) => {
+            return item.id !== id;
+          });
+        });
+        break;
+      case "Notes":
+        //  Notes
+        setNotesSectionArr((prevArr: NotesSectionData[]) => {
+          return prevArr.filter((item: NotesSectionData) => {
+            return item.id !== id;
+          });
+        });
+        break;
+
+      default:
+        console.log("switch other");
+        break;
+    }
   };
 
   const handleHoverDelete = () => {

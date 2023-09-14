@@ -16,35 +16,78 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface NotesSectionData {
+  id: string;
+  notes: string;
+}
+
 interface RaceSectionItemProps {
   section: string;
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
   setRegattaSectionArr: Function;
+  setNotesSectionArr: Function;
 }
 
 const RaceSectionItem = ({
   section,
   setPlanOrder,
   setRegattaSectionArr,
+  setNotesSectionArr,
 }: RaceSectionItemProps) => {
+  //  Refactor with switch statement for multiple section types
   const handleSetPlanOrder = () => {
     const id = nanoid();
+    console.log(section)
     setPlanOrder((planOrder) => [...planOrder, { id, section }]);
-    setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
-      return [
-        ...regattaSections,
-        {
-          id,
-          regattaName: "",
-          regattaStartDate: null,
-          regattaEndDate: null,
-          regattaAddress: "",
-          regattaContact: "",
-          regattaEmail: "",
-          regattaPhone: "",
-        },
-      ];
-    });
+
+    switch (section) {
+      case "Regattas":
+        setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
+          return [
+            ...regattaSections,
+            {
+              id,
+              regattaName: "",
+              regattaStartDate: null,
+              regattaEndDate: null,
+              regattaAddress: "",
+              regattaContact: "",
+              regattaEmail: "",
+              regattaPhone: "",
+            },
+          ];
+        });
+        break;
+      case "Notes":
+        setNotesSectionArr((noteSections: NotesSectionData[]) => {
+          return [
+            ...noteSections,
+            {
+              id,
+              notes: "",
+            },
+          ];
+        });
+        break;
+
+      default:
+        break;
+    }
+    // setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
+    //   return [
+    //     ...regattaSections,
+    //     {
+    //       id,
+    //       regattaName: "",
+    //       regattaStartDate: null,
+    //       regattaEndDate: null,
+    //       regattaAddress: "",
+    //       regattaContact: "",
+    //       regattaEmail: "",
+    //       regattaPhone: "",
+    //     },
+    //   ];
+    // });
   };
 
   return (
