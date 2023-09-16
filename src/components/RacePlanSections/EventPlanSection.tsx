@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import { LineupData } from "../../interfaces/EntityData";
 
 interface EventSectionData {
   id: string;
@@ -26,6 +30,31 @@ const EventPlanSection = ({
   const [lane, setLane] = useState<string>("");
   const [lineup, setLineup] = useState<string>("");
   const [startTime, setStartTime] = useState<Date | null>(null);
+
+  //  Fetch API call
+  const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { teamId } = useParams<string>();
+  const axiosPrivate = useAxiosPrivate();
+  const logoutRedirect = useLogoutRedirect();
+
+  useEffect(() => {
+    const getTeamLineups = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
+        console.log(data)
+        setTeamLineups(data.lineups);
+      } catch (err: unknown) {
+        console.log(err);
+        logoutRedirect("/login");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getTeamLineups();
+  }, []);
 
   const handleSetEventSection = () => {
     setEventSectionArr((currentArr: EventSectionData[]) => {
