@@ -44,6 +44,12 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface LineupSectionData {
+  id: string;
+  lineupName: string;
+  boatOrder: (string | null)[];
+}
+
 interface EventSectionData {
   id: string;
   eventName: string;
@@ -73,7 +79,10 @@ const RacePlanPage = () => {
     RegattaSectionData[] | []
   >([]);
   const [_eventSectionArr, setEventSectionArr] = useState<
-   EventSectionData | []
+    EventSectionData | []
+  >([]);
+  const [_lineupSectionArr, setLineupSectionArr] = useState<
+    LineupSectionData | []
   >([]);
   const [_notesSectionArr, setNotesSectionArr] = useState<
     NotesSectionData | []
@@ -127,8 +136,9 @@ const RacePlanPage = () => {
                 if (planOrder.length === 0) return;
                 setPlanOrder([]);
                 setRegattaSectionArr([]);
+                setLineupSectionArr([]);
+                setEventSectionArr([]);
                 setNotesSectionArr([]);
-                setEventSectionArr([])
               }}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
               ${
@@ -186,6 +196,7 @@ const RacePlanPage = () => {
                         setPlanOrder={setPlanOrder}
                         setRegattaSectionArr={setRegattaSectionArr}
                         setEventSectionArr={setEventSectionArr}
+                        setLineupSectionArr={setLineupSectionArr}
                         setNotesSectionArr={setNotesSectionArr}
                       />
                     );
@@ -225,6 +236,7 @@ const RacePlanPage = () => {
                               setPlanOrder={setPlanOrder}
                               setRegattaSectionArr={setRegattaSectionArr}
                               setEventSectionArr={setEventSectionArr}
+                              setLineupSectionArr={setLineupSectionArr}
                               setNotesSectionArr={setNotesSectionArr}
                             />
                           );
@@ -260,6 +272,7 @@ const RacePlanPage = () => {
                 planOrder={planOrder}
                 setRegattaSectionArr={setRegattaSectionArr}
                 setEventSectionArr={setEventSectionArr}
+                setLineupSectionArr={setLineupSectionArr}
                 setNotesSectionArr={setNotesSectionArr}
               />
             )}

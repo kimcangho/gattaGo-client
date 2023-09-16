@@ -11,7 +11,6 @@ interface EventSectionData {
 }
 
 interface EventPlanSectionProps {
-  section: string;
   id: string;
   setEventSectionArr: Function;
 }

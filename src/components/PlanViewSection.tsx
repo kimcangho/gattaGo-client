@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import EventPlanSection from "./RacePlanSections/EventPlanSection";
 import LineupPlanSection from "./RacePlanSections/LineupPlanSection";
 import MapPlanSection from "./RacePlanSections/MapPlanSection";
@@ -15,6 +14,7 @@ interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
   setRegattaSectionArr: Function;
   setEventSectionArr: Function;
+  setLineupSectionArr: Function;
   setNotesSectionArr: Function;
 }
 
@@ -22,6 +22,7 @@ const PlanViewSection = ({
   planOrder,
   setRegattaSectionArr,
   setEventSectionArr,
+  setLineupSectionArr,
   setNotesSectionArr,
 }: PlanViewSectionProps) => {
   return (
@@ -56,13 +57,12 @@ const PlanViewSection = ({
                 section={planSection.section}
               />
             );
-          //  Event Section
+          //  Event Section - OK
           case "Event":
             return (
               <EventPlanSection
                 key={planSection.id}
                 id={planSection.id}
-                section={planSection.section}
                 setEventSectionArr={setEventSectionArr}
               />
             );
@@ -73,6 +73,7 @@ const PlanViewSection = ({
                 key={planSection.id}
                 id={planSection.id}
                 section={planSection.section}
+                setLineupSectionArr={setLineupSectionArr}
               />
             );
           //  Notes Section - OK

@@ -24,6 +24,12 @@ interface EventSectionData {
   eventTime: Date;
 }
 
+interface LineupSectionData {
+  id: string;
+  lineupName: string;
+  boatOrder: (string | null)[];
+}
+
 interface NotesSectionData {
   id: string;
   notes: string;
@@ -34,6 +40,7 @@ interface RaceSectionItemProps {
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
   setRegattaSectionArr: Function;
   setEventSectionArr: Function;
+  setLineupSectionArr: Function;
   setNotesSectionArr: Function;
 }
 
@@ -42,6 +49,7 @@ const RaceSectionItem = ({
   setPlanOrder,
   setRegattaSectionArr,
   setEventSectionArr,
+  setLineupSectionArr,
   setNotesSectionArr,
 }: RaceSectionItemProps) => {
   const handleSetPlanOrder = () => {
@@ -77,6 +85,18 @@ const RaceSectionItem = ({
               eventLane: "",
               eventLineup: "",
               eventTime: "",
+            },
+          ];
+        });
+        break;
+      case "Lineup":
+        setLineupSectionArr((lineupSections: LineupSectionData[]) => {
+          return [
+            ...lineupSections,
+            {
+              id,
+              lineupName: "",
+              boatOrder: []
             },
           ];
         });

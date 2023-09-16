@@ -1,9 +1,14 @@
 interface LineupPlanSectionProps {
-  section: string;
   id: string;
+  section: string;
+  setLineupSectionArr: Function;
 }
 
-const LineupPlanSection = ({ section }: LineupPlanSectionProps) => {
+const LineupPlanSection = ({
+  id,
+  section,
+  setLineupSectionArr,
+}: LineupPlanSectionProps) => {
   return <div>{section}</div>;
 };
 
