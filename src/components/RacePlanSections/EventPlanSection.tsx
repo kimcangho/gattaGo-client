@@ -56,7 +56,7 @@ const EventPlanSection = ({
         }}
         className={`bg-inherit text-2xl p-2 ${eventName ? "text-black" : ""}`}
       />
-      <div className="flex flex-col tablet:flex-row">
+      <div className="flex flex-col midMobile:flex-row">
         {/* Event Details */}
         <div className="mx-2 w-full">
           {/* Distance */}
@@ -97,24 +97,6 @@ const EventPlanSection = ({
           </div>
         </div>
         <div className="mx-2 w-full">
-          {/* Lineup */}
-          <div className="flex flex-col my-2">
-            <label htmlFor="lineup">
-              <h3 className="text-blue-light">Lineup</h3>
-            </label>
-            <input
-              placeholder="Type lineup here"
-              name="lineup"
-              id="lineup"
-              value={lineup}
-              onChange={(event) => {
-                setLineup(event.target.value);
-                handleSetEventSection();
-              }}
-              className={`bg-inherit p-2 w-full ${lineup ? "text-black" : ""}`}
-            />
-          </div>
-
           {/* Start Time */}
           <div className="flex flex-col my-2">
             <label htmlFor="startTime">
@@ -133,6 +115,23 @@ const EventPlanSection = ({
               selected={startTime}
               onChange={(date: Date) => setStartTime(date)}
               className="bg-inherit p-2 w-full text-black"
+            />
+          </div>
+          {/* Lineup */}
+          <div className="flex flex-col my-2">
+            <label htmlFor="lineup">
+              <h3 className="text-blue-light">Lineup</h3>
+            </label>
+            <input
+              placeholder="Type lineup here"
+              name="lineup"
+              id="lineup"
+              value={lineup}
+              onChange={(event) => {
+                setLineup(event.target.value);
+                handleSetEventSection();
+              }}
+              className={`bg-inherit p-2 w-full ${lineup ? "text-black" : ""}`}
             />
           </div>
         </div>
