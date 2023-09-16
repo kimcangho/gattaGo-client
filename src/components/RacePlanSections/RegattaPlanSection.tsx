@@ -71,6 +71,7 @@ const RegattaPlanSection = ({
               <h3 className="text-blue-light">Start Date</h3>
             </label>
             <DatePicker
+              maxDate={endDate}
               isClearable
               placeholderText="Select Start Date"
               timeInputLabel="Time:"
@@ -90,6 +91,7 @@ const RegattaPlanSection = ({
               <h3 className="text-blue-light">End Date</h3>
             </label>
             <DatePicker
+              minDate={startDate}
               isClearable
               placeholderText="Select End Date"
               timeInputLabel="Time:"

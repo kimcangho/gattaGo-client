@@ -1,4 +1,6 @@
 import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface EventSectionData {
   id: string;
@@ -6,7 +8,7 @@ interface EventSectionData {
   eventDistance: string;
   eventLane: string;
   eventLineup: string;
-  eventTime: string;
+  eventTime: Date;
 }
 
 interface EventPlanSectionProps {
@@ -23,7 +25,7 @@ const EventPlanSection = ({
   const [distance, setDistance] = useState<string>("");
   const [lane, setLane] = useState<string>("");
   const [lineup, setLineup] = useState<string>("");
-  const [startTime, setStartTime] = useState<string>("");
+  const [startTime, setStartTime] = useState<Date | null>(null);
 
   const handleSetEventSection = () => {
     setEventSectionArr((currentArr: EventSectionData[]) => {
@@ -38,7 +40,7 @@ const EventPlanSection = ({
           eventDistance: distance,
           eventLane: lane,
           eventLineup: lineup,
-          eventStartTime: startTime,
+          eventTime: startTime,
         },
       ];
     });
@@ -118,16 +120,19 @@ const EventPlanSection = ({
             <label htmlFor="startTime">
               <h3 className="text-blue-light">Start Time</h3>
             </label>
-            <input
-              placeholder="Type email address here"
-              name="startTime"
-              id="startTime"
-              value={startTime}
-              onChange={(event) => {
-                setStartTime(event.target.value);
-                handleSetEventSection();
-              }}
-              className={`bg-inherit p-2 w-full ${startTime ? "text-black" : ""}`}
+
+            <DatePicker
+              isClearable
+              showTimeSelectOnly
+              timeCaption="Time"
+              dateFormat="hh:mm aa"
+              placeholderText="Select event Time"
+              showTimeInput
+              name="startDate"
+              id="startDate"
+              selected={startTime}
+              onChange={(date: Date) => setStartTime(date)}
+              className="bg-inherit p-2 w-full text-black"
             />
           </div>
         </div>

@@ -22,7 +22,7 @@ interface EventSectionData {
   eventDistance: string;
   eventLane: string;
   eventLineup: string;
-  eventTime: string;
+  eventTime: Date;
 }
 
 interface NotesSectionData {
