@@ -14,12 +14,14 @@ interface PlanOrderData {
 interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
   setRegattaSectionArr: Function;
+  setEventSectionArr: Function;
   setNotesSectionArr: Function;
 }
 
 const PlanViewSection = ({
   planOrder,
   setRegattaSectionArr,
+  setEventSectionArr,
   setNotesSectionArr,
 }: PlanViewSectionProps) => {
   return (
@@ -61,6 +63,7 @@ const PlanViewSection = ({
                 key={planSection.id}
                 id={planSection.id}
                 section={planSection.section}
+                setEventSectionArr={setEventSectionArr}
               />
             );
           //  Lineup Section

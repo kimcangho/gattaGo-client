@@ -21,6 +21,15 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface EventSectionData {
+  id: string;
+  eventName: string;
+  eventDistance: string;
+  eventLane: string;
+  eventLineup: string;
+  eventTime: string;
+}
+
 interface NotesSectionData {
   id: string;
   notes: string;
@@ -32,6 +41,7 @@ interface RaceOrderItemProps {
   planOrder: PlanOrderData[];
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
   setRegattaSectionArr: Function;
+  setEventSectionArr: Function;
   setNotesSectionArr: Function;
 }
 
@@ -41,6 +51,7 @@ const RaceOrderItem = ({
   planOrder,
   setPlanOrder,
   setRegattaSectionArr,
+  setEventSectionArr,
   setNotesSectionArr,
 }: RaceOrderItemProps) => {
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
@@ -68,6 +79,14 @@ const RaceOrderItem = ({
         //  Regattas
         setRegattaSectionArr((prevArr: RegattaSectionData[]) => {
           return prevArr.filter((item: RegattaSectionData) => {
+            return item.id !== id;
+          });
+        });
+        break;
+      case "Event":
+        //  Event
+        setEventSectionArr((prevArr: EventSectionData[]) => {
+          return prevArr.filter((item: EventSectionData) => {
             return item.id !== id;
           });
         });

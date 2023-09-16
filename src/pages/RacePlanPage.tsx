@@ -44,6 +44,15 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface EventSectionData {
+  id: string;
+  eventName: string;
+  eventDistance: string;
+  eventLane: string;
+  eventLineup: string;
+  eventTime: string;
+}
+
 interface NotesSectionData {
   id: string;
   notes: string;
@@ -63,6 +72,9 @@ const RacePlanPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [_regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
+  >([]);
+  const [_eventSectionArr, setEventSectionArr] = useState<
+   EventSectionData | []
   >([]);
   const [_notesSectionArr, setNotesSectionArr] = useState<
     NotesSectionData | []
@@ -117,6 +129,7 @@ const RacePlanPage = () => {
                 setPlanOrder([]);
                 setRegattaSectionArr([]);
                 setNotesSectionArr([]);
+                setEventSectionArr([])
               }}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
               ${
@@ -173,6 +186,7 @@ const RacePlanPage = () => {
                         section={planSection}
                         setPlanOrder={setPlanOrder}
                         setRegattaSectionArr={setRegattaSectionArr}
+                        setEventSectionArr={setEventSectionArr}
                         setNotesSectionArr={setNotesSectionArr}
                       />
                     );
@@ -211,6 +225,7 @@ const RacePlanPage = () => {
                               planOrder={planOrder}
                               setPlanOrder={setPlanOrder}
                               setRegattaSectionArr={setRegattaSectionArr}
+                              setEventSectionArr={setEventSectionArr}
                               setNotesSectionArr={setNotesSectionArr}
                             />
                           );
@@ -245,6 +260,7 @@ const RacePlanPage = () => {
               <PlanViewSection
                 planOrder={planOrder}
                 setRegattaSectionArr={setRegattaSectionArr}
+                setEventSectionArr={setEventSectionArr}
                 setNotesSectionArr={setNotesSectionArr}
               />
             )}
