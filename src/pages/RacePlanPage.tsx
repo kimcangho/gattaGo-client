@@ -49,7 +49,6 @@ interface EventSectionData {
   eventName: string;
   eventDistance: string;
   eventLane: string;
-  eventLineup: string;
   eventTime: Date;
 }
 

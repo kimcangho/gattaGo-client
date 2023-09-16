@@ -21,7 +21,6 @@ interface EventSectionData {
   eventName: string;
   eventDistance: string;
   eventLane: string;
-  eventLineup: string;
   eventTime: Date;
 }
 
@@ -47,7 +46,6 @@ const RaceSectionItem = ({
 }: RaceSectionItemProps) => {
   const handleSetPlanOrder = () => {
     const id = nanoid();
-    console.log(section);
     setPlanOrder((planOrder) => [...planOrder, { id, section }]);
 
     switch (section) {
