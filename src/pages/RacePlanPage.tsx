@@ -175,6 +175,7 @@ const RacePlanPage = () => {
     } else {
       try {
         // setIsFetching(true);
+        console.log(planOrder)
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/racePlans/${event.target.value}`
         );
@@ -207,6 +208,7 @@ const RacePlanPage = () => {
         console.log(regattaSectionArr);
         const { data } = await axiosPrivate.post(`teams/${teamId}/racePlans`, {
           name: racePlanName,
+          planOrder,
           regattaArr: regattaSectionArr, //  need to establish regattaArray data
           eventArr: [], //  need to establish eventsArray data
           notesArr: [], //  need to establish notesArray data
@@ -267,7 +269,7 @@ const RacePlanPage = () => {
         setRacePlans((prevRacePlans) =>
           prevRacePlans!.filter((racePlan: any) => racePlan.id !== racePlanId)
         );
-
+        handleClearPlan();
         setValue("activeRacePlanId", "new");
         setValue("racePlanName", "");
         // setIsDeleting(false);
@@ -308,16 +310,7 @@ const RacePlanPage = () => {
 
             {/* Clear Plan Button  */}
             <div
-              onClick={handleClearPlan
-              //   () => {
-              //   if (planOrder.length === 0) return;
-              //   setPlanOrder([]);
-              //   setRegattaSectionArr([]);
-              //   setLineupSectionArr([]);
-              //   setEventSectionArr([]);
-              //   setNotesSectionArr([]);
-              // }
-            }
+              onClick={handleClearPlan}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
               ${
                 planOrder.length === 0
