@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   DndContext,
   closestCenter,
@@ -27,6 +27,12 @@ import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
+
+//  imported libraries
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 
 interface PlanOrderData {
   id: string;
@@ -72,7 +78,11 @@ const RacePlanPage = () => {
     "Lineup",
     "Notes",
   ];
-  const { width } = useWindowSize();
+
+  const [racePlans, setRacePlans] = useState<any[]>([]);
+  const [activeRacePlan, setActiveRacePlan] = useState<any>({});
+  const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
+
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [_regattaSectionArr, setRegattaSectionArr] = useState<
@@ -88,7 +98,40 @@ const RacePlanPage = () => {
     NotesSectionData | []
   >([]);
 
+  //  Added hooks
+  const { teamId } = useParams();
+  const { width } = useWindowSize();
+  const axiosPrivate = useAxiosPrivate();
+  const logoutRedirect = useLogoutRedirect();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      activeRacePlanId: "new",
+      racePlanName: "",
+    },
+  });
+
   //  useEffect to fetch current race plans
+  useEffect(() => {
+    const getRacePlans = async () => {
+      try {
+        const { data } = await axiosPrivate.get(`/teams/${teamId}/racePlans/`);
+        setRacePlans(data);
+        console.log(data);
+      } catch (err: unknown) {
+        console.log(err);
+        logoutRedirect("/login");
+      }
+    };
+
+    getRacePlans();
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -114,25 +157,79 @@ const RacePlanPage = () => {
     setIsModalOpen((prev) => !prev);
   };
 
+  const handleGetSinglePlan = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    console.log(event.target.value);
+    setSelectDefaultValue(event.target.value);
+    if (event.target.value === "new") {
+      try {
+        setActiveRacePlan({});
+        setValue("racePlanName", "");
+        setValue("activeRacePlanId", "new");
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    } else {
+      try {
+        // setIsFetching(true);
+        const { data } = await axiosPrivate.get(
+          `/teams/${teamId}/racePlans/${event.target.value}`
+        );
+        console.log(data);
+        setActiveRacePlan(data);
+        setValue("racePlanName", data.name);
+        setValue("activeRacePlanId", data.id);
+        // setIsFetching(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    }
+  };
+
   //  Save Plan Function
   const handleSavePlan = async () => {
     //  Create or update plan
-    console.log('saving plan...')
+    console.log("saving plan...");
   };
 
   //  Share Plan Function
   const handleSharePlan = async () => {
     //  Create or update plan
-    console.log('sharing plan...')
+    console.log("sharing plan...");
   };
 
   //  Delete Plan Function
   const handleDeletePlan = async () => {
     //  Create or update plan
-    console.log('deleting plan...')
-    
-  };
+    console.log("deleting plan...");
 
+    // if (isSaving || isDeleting || isFetching) return;
+
+    const deleteSingleLineup = async (racePlanId: string) => {
+      console.log(racePlanId);
+      try {
+        // setIsDeleting(true);
+        await axiosPrivate.delete(`/teams/${teamId}/racePlans/${racePlanId}`, {
+          withCredentials: true,
+        });
+
+        setActiveRacePlan({});
+        setRacePlans((prevRacePlans) =>
+          prevRacePlans!.filter((racePlan: any) => racePlan.id !== racePlanId)
+        );
+
+        setValue("activeRacePlanId", "new");
+        setValue("racePlanName", "");
+        // setIsDeleting(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    };
+
+    if (getValues().activeRacePlanId === "new") return;
+    deleteSingleLineup(getValues().activeRacePlanId);
+  };
 
   return (
     <>
@@ -187,7 +284,19 @@ const RacePlanPage = () => {
             </div>
 
             {/* Delete Plan Button  */}
-            <div className="flex items-center bg-red-dark text-white p-1 midMobile:p-2 rounded border hover:bg-red-600 cursor-pointer">
+            <div
+              onClick={handleDeletePlan}
+              className={`${
+                getValues().activeRacePlanId === "new"
+                  ? "bg-gray-border border-gray-border cursor-not-allowed"
+                  : "bg-red-dark cursor-pointer"
+              }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                getValues().activeRacePlanId === "new"
+                  ? "cursor-auto"
+                  : "hover:bg-red-500"
+              }`}
+              // className="flex items-center bg-red-dark text-white p-1 midMobile:p-2 rounded border hover:bg-red-600 cursor-pointer"
+            >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">
                   Delete {width! >= 1280 && "Plan"}
@@ -197,6 +306,55 @@ const RacePlanPage = () => {
             </div>
           </div>
         </div>
+
+        <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+          <div className="flex flex-col mb-4 midMobile:w-[50%]">
+            <label htmlFor="activeLineupId">
+              <h3 className="text-blue-light">Active Lineup</h3>
+            </label>
+            <select
+              {...register("activeRacePlanId")}
+              name="activeLineupId"
+              id="activeLineupId"
+              value={selectDefaultValue}
+              className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+              onChange={handleGetSinglePlan}
+            >
+              <option disabled>Select plan</option>
+              <option value={"new"}>New plan</option>
+              {racePlans &&
+                racePlans.map((plan, index) => {
+                  return (
+                    <option key={index} value={plan.id}>
+                      {plan.name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
+
+          <div className="flex flex-col midMobile:w-[50%]">
+            <label htmlFor="racePlanName">
+              <h3 className="text-blue-light">Plan Name</h3>
+            </label>
+            <input
+              {...register("racePlanName", {
+                required: {
+                  value: true,
+                  message: "Plan name field can't be empty!",
+                },
+              })}
+              type="text"
+              id="racePlanName"
+              name="racePlanName"
+              placeholder="Input plan name"
+              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+            />
+            {errors.racePlanName && (
+              <p className="text-red-500">{errors.racePlanName.message}</p>
+            )}
+          </div>
+        </form>
 
         <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full">
           {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
