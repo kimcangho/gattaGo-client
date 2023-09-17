@@ -86,7 +86,7 @@ const RacePlanPage = () => {
 
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [_regattaSectionArr, setRegattaSectionArr] = useState<
+  const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
   >([]);
   const [_eventSectionArr, setEventSectionArr] = useState<
@@ -166,6 +166,7 @@ const RacePlanPage = () => {
     if (event.target.value === "new") {
       try {
         setActiveRacePlan({});
+        handleClearPlan();
         setValue("racePlanName", "");
         setValue("activeRacePlanId", "new");
       } catch (err: unknown) {
@@ -199,16 +200,19 @@ const RacePlanPage = () => {
       );
       if (duplicatePlan) return;
 
+      console.log(planOrder);
+
       try {
         // setIsSaving(true);
+        console.log(regattaSectionArr);
         const { data } = await axiosPrivate.post(`teams/${teamId}/racePlans`, {
           name: racePlanName,
-          regattaArr: [],
-          eventArr: [],
-          notesArr: [],
+          regattaArr: regattaSectionArr, //  need to establish regattaArray data
+          eventArr: [], //  need to establish eventsArray data
+          notesArr: [], //  need to establish notesArray data
         });
 
-        console.log(data)
+        console.log(data);
         setSelectDefaultValue(data.id);
         setRacePlans((prevRacePlans: any[] | null) => {
           return [...prevRacePlans!, data];
@@ -225,9 +229,17 @@ const RacePlanPage = () => {
     if (activeRacePlanId !== "new") {
       console.log("updating plan");
     } else {
-      console.log("creating plan");
       createRacePlan();
     }
+  };
+
+  const handleClearPlan = async () => {
+    if (planOrder.length === 0) return;
+    setPlanOrder([]);
+    setRegattaSectionArr([]);
+    setLineupSectionArr([]);
+    setEventSectionArr([]);
+    setNotesSectionArr([]);
   };
 
   //  Share Plan Function
@@ -296,14 +308,16 @@ const RacePlanPage = () => {
 
             {/* Clear Plan Button  */}
             <div
-              onClick={() => {
-                if (planOrder.length === 0) return;
-                setPlanOrder([]);
-                setRegattaSectionArr([]);
-                setLineupSectionArr([]);
-                setEventSectionArr([]);
-                setNotesSectionArr([]);
-              }}
+              onClick={handleClearPlan
+              //   () => {
+              //   if (planOrder.length === 0) return;
+              //   setPlanOrder([]);
+              //   setRegattaSectionArr([]);
+              //   setLineupSectionArr([]);
+              //   setEventSectionArr([]);
+              //   setNotesSectionArr([]);
+              // }
+            }
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
               ${
                 planOrder.length === 0

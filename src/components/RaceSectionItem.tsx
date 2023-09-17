@@ -56,8 +56,10 @@ const RaceSectionItem = ({
     const id = nanoid();
     setPlanOrder((planOrder) => [...planOrder, { id, section }]);
 
+    console.log(section)
     switch (section) {
-      case "Regattas":
+      case "Regatta":
+        console.log('switch regattas racesectionitem')
         setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
           return [
             ...regattaSections,
