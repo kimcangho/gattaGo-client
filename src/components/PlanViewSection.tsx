@@ -66,13 +66,12 @@ const PlanViewSection = ({
                 setEventSectionArr={setEventSectionArr}
               />
             );
-          //  Lineup Section
+          //  Lineup Section - Suspended
           case "Lineup":
             return (
               <LineupPlanSection
                 key={planSection.id}
                 id={planSection.id}
-                section={planSection.section}
                 setLineupSectionArr={setLineupSectionArr}
               />
             );
