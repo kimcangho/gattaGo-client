@@ -88,6 +88,8 @@ const RacePlanPage = () => {
     NotesSectionData | []
   >([]);
 
+  //  useEffect to fetch current race plans
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -112,6 +114,26 @@ const RacePlanPage = () => {
     setIsModalOpen((prev) => !prev);
   };
 
+  //  Save Plan Function
+  const handleSavePlan = async () => {
+    //  Create or update plan
+    console.log('saving plan...')
+  };
+
+  //  Share Plan Function
+  const handleSharePlan = async () => {
+    //  Create or update plan
+    console.log('sharing plan...')
+  };
+
+  //  Delete Plan Function
+  const handleDeletePlan = async () => {
+    //  Create or update plan
+    console.log('deleting plan...')
+    
+  };
+
+
   return (
     <>
       <div className="w-full h-[100%]">
@@ -123,7 +145,10 @@ const RacePlanPage = () => {
           </div>
           <div className="flex space-x-2 tablet:space-x-4 text-center">
             {/* Save Plan Button  */}
-            <div className="flex items-center bg-green-light text-white p-1 midMobile:p-2 rounded border hover:bg-green-dark cursor-pointer">
+            <div
+              onClick={handleSavePlan}
+              className="flex items-center bg-green-light text-white p-1 midMobile:p-2 rounded border hover:bg-green-dark cursor-pointer"
+            >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Save {width! >= 1280 && "Plan"}</p>
               )}
