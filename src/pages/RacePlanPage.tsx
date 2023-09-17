@@ -79,6 +79,7 @@ const RacePlanPage = () => {
     "Notes",
   ];
 
+  //  RHF states
   const [racePlans, setRacePlans] = useState<any[]>([]);
   const [activeRacePlan, setActiveRacePlan] = useState<any>({});
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
@@ -188,9 +189,45 @@ const RacePlanPage = () => {
   };
 
   //  Save Plan Function
-  const handleSavePlan = async () => {
-    //  Create or update plan
-    console.log("saving plan...");
+  const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
+    // if (isSaving || isDeleting || isFetching) return;
+
+    const createRacePlan = async () => {
+      if (!racePlanName) return;
+      const duplicatePlan = racePlans?.find(
+        (racePlan) => racePlan.name === racePlanName
+      );
+      if (duplicatePlan) return;
+
+      try {
+        // setIsSaving(true);
+        const { data } = await axiosPrivate.post(`teams/${teamId}/racePlans`, {
+          name: racePlanName,
+          regattaArr: [],
+          eventArr: [],
+          notesArr: [],
+        });
+
+        console.log(data)
+        setSelectDefaultValue(data.id);
+        setRacePlans((prevRacePlans: any[] | null) => {
+          return [...prevRacePlans!, data];
+        });
+
+        setValue("activeRacePlanId", data.id);
+        setValue("racePlanName", data.name);
+        // setIsSaving(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    };
+
+    if (activeRacePlanId !== "new") {
+      console.log("updating plan");
+    } else {
+      console.log("creating plan");
+      createRacePlan();
+    }
   };
 
   //  Share Plan Function
@@ -238,12 +275,17 @@ const RacePlanPage = () => {
           <div className="mb-2">
             <h1>Race Plans</h1>
             {/* Hardcoded plan number */}
-            <p className="text-black">{`Total: 0 Plans`}</p>
+            <p className="text-black">
+              {" "}
+              {`Total: ${!racePlans ? "-" : racePlans?.length} plan${
+                racePlans?.length !== 1 ? `s` : ""
+              }`}
+            </p>
           </div>
           <div className="flex space-x-2 tablet:space-x-4 text-center">
             {/* Save Plan Button  */}
             <div
-              onClick={handleSavePlan}
+              onClick={handleSubmit(handleSavePlan)}
               className="flex items-center bg-green-light text-white p-1 midMobile:p-2 rounded border hover:bg-green-dark cursor-pointer"
             >
               {width! >= 768 && (
@@ -309,13 +351,13 @@ const RacePlanPage = () => {
 
         <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
           <div className="flex flex-col mb-4 midMobile:w-[50%]">
-            <label htmlFor="activeLineupId">
+            <label htmlFor="activeRacePlanId">
               <h3 className="text-blue-light">Active Lineup</h3>
             </label>
             <select
               {...register("activeRacePlanId")}
-              name="activeLineupId"
-              id="activeLineupId"
+              name="activeRacePlanId"
+              id="activeRacePlanId"
               value={selectDefaultValue}
               className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
               onChange={handleGetSinglePlan}
