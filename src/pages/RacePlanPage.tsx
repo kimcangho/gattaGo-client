@@ -60,13 +60,14 @@ interface EventSectionData {
   id: string;
   eventName: string;
   eventDistance: string;
-  eventLane: string;
+  eventLane: String;
   eventTime: Date;
 }
 
 interface NotesSectionData {
   id: string;
-  notes: string;
+  notesName: string;
+  notesBody: string;
 }
 
 const RacePlanPage = () => {
@@ -123,7 +124,6 @@ const RacePlanPage = () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/racePlans/`);
         setRacePlans(data);
-        console.log(data);
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
@@ -160,7 +160,6 @@ const RacePlanPage = () => {
   const handleGetSinglePlan = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(event.target.value);
     setSelectDefaultValue(event.target.value);
     if (event.target.value === "new") {
       try {
@@ -173,10 +172,16 @@ const RacePlanPage = () => {
     } else {
       try {
         // setIsFetching(true);
-        console.log("fetching single race plan...");
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/racePlans/${event.target.value}`
         );
+
+        console.log(data);
+        console.log(data.id, data.name);
+        // console.log(data?.planSections);
+        // console.log(data.regattaSection);
+        // console.log(data.eventSection);
+        console.log(data?.notesSection);
 
         setPlanOrder(
           data.planSections.sort((a: any, b: any) =>
@@ -186,8 +191,6 @@ const RacePlanPage = () => {
         setRegattaSectionArr(data.regattaSection);
         setEventSectionArr(data.eventSection);
         setNotesSectionArr(data.notesSection);
-        console.log(data?.planSections);
-        console.log(data.id, data.name);
         setValue("racePlanName", data.name);
         setValue("activeRacePlanId", data.id);
         // setIsFetching(false);
@@ -208,11 +211,9 @@ const RacePlanPage = () => {
       );
       if (duplicatePlan) return;
 
-      console.log(planOrder);
-
       try {
         // setIsSaving(true);
-        console.log(regattaSectionArr);
+        console.log(regattaSectionArr, eventSectionArr, notesSectionArr);
         const { data } = await axiosPrivate.post(`teams/${teamId}/racePlans`, {
           name: racePlanName,
           planOrder,
@@ -221,7 +222,6 @@ const RacePlanPage = () => {
           notesArr: notesSectionArr, //  need to establish notesArray data
         });
 
-        console.log(data);
         setSelectDefaultValue(data.id);
         setRacePlans((prevRacePlans: any[] | null) => {
           return [...prevRacePlans!, data];
@@ -265,7 +265,6 @@ const RacePlanPage = () => {
     // if (isSaving || isDeleting || isFetching) return;
 
     const deleteSingleLineup = async (racePlanId: string) => {
-      console.log(racePlanId);
       try {
         // setIsDeleting(true);
         await axiosPrivate.delete(`/teams/${teamId}/racePlans/${racePlanId}`, {

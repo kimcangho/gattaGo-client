@@ -20,9 +20,9 @@ const EventPlanSection = ({
   setEventSectionArr,
 }: EventPlanSectionProps) => {
   const [eventName, setEventName] = useState<string>("");
-  const [distance, setDistance] = useState<string>("default");
-  const [lane, setLane] = useState<string>("");
-  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [eventDistance, setEventDistance] = useState<string>("default");
+  const [eventLane, setEventLane] = useState<string>("");
+  const [eventTime, setEventTime] = useState<Date | null>(null);
 
   const handleSetEventSection = () => {
     setEventSectionArr((currentArr: EventSectionData[]) => {
@@ -34,9 +34,9 @@ const EventPlanSection = ({
         {
           id,
           eventName,
-          eventDistance: distance,
-          eventLane: lane,
-          eventTime: startTime,
+          eventDistance,
+          eventLane,
+          eventTime,
         },
       ];
     });
@@ -59,7 +59,7 @@ const EventPlanSection = ({
 
         {/* Start Time */}
         <div className="flex flex-col my-2 w-full text-center">
-          <label htmlFor="startTime">
+          <label htmlFor="eventTime">
             <h3 className="text-blue-light px-2">Start Time</h3>
           </label>
 
@@ -70,29 +70,28 @@ const EventPlanSection = ({
             dateFormat="hh:mm aa"
             placeholderText="Select time"
             showTimeInput
-            name="startDate"
-            id="startDate"
-            selected={startTime}
-            onChange={(date: Date) => setStartTime(date)}
+            name="eventTime"
+            id="eventTime"
+            selected={eventTime}
+            onChange={(date: Date) => setEventTime(date)}
             className="bg-inherit p-2 w-full text-black text-center cursor-pointer"
           />
         </div>
 
         {/* Distance */}
         <div className="flex flex-col my-2 w-full">
-          <label htmlFor="distance">
+          <label htmlFor="eventDistance">
             <h3 className="text-blue-light text-center">Distance</h3>
           </label>
           <select
-            name="distance"
-            id="distance"
-            
-            value={distance}
+            name="eventDistance"
+            id="eventDistance"
+            value={eventDistance}
             className={`p-2 text-md text-center bg-inherit border rounded ${
-              distance !== "default" && "text-black"
+              eventDistance !== "default" && "text-black"
             } focus:outline-blue-light`}
             onChange={(event) => {
-              setDistance(event.target.value);
+              setEventDistance(event.target.value);
               handleSetEventSection();
             }}
             placeholder="Select Distance"
@@ -109,20 +108,20 @@ const EventPlanSection = ({
 
         {/* Lane */}
         <div className="flex flex-col my-2 w-full">
-          <label htmlFor="lane">
+          <label htmlFor="eventLane">
             <h3 className="text-blue-light text-center">Lane</h3>
           </label>
           <input
             placeholder="Type lane here"
-            name="lane"
-            id="lane"
-            value={lane}
+            name="eventLane"
+            id="eventLane"
+            value={eventLane}
             onChange={(event) => {
-              setLane(event.target.value);
+              setEventLane(event.target.value);
               handleSetEventSection();
             }}
             className={`bg-inherit p-2 w-full text-center ${
-              lane ? "text-black" : ""
+              eventLane ? "text-black" : ""
             }`}
           />
         </div>

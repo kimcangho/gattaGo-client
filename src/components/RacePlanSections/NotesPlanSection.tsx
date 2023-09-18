@@ -1,8 +1,11 @@
 import { useState } from "react";
 
+//  Notes section not displaying notes name nor body!
+
 interface NotesSectionData {
   id: string;
-  notes: string;
+  notesName: string;
+  notesBody: string;
 }
 
 interface NotesPlanSectionProps {
@@ -14,8 +17,8 @@ const NotesPlanSection = ({
   id,
   setNotesSectionArr,
 }: NotesPlanSectionProps) => {
-  const [notesTitle, setNotesTitle] = useState<string>("");
-  const [notes, setNotes] = useState<string>("");
+  const [notesName, setNotesName] = useState<string>("");
+  const [notesBody, setNotesBody] = useState<string>("");
 
   const handleSetNotesSection = () => {
     setNotesSectionArr((currentArr: NotesSectionData[]) => {
@@ -26,7 +29,8 @@ const NotesPlanSection = ({
         ...filteredArr,
         {
           id,
-          notes,
+          notesName,
+          notesBody,
         },
       ];
     });
@@ -36,11 +40,12 @@ const NotesPlanSection = ({
     <div className="flex flex-col border border-black rounded-md p-2">
       <input
         placeholder="Type notes title here"
+        value={notesName}
         onChange={(event) => {
-          setNotesTitle(event.target.value);
+          setNotesName(event.target.value);
           handleSetNotesSection();
         }}
-        className={`bg-inherit text-2xl p-2 ${notesTitle ? "text-black" : ""}`}
+        className={`bg-inherit text-2xl p-2 ${notesName ? "text-black" : ""}`}
       />
       <div className="flex flex-col tablet:flex-row">
         {/* Notes */}
@@ -52,12 +57,12 @@ const NotesPlanSection = ({
               placeholder="Type notes here"
               name="notes"
               id="notes"
-              value={notes}
+              value={notesBody}
               onChange={(event) => {
-                setNotes(event.target.value);
+                setNotesBody(event.target.value);
                 handleSetNotesSection();
               }}
-              className={`bg-inherit p-2 w-full ${notes ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full ${notesBody ? "text-black" : ""}`}
             />
           </div>
         </div>

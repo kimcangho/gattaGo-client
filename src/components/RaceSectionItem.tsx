@@ -32,7 +32,8 @@ interface LineupSectionData {
 
 interface NotesSectionData {
   id: string;
-  notes: string;
+  notesName: string;
+  notesBody: string;
 }
 
 interface RaceSectionItemProps {
@@ -112,7 +113,8 @@ const RaceSectionItem = ({
             ...noteSections,
             {
               id,
-              notes: "",
+              notesName: "",
+              notesBody: "",
             },
           ];
         });

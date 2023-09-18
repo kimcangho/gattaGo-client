@@ -37,7 +37,8 @@ interface LineupSectionData {
 
 interface NotesSectionData {
   id: string;
-  notes: string;
+  notesName: string;
+  notesBody: string;
 }
 
 interface RaceOrderItemProps {
