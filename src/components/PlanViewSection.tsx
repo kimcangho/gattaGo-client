@@ -8,6 +8,7 @@ import WeatherPlanSection from "./RacePlanSections/WeatherPlanSection";
 interface PlanOrderData {
   id: string;
   section: string;
+  sectionId: string;
 }
 
 interface PlanViewSectionProps {
@@ -35,7 +36,6 @@ const PlanViewSection = ({
               <RegattaPlanSection
                 key={planSection.id}
                 id={planSection.id}
-                section={planSection.section}
                 setRegattaSectionArr={setRegattaSectionArr}
               />
             );

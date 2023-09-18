@@ -8,6 +8,7 @@ import deleteFilledIcon from "../assets/icons/delete-entity.svg";
 interface PlanOrderData {
   id: string;
   section: string;
+  sectionId: string;
 }
 
 interface RegattaSectionData {

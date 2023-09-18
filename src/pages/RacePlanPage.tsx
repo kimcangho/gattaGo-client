@@ -37,6 +37,7 @@ import useLogoutRedirect from "../hooks/useLogoutRedirect";
 interface PlanOrderData {
   id: string;
   section: string;
+  sectionId: string;
 }
 
 interface RegattaSectionData {

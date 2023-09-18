@@ -15,7 +15,6 @@ interface RegattaSectionData {
 
 interface RegattaPlanSectionProps {
   id: string;
-  section: string;
   setRegattaSectionArr: Function;
 }
 

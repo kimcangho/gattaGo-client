@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 interface PlanOrderData {
   id: string;
   section: string;
+  sectionId: string;
 }
 
 interface RegattaSectionData {
@@ -57,7 +58,7 @@ const RaceSectionItem = ({
     const id = nanoid();
     setPlanOrder((planOrder) => [
       ...planOrder,
-      { id, section, index: planOrder.length },
+      { id, section, sectionId: id, index: planOrder.length },
     ]);
 
     console.log(`Creating race section: ${section}`);
