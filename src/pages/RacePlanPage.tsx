@@ -200,6 +200,8 @@ const RacePlanPage = () => {
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
 
+    if (planOrder.length === 0) return;
+
     const createRacePlan = async () => {
       if (!racePlanName) return;
       const duplicatePlan = racePlans?.find(
@@ -302,7 +304,11 @@ const RacePlanPage = () => {
             {/* Save Plan Button  */}
             <div
               onClick={handleSubmit(handleSavePlan)}
-              className="flex items-center bg-green-light text-white p-1 midMobile:p-2 rounded border hover:bg-green-dark cursor-pointer"
+              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border ${
+                planOrder.length === 0
+                  ? "bg-gray-border cursor-not-allowed"
+                  : "hover:bg-green-dark bg-green-light cursor-pointer"
+              } `}
             >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Save {width! >= 1280 && "Plan"}</p>
@@ -394,7 +400,7 @@ const RacePlanPage = () => {
             <input
               {...register("racePlanName", {
                 required: {
-                  value: true,
+                  value: planOrder.length === 0 ? false : true,
                   message: "Plan name field can't be empty!",
                 },
               })}
