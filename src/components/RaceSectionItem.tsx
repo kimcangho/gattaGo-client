@@ -54,12 +54,15 @@ const RaceSectionItem = ({
 }: RaceSectionItemProps) => {
   const handleSetPlanOrder = () => {
     const id = nanoid();
-    setPlanOrder((planOrder) => [...planOrder, { id, section }]);
+    setPlanOrder((planOrder) => [
+      ...planOrder,
+      { id, section, index: planOrder.length },
+    ]);
 
-    console.log(section)
+    console.log(`Creating race section: ${section}`);
     switch (section) {
       case "Regatta":
-        console.log('switch regattas racesectionitem')
+        console.log("switch regattas racesectionitem");
         setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
           return [
             ...regattaSections,
@@ -98,7 +101,7 @@ const RaceSectionItem = ({
             {
               id,
               lineupName: "",
-              boatOrder: []
+              boatOrder: [],
             },
           ];
         });

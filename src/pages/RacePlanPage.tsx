@@ -81,7 +81,6 @@ const RacePlanPage = () => {
 
   //  RHF states
   const [racePlans, setRacePlans] = useState<any[]>([]);
-  const [activeRacePlan, setActiveRacePlan] = useState<any>({});
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
 
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
@@ -89,15 +88,15 @@ const RacePlanPage = () => {
   const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
   >([]);
-  const [_eventSectionArr, setEventSectionArr] = useState<
-    EventSectionData | []
-  >([]);
+  const [eventSectionArr, setEventSectionArr] = useState<EventSectionData | []>(
+    []
+  );
   const [_lineupSectionArr, setLineupSectionArr] = useState<
     LineupSectionData | []
   >([]);
-  const [_notesSectionArr, setNotesSectionArr] = useState<
-    NotesSectionData | []
-  >([]);
+  const [notesSectionArr, setNotesSectionArr] = useState<NotesSectionData | []>(
+    []
+  );
 
   //  Added hooks
   const { teamId } = useParams();
@@ -165,7 +164,6 @@ const RacePlanPage = () => {
     setSelectDefaultValue(event.target.value);
     if (event.target.value === "new") {
       try {
-        setActiveRacePlan({});
         handleClearPlan();
         setValue("racePlanName", "");
         setValue("activeRacePlanId", "new");
@@ -175,12 +173,21 @@ const RacePlanPage = () => {
     } else {
       try {
         // setIsFetching(true);
-        console.log(planOrder)
+        console.log("fetching single race plan...");
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/racePlans/${event.target.value}`
         );
-        console.log(data);
-        setActiveRacePlan(data);
+
+        setPlanOrder(
+          data.planSections.sort((a: any, b: any) =>
+            a.order > b.order ? 1 : -1
+          )
+        );
+        setRegattaSectionArr(data.regattaSection);
+        setEventSectionArr(data.eventSection);
+        setNotesSectionArr(data.notesSection);
+        console.log(data?.planSections);
+        console.log(data.id, data.name);
         setValue("racePlanName", data.name);
         setValue("activeRacePlanId", data.id);
         // setIsFetching(false);
@@ -210,8 +217,8 @@ const RacePlanPage = () => {
           name: racePlanName,
           planOrder,
           regattaArr: regattaSectionArr, //  need to establish regattaArray data
-          eventArr: [], //  need to establish eventsArray data
-          notesArr: [], //  need to establish notesArray data
+          eventArr: eventSectionArr, //  need to establish eventsArray data
+          notesArr: notesSectionArr, //  need to establish notesArray data
         });
 
         console.log(data);
@@ -265,7 +272,7 @@ const RacePlanPage = () => {
           withCredentials: true,
         });
 
-        setActiveRacePlan({});
+        // setActiveRacePlan({});
         setRacePlans((prevRacePlans) =>
           prevRacePlans!.filter((racePlan: any) => racePlan.id !== racePlanId)
         );
@@ -325,7 +332,10 @@ const RacePlanPage = () => {
             </div>
 
             {/* Share Plan Button  */}
-            <div className="flex items-center bg-blue-light text-white p-1 midMobile:p-2 rounded border hover:bg-blue-dark cursor-pointer">
+            <div
+              onClick={handleSharePlan}
+              className="flex items-center bg-blue-light text-white p-1 midMobile:p-2 rounded border hover:bg-blue-dark cursor-pointer"
+            >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Share {width! >= 1280 && "Plan"}</p>
               )}
