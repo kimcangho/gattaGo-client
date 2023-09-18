@@ -11,6 +11,14 @@ interface PlanOrderData {
   sectionId: string;
 }
 
+interface EventSectionData {
+  id: string;
+  eventName: string;
+  eventDistance: string;
+  eventLane: String;
+  eventTime: Date;
+}
+
 interface NotesSectionData {
   id: string;
   notesName: string;
@@ -20,6 +28,7 @@ interface NotesSectionData {
 interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
   setRegattaSectionArr: Function;
+  eventSectionArr: EventSectionData[];
   setEventSectionArr: Function;
   setLineupSectionArr: Function;
   notesSectionArr: NotesSectionData[];
@@ -29,6 +38,7 @@ interface PlanViewSectionProps {
 const PlanViewSection = ({
   planOrder,
   setRegattaSectionArr,
+  eventSectionArr,
   setEventSectionArr,
   setLineupSectionArr,
   notesSectionArr,
@@ -80,6 +90,10 @@ const PlanViewSection = ({
               <EventPlanSection
                 key={planSection.id}
                 id={planSection.id}
+                eventSection={filterSection(
+                  eventSectionArr,
+                  planSection.sectionId
+                )}
                 setEventSectionArr={setEventSectionArr}
               />
             );

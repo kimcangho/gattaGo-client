@@ -12,17 +12,27 @@ interface EventSectionData {
 
 interface EventPlanSectionProps {
   id: string;
+  eventSection?: EventSectionData;
   setEventSectionArr: Function;
 }
 
 const EventPlanSection = ({
   id,
+  eventSection,
   setEventSectionArr,
 }: EventPlanSectionProps) => {
-  const [eventName, setEventName] = useState<string>("");
-  const [eventDistance, setEventDistance] = useState<string>("default");
-  const [eventLane, setEventLane] = useState<string>("");
-  const [eventTime, setEventTime] = useState<Date | null>(null);
+  const [eventName, setEventName] = useState<string>(
+    eventSection?.eventName || ""
+  );
+  const [eventDistance, setEventDistance] = useState<string>(
+    eventSection?.eventDistance || "default"
+  );
+  const [eventLane, setEventLane] = useState<string>(
+    eventSection?.eventLane || ""
+  );
+  const [eventTime, setEventTime] = useState<Date | null>(
+    eventSection?.eventTime ? new Date(eventSection?.eventTime) : null
+  );
 
   const handleSetEventSection = () => {
     setEventSectionArr((currentArr: EventSectionData[]) => {

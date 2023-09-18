@@ -90,15 +90,15 @@ const RacePlanPage = () => {
   const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
   >([]);
-  const [eventSectionArr, setEventSectionArr] = useState<EventSectionData[] | []>(
-    []
-  );
+  const [eventSectionArr, setEventSectionArr] = useState<
+    EventSectionData[] | []
+  >([]);
   const [_lineupSectionArr, setLineupSectionArr] = useState<
     LineupSectionData[] | []
   >([]);
-  const [notesSectionArr, setNotesSectionArr] = useState<NotesSectionData[] | []>(
-    []
-  );
+  const [notesSectionArr, setNotesSectionArr] = useState<
+    NotesSectionData[] | []
+  >([]);
 
   //  Added hooks
   const { teamId } = useParams();
@@ -514,6 +514,7 @@ const RacePlanPage = () => {
                 planOrder={planOrder}
                 setRegattaSectionArr={setRegattaSectionArr}
                 setEventSectionArr={setEventSectionArr}
+                eventSectionArr={eventSectionArr}
                 setLineupSectionArr={setLineupSectionArr}
                 notesSectionArr={notesSectionArr}
                 setNotesSectionArr={setNotesSectionArr}
