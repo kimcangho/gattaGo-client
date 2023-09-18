@@ -61,7 +61,6 @@ const RaceSectionItem = ({
       { id, section, sectionId: id, index: planOrder.length },
     ]);
 
-    console.log(`Creating race section: ${section}`);
     switch (section) {
       case "Regatta":
         console.log("switch regattas racesectionitem");

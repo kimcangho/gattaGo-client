@@ -84,9 +84,9 @@ const RacePlanPage = () => {
   //  RHF states
   const [racePlans, setRacePlans] = useState<any[]>([]);
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
-
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
   >([]);
@@ -119,7 +119,6 @@ const RacePlanPage = () => {
     },
   });
 
-  //  useEffect to fetch current race plans
   useEffect(() => {
     const getRacePlans = async () => {
       try {
@@ -255,11 +254,8 @@ const RacePlanPage = () => {
     console.log("sharing plan...");
   };
 
-  //  Delete Plan Function
   const handleDeletePlan = async () => {
-    //  Create or update plan
-    console.log("deleting plan...");
-
+    if (planOrder.length === 0) return;
     // if (isSaving || isDeleting || isFetching) return;
 
     const deleteSingleLineup = async (racePlanId: string) => {
@@ -269,7 +265,6 @@ const RacePlanPage = () => {
           withCredentials: true,
         });
 
-        // setActiveRacePlan({});
         setRacePlans((prevRacePlans) =>
           prevRacePlans!.filter((racePlan: any) => racePlan.id !== racePlanId)
         );
@@ -292,7 +287,6 @@ const RacePlanPage = () => {
         <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
           <div className="mb-2">
             <h1>Race Plans</h1>
-            {/* Hardcoded plan number */}
             <p className="text-black">
               {" "}
               {`Total: ${!racePlans ? "-" : racePlans?.length} plan${
@@ -301,7 +295,7 @@ const RacePlanPage = () => {
             </p>
           </div>
           <div className="flex space-x-2 tablet:space-x-4 text-center">
-            {/* Save Plan Button  */}
+            {/* Save Plan Button - To-do Update/Edit  */}
             <div
               onClick={handleSubmit(handleSavePlan)}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border ${
@@ -332,10 +326,14 @@ const RacePlanPage = () => {
               <img src={clearIcon} alt="Clear Plan" className="h-6" />
             </div>
 
-            {/* Share Plan Button  */}
+            {/* Share Plan Button - To-do */}
             <div
               onClick={handleSharePlan}
-              className="flex items-center bg-blue-light text-white p-1 midMobile:p-2 rounded border hover:bg-blue-dark cursor-pointer"
+              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border ${
+                planOrder.length === 0
+                  ? "bg-gray-border cursor-not-allowed"
+                  : "bg-blue-light hover:bg-blue-dark cursor-pointer"
+              }`}
             >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Share {width! >= 1280 && "Plan"}</p>

@@ -1,7 +1,5 @@
 import { useState } from "react";
 
-//  Notes section not displaying notes name nor body!
-
 interface NotesSectionData {
   id: string;
   notesName: string;
@@ -54,9 +52,7 @@ const NotesPlanSection = ({
         className={`bg-inherit text-2xl p-2 ${notesName ? "text-black" : ""}`}
       />
       <div className="flex flex-col tablet:flex-row">
-        {/* Notes */}
         <div className="mx-2 w-full">
-          {/* Notes */}
           <div className="flex flex-col my-2">
             <textarea
               rows={4}
