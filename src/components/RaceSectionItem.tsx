@@ -63,7 +63,6 @@ const RaceSectionItem = ({
 
     switch (section) {
       case "Regatta":
-        console.log("switch regattas racesectionitem");
         setRegattaSectionArr((regattaSections: RegattaSectionData[]) => {
           return [
             ...regattaSections,

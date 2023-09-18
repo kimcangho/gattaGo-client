@@ -68,7 +68,6 @@ const PlanViewSection = ({
   return (
     <div className="flex flex-col space-y-4">
       {planOrder.map((planSection: PlanOrderData) => {
-        console.log(planSection.section, planSection.sectionId);
         switch (planSection.section) {
           //  Regatta Section - OK
           case "Regatta":
