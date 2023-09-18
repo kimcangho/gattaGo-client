@@ -10,15 +10,21 @@ interface NotesSectionData {
 
 interface NotesPlanSectionProps {
   id: string;
+  notesSection?: NotesSectionData;
   setNotesSectionArr: Function;
 }
 
 const NotesPlanSection = ({
   id,
+  notesSection,
   setNotesSectionArr,
 }: NotesPlanSectionProps) => {
-  const [notesName, setNotesName] = useState<string>("");
-  const [notesBody, setNotesBody] = useState<string>("");
+  const [notesName, setNotesName] = useState<string>(
+    notesSection?.notesName || ""
+  );
+  const [notesBody, setNotesBody] = useState<string>(
+    notesSection?.notesBody || ""
+  );
 
   const handleSetNotesSection = () => {
     setNotesSectionArr((currentArr: NotesSectionData[]) => {
@@ -62,7 +68,9 @@ const NotesPlanSection = ({
                 setNotesBody(event.target.value);
                 handleSetNotesSection();
               }}
-              className={`bg-inherit p-2 w-full ${notesBody ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full ${
+                notesBody ? "text-black" : ""
+              }`}
             />
           </div>
         </div>

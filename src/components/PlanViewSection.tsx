@@ -11,11 +11,18 @@ interface PlanOrderData {
   sectionId: string;
 }
 
+interface NotesSectionData {
+  id: string;
+  notesName: string;
+  notesBody: string;
+}
+
 interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
   setRegattaSectionArr: Function;
   setEventSectionArr: Function;
   setLineupSectionArr: Function;
+  notesSectionArr: NotesSectionData[];
   setNotesSectionArr: Function;
 }
 
@@ -24,8 +31,18 @@ const PlanViewSection = ({
   setRegattaSectionArr,
   setEventSectionArr,
   setLineupSectionArr,
+  notesSectionArr,
   setNotesSectionArr,
 }: PlanViewSectionProps) => {
+  //  Filter correct section
+  const filterSection = (sectionArr: any[], identifier: string) => {
+    const foundSection = sectionArr.find((section) => {
+      return identifier === section.id;
+    });
+
+    return foundSection;
+  };
+
   return (
     <div className="flex flex-col space-y-4">
       {planOrder.map((planSection: PlanOrderData) => {
@@ -81,6 +98,10 @@ const PlanViewSection = ({
               <NotesPlanSection
                 key={planSection.id}
                 id={planSection.id}
+                notesSection={filterSection(
+                  notesSectionArr,
+                  planSection.sectionId
+                )}
                 setNotesSectionArr={setNotesSectionArr}
               />
             );
