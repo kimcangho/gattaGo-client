@@ -15,20 +15,40 @@ interface RegattaSectionData {
 
 interface RegattaPlanSectionProps {
   id: string;
+  regattaSection: RegattaSectionData;
   setRegattaSectionArr: Function;
 }
 
 const RegattaPlanSection = ({
   id,
+  regattaSection,
   setRegattaSectionArr,
 }: RegattaPlanSectionProps) => {
-  const [regattaName, setRegattaName] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [contact, setContact] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [regattaName, setRegattaName] = useState<string>(
+    regattaSection?.regattaName || ""
+  );
+  const [address, setAddress] = useState<string>(
+    regattaSection?.regattaAddress || ""
+  );
+  const [contact, setContact] = useState<string>(
+    regattaSection?.regattaContact || ""
+  );
+  const [email, setEmail] = useState<string>(
+    regattaSection?.regattaEmail || ""
+  );
+  const [phone, setPhone] = useState<string>(
+    regattaSection?.regattaPhone || ""
+  );
+  const [startDate, setStartDate] = useState<Date | null>(
+    regattaSection?.regattaStartDate
+      ? new Date(regattaSection?.regattaStartDate)
+      : null
+  );
+  const [endDate, setEndDate] = useState<Date | null>(
+    regattaSection?.regattaEndDate
+      ? new Date(regattaSection?.regattaEndDate)
+      : null
+  );
 
   const handleSetRegattaSection = () => {
     setRegattaSectionArr((currentArr: RegattaSectionData[]) => {
@@ -55,6 +75,7 @@ const RegattaPlanSection = ({
     <div className="flex flex-col border border-black rounded-md p-2">
       <input
         placeholder="Type regatta name here"
+        value={regattaName}
         onChange={(event) => {
           setRegattaName(event.target.value);
           handleSetRegattaSection();

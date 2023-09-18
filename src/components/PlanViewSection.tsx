@@ -11,6 +11,17 @@ interface PlanOrderData {
   sectionId: string;
 }
 
+interface RegattaSectionData {
+  id: string;
+  regattaName: string;
+  regattaStartDate: Date;
+  regattaEndDate: Date;
+  regattaAddress: string;
+  regattaContact: string;
+  regattaEmail: string;
+  regattaPhone: string;
+}
+
 interface EventSectionData {
   id: string;
   eventName: string;
@@ -27,6 +38,7 @@ interface NotesSectionData {
 
 interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
+  regattaSectionArr: RegattaSectionData[];
   setRegattaSectionArr: Function;
   eventSectionArr: EventSectionData[];
   setEventSectionArr: Function;
@@ -37,6 +49,7 @@ interface PlanViewSectionProps {
 
 const PlanViewSection = ({
   planOrder,
+  regattaSectionArr,
   setRegattaSectionArr,
   eventSectionArr,
   setEventSectionArr,
@@ -56,6 +69,7 @@ const PlanViewSection = ({
   return (
     <div className="flex flex-col space-y-4">
       {planOrder.map((planSection: PlanOrderData) => {
+        console.log(planSection.section, planSection.sectionId)
         switch (planSection.section) {
           //  Regatta Section - OK
           case "Regatta":
@@ -63,6 +77,10 @@ const PlanViewSection = ({
               <RegattaPlanSection
                 key={planSection.id}
                 id={planSection.id}
+                regattaSection={filterSection(
+                  regattaSectionArr,
+                  planSection.sectionId
+                )}
                 setRegattaSectionArr={setRegattaSectionArr}
               />
             );

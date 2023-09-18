@@ -178,11 +178,6 @@ const RacePlanPage = () => {
         );
 
         console.log(data);
-        // console.log(data.id, data.name);
-        // console.log(data?.planSections);
-        // console.log(data.regattaSection);
-        // console.log(data.eventSection);
-        // console.log(data?.notesSection);
 
         setPlanOrder(
           data.planSections.sort((a: any, b: any) =>
@@ -512,9 +507,10 @@ const RacePlanPage = () => {
             ) : (
               <PlanViewSection
                 planOrder={planOrder}
+                regattaSectionArr={regattaSectionArr}
                 setRegattaSectionArr={setRegattaSectionArr}
-                setEventSectionArr={setEventSectionArr}
                 eventSectionArr={eventSectionArr}
+                setEventSectionArr={setEventSectionArr}
                 setLineupSectionArr={setLineupSectionArr}
                 notesSectionArr={notesSectionArr}
                 setNotesSectionArr={setNotesSectionArr}
