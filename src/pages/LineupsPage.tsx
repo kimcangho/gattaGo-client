@@ -145,10 +145,10 @@ const LineupsPage = (): JSX.Element => {
       }
     };
 
-    if (activeLineupId !== "new") {
-      updateTeamLineup();
-    } else {
+    if (activeLineupId === "new") {
       createTeamLineup();
+    } else {
+      updateTeamLineup();
     }
   };
 

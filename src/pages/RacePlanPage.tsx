@@ -86,6 +86,7 @@ const RacePlanPage = () => {
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  // const [racePlanName, setRacePlanName] = useState<string>("")
 
   const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
@@ -111,6 +112,7 @@ const RacePlanPage = () => {
     handleSubmit,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -118,6 +120,7 @@ const RacePlanPage = () => {
       racePlanName: "",
     },
   });
+  const watchRacePlanName = watch("racePlanName");
 
   useEffect(() => {
     const getRacePlans = async () => {
@@ -199,7 +202,7 @@ const RacePlanPage = () => {
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
 
-    if (planOrder.length === 0) return;
+    // if (planOrder.length === 0) return; //  to remove
 
     const createRacePlan = async () => {
       if (!racePlanName) return;
@@ -210,13 +213,12 @@ const RacePlanPage = () => {
 
       try {
         // setIsSaving(true);
-        console.log(regattaSectionArr, eventSectionArr, notesSectionArr);
         const { data } = await axiosPrivate.post(`teams/${teamId}/racePlans`, {
           name: racePlanName,
           planOrder,
-          regattaArr: regattaSectionArr, //  need to establish regattaArray data
-          eventArr: eventSectionArr, //  need to establish eventsArray data
-          notesArr: notesSectionArr, //  need to establish notesArray data
+          regattaArr: regattaSectionArr,
+          eventArr: eventSectionArr,
+          notesArr: notesSectionArr,
         });
 
         setSelectDefaultValue(data.id);
@@ -232,10 +234,50 @@ const RacePlanPage = () => {
       }
     };
 
-    if (activeRacePlanId !== "new") {
-      console.log("updating plan");
-    } else {
+    const updateRacePlan = async () => {
+      //  return if no race plan name given
+      if (!racePlanName) return;
+
+      //  validate that there isn't a duplicate plan with same name and id
+      const duplicatePlan = racePlans?.find(
+        (plan) => plan.name === racePlanName && plan.id !== activeRacePlanId
+      );
+      if (duplicatePlan) return;
+
+      try {
+        // setIsSaving(true);
+        const { data } = await axiosPrivate.put(
+          `teams/${teamId}/racePlans/${getValues("activeRacePlanId")}`,
+          {
+            name: racePlanName,
+            planOrder,
+            regattaArr: regattaSectionArr,
+            eventArr: eventSectionArr,
+            notesArr: notesSectionArr,
+          }
+        );
+
+        setRacePlans((prevRacePlans) => {
+          const updatedRacePlans = prevRacePlans;
+          updatedRacePlans?.forEach((racePlan) => {
+            if (racePlan.id === data.racePlanId) racePlan.name = data.name; //  double check if property is data.id or data.racePlanId
+          });
+          return [...updatedRacePlans];
+        });
+
+        setSelectDefaultValue(data.racePlanId); //  double check if property is data.id or data.racePlanId
+        setValue("activeRacePlanId", data.racePlanId); //  double check if property is data.id or data.racePlanId
+        setValue("racePlanName", data.name);
+        // setIsSaving(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    };
+
+    if (activeRacePlanId === "new") {
       createRacePlan();
+    } else {
+      updateRacePlan();
     }
   };
 
@@ -255,7 +297,7 @@ const RacePlanPage = () => {
   };
 
   const handleDeletePlan = async () => {
-    if (planOrder.length === 0) return;
+    if (!getValues("activeRacePlanId")) return;
     // if (isSaving || isDeleting || isFetching) return;
 
     const deleteSingleLineup = async (racePlanId: string) => {
@@ -298,11 +340,13 @@ const RacePlanPage = () => {
             {/* Save Plan Button - To-do Update/Edit  */}
             <div
               onClick={handleSubmit(handleSavePlan)}
-              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border ${
-                planOrder.length === 0
-                  ? "bg-gray-border cursor-not-allowed"
-                  : "hover:bg-green-dark bg-green-light cursor-pointer"
-              } `}
+              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border
+              ${
+                watchRacePlanName
+                  ? "hover:bg-green-dark bg-green-light cursor-pointer"
+                  : "bg-gray-border cursor-not-allowed"
+              }
+               `}
             >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">Save {width! >= 1280 && "Plan"}</p>
@@ -398,17 +442,20 @@ const RacePlanPage = () => {
             <input
               {...register("racePlanName", {
                 required: {
-                  value: planOrder.length === 0 ? false : true,
+                  value: true,
                   message: "Plan name field can't be empty!",
                 },
               })}
+              onChange={(event) => {
+                setValue("racePlanName", event.target.value);
+              }}
               type="text"
               id="racePlanName"
               name="racePlanName"
               placeholder="Input plan name"
               className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-            {errors.racePlanName && (
+            {errors.racePlanName && !watchRacePlanName && (
               <p className="text-red-500">{errors.racePlanName.message}</p>
             )}
           </div>
