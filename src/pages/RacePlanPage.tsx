@@ -198,12 +198,9 @@ const RacePlanPage = () => {
     }
   };
 
-  //  Save Plan Function
+  //  Save Plan Function - To-do for lineup / map / weather sections
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
-
-    // if (planOrder.length === 0) return; //  to remove
-
     const createRacePlan = async () => {
       if (!racePlanName) return;
       const duplicatePlan = racePlans?.find(
@@ -235,10 +232,8 @@ const RacePlanPage = () => {
     };
 
     const updateRacePlan = async () => {
-      //  return if no race plan name given
       if (!racePlanName) return;
 
-      //  validate that there isn't a duplicate plan with same name and id
       const duplicatePlan = racePlans?.find(
         (plan) => plan.name === racePlanName && plan.id !== activeRacePlanId
       );
@@ -337,7 +332,7 @@ const RacePlanPage = () => {
             </p>
           </div>
           <div className="flex space-x-2 tablet:space-x-4 text-center">
-            {/* Save Plan Button - To-do Update/Edit  */}
+            {/* Save Plan Button  */}
             <div
               onClick={handleSubmit(handleSavePlan)}
               className={`flex items-center  text-white p-1 midMobile:p-2 rounded border
