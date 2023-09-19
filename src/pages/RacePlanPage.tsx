@@ -241,6 +241,13 @@ const RacePlanPage = () => {
 
       try {
         // setIsSaving(true);
+        console.log(
+          racePlanName,
+          planOrder,
+          regattaSectionArr,
+          eventSectionArr,
+          notesSectionArr
+        );
         const { data } = await axiosPrivate.put(
           `teams/${teamId}/racePlans/${getValues("activeRacePlanId")}`,
           {
