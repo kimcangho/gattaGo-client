@@ -89,7 +89,7 @@ const RaceSectionItem = ({
               eventDistance: "",
               eventLane: "",
               eventLineup: "",
-              eventTime: "",
+              eventTime: null,
             },
           ];
         });
