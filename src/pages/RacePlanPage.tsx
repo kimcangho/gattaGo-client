@@ -94,7 +94,7 @@ const RacePlanPage = () => {
   const [eventSectionArr, setEventSectionArr] = useState<
     EventSectionData[] | []
   >([]);
-  const [_lineupSectionArr, setLineupSectionArr] = useState<
+  const [lineupSectionArr, setLineupSectionArr] = useState<
     LineupSectionData[] | []
   >([]);
   const [notesSectionArr, setNotesSectionArr] = useState<
@@ -302,7 +302,7 @@ const RacePlanPage = () => {
     if (!getValues("activeRacePlanId")) return;
     // if (isSaving || isDeleting || isFetching) return;
 
-    const deleteSingleLineup = async (racePlanId: string) => {
+    const deleteSinglePlan = async (racePlanId: string) => {
       try {
         // setIsDeleting(true);
         await axiosPrivate.delete(`/teams/${teamId}/racePlans/${racePlanId}`, {
@@ -322,7 +322,7 @@ const RacePlanPage = () => {
     };
 
     if (getValues().activeRacePlanId === "new") return;
-    deleteSingleLineup(getValues().activeRacePlanId);
+    deleteSinglePlan(getValues().activeRacePlanId);
   };
 
   return (
@@ -414,7 +414,7 @@ const RacePlanPage = () => {
         <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
           <div className="flex flex-col mb-4 midMobile:w-[50%]">
             <label htmlFor="activeRacePlanId">
-              <h3 className="text-blue-light">Active Lineup</h3>
+              <h3 className="text-blue-light">Active Plan</h3>
             </label>
             <select
               {...register("activeRacePlanId")}
@@ -564,6 +564,7 @@ const RacePlanPage = () => {
                 setRegattaSectionArr={setRegattaSectionArr}
                 eventSectionArr={eventSectionArr}
                 setEventSectionArr={setEventSectionArr}
+                lineupSectionArr={lineupSectionArr}
                 setLineupSectionArr={setLineupSectionArr}
                 notesSectionArr={notesSectionArr}
                 setNotesSectionArr={setNotesSectionArr}

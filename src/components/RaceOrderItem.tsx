@@ -116,7 +116,6 @@ const RaceOrderItem = ({
           });
         });
         break;
-
       default:
         console.log("race order item switch other");
         break;

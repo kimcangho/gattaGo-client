@@ -118,7 +118,6 @@ const RaceSectionItem = ({
           ];
         });
         break;
-
       default:
         break;
     }

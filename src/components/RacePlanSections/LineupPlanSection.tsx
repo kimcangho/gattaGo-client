@@ -4,13 +4,21 @@ import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../../hooks/useLogoutRedirect";
 import { LineupData } from "../../interfaces/EntityData";
 
+interface LineupSectionData {
+  id: string;
+  lineupName: string;
+  boatOrder: (string | null)[];
+}
+
 interface LineupPlanSectionProps {
   id: string;
+  lineupSection: LineupSectionData;
   setLineupSectionArr: Function;
 }
 
 const LineupPlanSection = ({
   id,
+  lineupSection,
   setLineupSectionArr,
 }: LineupPlanSectionProps) => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
@@ -25,9 +33,8 @@ const LineupPlanSection = ({
     const getTeamLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
-        console.log(data.lineups)
+        console.log(data.lineups);
         setTeamLineups(data.lineups);
-
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
