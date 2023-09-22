@@ -179,8 +179,6 @@ const RacePlanPage = () => {
           `/teams/${teamId}/racePlans/${event.target.value}`
         );
 
-        // console.log(data);
-
         setPlanOrder(
           data.planSections.sort((a: any, b: any) =>
             a.order > b.order ? 1 : -1
@@ -199,7 +197,7 @@ const RacePlanPage = () => {
     }
   };
 
-  //  Save Plan Function - To-do for lineup / map / weather sections
+  //  Save Plan Function - To-do for map / weather sections
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
     const createRacePlan = async () => {
@@ -298,7 +296,6 @@ const RacePlanPage = () => {
 
   //  Share Plan Function
   const handleSharePlan = async () => {
-    //  Create or update plan
     console.log("sharing plan...");
   };
 
@@ -403,7 +400,6 @@ const RacePlanPage = () => {
                   ? "cursor-auto"
                   : "hover:bg-red-500"
               }`}
-              // className="flex items-center bg-red-dark text-white p-1 midMobile:p-2 rounded border hover:bg-red-600 cursor-pointer"
             >
               {width! >= 768 && (
                 <p className="mr-2 text-lg">
