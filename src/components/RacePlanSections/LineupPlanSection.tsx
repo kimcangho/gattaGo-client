@@ -7,6 +7,8 @@ import { LineupData } from "../../interfaces/EntityData";
 //  imported libraries
 import { useForm } from "react-hook-form";
 import RacePlanBoatLineup from "../RacePlanBoatLineup";
+import { generatePlaceholderLineup } from "../../utils/generatePlaceholderLineup";
+// import { injectIntoLineup } from "../../utils/injectIntoLineup";
 
 interface LineupSectionData {
   id: string;
@@ -48,7 +50,6 @@ const LineupPlanSection = ({
     },
   });
 
-  //  useEffect to get lineups list
   useEffect(() => {
     const getTeamLineups = async () => {
       try {
@@ -60,16 +61,14 @@ const LineupPlanSection = ({
       }
     };
 
-    //  add function to handle fetching team data on mount
     if (lineupId !== "new") {
-      //  fetch call for single lineup data
       const handleInitialGetLineup = async () => {
         try {
           // setIsFetching(true);
           const { data } = await axiosPrivate.get(
             `/teams/${teamId}/lineups/${lineupId}`
           );
-          console.log(data);
+
           setCurrentLineup(data?.lineups[0]?.athletes);
           setValue("lineupName", data.lineups[0].name);
           setValue("activeLineupId", data.lineups[0].id);
@@ -84,14 +83,12 @@ const LineupPlanSection = ({
     getTeamLineups();
   }, []);
 
-  //  get lineup whenever drop down menu changes
   const handleGetSingleLineup = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectDefaultValue(event.target.value);
     if (event.target.value === "new") {
       try {
-        // setActiveLineup(injectIntoLineup([]));
         setLineupId("");
         setCurrentLineup([]);
         setValue("lineupName", "");
@@ -117,7 +114,6 @@ const LineupPlanSection = ({
     }
   };
 
-  //  set lineup section
   const handleSetLineupSection = () => {
     setLineupSectionArr((currentArr: LineupSectionData[]) => {
       const filteredArr = currentArr.filter(
@@ -171,8 +167,12 @@ const LineupPlanSection = ({
             })}
         </select>
       </div>
-      {/* Map Boat Order to get boat seats */}
-      <RacePlanBoatLineup currentLineup={currentLineup} />
+
+      <RacePlanBoatLineup
+        currentLineup={
+          currentLineup ? currentLineup : generatePlaceholderLineup()
+        }
+      />
     </div>
   );
 };

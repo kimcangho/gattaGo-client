@@ -7,8 +7,18 @@ interface RacePlanBoatLineupProps {
 }
 
 const RacePlanBoatLineup = ({ currentLineup }: RacePlanBoatLineupProps) => {
-  const boatWeight = calculateBoatWeights(currentLineup);
-  const { frontWeight, backWeight, leftWeight, rightWeight } = boatWeight;
+  let frontWeight = 0;
+  let backWeight = 0;
+  let leftWeight = 0;
+  let rightWeight = 0;
+
+  if (currentLineup && currentLineup.length !== 0) {
+    const boatWeight = calculateBoatWeights(currentLineup);
+    frontWeight = boatWeight.frontWeight;
+    backWeight = boatWeight.backWeight;
+    leftWeight = boatWeight.leftWeight;
+    rightWeight = boatWeight.rightWeight;
+  }
 
   return (
     <div className="mx-auto">
@@ -18,10 +28,7 @@ const RacePlanBoatLineup = ({ currentLineup }: RacePlanBoatLineupProps) => {
         </h1>
 
         <h3 className="text-center">Front</h3>
-        <h4 className="text-center">
-          {frontWeight}
-          lbs
-        </h4>
+        <h4 className="text-center">{frontWeight ? frontWeight : "0"} lbs</h4>
         <div className="flex flex-row justify-center items-center max-w-[448px] space-x-2">
           <div className="w-12">
             <h3 className="text-center flex flex-col items-center">Left</h3>
@@ -31,7 +38,6 @@ const RacePlanBoatLineup = ({ currentLineup }: RacePlanBoatLineupProps) => {
 
           <div className="mx-auto">
             {currentLineup &&
-              currentLineup.length &&
               transformLineupsToSeats(currentLineup).map(
                 (row: any, index: number) => {
                   return (
@@ -48,10 +54,7 @@ const RacePlanBoatLineup = ({ currentLineup }: RacePlanBoatLineupProps) => {
           </div>
         </div>
         <h3 className="text-center">Back</h3>
-        <h4 className="text-center">
-          {backWeight}
-          lbs
-        </h4>
+        <h4 className="text-center">{backWeight} lbs</h4>
       </div>
     </div>
   );

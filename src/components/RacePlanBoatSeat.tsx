@@ -8,7 +8,6 @@ interface RacePlanBoatSeatProps {
 }
 
 const RacePlanBoatSeat = ({ seat, row }: RacePlanBoatSeatProps) => {
-  console.log(seat, row);
   const { currentTeamDetails }: AuthContextTypes = useContext(AuthContext)!;
   return (
     <div className="flex mx-auto w-fit">

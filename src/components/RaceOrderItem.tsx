@@ -85,7 +85,6 @@ const RaceOrderItem = ({
 
     switch (foundSectionType?.section) {
       case "Regatta":
-        //  Regattas
         setRegattaSectionArr((prevArr: RegattaSectionData[]) => {
           return prevArr.filter((item: RegattaSectionData) => {
             return item.id !== id;
@@ -93,7 +92,6 @@ const RaceOrderItem = ({
         });
         break;
       case "Event":
-        //  Event
         setEventSectionArr((prevArr: EventSectionData[]) => {
           return prevArr.filter((item: EventSectionData) => {
             return item.id !== id;
@@ -101,16 +99,13 @@ const RaceOrderItem = ({
         });
         break;
       case "Lineup":
-        //  Event
         setLineupSectionArr((prevArr: LineupSectionData[]) => {
           return prevArr.filter((item: LineupSectionData) => {
-            console.log(item, id)
             return item.id !== id;
           });
         });
         break;
       case "Notes":
-        //  Notes
         setNotesSectionArr((prevArr: NotesSectionData[]) => {
           return prevArr.filter((item: NotesSectionData) => {
             return item.id !== id;
