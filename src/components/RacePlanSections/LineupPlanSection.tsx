@@ -59,26 +59,26 @@ const LineupPlanSection = ({
         console.log(err);
         logoutRedirect("/login");
       }
+
+      if (lineupId !== "new" && teamLineups?.length) {
+        const handleInitialGetLineup = async () => {
+          try {
+            // setIsFetching(true);
+            const { data } = await axiosPrivate.get(
+              `/teams/${teamId}/lineups/${lineupId}`
+            );
+
+            setCurrentLineup(data?.lineups[0]?.athletes);
+            setValue("lineupName", data.lineups[0].name);
+            setValue("activeLineupId", data.lineups[0].id);
+            // setIsFetching(false);
+          } catch (err: unknown) {
+            console.log(err);
+          }
+        };
+        handleInitialGetLineup();
+      }
     };
-
-    if (lineupId !== "new") {
-      const handleInitialGetLineup = async () => {
-        try {
-          // setIsFetching(true);
-          const { data } = await axiosPrivate.get(
-            `/teams/${teamId}/lineups/${lineupId}`
-          );
-
-          setCurrentLineup(data?.lineups[0]?.athletes);
-          setValue("lineupName", data.lineups[0].name);
-          setValue("activeLineupId", data.lineups[0].id);
-          // setIsFetching(false);
-        } catch (err: unknown) {
-          console.log(err);
-        }
-      };
-      handleInitialGetLineup();
-    }
 
     getTeamLineups();
   }, []);
