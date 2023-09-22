@@ -75,7 +75,7 @@ const PlanViewSection = ({
   };
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 rounded-lg shadow-lg">
       {planOrder.map((planSection: PlanOrderData) => {
         switch (planSection.section) {
           //  Regatta Section - OK

@@ -558,7 +558,7 @@ const RacePlanPage = () => {
           )}
 
           {/* Plan Section - Viewable/Editable components */}
-          <div className="bg-red-light w-full min-h-full">
+          <div className="bg-white w-full min-h-full rounded-lg shadow-lg">
             {planOrder.length === 0 ? (
               <EmptyRacePlan />
             ) : (

@@ -6,12 +6,12 @@ import { LineupData } from "../../interfaces/EntityData";
 
 //  imported libraries
 import { useForm } from "react-hook-form";
+import RacePlanBoatLineup from "../RacePlanBoatLineup";
 
 interface LineupSectionData {
   id: string;
   lineupName: string;
   lineupId: string;
-  boatOrder: (string | null)[];
 }
 
 interface LineupPlanSectionProps {
@@ -35,7 +35,7 @@ const LineupPlanSection = ({
   const [lineupId, setLineupId] = useState<string>(
     lineupSection.lineupId || ""
   );
-  const [boatOrder, setBoatOrder] = useState([]);
+  const [currentLineup, setCurrentLineup] = useState([]);
 
   const { teamId } = useParams<string>();
   const axiosPrivate = useAxiosPrivate();
@@ -53,7 +53,6 @@ const LineupPlanSection = ({
     const getTeamLineups = async () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
-        console.log(data);
         setTeamLineups(data.lineups);
       } catch (err: unknown) {
         console.log(err);
@@ -63,7 +62,6 @@ const LineupPlanSection = ({
 
     //  add function to handle fetching team data on mount
     if (lineupId !== "new") {
-      console.log("get extra info", lineupId);
       //  fetch call for single lineup data
       const handleInitialGetLineup = async () => {
         try {
@@ -72,7 +70,7 @@ const LineupPlanSection = ({
             `/teams/${teamId}/lineups/${lineupId}`
           );
           console.log(data);
-          setBoatOrder(data?.lineups[0]?.athletes);
+          setCurrentLineup(data?.lineups[0]?.athletes);
           setValue("lineupName", data.lineups[0].name);
           setValue("activeLineupId", data.lineups[0].id);
           // setIsFetching(false);
@@ -81,7 +79,7 @@ const LineupPlanSection = ({
         }
       };
       handleInitialGetLineup();
-    } else console.log("empty boat order");
+    }
 
     getTeamLineups();
   }, []);
@@ -95,7 +93,7 @@ const LineupPlanSection = ({
       try {
         // setActiveLineup(injectIntoLineup([]));
         setLineupId("");
-        setBoatOrder([]);
+        setCurrentLineup([]);
         setValue("lineupName", "");
         setValue("activeLineupId", "new");
       } catch (err: unknown) {
@@ -108,7 +106,7 @@ const LineupPlanSection = ({
           `/teams/${teamId}/lineups/${event.target.value}`
         );
 
-        setBoatOrder(data.lineups[0].athletes);
+        setCurrentLineup(data.lineups[0].athletes);
         setLineupId(data.lineups[0].id);
         setValue("lineupName", data.lineups[0].name);
         setValue("activeLineupId", data.lineups[0].id);
@@ -125,7 +123,7 @@ const LineupPlanSection = ({
       const filteredArr = currentArr.filter(
         (lineupSection: LineupSectionData) => lineupSection.id !== id
       );
-      const newArr = [
+      return [
         ...filteredArr,
         {
           id,
@@ -133,23 +131,20 @@ const LineupPlanSection = ({
           lineupId: getValues("activeLineupId"),
         },
       ];
-      console.log(newArr);
-      return [...newArr];
     });
   };
 
   return (
-    <div className="flex flex-col border border-black rounded-md p-2">
-      <div className="flex flex-col mb-4 midMobile:w-[50%]">
+    <div className="flex flex-col border w-full border-black rounded-md p-2">
+      <div className="flex flex-col w-full mb-4">
         <input
           placeholder="Type lineup title here"
           value={lineupName}
           onChange={(event) => {
-            console.log("setting lineup name: ", event.target.value);
             setLineupName(event.target.value);
             handleSetLineupSection();
           }}
-          className={`bg-inherit text-2xl p-2 ${
+          className={`bg-inherit text-2xl p-2 text-center mb-2 ${
             lineupName ? "text-black" : ""
           }`}
         />
@@ -158,7 +153,7 @@ const LineupPlanSection = ({
           name="activeLineupId"
           id="activeLineupId"
           value={selectDefaultValue}
-          className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+          className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light midMobile:w-[75%] mx-auto"
           onChange={async (event) => {
             await handleGetSingleLineup(event);
             handleSetLineupSection();
@@ -177,10 +172,7 @@ const LineupPlanSection = ({
         </select>
       </div>
       {/* Map Boat Order to get boat seats */}
-      <h2>
-        {lineupId} {lineupName} Lineup
-      </h2>
-      <h3>{boatOrder?.length} boat order length</h3>
+      <RacePlanBoatLineup currentLineup={currentLineup} />
     </div>
   );
 };
