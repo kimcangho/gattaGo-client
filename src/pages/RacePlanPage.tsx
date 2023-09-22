@@ -179,7 +179,7 @@ const RacePlanPage = () => {
           `/teams/${teamId}/racePlans/${event.target.value}`
         );
 
-        console.log(data);
+        // console.log(data);
 
         setPlanOrder(
           data.planSections.sort((a: any, b: any) =>

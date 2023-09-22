@@ -62,21 +62,29 @@ const LineupPlanSection = ({
     };
 
     //  add function to handle fetching team data on mount
-    if (boatOrder)
-      console.log(
-        "get extra info",
-        lineupId
-      ); //  fetch call for single lineup data
-    else console.log("empty boat order");
+    if (lineupId !== "new") {
+      console.log("get extra info", lineupId);
+      //  fetch call for single lineup data
+      const handleInitialGetLineup = async () => {
+        try {
+          // setIsFetching(true);
+          const { data } = await axiosPrivate.get(
+            `/teams/${teamId}/lineups/${lineupId}`
+          );
+          console.log(data);
+          setBoatOrder(data?.lineups[0]?.athletes);
+          setValue("lineupName", data.lineups[0].name);
+          setValue("activeLineupId", data.lineups[0].id);
+          // setIsFetching(false);
+        } catch (err: unknown) {
+          console.log(err);
+        }
+      };
+      handleInitialGetLineup();
+    } else console.log("empty boat order");
 
     getTeamLineups();
   }, []);
-
-  // useEffect(() => {
-  //   //  add function to handle fetching team data on mount
-  //   if (boatOrder) console.log("get extra info");
-  //   else console.log("empty boat order");
-  // }, [teamLineups]);
 
   //  get lineup whenever drop down menu changes
   const handleGetSingleLineup = async (
@@ -87,6 +95,7 @@ const LineupPlanSection = ({
       try {
         // setActiveLineup(injectIntoLineup([]));
         setLineupId("");
+        setBoatOrder([]);
         setValue("lineupName", "");
         setValue("activeLineupId", "new");
       } catch (err: unknown) {
@@ -171,7 +180,7 @@ const LineupPlanSection = ({
       <h2>
         {lineupId} {lineupName} Lineup
       </h2>
-      <h3>{boatOrder.length} boat order length</h3>
+      <h3>{boatOrder?.length} boat order length</h3>
     </div>
   );
 };
