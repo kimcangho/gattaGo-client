@@ -104,6 +104,7 @@ const RaceOrderItem = ({
         //  Event
         setLineupSectionArr((prevArr: LineupSectionData[]) => {
           return prevArr.filter((item: LineupSectionData) => {
+            console.log(item, id)
             return item.id !== id;
           });
         });

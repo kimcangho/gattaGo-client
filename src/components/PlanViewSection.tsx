@@ -67,6 +67,7 @@ const PlanViewSection = ({
 }: PlanViewSectionProps) => {
   const filterSection = (sectionArr: any[], identifier: string) => {
     const foundSection = sectionArr.find((section) => {
+      // console.log(section.id, identifier);
       return identifier === section.id;
     });
 

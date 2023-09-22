@@ -101,7 +101,7 @@ const RaceSectionItem = ({
             {
               id,
               lineupName: "",
-              boatOrder: [],
+              lineupId: ""
             },
           ];
         });

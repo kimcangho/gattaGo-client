@@ -189,6 +189,7 @@ const RacePlanPage = () => {
         setRegattaSectionArr(data.regattaSection);
         setEventSectionArr(data.eventSection);
         setNotesSectionArr(data.notesSection);
+        setLineupSectionArr(data.lineupSection);
         setValue("racePlanName", data.name);
         setValue("activeRacePlanId", data.id);
         // setIsFetching(false);
@@ -215,6 +216,7 @@ const RacePlanPage = () => {
           planOrder,
           regattaArr: regattaSectionArr,
           eventArr: eventSectionArr,
+          lineupArr: lineupSectionArr,
           notesArr: notesSectionArr,
         });
 
@@ -245,6 +247,7 @@ const RacePlanPage = () => {
           racePlanName,
           planOrder,
           regattaSectionArr,
+          lineupSectionArr,
           eventSectionArr,
           notesSectionArr
         );
@@ -254,6 +257,7 @@ const RacePlanPage = () => {
             name: racePlanName,
             planOrder,
             regattaArr: regattaSectionArr,
+            lineupArr: lineupSectionArr,
             eventArr: eventSectionArr,
             notesArr: notesSectionArr,
           }
