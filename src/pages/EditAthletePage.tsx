@@ -85,9 +85,7 @@ const EditAthletePage = () => {
   useEffect(() => {
     const getAthleteDetails = async (athleteId: string) => {
       try {
-        const { data } = await axiosPrivate.get(`/athletes/${athleteId}`, {
-          withCredentials: true,
-        });
+        const { data } = await axiosPrivate.get(`/athletes/${athleteId}`);
         const {
           eligibility,
           isAvailable,

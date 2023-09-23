@@ -11,9 +11,7 @@ const useLogoutRedirect = () => {
   const logoutRedirect = async (redirectPage: string) => {
     setAccessToken("");
     try {
-      await axiosAuth.delete(`/logout`, {
-        withCredentials: true,
-      });
+      await axiosAuth.delete(`/logout`);
       setIsLoggedIn(false);
     } catch (err: unknown) {
       console.log(err);

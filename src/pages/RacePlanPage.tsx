@@ -306,9 +306,7 @@ const RacePlanPage = () => {
     const deleteSinglePlan = async (racePlanId: string) => {
       try {
         // setIsDeleting(true);
-        await axiosPrivate.delete(`/teams/${teamId}/racePlans/${racePlanId}`, {
-          withCredentials: true,
-        });
+        await axiosPrivate.delete(`/teams/${teamId}/racePlans/${racePlanId}`);
 
         setRacePlans((prevRacePlans) =>
           prevRacePlans!.filter((racePlan: any) => racePlan.id !== racePlanId)

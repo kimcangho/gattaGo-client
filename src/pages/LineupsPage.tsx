@@ -187,9 +187,7 @@ const LineupsPage = (): JSX.Element => {
     const deleteSingleLineup = async (lineupId: string) => {
       try {
         setIsDeleting(true);
-        await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`, {
-          withCredentials: true,
-        });
+        await axiosPrivate.delete(`/teams/${teamId}/lineups/${lineupId}`);
 
         setActiveLineup(generatePlaceholderLineup());
         setTeamLineups((prevLineups) =>

@@ -44,9 +44,7 @@ const EditTeamPage = (): JSX.Element => {
   useEffect(() => {
     const getTeamDetails = async (teamId: string) => {
       try {
-        const { data } = await axiosPrivate.get(`/teams/${teamId}`, {
-          withCredentials: true,
-        });
+        const { data } = await axiosPrivate.get(`/teams/${teamId}`);
 
         setValue("name", data.team.name);
         setValue("eligibility", data.team.eligibility);

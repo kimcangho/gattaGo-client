@@ -143,9 +143,7 @@ const RosterPage = (): JSX.Element => {
 
   const deleteAthlete = async (athleteId: string) => {
     try {
-      await axiosPrivate.delete(`/athletes/${athleteId}`, {
-        withCredentials: true,
-      });
+      await axiosPrivate.delete(`/athletes/${athleteId}`);
       const rosterAfterDelete = roster.filter((data) => {
         return athleteId !== data.athleteId;
       });

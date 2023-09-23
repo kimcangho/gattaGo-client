@@ -36,14 +36,10 @@ const LoginPage = (): JSX.Element => {
     if (isSending) return;
     try {
       setIsSending(true);
-      const { data } = await axiosAuth.post(
-        "/login",
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const { data } = await axiosAuth.post("/login", {
+        email,
+        password,
+      });
 
       setAccessToken(data.accessToken);
       setUserId(data.id);
