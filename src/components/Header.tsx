@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { useContext, useState } from "react";
 import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-import { axiosAuth } from "../services/axios.service";
+// import { axiosAuth } from "../services/axios.service";
 import gattaGoLogo from "../assets/logos/gattaGo-boat.svg";
 
 const Header = (): JSX.Element => {
@@ -37,7 +37,7 @@ const Header = (): JSX.Element => {
     if (isLoggingOut) return;
     try {
       setIsLoggingOut(true);
-      await axiosAuth.delete(`/logout`, { data: { accessToken } });
+      // await axiosAuth.delete(`/logout`, { data: { accessToken } });
       setAccessToken("");
       setUserId("");
       setEmail("");
