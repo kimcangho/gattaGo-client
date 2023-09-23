@@ -88,19 +88,20 @@ RECOMMENDED: follow setup steps in backend documentation for server/database fir
 
 ## Project Status
 
-Project is: _in progress_.  
-Currently working on: _cleanup_.
+Project is: _in progress (phase1)_.  
+Currently working on: _race plan (weather and map sections)_.
 
 ## Next Steps
 
 Room for improvement:
 
-- General refactoring and type-checking.
+- Separate database calls into services for team controller.
+- General type-checking.
 
 To do:
 
+- Team race plan tab (weather and map sections, export race plan feature)
 - Optimize touch features for lineup page.
-- Team race day tab with exportable lineups, race plans, team site location.
 
 Future Phase Ideas:
 
@@ -110,8 +111,7 @@ Future Phase Ideas:
 
 Known issues:
 
-- Touch events interfering with scrolling in lineup page.
-- Deployment issues where cookies are unable to be received by front-end from back-end.
+- Deployment issues where cookies are unable to be received by front-end from back-end. _removed refresh token and cookie handling logic_
 
 ## Contact
 

@@ -37,7 +37,6 @@ const Header = (): JSX.Element => {
     if (isLoggingOut) return;
     try {
       setIsLoggingOut(true);
-      // await axiosAuth.delete(`/logout`, { data: { accessToken } });
       setAccessToken("");
       setUserId("");
       setEmail("");
