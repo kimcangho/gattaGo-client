@@ -256,7 +256,6 @@ const RosterItem = ({
                       }
                       alt="Delete"
                       id={athlete?.id}
-                      // onClick={() => handleDeleteAthlete(athleteId)}
                       onClick={handleModalVisibility}
                       onMouseEnter={handleDeleteHover}
                       onMouseLeave={handleDeleteHover}
@@ -273,17 +272,6 @@ const RosterItem = ({
               </div>
             </div>
           </article>
-          {/* {showModal && (
-            <DeleteModal
-              entityType="athlete"
-              entityName={`${athlete.firstName} ${athlete.lastName}`}
-              entityId={athlete.id}
-              setShowModal={setShowModal}
-              handleDeleteAthlete={handleDeleteAthlete}
-              isSending={isSending}
-              setIsSending={setIsSending}
-            />
-          )} */}
         </>
       )}
     </>
