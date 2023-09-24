@@ -17,6 +17,14 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface MapSectionData {
+  id: string;
+  mapName: string;
+  mapLatitude: number;
+  mapLongitude: number;
+  mapZoom: number;
+}
+
 interface EventSectionData {
   id: string;
   eventName: string;
@@ -41,6 +49,7 @@ interface RaceSectionItemProps {
   section: string;
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
   setRegattaSectionArr: Function;
+  setMapSectionArr: Function;
   setEventSectionArr: Function;
   setLineupSectionArr: Function;
   setNotesSectionArr: Function;
@@ -50,6 +59,7 @@ const RaceSectionItem = ({
   section,
   setPlanOrder,
   setRegattaSectionArr,
+  setMapSectionArr,
   setEventSectionArr,
   setLineupSectionArr,
   setNotesSectionArr,
@@ -79,6 +89,20 @@ const RaceSectionItem = ({
           ];
         });
         break;
+      case "Map":
+        setMapSectionArr((mapSections: MapSectionData[]) => {
+          return [
+            ...mapSections,
+            {
+              id,
+              mapName: "",
+              mapLatitude: null,
+              mapLongitude: null,
+              mapZoom: null,
+            },
+          ];
+        });
+        break;
       case "Event":
         setEventSectionArr((eventSections: EventSectionData[]) => {
           return [
@@ -101,7 +125,7 @@ const RaceSectionItem = ({
             {
               id,
               lineupName: "",
-              lineupId: ""
+              lineupId: "",
             },
           ];
         });

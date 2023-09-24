@@ -22,6 +22,14 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface MapSectionData {
+  id: string;
+  mapName: string;
+  mapLatitude: number;
+  mapLongitude: number;
+  mapZoom: number;
+}
+
 interface EventSectionData {
   id: string;
   eventName: string;
@@ -48,6 +56,7 @@ interface RaceOrderItemProps {
   planOrder: PlanOrderData[];
   setPlanOrder: React.Dispatch<React.SetStateAction<PlanOrderData[]>>;
   setRegattaSectionArr: Function;
+  setMapSectionArr: Function;
   setEventSectionArr: Function;
   setLineupSectionArr: Function;
   setNotesSectionArr: Function;
@@ -59,6 +68,7 @@ const RaceOrderItem = ({
   planOrder,
   setPlanOrder,
   setRegattaSectionArr,
+  setMapSectionArr,
   setEventSectionArr,
   setLineupSectionArr,
   setNotesSectionArr,
@@ -87,6 +97,13 @@ const RaceOrderItem = ({
       case "Regatta":
         setRegattaSectionArr((prevArr: RegattaSectionData[]) => {
           return prevArr.filter((item: RegattaSectionData) => {
+            return item.id !== id;
+          });
+        });
+        break;
+      case "Map":
+        setMapSectionArr((prevArr: MapSectionData[]) => {
+          return prevArr.filter((item: MapSectionData) => {
             return item.id !== id;
           });
         });

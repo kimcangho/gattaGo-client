@@ -17,6 +17,10 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useAxiosPrivate from "../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import useWindowSize from "../hooks/useWindowSize";
 import RaceSectionItem from "../components/RaceSectionItem";
 import RaceOrderItem from "../components/RaceOrderItem";
@@ -27,12 +31,6 @@ import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
-
-//  imported libraries
-import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
 
 interface PlanOrderData {
   id: string;
@@ -49,6 +47,14 @@ interface RegattaSectionData {
   regattaContact: string;
   regattaEmail: string;
   regattaPhone: string;
+}
+
+interface MapSectionData {
+  id: string;
+  mapName: string;
+  mapLatitude: number;
+  mapLongitude: number;
+  mapZoom: number;
 }
 
 interface LineupSectionData {
@@ -86,11 +92,11 @@ const RacePlanPage = () => {
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // const [racePlanName, setRacePlanName] = useState<string>("")
 
   const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
   >([]);
+  const [mapSectionArr, setMapSectionArr] = useState<MapSectionData[] | []>([]);
   const [eventSectionArr, setEventSectionArr] = useState<
     EventSectionData[] | []
   >([]);
@@ -185,6 +191,7 @@ const RacePlanPage = () => {
           )
         );
         setRegattaSectionArr(data.regattaSection);
+        setMapSectionArr(data.mapSection);
         setEventSectionArr(data.eventSection);
         setNotesSectionArr(data.notesSection);
         setLineupSectionArr(data.lineupSection);
@@ -213,6 +220,7 @@ const RacePlanPage = () => {
           name: racePlanName,
           planOrder,
           regattaArr: regattaSectionArr,
+          mapArr: mapSectionArr,
           eventArr: eventSectionArr,
           lineupArr: lineupSectionArr,
           notesArr: notesSectionArr,
@@ -245,6 +253,7 @@ const RacePlanPage = () => {
           racePlanName,
           planOrder,
           regattaSectionArr,
+          mapSectionArr,
           lineupSectionArr,
           eventSectionArr,
           notesSectionArr
@@ -255,6 +264,7 @@ const RacePlanPage = () => {
             name: racePlanName,
             planOrder,
             regattaArr: regattaSectionArr,
+            mapArr: mapSectionArr,
             lineupArr: lineupSectionArr,
             eventArr: eventSectionArr,
             notesArr: notesSectionArr,
@@ -289,8 +299,9 @@ const RacePlanPage = () => {
     if (planOrder.length === 0) return;
     setPlanOrder([]);
     setRegattaSectionArr([]);
-    setLineupSectionArr([]);
+    setMapSectionArr([]);
     setEventSectionArr([]);
+    setLineupSectionArr([]);
     setNotesSectionArr([]);
   };
 
@@ -358,7 +369,7 @@ const RacePlanPage = () => {
             {/* Clear Plan Button  */}
             <div
               onClick={handleClearPlan}
-              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border  
+              className={`flex items-center text-white p-1 midMobile:p-2 rounded border  
               ${
                 planOrder.length === 0
                   ? "bg-gray-border cursor-not-allowed"
@@ -483,6 +494,7 @@ const RacePlanPage = () => {
                         section={planSection}
                         setPlanOrder={setPlanOrder}
                         setRegattaSectionArr={setRegattaSectionArr}
+                        setMapSectionArr={setMapSectionArr}
                         setEventSectionArr={setEventSectionArr}
                         setLineupSectionArr={setLineupSectionArr}
                         setNotesSectionArr={setNotesSectionArr}
@@ -523,6 +535,7 @@ const RacePlanPage = () => {
                               planOrder={planOrder}
                               setPlanOrder={setPlanOrder}
                               setRegattaSectionArr={setRegattaSectionArr}
+                              setMapSectionArr={setMapSectionArr}
                               setEventSectionArr={setEventSectionArr}
                               setLineupSectionArr={setLineupSectionArr}
                               setNotesSectionArr={setNotesSectionArr}
@@ -560,6 +573,8 @@ const RacePlanPage = () => {
                 planOrder={planOrder}
                 regattaSectionArr={regattaSectionArr}
                 setRegattaSectionArr={setRegattaSectionArr}
+                mapSectionArr={mapSectionArr}
+                setMapSectionArr={setMapSectionArr}
                 eventSectionArr={eventSectionArr}
                 setEventSectionArr={setEventSectionArr}
                 lineupSectionArr={lineupSectionArr}

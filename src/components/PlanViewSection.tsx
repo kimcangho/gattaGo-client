@@ -22,6 +22,14 @@ interface RegattaSectionData {
   regattaPhone: string;
 }
 
+interface MapSectionData {
+  id: string;
+  mapName: string;
+  mapLatitude: number;
+  mapLongitude: number;
+  mapZoom: number;
+}
+
 interface EventSectionData {
   id: string;
   eventName: string;
@@ -46,6 +54,8 @@ interface PlanViewSectionProps {
   planOrder: PlanOrderData[];
   regattaSectionArr: RegattaSectionData[];
   setRegattaSectionArr: Function;
+  mapSectionArr: MapSectionData[];
+  setMapSectionArr: Function;
   eventSectionArr: EventSectionData[];
   setEventSectionArr: Function;
   lineupSectionArr: LineupSectionData[];
@@ -58,6 +68,8 @@ const PlanViewSection = ({
   planOrder,
   regattaSectionArr,
   setRegattaSectionArr,
+  mapSectionArr,
+  setMapSectionArr,
   eventSectionArr,
   setEventSectionArr,
   lineupSectionArr,
@@ -106,7 +118,8 @@ const PlanViewSection = ({
               <MapPlanSection
                 key={planSection.id}
                 id={planSection.id}
-                section={planSection.section}
+                mapSection={filterSection(mapSectionArr, planSection.sectionId)}
+                setMapSectionArr={setMapSectionArr}
               />
             );
           //  Event Section - OK
