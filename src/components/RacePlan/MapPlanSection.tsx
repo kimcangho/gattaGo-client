@@ -11,7 +11,12 @@ const MapPlanSection = ({
   mapSection,
   setMapSectionArr,
 }: MapPlanSectionProps) => {
-  return <div>Map Section: {id}</div>;
+  return (
+    <>
+      <div>Map Section: {id}</div>
+      
+    </>
+  );
 };
 
 export default MapPlanSection;
