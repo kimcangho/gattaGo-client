@@ -28,4 +28,11 @@ export const homePageTextBlocks: TextBlock[] = [
     altText: "Lineup",
     backgroundColor: "blue-wavy",
   },
+  {
+    heading: "Build your race plans",
+    body: "Craft race plans by selecting from an array of sections, then export them to share with your crew.",
+    imageURL: "/src/assets/icons/calendar.svg",
+    altText: "Race Plan",
+    backgroundColor: "red-light",
+  },
 ];

@@ -18,12 +18,12 @@ const HomePageSection = ({
   return (
     <div
       className={`w-full aspect-auto ${
-        index !== 1 ? "bg-white" : ""
+        index % 2 !== 1 ? "bg-white" : ""
       } p-4 tablet:p-8`}
     >
       <div
         className={`mx-auto flex flex-col space-y-2 tablet:space-y-0 ${
-          index === 1 ? "tablet:flex-row-reverse" : "tablet:flex-row"
+          index % 2 === 1 ? "tablet:flex-row-reverse" : "tablet:flex-row"
         } justify-center tablet:justify-between items-center desktop:max-w-[1280px]`}
       >
         <div
