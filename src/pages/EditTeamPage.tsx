@@ -12,7 +12,7 @@ import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import useWindowSize from "../hooks/useWindowSize";
 import teamIcon from "../assets/icons/roster.svg";
 import { CreateNewTeamFormData } from "../interfaces/FormData";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/General/LoadingSpinner";
 import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
 import checkIcon from "../assets/icons/check.svg";
 

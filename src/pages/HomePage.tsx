@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { homePageTextBlocks } from "../data/homePageTextBlocks";
-import HomePageSection from "../components/HomePageSection";
+import HomePageSection from "../components/Home/HomePageSection";
 
 const HomePage = (): JSX.Element => {
   return (

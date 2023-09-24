@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useParams } from "react-router-dom";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/General/NavBar";
 
 const NavbarRoute = (): JSX.Element => {
   const { userId, teamId } = useParams<string>();

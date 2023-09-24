@@ -14,7 +14,7 @@ import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
 import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
 import { CreateNewAthleteFormData } from "../interfaces/FormData";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/General/LoadingSpinner";
 import useWindowSize from "../hooks/useWindowSize";
 
 const EditAthletePage = () => {

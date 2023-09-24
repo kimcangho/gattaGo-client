@@ -3,14 +3,14 @@ import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence, useIsPresent } from "framer-motion";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import OverviewTeamItem from "../components/OverviewTeamItem";
+import OverviewTeamItem from "../components/Overview/OverviewTeamItem";
 import { TeamData } from "../interfaces/EntityData";
 import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
 import useWindowSize from "../hooks/useWindowSize";
 import rosterFilledIcon from "../assets/icons/roster-filled.svg";
-import EmptyTeam from "../components/EmptyTeam";
-import LoadingSpinner from "../components/LoadingSpinner";
-import DeleteModal from "../components/DeleteModal";
+import EmptyTeam from "../components/Overview/EmptyTeam";
+import LoadingSpinner from "../components/General/LoadingSpinner";
+import DeleteModal from "../components/General/DeleteModal";
 
 const TeamOverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);

@@ -22,60 +22,23 @@ import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../hooks/useLogoutRedirect";
 import useWindowSize from "../hooks/useWindowSize";
-import RaceSectionItem from "../components/RaceSectionItem";
-import RaceOrderItem from "../components/RaceOrderItem";
-import PlanBuilderModalButton from "../components/PlanBuilderModalButton";
-import EmptyRacePlan from "../components/EmptyRacePlan";
-import PlanViewSection from "../components/PlanViewSection";
+import RaceSectionItem from "../components/RacePlan/RaceSectionItem";
+import RaceOrderItem from "../components/RacePlan/RaceOrderItem";
+import PlanBuilderModalButton from "../components/RacePlan/PlanBuilderModalButton";
+import EmptyRacePlan from "../components/RacePlan/EmptyRacePlan";
+import PlanViewSection from "../components/RacePlan/PlanViewSection";
 import checkIcon from "../assets/icons/check.svg";
 import clearIcon from "../assets/icons/cube-transparent.svg";
 import shareIcon from "../assets/icons/share.svg";
 import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
-
-interface PlanOrderData {
-  id: string;
-  section: string;
-  sectionId: string;
-}
-
-interface RegattaSectionData {
-  id: string;
-  regattaName: string;
-  regattaStartDate: Date;
-  regattaEndDate: Date;
-  regattaAddress: string;
-  regattaContact: string;
-  regattaEmail: string;
-  regattaPhone: string;
-}
-
-interface MapSectionData {
-  id: string;
-  mapName: string;
-  mapLatitude: number;
-  mapLongitude: number;
-  mapZoom: number;
-}
-
-interface LineupSectionData {
-  id: string;
-  lineupName: string;
-  boatOrder: (string | null)[];
-}
-
-interface EventSectionData {
-  id: string;
-  eventName: string;
-  eventDistance: string;
-  eventLane: String;
-  eventTime: Date;
-}
-
-interface NotesSectionData {
-  id: string;
-  notesName: string;
-  notesBody: string;
-}
+import {
+  PlanOrderData,
+  RegattaSectionData,
+  MapSectionData,
+  EventSectionData,
+  LineupSectionData,
+  NotesSectionData,
+} from "../interfaces/RacePlanData";
 
 const RacePlanPage = () => {
   const planSections = [
@@ -87,7 +50,6 @@ const RacePlanPage = () => {
     "Notes",
   ];
 
-  //  RHF states
   const [racePlans, setRacePlans] = useState<any[]>([]);
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
@@ -107,7 +69,6 @@ const RacePlanPage = () => {
     NotesSectionData[] | []
   >([]);
 
-  //  Added hooks
   const { teamId } = useParams();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
