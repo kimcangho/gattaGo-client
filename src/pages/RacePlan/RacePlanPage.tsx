@@ -19,18 +19,14 @@ import {
 } from "@dnd-kit/sortable";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import useWindowSize from "../hooks/useWindowSize";
-import RaceSectionItem from "../components/RacePlan/RaceSectionItem";
-import RaceOrderItem from "../components/RacePlan/RaceOrderItem";
-import PlanBuilderModalButton from "../components/RacePlan/PlanBuilderModalButton";
-import EmptyRacePlan from "../components/RacePlan/EmptyRacePlan";
-import PlanViewSection from "../components/RacePlan/PlanViewSection";
-import checkIcon from "../assets/icons/check.svg";
-import clearIcon from "../assets/icons/cube-transparent.svg";
-import shareIcon from "../assets/icons/share.svg";
-import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import useWindowSize from "../../hooks/useWindowSize";
+import RaceSectionItem from "../../components/RacePlan/RaceSectionItem";
+import RaceOrderItem from "../../components/RacePlan/RaceOrderItem";
+import PlanBuilderModalButton from "../../components/RacePlan/PlanBuilderModalButton";
+import EmptyRacePlan from "../../components/RacePlan/EmptyRacePlan";
+import PlanViewSection from "../../components/RacePlan/PlanViewSection";
 import {
   PlanOrderData,
   RegattaSectionData,
@@ -38,7 +34,11 @@ import {
   EventSectionData,
   LineupSectionData,
   NotesSectionData,
-} from "../interfaces/RacePlanData";
+} from "../../interfaces/RacePlanData";
+import checkIcon from "../../assets/icons/check.svg";
+import clearIcon from "../../assets/icons/cube-transparent.svg";
+import shareIcon from "../../assets/icons/share.svg";
+import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const RacePlanPage = () => {
   const planSections = [

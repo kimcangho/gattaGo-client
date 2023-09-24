@@ -1,11 +1,11 @@
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import { axiosAuth } from "../services/axios.service";
-import { LoginFormData } from "../interfaces/FormData";
-import visiblePassword from "../assets/icons/visible-password.svg";
-import hiddenPassword from "../assets/icons/hidden-password.svg";
+import { axiosAuth } from "../../services/axios.service";
+import { LoginFormData } from "../../interfaces/FormData";
+import visiblePassword from "../../assets/icons/visible-password.svg";
+import hiddenPassword from "../../assets/icons/hidden-password.svg";
 
 const LoginPage = (): JSX.Element => {
   const {

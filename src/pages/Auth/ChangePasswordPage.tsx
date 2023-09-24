@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { axiosAuth } from "../services/axios.service";
-import visiblePassword from "../assets/icons/visible-password.svg";
-import hiddenPassword from "../assets/icons/hidden-password.svg";
+import { axiosAuth } from "../../services/axios.service";
+import visiblePassword from "../../assets/icons/visible-password.svg";
+import hiddenPassword from "../../assets/icons/hidden-password.svg";
 
 const ChangePasswordPage = (): JSX.Element => {
   const { resetCodeId } = useParams<string>();

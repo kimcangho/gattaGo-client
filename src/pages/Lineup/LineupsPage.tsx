@@ -1,21 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useWindowSize from "../hooks/useWindowSize";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import { LineupData, RosterData } from "../interfaces/EntityData";
-import { SaveNewLineupFormData } from "../interfaces/FormData";
-import LineupBoatSection from "../components/Lineup/LineupBoatSection";
-import { generatePlaceholderLineup } from "../utils/generatePlaceholderLineup";
-import { injectIntoLineup } from "../utils/injectIntoLineup";
-import { trimActiveLineup } from "../utils/trimActiveLineup";
-import { ActiveLineupData } from "../interfaces/EntityData";
-import LoadingSpinner from "../components/General/LoadingSpinner";
+import useWindowSize from "../../hooks/useWindowSize";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import { LineupData, RosterData } from "../../interfaces/EntityData";
+import { SaveNewLineupFormData } from "../../interfaces/FormData";
+import LineupBoatSection from "../../components/Lineup/LineupBoatSection";
+import { generatePlaceholderLineup } from "../../utils/generatePlaceholderLineup";
+import { injectIntoLineup } from "../../utils/injectIntoLineup";
+import { trimActiveLineup } from "../../utils/trimActiveLineup";
+import { ActiveLineupData } from "../../interfaces/EntityData";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
 import { motion, useIsPresent } from "framer-motion";
-import copyIcon from "../assets/icons/copy.svg";
-import checkIcon from "../assets/icons/check.svg";
-import deleteWhiteIcon from "../assets/icons/delete-white-fill.svg";
+import copyIcon from "../../assets/icons/copy.svg";
+import checkIcon from "../../assets/icons/check.svg";
+import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const LineupsPage = (): JSX.Element => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);

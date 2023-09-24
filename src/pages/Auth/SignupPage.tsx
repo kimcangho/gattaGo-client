@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
-import { axiosAuth } from "../services/axios.service";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
+import { axiosAuth } from "../../services/axios.service";
 import { useForm } from "react-hook-form";
-import visiblePassword from "../assets/icons/visible-password.svg";
-import hiddenPassword from "../assets/icons/hidden-password.svg";
+import visiblePassword from "../../assets/icons/visible-password.svg";
+import hiddenPassword from "../../assets/icons/hidden-password.svg";
 
 const SignupPage = (): JSX.Element => {
   const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;

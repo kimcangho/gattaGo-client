@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import { axiosAuth } from "../services/axios.service";
+import { axiosAuth } from "../../services/axios.service";
 
 const ResetPasswordPage = (): JSX.Element => {
   const { email, setEmail }: AuthContextTypes = useContext(AuthContext)!;

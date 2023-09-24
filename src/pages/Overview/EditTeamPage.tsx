@@ -5,16 +5,16 @@ import {
   useParams,
   Link,
 } from "react-router-dom";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import useWindowSize from "../hooks/useWindowSize";
-import teamIcon from "../assets/icons/roster.svg";
-import { CreateNewTeamFormData } from "../interfaces/FormData";
-import LoadingSpinner from "../components/General/LoadingSpinner";
-import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
-import checkIcon from "../assets/icons/check.svg";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import useWindowSize from "../../hooks/useWindowSize";
+import { CreateNewTeamFormData } from "../../interfaces/FormData";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
+import teamIcon from "../../assets/icons/roster.svg";
+import cancelFilledIcon from "../../assets/icons/cancel-filled.svg";
+import checkIcon from "../../assets/icons/check.svg";
 
 const EditTeamPage = (): JSX.Element => {
   const { userId, teamId } = useParams();

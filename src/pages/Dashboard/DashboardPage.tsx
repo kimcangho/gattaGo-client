@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion, useIsPresent } from "framer-motion";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import PaddleSide from "../charts/PaddleSideDoughnutChart";
-import Availability from "../charts/AvailabilityDoughnutChart";
-import Eligibility from "../charts/EligibilityDoughnutChart";
-import Weight from "../charts/WeightBarChart";
-import EmptyAthlete from "../components/Roster/EmptyAthlete";
-import LoadingSpinner from "../components/General/LoadingSpinner";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import PaddleSide from "../../charts/PaddleSideDoughnutChart";
+import Availability from "../../charts/AvailabilityDoughnutChart";
+import Eligibility from "../../charts/EligibilityDoughnutChart";
+import Weight from "../../charts/WeightBarChart";
+import EmptyAthlete from "../../components/Roster/EmptyAthlete";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
 
 const DashboardPage = (): JSX.Element => {
   const { userId, teamId } = useParams();

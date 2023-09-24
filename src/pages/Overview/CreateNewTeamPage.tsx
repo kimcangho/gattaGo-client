@@ -1,18 +1,18 @@
+import { useState } from "react";
 import {
   Link,
   NavigateFunction,
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import teamIcon from "../assets/icons/roster.svg";
-import { CreateNewTeamFormData } from "../interfaces/FormData";
-import useWindowSize from "../hooks/useWindowSize";
-import rosterFilledIcon from "../assets/icons/roster-filled.svg";
-import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import useWindowSize from "../../hooks/useWindowSize";
+import { CreateNewTeamFormData } from "../../interfaces/FormData";
+import teamIcon from "../../assets/icons/roster.svg";
+import rosterFilledIcon from "../../assets/icons/roster-filled.svg";
+import cancelFilledIcon from "../../assets/icons/cancel-filled.svg";
 
 const CreateNewTeamPage = (): JSX.Element => {
   const { userId } = useParams();

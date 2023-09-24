@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence, useIsPresent } from "framer-motion";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import OverviewTeamItem from "../components/Overview/OverviewTeamItem";
-import { TeamData } from "../interfaces/EntityData";
-import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
-import useWindowSize from "../hooks/useWindowSize";
-import rosterFilledIcon from "../assets/icons/roster-filled.svg";
-import EmptyTeam from "../components/Overview/EmptyTeam";
-import LoadingSpinner from "../components/General/LoadingSpinner";
-import DeleteModal from "../components/General/DeleteModal";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import useWindowSize from "../../hooks/useWindowSize";
+import DeleteModal from "../../components/General/DeleteModal";
+import EmptyTeam from "../../components/Overview/EmptyTeam";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
+import OverviewTeamItem from "../../components/Overview/OverviewTeamItem";
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
+import { TeamData } from "../../interfaces/EntityData";
+import rosterFilledIcon from "../../assets/icons/roster-filled.svg";
 
 const TeamOverviewPage = (): JSX.Element => {
   const [myTeams, setMyTeams] = useState<TeamData[]>([]);

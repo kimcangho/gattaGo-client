@@ -1,21 +1,21 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import userIcon from "../assets/icons/user.svg";
-import chevronDownIcon from "../assets/icons/chevron-down.svg";
-import chevronUpIcon from "../assets/icons/chevron-up.svg";
-import cancelFilledIcon from "../assets/icons/cancel-filled.svg";
-import checkIcon from "../assets/icons/check.svg";
-import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
-import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
-import { transformPaddlerSkillsForRequest } from "../utils/transformPaddlerSkillsForRequest";
-import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
-import { CreateNewAthleteFormData } from "../interfaces/FormData";
-import LoadingSpinner from "../components/General/LoadingSpinner";
-import useWindowSize from "../hooks/useWindowSize";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import useWindowSize from "../../hooks/useWindowSize";
+import { convertPaddlerSkillToField } from "../../utils/convertPaddlerSkillToField";
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
+import { transformPaddlerSkillsForRequest } from "../../utils/transformPaddlerSkillsForRequest";
+import { paddlerSkillsArr } from "../../data/paddlerSkillsArr";
+import { CreateNewAthleteFormData } from "../../interfaces/FormData";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
+import userIcon from "../../assets/icons/user.svg";
+import chevronDownIcon from "../../assets/icons/chevron-down.svg";
+import chevronUpIcon from "../../assets/icons/chevron-up.svg";
+import cancelFilledIcon from "../../assets/icons/cancel-filled.svg";
+import checkIcon from "../../assets/icons/check.svg";
 
 const EditAthletePage = () => {
   const { userId, teamId, athleteId } = useParams();

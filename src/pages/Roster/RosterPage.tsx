@@ -1,22 +1,22 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext, ChangeEvent } from "react";
-import AuthContext, { AuthContextTypes } from "../contexts/AuthContext";
+import AuthContext, { AuthContextTypes } from "../../contexts/AuthContext";
 import { motion, useIsPresent } from "framer-motion";
-import useWindowSize from "../hooks/useWindowSize";
-import useAxiosPrivate from "../hooks/usePrivateInterceptors";
-import useLogoutRedirect from "../hooks/useLogoutRedirect";
-import RosterItem from "../components/Roster/RosterItem";
-import { RosterData } from "../interfaces/EntityData";
-import chevronDownIcon from "../assets/icons/chevron-down.svg";
-import chevronUpIcon from "../assets/icons/chevron-up.svg";
-import { filterFlagsObj } from "../data/filterFlagsObj";
-import { paddlerSkillsArr } from "../data/paddlerSkillsArr";
-import { capitalizeFirstLetter } from "../utils/capitalizeFirstLetter";
-import { convertPaddlerSkillToField } from "../utils/convertPaddlerSkillToField";
-import EmptyAthlete from "../components/Roster/EmptyAthlete";
-import LoadingSpinner from "../components/General/LoadingSpinner";
-import userIcon from "../assets/icons/user-filled.svg";
-import DeleteModal from "../components/General/DeleteModal";
+import useWindowSize from "../../hooks/useWindowSize";
+import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
+import useLogoutRedirect from "../../hooks/useLogoutRedirect";
+import RosterItem from "../../components/Roster/RosterItem";
+import { filterFlagsObj } from "../../data/filterFlagsObj";
+import { paddlerSkillsArr } from "../../data/paddlerSkillsArr";
+import { RosterData } from "../../interfaces/EntityData";
+import { capitalizeFirstLetter } from "../../utils/capitalizeFirstLetter";
+import { convertPaddlerSkillToField } from "../../utils/convertPaddlerSkillToField";
+import DeleteModal from "../../components/General/DeleteModal";
+import EmptyAthlete from "../../components/Roster/EmptyAthlete";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
+import chevronDownIcon from "../../assets/icons/chevron-down.svg";
+import chevronUpIcon from "../../assets/icons/chevron-up.svg";
+import userIcon from "../../assets/icons/user-filled.svg";
 
 const RosterPage = (): JSX.Element => {
   const { userId, teamId } = useParams<string>();
