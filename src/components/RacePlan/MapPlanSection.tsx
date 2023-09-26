@@ -14,14 +14,15 @@ const MapPlanSection = ({
   setMapSectionArr,
 }: MapPlanSectionProps) => {
   const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
-  console.log(accessToken);
+  console.log(import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
+  // console.log(accessToken);
   return (
     <div className="relative">
       <div>Map Section: {id}</div>
       {/* <div className="h-[400px] relative">
       </div> */}
 
-      <ReactMapGL mapboxAccessToken={accessToken}></ReactMapGL>
+      {/* <ReactMapGL mapboxAccessToken={accessToken}></ReactMapGL> */}
     </div>
   );
 };
