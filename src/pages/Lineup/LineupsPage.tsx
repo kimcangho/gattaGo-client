@@ -327,7 +327,12 @@ const LineupsPage = (): JSX.Element => {
             </div>
           </div>
 
-          <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+            className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full"
+          >
             <div className="flex flex-col mb-4 midMobile:w-[50%]">
               <label htmlFor="activeLineupId">
                 <h3 className="text-blue-light">Active Lineup</h3>

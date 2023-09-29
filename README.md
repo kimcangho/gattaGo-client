@@ -89,7 +89,7 @@ RECOMMENDED: follow setup steps in backend documentation for server/database fir
 ## Project Status
 
 Project is: _in progress (phase1)_.  
-Currently working on: _race plan (weather and map sections)_.
+Currently working on: _cleanup and deployment_.
 
 ## Next Steps
 
@@ -99,15 +99,15 @@ Room for improvement:
 - General type-checking.
 
 To do:
-
-- Team race plan tab (weather and map sections, export race plan feature)
-- Optimize touch features for lineup page.
+-  Cleanup and deployment
 
 Future Phase Ideas:
 
+- Team race plan tab (weather and export race plan features)
 - User roles: managers (read+write), athletes (read-only), event organizers.
 - Regatta and event support for event organizers.
 - Live race day progressions and results using websockets.
+- Optimize touch features for lineup page.
 
 Known issues:
 

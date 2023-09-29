@@ -3,7 +3,6 @@ import LineupPlanSection from "./LineupPlanSection";
 import MapPlanSection from "./MapPlanSection";
 import NotesPlanSection from "./NotesPlanSection";
 import RegattaPlanSection from "./RegattaPlanSection";
-import WeatherPlanSection from "./WeatherPlanSection";
 import {
   PlanOrderData,
   RegattaSectionData,
@@ -52,7 +51,6 @@ const PlanViewSection = ({
     <div className="flex flex-col space-y-4 rounded-lg shadow-lg">
       {planOrder.map((planSection: PlanOrderData) => {
         switch (planSection.section) {
-          //  Regatta Section - OK
           case "Regatta":
             return (
               <RegattaPlanSection
@@ -65,16 +63,7 @@ const PlanViewSection = ({
                 setRegattaSectionArr={setRegattaSectionArr}
               />
             );
-          //  Weather Section - Use External API
-          case "Weather":
-            return (
-              <WeatherPlanSection
-                key={planSection.id}
-                id={planSection.id}
-                section={planSection.section}
-              />
-            );
-          //  Map Section - Use External API
+
           case "Map":
             return (
               <MapPlanSection
@@ -84,7 +73,7 @@ const PlanViewSection = ({
                 setMapSectionArr={setMapSectionArr}
               />
             );
-          //  Event Section - OK
+
           case "Event":
             return (
               <EventPlanSection
@@ -97,7 +86,7 @@ const PlanViewSection = ({
                 setEventSectionArr={setEventSectionArr}
               />
             );
-          //  Lineup Section - Suspended
+
           case "Lineup":
             return (
               <LineupPlanSection
@@ -110,7 +99,7 @@ const PlanViewSection = ({
                 setLineupSectionArr={setLineupSectionArr}
               />
             );
-          //  Notes Section - OK
+
           case "Notes":
             return (
               <NotesPlanSection

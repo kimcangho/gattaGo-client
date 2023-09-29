@@ -64,6 +64,7 @@ const RaceOrderItem = ({
           });
         });
         break;
+
       case "Map":
         setMapSectionArr((prevArr: MapSectionData[]) => {
           return prevArr.filter((item: MapSectionData) => {
@@ -71,6 +72,7 @@ const RaceOrderItem = ({
           });
         });
         break;
+
       case "Event":
         setEventSectionArr((prevArr: EventSectionData[]) => {
           return prevArr.filter((item: EventSectionData) => {
@@ -78,6 +80,7 @@ const RaceOrderItem = ({
           });
         });
         break;
+
       case "Lineup":
         setLineupSectionArr((prevArr: LineupSectionData[]) => {
           return prevArr.filter((item: LineupSectionData) => {
@@ -85,6 +88,7 @@ const RaceOrderItem = ({
           });
         });
         break;
+
       case "Notes":
         setNotesSectionArr((prevArr: NotesSectionData[]) => {
           return prevArr.filter((item: NotesSectionData) => {
@@ -92,8 +96,8 @@ const RaceOrderItem = ({
           });
         });
         break;
+
       default:
-        console.log("race order item switch other");
         break;
     }
   };

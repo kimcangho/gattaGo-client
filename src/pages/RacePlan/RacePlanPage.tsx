@@ -41,14 +41,7 @@ import shareIcon from "../../assets/icons/share.svg";
 import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const RacePlanPage = () => {
-  const planSections = [
-    "Regatta",
-    "Weather",
-    "Map",
-    "Event",
-    "Lineup",
-    "Notes",
-  ];
+  const planSections = ["Regatta", "Map", "Event", "Lineup", "Notes"];
 
   const [racePlans, setRacePlans] = useState<any[]>([]);
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
@@ -165,7 +158,6 @@ const RacePlanPage = () => {
     }
   };
 
-  //  Save Plan Function - To-do for map / weather sections
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
     const createRacePlan = async () => {
@@ -235,13 +227,13 @@ const RacePlanPage = () => {
         setRacePlans((prevRacePlans) => {
           const updatedRacePlans = prevRacePlans;
           updatedRacePlans?.forEach((racePlan) => {
-            if (racePlan.id === data.racePlanId) racePlan.name = data.name; //  double check if property is data.id or data.racePlanId
+            if (racePlan.id === data.racePlanId) racePlan.name = data.name;
           });
           return [...updatedRacePlans];
         });
 
-        setSelectDefaultValue(data.racePlanId); //  double check if property is data.id or data.racePlanId
-        setValue("activeRacePlanId", data.racePlanId); //  double check if property is data.id or data.racePlanId
+        setSelectDefaultValue(data.racePlanId);
+        setValue("activeRacePlanId", data.racePlanId);
         setValue("racePlanName", data.name);
         // setIsSaving(false);
       } catch (err: unknown) {
@@ -381,7 +373,12 @@ const RacePlanPage = () => {
           </div>
         </div>
 
-        <form className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full">
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+          }}
+          className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full"
+        >
           <div className="flex flex-col mb-4 midMobile:w-[50%]">
             <label htmlFor="activeRacePlanId">
               <h3 className="text-blue-light">Active Plan</h3>

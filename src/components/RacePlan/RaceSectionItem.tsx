@@ -52,6 +52,7 @@ const RaceSectionItem = ({
           ];
         });
         break;
+
       case "Map":
         setMapSectionArr((mapSections: MapSectionData[]) => {
           return [
@@ -66,6 +67,7 @@ const RaceSectionItem = ({
           ];
         });
         break;
+
       case "Event":
         setEventSectionArr((eventSections: EventSectionData[]) => {
           return [
@@ -81,6 +83,7 @@ const RaceSectionItem = ({
           ];
         });
         break;
+
       case "Lineup":
         setLineupSectionArr((lineupSections: LineupSectionData[]) => {
           return [
@@ -93,6 +96,7 @@ const RaceSectionItem = ({
           ];
         });
         break;
+
       case "Notes":
         setNotesSectionArr((noteSections: NotesSectionData[]) => {
           return [
