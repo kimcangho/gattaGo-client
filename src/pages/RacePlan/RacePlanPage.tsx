@@ -37,7 +37,7 @@ import {
 } from "../../interfaces/RacePlanData";
 import checkIcon from "../../assets/icons/check.svg";
 import clearIcon from "../../assets/icons/cube-transparent.svg";
-import shareIcon from "../../assets/icons/share.svg";
+import copyIcon from "../../assets/icons/copy.svg";
 import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const RacePlanPage = () => {
@@ -160,6 +160,7 @@ const RacePlanPage = () => {
 
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
+    if (getValues('activeRacePlanId') === "new " && getValues("racePlanName") === "") return;
     const createRacePlan = async () => {
       if (!racePlanName) return;
       const duplicatePlan = racePlans?.find(
@@ -258,9 +259,24 @@ const RacePlanPage = () => {
     setNotesSectionArr([]);
   };
 
-  //  Share Plan Function
-  const handleSharePlan = async () => {
-    console.log("sharing plan...");
+  //  CopyPlan Function
+  const handleCopyPlan = async () => {
+    // if (isSaving || isDeleting || isFetching || isCopying) return;
+
+    const copySingleLineup = async () => {
+      try {
+        // setIsCopying(true);
+        setValue("activeRacePlanId", "new");
+        setSelectDefaultValue("new");
+        setValue("racePlanName", `${getValues("racePlanName")} (Copy)`);
+        // setIsCopying(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    };
+
+    if (getValues().activeRacePlanId === "new") return;
+    copySingleLineup();
   };
 
   const handleDeletePlan = async () => {
@@ -335,19 +351,19 @@ const RacePlanPage = () => {
               <img src={clearIcon} alt="Clear Plan" className="h-6" />
             </div>
 
-            {/* Share Plan Button - To-do */}
+            {/* Copy Plan Button */}
             <div
-              onClick={handleSharePlan}
-              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border ${
-                planOrder.length === 0
+              onClick={handleCopyPlan}
+              className={`flex items-center text-white p-1 midMobile:p-2 rounded border ${
+                getValues("activeRacePlanId") === "new"
                   ? "bg-gray-border cursor-not-allowed"
                   : "bg-blue-light hover:bg-blue-dark cursor-pointer"
               }`}
             >
               {width! >= 768 && (
-                <p className="mr-2 text-lg">Share {width! >= 1280 && "Plan"}</p>
+                <p className="mr-2 text-lg">Copy {width! >= 1280 && "Plan"}</p>
               )}
-              <img src={shareIcon} alt="Share Plan" className="h-6" />
+              <img src={copyIcon} alt="Copy Plan" className="h-6" />
             </div>
 
             {/* Delete Plan Button  */}
@@ -425,16 +441,18 @@ const RacePlanPage = () => {
               placeholder="Input plan name"
               className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-            {errors.racePlanName && !watchRacePlanName && (
+            { ((getValues().activeRacePlanId === "new" &&
+                watchRacePlanName) || (getValues().activeRacePlanId !== "new" &&
+                !watchRacePlanName) ) && errors.racePlanName &&  (
               <p className="text-red-500">{errors.racePlanName.message}</p>
             )}
           </div>
         </form>
 
-        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full">
+        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg">
           {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
           {(isModalOpen || width! >= 768) && (
-            <div className="bg-slate-200 midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] border-gray-border border shadow-md">
+            <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] border-gray-border border shadow-md rounded-lg">
               <h1>Plan Builder</h1>
               <h2 className="">
                 {planOrder.length} Section{planOrder.length !== 1 && "s"}
@@ -524,7 +542,7 @@ const RacePlanPage = () => {
           )}
 
           {/* Plan Section - Viewable/Editable components */}
-          <div className="bg-white w-full min-h-full rounded-lg shadow-lg">
+          <div className="w-full min-h-full rounded-lg shadow-lg">
             {planOrder.length === 0 ? (
               <EmptyRacePlan />
             ) : (

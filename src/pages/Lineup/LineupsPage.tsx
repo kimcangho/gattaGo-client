@@ -13,8 +13,9 @@ import { trimActiveLineup } from "../../utils/trimActiveLineup";
 import { ActiveLineupData } from "../../interfaces/EntityData";
 import LoadingSpinner from "../../components/General/LoadingSpinner";
 import { motion, useIsPresent } from "framer-motion";
-import copyIcon from "../../assets/icons/copy.svg";
 import checkIcon from "../../assets/icons/check.svg";
+import copyIcon from "../../assets/icons/copy.svg";
+import clearIcon from "../../assets/icons/cube-transparent.svg";
 import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const LineupsPage = (): JSX.Element => {
@@ -40,6 +41,7 @@ const LineupsPage = (): JSX.Element => {
     handleSubmit,
     setValue,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<SaveNewLineupFormData>({
     defaultValues: {
@@ -47,6 +49,7 @@ const LineupsPage = (): JSX.Element => {
       lineupName: "",
     },
   });
+  const watchLineupName = watch("lineupName");
 
   useEffect(() => {
     const getTeamLineups = async () => {
@@ -225,6 +228,17 @@ const LineupsPage = (): JSX.Element => {
     copySingleLineup();
   };
 
+  const handleClearLineup = async () => {
+    let emptyLineup = true;
+    activeLineup.forEach((unit) => {
+      if (!unit.athlete.isEmpty) emptyLineup = false;
+    });
+
+    if (!emptyLineup) {
+      setActiveLineup(generatePlaceholderLineup());
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -245,6 +259,33 @@ const LineupsPage = (): JSX.Element => {
               </p>
             </div>
             <div className="flex space-x-2 tablet:space-x-4">
+              <button
+                onClick={handleSubmit(handleSaveLineup)}
+                className={`
+                ${
+                  getValues().activeLineupId === "new" && !watchLineupName
+                    ? "bg-gray-border border-gray-border cursor-not-allowed"
+                    : "bg-green-light hover:bg-green-dark cursor-pointer "
+                }
+                text-white p-1 midMobile:p-2 rounded border flex items-center ${
+                  isSaving || isDeleting || isFetching
+                    ? "opacity-50 cursor-wait"
+                    : ""
+                }`}
+              >
+                {!isSaving ? (
+                  <div className="flex items-center">
+                    {width! >= 448 && (
+                      <p className="mr-2 text-lg">
+                        Save {width! >= 1280 && "Lineup"}
+                      </p>
+                    )}
+                    <img src={checkIcon} alt="Save Lineup" className="h-6" />
+                  </div>
+                ) : (
+                  "Saving..."
+                )}
+              </button>
               <div
                 onClick={handleCopyLineup}
                 className={`${
@@ -272,27 +313,32 @@ const LineupsPage = (): JSX.Element => {
                   "Copying..."
                 )}
               </div>
-              <button
-                onClick={handleSubmit(handleSaveLineup)}
-                className={`bg-green-light text-white p-1 midMobile:p-2 rounded border flex items-center ${
-                  isSaving || isDeleting || isFetching
+
+              {/* Clear Plan */}
+              <div
+                onClick={handleClearLineup}
+                className={`${
+                  getValues().activeLineupId === "new"
+                    ? "bg-gray-border border-gray-border cursor-not-allowed"
+                    : "bg-orange-light cursor-pointer"
+                }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                  isSaving || isDeleting || isFetching || isCopying
                     ? "opacity-50 cursor-wait"
-                    : "hover:bg-green-dark"
+                    : getValues().activeLineupId === "new"
+                    ? "cursor-auto"
+                    : "hover:bg-orange-dark"
                 }`}
               >
-                {!isSaving ? (
-                  <div className="flex items-center">
-                    {width! >= 448 && (
-                      <p className="mr-2 text-lg">
-                        Save {width! >= 1280 && "Lineup"}
-                      </p>
-                    )}
-                    <img src={checkIcon} alt="Save Lineup" className="h-6" />
-                  </div>
-                ) : (
-                  "Saving..."
-                )}
-              </button>
+                <div className="flex items-center">
+                  {width! >= 448 && (
+                    <p className="mr-2 text-lg">
+                      Clear {width! >= 1280 && "Lineup"}
+                    </p>
+                  )}
+                  <img src={clearIcon} alt="Clear Lineup" className="h-6" />
+                </div>
+              </div>
+
               <div
                 onClick={handleDeleteLineup}
                 className={`${
@@ -375,9 +421,12 @@ const LineupsPage = (): JSX.Element => {
                 placeholder="Input lineup name"
                 className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
               />
-              {errors.lineupName && (
-                <p className="text-red-500">{errors.lineupName.message}</p>
-              )}
+              {((getValues().activeLineupId === "new" &&
+                watchLineupName) || (getValues().activeLineupId !== "new" &&
+                !watchLineupName) ) &&
+                errors.lineupName && (
+                  <p className="text-red-500">{errors.lineupName.message}</p>
+                )}
             </div>
           </form>
 
