@@ -340,6 +340,21 @@ const RacePlanPage = () => {
               <img src={checkIcon} alt="Save Plan" className="h-6" />
             </div>
 
+            {/* Copy Plan Button */}
+            <div
+              onClick={handleCopyPlan}
+              className={`flex items-center text-white p-1 midMobile:p-2 rounded border ${
+                getValues("activeRacePlanId") === "new"
+                  ? "bg-gray-border cursor-not-allowed"
+                  : "bg-blue-light hover:bg-blue-dark cursor-pointer"
+              }`}
+            >
+              {width! >= 768 && (
+                <p className="mr-2 text-lg">Copy {width! >= 1280 && "Plan"}</p>
+              )}
+              <img src={copyIcon} alt="Copy Plan" className="h-6" />
+            </div>
+
             {/* Clear Plan Button  */}
             <div
               onClick={handleClearPlan}
@@ -354,21 +369,6 @@ const RacePlanPage = () => {
                 <p className="mr-2 text-lg">Clear {width! >= 1280 && "Plan"}</p>
               )}
               <img src={clearIcon} alt="Clear Plan" className="h-6" />
-            </div>
-
-            {/* Copy Plan Button */}
-            <div
-              onClick={handleCopyPlan}
-              className={`flex items-center text-white p-1 midMobile:p-2 rounded border ${
-                getValues("activeRacePlanId") === "new"
-                  ? "bg-gray-border cursor-not-allowed"
-                  : "bg-blue-light hover:bg-blue-dark cursor-pointer"
-              }`}
-            >
-              {width! >= 768 && (
-                <p className="mr-2 text-lg">Copy {width! >= 1280 && "Plan"}</p>
-              )}
-              <img src={copyIcon} alt="Copy Plan" className="h-6" />
             </div>
 
             {/* Delete Plan Button  */}
