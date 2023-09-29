@@ -24,11 +24,11 @@ const MapPlanSection = ({
   const accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
   const [mapName, setMapName] = useState<string>(mapSection?.mapName || "");
-  const [mapLongitude, setMapLongitude] = useState<number | null>(
-    mapSection?.mapLongitude || null
+  const [mapLongitude, setMapLongitude] = useState<number>(
+    mapSection?.mapLongitude || 0
   );
-  const [mapLatitude, setMapLatitude] = useState<number | null>(
-    mapSection?.mapLatitude || null
+  const [mapLatitude, setMapLatitude] = useState<number>(
+    mapSection?.mapLatitude || 0
   );
   const [mapZoom, setMapZoom] = useState<number>(mapSection?.mapZoom || 10);
 
