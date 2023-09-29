@@ -36,7 +36,7 @@ const NotesPlanSection = ({
   };
 
   return (
-    <div className="flex flex-col border border-black rounded-md p-2">
+    <div className="flex flex-col bg-white shadow-md rounded-md p-2">
       <input
         placeholder="Type notes title here"
         value={notesName}

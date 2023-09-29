@@ -53,7 +53,7 @@ const EventPlanSection = ({
   };
 
   return (
-    <div className="flex flex-col border border-black rounded-md p-2 text-center tablet:text-left">
+    <div className="flex flex-col bg-white shadow-md rounded-md p-2 text-center tablet:text-left">
       <input
         placeholder="Type event name here"
         value={eventName}

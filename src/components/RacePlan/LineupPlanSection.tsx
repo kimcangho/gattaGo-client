@@ -128,7 +128,7 @@ const LineupPlanSection = ({
   };
 
   return (
-    <div className="flex flex-col border w-full border-black rounded-md p-2">
+    <div className="flex flex-col w-full bg-white shadow-md rounded-md p-2">
       <div className="flex flex-col w-full mb-4">
         <input
           placeholder="Type lineup title here"

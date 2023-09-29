@@ -160,7 +160,11 @@ const RacePlanPage = () => {
 
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
     // if (isSaving || isDeleting || isFetching) return;
-    if (getValues('activeRacePlanId') === "new " && getValues("racePlanName") === "") return;
+    if (
+      getValues("activeRacePlanId") === "new " &&
+      getValues("racePlanName") === ""
+    )
+      return;
     const createRacePlan = async () => {
       if (!racePlanName) return;
       const duplicatePlan = racePlans?.find(
@@ -264,15 +268,16 @@ const RacePlanPage = () => {
     // if (isSaving || isDeleting || isFetching || isCopying) return;
 
     const copySingleLineup = async () => {
-      try {
-        // setIsCopying(true);
-        setValue("activeRacePlanId", "new");
-        setSelectDefaultValue("new");
-        setValue("racePlanName", `${getValues("racePlanName")} (Copy)`);
-        // setIsCopying(false);
-      } catch (err: unknown) {
-        console.log(err);
-      }
+      // try {
+      //   // setIsCopying(true);
+      //   setValue("activeRacePlanId", "new");
+      //   setSelectDefaultValue("new");
+      //   setValue("racePlanName", `${getValues("racePlanName")} (Copy)`);
+      //   // setIsCopying(false);
+      // } catch (err: unknown) {
+      //   console.log(err);
+      // }
+      console.log();
     };
 
     if (getValues().activeRacePlanId === "new") return;
@@ -441,20 +446,20 @@ const RacePlanPage = () => {
               placeholder="Input plan name"
               className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
             />
-            { ((getValues().activeRacePlanId === "new" &&
-                watchRacePlanName) || (getValues().activeRacePlanId !== "new" &&
-                !watchRacePlanName) ) && errors.racePlanName &&  (
-              <p className="text-red-500">{errors.racePlanName.message}</p>
-            )}
+            {((getValues().activeRacePlanId === "new" && watchRacePlanName) ||
+              (getValues().activeRacePlanId !== "new" && !watchRacePlanName)) &&
+              errors.racePlanName && (
+                <p className="text-red-500">{errors.racePlanName.message}</p>
+              )}
           </div>
         </form>
 
-        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg">
+        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg pb-4">
           {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
           {(isModalOpen || width! >= 768) && (
-            <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] border-gray-border border shadow-md rounded-lg">
+            <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] shadow-md rounded-lg">
               <h1>Plan Builder</h1>
-              <h2 className="">
+              <h2>
                 {planOrder.length} Section{planOrder.length !== 1 && "s"}
               </h2>
               {/* Plan Components */}
@@ -542,7 +547,11 @@ const RacePlanPage = () => {
           )}
 
           {/* Plan Section - Viewable/Editable components */}
-          <div className="w-full min-h-full rounded-lg shadow-lg">
+          <div
+            className={`w-full min-h-full rounded-lg  ${
+              planOrder.length === 0 ? "bg-white shadow-md" : "bg-white-dark"
+            }`}
+          >
             {planOrder.length === 0 ? (
               <EmptyRacePlan />
             ) : (

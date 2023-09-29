@@ -72,7 +72,7 @@ const RegattaPlanSection = ({
   };
 
   return (
-    <div className="flex flex-col border border-black rounded-md p-2">
+    <div className="flex flex-col rounded-md p-2 bg-white shadow-md">
       <input
         placeholder="Type regatta name here"
         value={regattaName}

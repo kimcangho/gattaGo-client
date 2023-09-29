@@ -70,7 +70,7 @@ const MapPlanSection = ({
   };
 
   return (
-    <div className="flex flex-col w-full h-80 border-black border rounded-md p-2">
+    <div className="flex flex-col w-full h-80 bg-white shadow-md rounded-md p-2">
       <input
         placeholder="Type map title here"
         value={mapName}
