@@ -419,6 +419,7 @@ const RacePlanPage = () => {
                 },
               })}
               onChange={(event) => {
+                event.preventDefault();
                 setValue("racePlanName", event.target.value);
               }}
               type="text"

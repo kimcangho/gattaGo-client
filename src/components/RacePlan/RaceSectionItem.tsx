@@ -59,9 +59,9 @@ const RaceSectionItem = ({
             {
               id,
               mapName: "",
-              mapLatitude: null,
-              mapLongitude: null,
-              mapZoom: null,
+              mapLongitude: 0,
+              mapLatitude: 0,
+              mapZoom: 10,
             },
           ];
         });

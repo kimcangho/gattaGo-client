@@ -18,8 +18,8 @@ export interface RegattaSectionData {
 export interface MapSectionData {
   id: string;
   mapName: string;
-  mapLatitude: number;
   mapLongitude: number;
+  mapLatitude: number;
   mapZoom: number;
 }
 
