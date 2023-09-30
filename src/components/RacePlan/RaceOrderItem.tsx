@@ -23,6 +23,9 @@ interface RaceOrderItemProps {
   setEventSectionArr: Function;
   setLineupSectionArr: Function;
   setNotesSectionArr: Function;
+  isSaving: Boolean;
+  isFetching: Boolean;
+  isDeleting: Boolean;
 }
 
 const RaceOrderItem = ({
@@ -35,6 +38,9 @@ const RaceOrderItem = ({
   setEventSectionArr,
   setLineupSectionArr,
   setNotesSectionArr,
+  isSaving,
+  isFetching,
+  isDeleting,
 }: RaceOrderItemProps) => {
   const [isDeleteHovering, setIsDeleteHovering] = useState<boolean>(false);
 
@@ -46,6 +52,7 @@ const RaceOrderItem = ({
   };
 
   const handleDeleteOrderItem = async () => {
+    if (isSaving || isFetching || isDeleting) return;
     const foundSectionType = planOrder.find((plan: PlanOrderData) => {
       return plan.id === id;
     });
@@ -103,6 +110,7 @@ const RaceOrderItem = ({
   };
 
   const handleHoverDelete = () => {
+    if (isSaving || isFetching || isDeleting) return;
     setIsDeleteHovering((prev) => !prev);
   };
 

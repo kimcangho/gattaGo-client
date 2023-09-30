@@ -455,7 +455,13 @@ const RacePlanPage = () => {
               </div>
             </form>
 
-            <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg pb-4">
+            <div
+              className={`flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg pb-4 ${
+                isSaving || isDeleting || isFetching
+                  ? "opacity-50 cursor-wait"
+                  : ""
+              }`}
+            >
               {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
               {(isModalOpen || width! >= 768) && (
                 <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] shadow-md rounded-lg">
@@ -525,6 +531,9 @@ const RacePlanPage = () => {
                                   setEventSectionArr={setEventSectionArr}
                                   setLineupSectionArr={setLineupSectionArr}
                                   setNotesSectionArr={setNotesSectionArr}
+                                  isSaving={isSaving}
+                                  isFetching={isFetching}
+                                  isDeleting={isDeleting}
                                 />
                               );
                             })}
