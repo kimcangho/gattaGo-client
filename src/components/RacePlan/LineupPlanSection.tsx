@@ -17,12 +17,14 @@ interface LineupPlanSectionProps {
   id: string;
   lineupSection: LineupSectionData;
   setLineupSectionArr: Function;
+  setIsFetching: Function;
 }
 
 const LineupPlanSection = ({
   id,
   lineupSection,
   setLineupSectionArr,
+  setIsFetching,
 }: LineupPlanSectionProps) => {
   const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null); //  list of lineups
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>(
@@ -60,7 +62,7 @@ const LineupPlanSection = ({
       if (lineupId !== "new" && teamLineups?.length) {
         const handleInitialGetLineup = async () => {
           try {
-            // setIsFetching(true);
+            setIsFetching(true);
             const { data } = await axiosPrivate.get(
               `/teams/${teamId}/lineups/${lineupId}`
             );
@@ -68,7 +70,7 @@ const LineupPlanSection = ({
             setCurrentLineup(data?.lineups[0]?.athletes);
             setValue("lineupName", data.lineups[0].name);
             setValue("activeLineupId", data.lineups[0].id);
-            // setIsFetching(false);
+            setIsFetching(false);
           } catch (err: unknown) {
             console.log(err);
           }
@@ -80,36 +82,9 @@ const LineupPlanSection = ({
     getTeamLineups();
   }, []);
 
-  const handleGetSingleLineup = async (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setSelectDefaultValue(event.target.value);
-    if (event.target.value === "new") {
-      try {
-        setLineupId("");
-        setCurrentLineup([]);
-        setValue("lineupName", "");
-        setValue("activeLineupId", "new");
-      } catch (err: unknown) {
-        console.log(err);
-      }
-    } else {
-      try {
-        // setIsFetching(true);
-        const { data } = await axiosPrivate.get(
-          `/teams/${teamId}/lineups/${event.target.value}`
-        );
-
-        setCurrentLineup(data.lineups[0].athletes);
-        setLineupId(data.lineups[0].id);
-        setValue("lineupName", data.lineups[0].name);
-        setValue("activeLineupId", data.lineups[0].id);
-        // setIsFetching(false);
-      } catch (err: unknown) {
-        console.log(err);
-      }
-    }
-  };
+  useEffect(() => {
+    handleSetLineupSection();
+  }, [lineupName]);
 
   const handleSetLineupSection = () => {
     setLineupSectionArr((currentArr: LineupSectionData[]) => {
@@ -127,6 +102,37 @@ const LineupPlanSection = ({
     });
   };
 
+  const handleGetSingleLineup = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectDefaultValue(event.target.value);
+    if (event.target.value === "new") {
+      try {
+        setLineupId("");
+        setCurrentLineup([]);
+        setValue("lineupName", "");
+        setValue("activeLineupId", "new");
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    } else {
+      try {
+        setIsFetching(true);
+        const { data } = await axiosPrivate.get(
+          `/teams/${teamId}/lineups/${event.target.value}`
+        );
+
+        setCurrentLineup(data.lineups[0].athletes);
+        setLineupId(data.lineups[0].id);
+        setValue("lineupName", data.lineups[0].name);
+        setValue("activeLineupId", data.lineups[0].id);
+        setIsFetching(false);
+      } catch (err: unknown) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col w-full bg-white shadow-md rounded-md p-2">
       <div className="flex flex-col w-full mb-4">
@@ -135,7 +141,6 @@ const LineupPlanSection = ({
           value={lineupName}
           onChange={(event) => {
             setLineupName(event.target.value);
-            handleSetLineupSection();
           }}
           className={`bg-inherit text-2xl p-2 text-center mb-2 ${
             lineupName ? "text-black" : ""

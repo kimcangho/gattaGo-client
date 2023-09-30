@@ -585,6 +585,7 @@ const RacePlanPage = () => {
                       setLineupSectionArr={setLineupSectionArr}
                       notesSectionArr={notesSectionArr}
                       setNotesSectionArr={setNotesSectionArr}
+                      setIsFetching={setIsFetching}
                     />
                   )}
                 </div>
