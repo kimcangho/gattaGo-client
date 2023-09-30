@@ -97,17 +97,18 @@ Room for improvement:
 
 - Separate database calls into services for team controller.
 - General type-checking.
+- Optimize touch features for lineup page.
 
 To do:
--  Cleanup and deployment
+
+- Deploy application.
 
 Future Phase Ideas:
 
-- Team race plan tab (weather and export race plan features)
+- Race plan weather section.
 - User roles: managers (read+write), athletes (read-only), event organizers.
 - Regatta and event support for event organizers.
 - Live race day progressions and results using websockets.
-- Optimize touch features for lineup page.
 
 Known issues:
 
