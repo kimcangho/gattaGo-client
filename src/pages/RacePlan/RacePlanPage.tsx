@@ -464,7 +464,7 @@ const RacePlanPage = () => {
             >
               {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
               {(isModalOpen || width! >= 768) && (
-                <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] shadow-md rounded-lg">
+                <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[80%] tablet:h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 top-0 mt-32 tablet:mt-0 tablet:static w-[calc(100%-1.5rem)] shadow-md rounded-lg">
                   <h1>Plan Builder</h1>
                   <h2>
                     {planOrder.length} Section{planOrder.length !== 1 && "s"}
