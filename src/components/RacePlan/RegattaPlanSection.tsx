@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -27,28 +27,40 @@ const RegattaPlanSection = ({
   const [regattaName, setRegattaName] = useState<string>(
     regattaSection?.regattaName || ""
   );
-  const [address, setAddress] = useState<string>(
+  const [regattaAddress, setAddress] = useState<string>(
     regattaSection?.regattaAddress || ""
   );
-  const [contact, setContact] = useState<string>(
+  const [regattaContact, setContact] = useState<string>(
     regattaSection?.regattaContact || ""
   );
-  const [email, setEmail] = useState<string>(
+  const [regattaEmail, setEmail] = useState<string>(
     regattaSection?.regattaEmail || ""
   );
-  const [phone, setPhone] = useState<string>(
+  const [regattaPhone, setPhone] = useState<string>(
     regattaSection?.regattaPhone || ""
   );
-  const [startDate, setStartDate] = useState<Date | null>(
+  const [regattaStartDate, setStartDate] = useState<Date | null>(
     regattaSection?.regattaStartDate
       ? new Date(regattaSection?.regattaStartDate)
       : null
   );
-  const [endDate, setEndDate] = useState<Date | null>(
+  const [regattaEndDate, setEndDate] = useState<Date | null>(
     regattaSection?.regattaEndDate
       ? new Date(regattaSection?.regattaEndDate)
       : null
   );
+
+  useEffect(() => {
+    handleSetRegattaSection();
+  }, [
+    regattaName,
+    regattaAddress,
+    regattaContact,
+    regattaEmail,
+    regattaPhone,
+    regattaStartDate,
+    regattaEndDate,
+  ]);
 
   const handleSetRegattaSection = () => {
     setRegattaSectionArr((currentArr: RegattaSectionData[]) => {
@@ -60,12 +72,12 @@ const RegattaPlanSection = ({
         {
           id,
           regattaName,
-          regattaStartDate: startDate,
-          regattaEndDate: endDate,
-          regattaAddress: address,
-          regattaContact: contact,
-          regattaEmail: email,
-          regattaPhone: phone,
+          regattaAddress,
+          regattaContact,
+          regattaEmail,
+          regattaPhone,
+          regattaStartDate,
+          regattaEndDate,
         },
       ];
     });
@@ -78,9 +90,10 @@ const RegattaPlanSection = ({
         value={regattaName}
         onChange={(event) => {
           setRegattaName(event.target.value);
-          handleSetRegattaSection();
         }}
-        className={`bg-inherit text-2xl p-2 text-center tablet:text-left ${regattaName ? "text-black" : ""}`}
+        className={`bg-inherit text-2xl p-2 text-center tablet:text-left ${
+          regattaName ? "text-black" : ""
+        }`}
       />
       <div className="flex flex-col tablet:flex-row">
         {/* Regatta Details */}
@@ -88,10 +101,12 @@ const RegattaPlanSection = ({
           {/* Start Date */}
           <div className="flex flex-col my-2 w-full">
             <label htmlFor="startDate">
-              <h3 className="text-blue-light text-center tablet:text-left">Start Date</h3>
+              <h3 className="text-blue-light text-center tablet:text-left">
+                Start Date
+              </h3>
             </label>
             <DatePicker
-              maxDate={endDate}
+              maxDate={regattaEndDate}
               isClearable
               placeholderText="Select Start Date"
               timeInputLabel="Time:"
@@ -99,7 +114,7 @@ const RegattaPlanSection = ({
               showTimeInput
               name="startDate"
               id="startDate"
-              selected={startDate}
+              selected={regattaStartDate}
               onChange={(date: Date) => setStartDate(date)}
               className="bg-inherit p-2 w-full text-center tablet:text-left text-black"
             />
@@ -111,7 +126,7 @@ const RegattaPlanSection = ({
               <h3 className="text-blue-light">End Date</h3>
             </label>
             <DatePicker
-              minDate={startDate}
+              minDate={regattaStartDate}
               isClearable
               placeholderText="Select End Date"
               timeInputLabel="Time:"
@@ -119,7 +134,7 @@ const RegattaPlanSection = ({
               showTimeInput
               name="endDate"
               id="endDate"
-              selected={endDate}
+              selected={regattaEndDate}
               onChange={(date: Date) => setEndDate(date)}
               className="bg-inherit p-2 w-full text-center tablet:text-left text-black"
             />
@@ -133,12 +148,13 @@ const RegattaPlanSection = ({
               placeholder="Type address here"
               name="address"
               id="address"
-              value={address}
+              value={regattaAddress}
               onChange={(event) => {
                 setAddress(event.target.value);
-                handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full text-center tablet:text-left ${address ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${
+                regattaAddress ? "text-black" : ""
+              }`}
             />
           </div>
         </div>
@@ -152,12 +168,13 @@ const RegattaPlanSection = ({
               placeholder="Type contact name here"
               name="contact"
               id="contact"
-              value={contact}
+              value={regattaContact}
               onChange={(event) => {
                 setContact(event.target.value);
-                handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full text-center tablet:text-left ${contact ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${
+                regattaContact ? "text-black" : ""
+              }`}
             />
           </div>
 
@@ -170,12 +187,13 @@ const RegattaPlanSection = ({
               placeholder="Type email address here"
               name="email"
               id="email"
-              value={email}
+              value={regattaEmail}
               onChange={(event) => {
                 setEmail(event.target.value);
-                handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full text-center tablet:text-left ${email ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${
+                regattaEmail ? "text-black" : ""
+              }`}
             />
           </div>
 
@@ -188,12 +206,13 @@ const RegattaPlanSection = ({
               placeholder="Type phone number here"
               name="phone"
               id="phone"
-              value={phone}
+              value={regattaPhone}
               onChange={(event) => {
                 setPhone(event.target.value);
-                handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full text-center tablet:text-left ${phone ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${
+                regattaPhone ? "text-black" : ""
+              }`}
             />
           </div>
         </div>
