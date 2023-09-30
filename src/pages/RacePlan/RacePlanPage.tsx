@@ -37,7 +37,6 @@ import {
 } from "../../interfaces/RacePlanData";
 import checkIcon from "../../assets/icons/check.svg";
 import clearIcon from "../../assets/icons/cube-transparent.svg";
-import copyIcon from "../../assets/icons/copy.svg";
 import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const RacePlanPage = () => {
@@ -263,27 +262,6 @@ const RacePlanPage = () => {
     setNotesSectionArr([]);
   };
 
-  //  CopyPlan Function
-  const handleCopyPlan = async () => {
-    // if (isSaving || isDeleting || isFetching || isCopying) return;
-
-    const copySingleLineup = async () => {
-      // try {
-      //   // setIsCopying(true);
-      //   setValue("activeRacePlanId", "new");
-      //   setSelectDefaultValue("new");
-      //   setValue("racePlanName", `${getValues("racePlanName")} (Copy)`);
-      //   // setIsCopying(false);
-      // } catch (err: unknown) {
-      //   console.log(err);
-      // }
-      console.log();
-    };
-
-    if (getValues().activeRacePlanId === "new") return;
-    copySingleLineup();
-  };
-
   const handleDeletePlan = async () => {
     if (!getValues("activeRacePlanId")) return;
     // if (isSaving || isDeleting || isFetching) return;
@@ -338,21 +316,6 @@ const RacePlanPage = () => {
                 <p className="mr-2 text-lg">Save {width! >= 1280 && "Plan"}</p>
               )}
               <img src={checkIcon} alt="Save Plan" className="h-6" />
-            </div>
-
-            {/* Copy Plan Button */}
-            <div
-              onClick={handleCopyPlan}
-              className={`flex items-center text-white p-1 midMobile:p-2 rounded border ${
-                getValues("activeRacePlanId") === "new"
-                  ? "bg-gray-border cursor-not-allowed"
-                  : "bg-blue-light hover:bg-blue-dark cursor-pointer"
-              }`}
-            >
-              {width! >= 768 && (
-                <p className="mr-2 text-lg">Copy {width! >= 1280 && "Plan"}</p>
-              )}
-              <img src={copyIcon} alt="Copy Plan" className="h-6" />
             </div>
 
             {/* Clear Plan Button  */}
