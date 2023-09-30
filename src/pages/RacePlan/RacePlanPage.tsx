@@ -321,6 +321,11 @@ const RacePlanPage = () => {
                 <div
                   onClick={handleSubmit(handleSavePlan)}
                   className={`flex items-center  text-white p-1 midMobile:p-2 rounded border
+                  ${
+                    isSaving || isDeleting || isFetching
+                      ? "opacity-50 cursor-wait"
+                      : ""
+                  }
               ${
                 watchRacePlanName
                   ? "hover:bg-green-dark bg-green-light cursor-pointer"
@@ -339,7 +344,12 @@ const RacePlanPage = () => {
                 {/* Clear Plan Button  */}
                 <div
                   onClick={handleClearPlan}
-                  className={`flex items-center text-white p-1 midMobile:p-2 rounded border  
+                  className={`flex items-center text-white p-1 midMobile:p-2 rounded border 
+                  ${
+                    isSaving || isDeleting || isFetching
+                      ? "opacity-50 cursor-wait"
+                      : ""
+                  } 
               ${
                 planOrder.length === 0
                   ? "bg-gray-border cursor-not-allowed"
@@ -362,6 +372,10 @@ const RacePlanPage = () => {
                       ? "bg-gray-border border-gray-border cursor-not-allowed"
                       : "bg-red-dark cursor-pointer"
                   }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                    isSaving || isDeleting || isFetching
+                      ? "opacity-50 cursor-wait"
+                      : ""
+                  } ${
                     getValues().activeRacePlanId === "new"
                       ? "cursor-auto"
                       : "hover:bg-red-500"
