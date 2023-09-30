@@ -9,9 +9,9 @@ interface PlanBuilderModalButtonProps {
   isModalOpen: boolean;
   setIsModalOpen: Function;
   handleToggleModal: React.MouseEventHandler<HTMLDivElement> | undefined;
-  //   isSaving: boolean;
-  //   isDeleting: boolean;
-  //   isFetching: boolean;
+    isSaving: boolean;
+    isDeleting: boolean;
+    isFetching: boolean;
 }
 
 const PlanBuilderModalButton = ({
@@ -19,10 +19,10 @@ const PlanBuilderModalButton = ({
   isModalOpen,
   setIsModalOpen,
   handleToggleModal,
-}: //   isSaving,
-//   isDeleting,
-//   isFetching,
-PlanBuilderModalButtonProps) => {
+  isSaving,
+  isDeleting,
+  isFetching,
+}: PlanBuilderModalButtonProps) => {
   useEffect(() => {
     if (width! >= 768) {
       setIsModalOpen(false);
@@ -30,7 +30,9 @@ PlanBuilderModalButtonProps) => {
   }, [width]);
 
   return (
-    <>
+    <div className={
+      isSaving || isDeleting || isFetching ? "cursor-wait opacity-50" : ""
+    }>
       {(width! < 768 || (width! < 768 && !isModalOpen)) && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -54,7 +56,7 @@ PlanBuilderModalButtonProps) => {
           />
         </motion.div>
       )}
-    </>
+    </div>
   );
 };
 

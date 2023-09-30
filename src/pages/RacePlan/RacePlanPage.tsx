@@ -27,6 +27,7 @@ import RaceOrderItem from "../../components/RacePlan/RaceOrderItem";
 import PlanBuilderModalButton from "../../components/RacePlan/PlanBuilderModalButton";
 import EmptyRacePlan from "../../components/RacePlan/EmptyRacePlan";
 import PlanViewSection from "../../components/RacePlan/PlanViewSection";
+import LoadingSpinner from "../../components/General/LoadingSpinner";
 import {
   PlanOrderData,
   RegattaSectionData,
@@ -61,6 +62,12 @@ const RacePlanPage = () => {
     NotesSectionData[] | []
   >([]);
 
+  //  idle states
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
   const { teamId } = useParams();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -86,6 +93,7 @@ const RacePlanPage = () => {
       try {
         const { data } = await axiosPrivate.get(`/teams/${teamId}/racePlans/`);
         setRacePlans(data);
+        setIsLoading(false);
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
@@ -102,6 +110,10 @@ const RacePlanPage = () => {
     })
   );
 
+  const handleDragStart = () => {
+    if (isSaving || isDeleting || isFetching) return;
+  };
+
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
@@ -115,7 +127,7 @@ const RacePlanPage = () => {
   };
 
   const handleToggleModal = () => {
-    // if (isSaving || isDeleting || isFetching) return;
+    if (isSaving || isDeleting || isFetching) return;
     setIsModalOpen((prev) => !prev);
   };
 
@@ -133,7 +145,7 @@ const RacePlanPage = () => {
       }
     } else {
       try {
-        // setIsFetching(true);
+        setIsFetching(true);
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/racePlans/${event.target.value}`
         );
@@ -150,7 +162,7 @@ const RacePlanPage = () => {
         setLineupSectionArr(data.lineupSection);
         setValue("racePlanName", data.name);
         setValue("activeRacePlanId", data.id);
-        // setIsFetching(false);
+        setIsFetching(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -158,7 +170,7 @@ const RacePlanPage = () => {
   };
 
   const handleSavePlan = async ({ racePlanName, activeRacePlanId }: any) => {
-    // if (isSaving || isDeleting || isFetching) return;
+    if (isSaving || isDeleting || isFetching) return;
     if (
       getValues("activeRacePlanId") === "new " &&
       getValues("racePlanName") === ""
@@ -172,7 +184,7 @@ const RacePlanPage = () => {
       if (duplicatePlan) return;
 
       try {
-        // setIsSaving(true);
+        setIsSaving(true);
         const { data } = await axiosPrivate.post(`teams/${teamId}/racePlans`, {
           name: racePlanName,
           planOrder,
@@ -190,7 +202,7 @@ const RacePlanPage = () => {
 
         setValue("activeRacePlanId", data.id);
         setValue("racePlanName", data.name);
-        // setIsSaving(false);
+        setIsSaving(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -205,7 +217,7 @@ const RacePlanPage = () => {
       if (duplicatePlan) return;
 
       try {
-        // setIsSaving(true);
+        setIsSaving(true);
         console.log(
           racePlanName,
           planOrder,
@@ -239,7 +251,7 @@ const RacePlanPage = () => {
         setSelectDefaultValue(data.racePlanId);
         setValue("activeRacePlanId", data.racePlanId);
         setValue("racePlanName", data.name);
-        // setIsSaving(false);
+        setIsSaving(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -264,11 +276,11 @@ const RacePlanPage = () => {
 
   const handleDeletePlan = async () => {
     if (!getValues("activeRacePlanId")) return;
-    // if (isSaving || isDeleting || isFetching) return;
+    if (isSaving || isDeleting || isFetching) return;
 
     const deleteSinglePlan = async (racePlanId: string) => {
       try {
-        // setIsDeleting(true);
+        setIsDeleting(true);
         await axiosPrivate.delete(`/teams/${teamId}/racePlans/${racePlanId}`);
 
         setRacePlans((prevRacePlans) =>
@@ -277,7 +289,7 @@ const RacePlanPage = () => {
         handleClearPlan();
         setValue("activeRacePlanId", "new");
         setValue("racePlanName", "");
-        // setIsDeleting(false);
+        setIsDeleting(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -289,261 +301,284 @@ const RacePlanPage = () => {
 
   return (
     <>
-      <div className="w-full h-[100%]">
-        <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
-          <div className="mb-2">
-            <h1>Race Plans</h1>
-            <p className="text-black">
-              {" "}
-              {`Total: ${!racePlans ? "-" : racePlans?.length} plan${
-                racePlans?.length !== 1 ? `s` : ""
-              }`}
-            </p>
-          </div>
-          <div className="flex space-x-2 tablet:space-x-4 text-center">
-            {/* Save Plan Button  */}
-            <div
-              onClick={handleSubmit(handleSavePlan)}
-              className={`flex items-center  text-white p-1 midMobile:p-2 rounded border
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          <div className="w-full h-[100%]">
+            <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
+              <div className="mb-2">
+                <h1>Race Plans</h1>
+                <p className="text-black">
+                  {" "}
+                  {`Total: ${!racePlans ? "-" : racePlans?.length} plan${
+                    racePlans?.length !== 1 ? `s` : ""
+                  }`}
+                </p>
+              </div>
+              <div className="flex space-x-2 tablet:space-x-4 text-center">
+                {/* Save Plan Button  */}
+                <div
+                  onClick={handleSubmit(handleSavePlan)}
+                  className={`flex items-center  text-white p-1 midMobile:p-2 rounded border
               ${
                 watchRacePlanName
                   ? "hover:bg-green-dark bg-green-light cursor-pointer"
                   : "bg-gray-border cursor-not-allowed"
               }
                `}
-            >
-              {width! >= 768 && (
-                <p className="mr-2 text-lg">Save {width! >= 1280 && "Plan"}</p>
-              )}
-              <img src={checkIcon} alt="Save Plan" className="h-6" />
-            </div>
+                >
+                  {width! >= 768 && (
+                    <p className="mr-2 text-lg">
+                      Save {width! >= 1280 && "Plan"}
+                    </p>
+                  )}
+                  <img src={checkIcon} alt="Save Plan" className="h-6" />
+                </div>
 
-            {/* Clear Plan Button  */}
-            <div
-              onClick={handleClearPlan}
-              className={`flex items-center text-white p-1 midMobile:p-2 rounded border  
+                {/* Clear Plan Button  */}
+                <div
+                  onClick={handleClearPlan}
+                  className={`flex items-center text-white p-1 midMobile:p-2 rounded border  
               ${
                 planOrder.length === 0
                   ? "bg-gray-border cursor-not-allowed"
                   : "bg-orange-light hover:bg-orange-dark cursor-pointer"
               }`}
-            >
-              {width! >= 768 && (
-                <p className="mr-2 text-lg">Clear {width! >= 1280 && "Plan"}</p>
-              )}
-              <img src={clearIcon} alt="Clear Plan" className="h-6" />
-            </div>
+                >
+                  {width! >= 768 && (
+                    <p className="mr-2 text-lg">
+                      Clear {width! >= 1280 && "Plan"}
+                    </p>
+                  )}
+                  <img src={clearIcon} alt="Clear Plan" className="h-6" />
+                </div>
 
-            {/* Delete Plan Button  */}
-            <div
-              onClick={handleDeletePlan}
-              className={`${
-                getValues().activeRacePlanId === "new"
-                  ? "bg-gray-border border-gray-border cursor-not-allowed"
-                  : "bg-red-dark cursor-pointer"
-              }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
-                getValues().activeRacePlanId === "new"
-                  ? "cursor-auto"
-                  : "hover:bg-red-500"
-              }`}
-            >
-              {width! >= 768 && (
-                <p className="mr-2 text-lg">
-                  Delete {width! >= 1280 && "Plan"}
-                </p>
-              )}
-              <img src={deleteWhiteIcon} alt="Share Plan" className="h-6" />
-            </div>
-          </div>
-        </div>
-
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-          className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full"
-        >
-          <div className="flex flex-col mb-4 midMobile:w-[50%]">
-            <label htmlFor="activeRacePlanId">
-              <h3 className="text-blue-light">Active Plan</h3>
-            </label>
-            <select
-              {...register("activeRacePlanId")}
-              name="activeRacePlanId"
-              id="activeRacePlanId"
-              value={selectDefaultValue}
-              className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-              onChange={handleGetSinglePlan}
-            >
-              <option disabled>Select plan</option>
-              <option value={"new"}>New plan</option>
-              {racePlans &&
-                racePlans.map((plan, index) => {
-                  return (
-                    <option key={index} value={plan.id}>
-                      {plan.name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-
-          <div className="flex flex-col midMobile:w-[50%]">
-            <label htmlFor="racePlanName">
-              <h3 className="text-blue-light">Plan Name</h3>
-            </label>
-            <input
-              {...register("racePlanName", {
-                required: {
-                  value: true,
-                  message: "Plan name field can't be empty!",
-                },
-              })}
-              onChange={(event) => {
-                event.preventDefault();
-                setValue("racePlanName", event.target.value);
-              }}
-              type="text"
-              id="racePlanName"
-              name="racePlanName"
-              placeholder="Input plan name"
-              className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-            />
-            {((getValues().activeRacePlanId === "new" && watchRacePlanName) ||
-              (getValues().activeRacePlanId !== "new" && !watchRacePlanName)) &&
-              errors.racePlanName && (
-                <p className="text-red-500">{errors.racePlanName.message}</p>
-              )}
-          </div>
-        </form>
-
-        <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg pb-4">
-          {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
-          {(isModalOpen || width! >= 768) && (
-            <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] shadow-md rounded-lg">
-              <h1>Plan Builder</h1>
-              <h2>
-                {planOrder.length} Section{planOrder.length !== 1 && "s"}
-              </h2>
-              {/* Plan Components */}
-              <div className="flex flex-col">
-                <h2 className="mt-4 mb-1 text-center">
-                  Click a section below to add to your plan!
-                </h2>
-
-                <div className="flex flex-col">
-                  {planSections.map((planSection, index) => {
-                    return (
-                      <RaceSectionItem
-                        key={index}
-                        section={planSection}
-                        setPlanOrder={setPlanOrder}
-                        setRegattaSectionArr={setRegattaSectionArr}
-                        setMapSectionArr={setMapSectionArr}
-                        setEventSectionArr={setEventSectionArr}
-                        setLineupSectionArr={setLineupSectionArr}
-                        setNotesSectionArr={setNotesSectionArr}
-                      />
-                    );
-                  })}
+                {/* Delete Plan Button  */}
+                <div
+                  onClick={handleDeletePlan}
+                  className={`${
+                    getValues().activeRacePlanId === "new"
+                      ? "bg-gray-border border-gray-border cursor-not-allowed"
+                      : "bg-red-dark cursor-pointer"
+                  }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                    getValues().activeRacePlanId === "new"
+                      ? "cursor-auto"
+                      : "hover:bg-red-500"
+                  }`}
+                >
+                  {width! >= 768 && (
+                    <p className="mr-2 text-lg">
+                      Delete {width! >= 1280 && "Plan"}
+                    </p>
+                  )}
+                  <img src={deleteWhiteIcon} alt="Share Plan" className="h-6" />
                 </div>
               </div>
-              {planOrder.length === 0 ? (
-                <h2 className="my-4 text-center">
-                  Select a component above to start building your race plan!
-                </h2>
-              ) : (
-                <>
-                  <h2 className="mt-4 text-center">
-                    Drag-and-drop to change plan order!
+            </div>
+
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+              className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full"
+            >
+              <div className="flex flex-col mb-4 midMobile:w-[50%]">
+                <label htmlFor="activeRacePlanId">
+                  <h3 className="text-blue-light">Active Plan</h3>
+                </label>
+                <select
+                  {...register("activeRacePlanId")}
+                  name="activeRacePlanId"
+                  id="activeRacePlanId"
+                  value={selectDefaultValue}
+                  className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+                  onChange={handleGetSinglePlan}
+                >
+                  <option disabled>Select plan</option>
+                  <option value={"new"}>New plan</option>
+                  {racePlans &&
+                    racePlans.map((plan, index) => {
+                      return (
+                        <option key={index} value={plan.id}>
+                          {plan.name}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+
+              <div className="flex flex-col midMobile:w-[50%]">
+                <label htmlFor="racePlanName">
+                  <h3 className="text-blue-light">Plan Name</h3>
+                </label>
+                <input
+                  {...register("racePlanName", {
+                    required: {
+                      value: true,
+                      message: "Plan name field can't be empty!",
+                    },
+                  })}
+                  onChange={(event) => {
+                    event.preventDefault();
+                    setValue("racePlanName", event.target.value);
+                  }}
+                  type="text"
+                  id="racePlanName"
+                  name="racePlanName"
+                  placeholder="Input plan name"
+                  className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+                />
+                {((getValues().activeRacePlanId === "new" &&
+                  watchRacePlanName) ||
+                  (getValues().activeRacePlanId !== "new" &&
+                    !watchRacePlanName)) &&
+                  errors.racePlanName && (
+                    <p className="text-red-500">
+                      {errors.racePlanName.message}
+                    </p>
+                  )}
+              </div>
+            </form>
+
+            <div className="flex justify-between desktop:max-w-[1280px] tablet:mx-auto my-2 overflow-auto h-full rounded-lg pb-4">
+              {/* Component Section - Side Panel in mobile, Visible in tablet onwards */}
+              {(isModalOpen || width! >= 768) && (
+                <div className="bg-white midMobile:min-w-[20rem] tablet:w-[30%] h-[75%] mr-2 px-2 z-30 overflow-auto fixed left-0 tablet:static w-[calc(100%-1.5rem)] shadow-md rounded-lg">
+                  <h1>Plan Builder</h1>
+                  <h2>
+                    {planOrder.length} Section{planOrder.length !== 1 && "s"}
                   </h2>
-                  <div className="overflow-auto">
-                    <DndContext
-                      sensors={sensors}
-                      collisionDetection={closestCenter}
-                      onDragEnd={handleDragEnd}
-                      modifiers={[
-                        restrictToParentElement,
-                        restrictToVerticalAxis,
-                      ]}
-                    >
-                      <SortableContext
-                        items={planOrder}
-                        strategy={verticalListSortingStrategy}
-                      >
-                        {planOrder.map((planSection) => {
-                          return (
-                            <RaceOrderItem
-                              key={planSection.id}
-                              id={planSection.id}
-                              section={planSection.section}
-                              planOrder={planOrder}
-                              setPlanOrder={setPlanOrder}
-                              setRegattaSectionArr={setRegattaSectionArr}
-                              setMapSectionArr={setMapSectionArr}
-                              setEventSectionArr={setEventSectionArr}
-                              setLineupSectionArr={setLineupSectionArr}
-                              setNotesSectionArr={setNotesSectionArr}
-                            />
-                          );
-                        })}
-                      </SortableContext>
-                    </DndContext>
+                  {/* Plan Components */}
+                  <div className="flex flex-col">
+                    <h2 className="mt-4 mb-1 text-center">
+                      Click a section below to add to your plan!
+                    </h2>
+
+                    <div className="flex flex-col">
+                      {planSections.map((planSection, index) => {
+                        return (
+                          <RaceSectionItem
+                            key={index}
+                            section={planSection}
+                            setPlanOrder={setPlanOrder}
+                            setRegattaSectionArr={setRegattaSectionArr}
+                            setMapSectionArr={setMapSectionArr}
+                            setEventSectionArr={setEventSectionArr}
+                            setLineupSectionArr={setLineupSectionArr}
+                            setNotesSectionArr={setNotesSectionArr}
+                          />
+                        );
+                      })}
+                    </div>
                   </div>
-                </>
+                  {isFetching ? (
+                    <LoadingSpinner />
+                  ) : planOrder.length === 0 ? (
+                    <h2 className="my-4 text-center">
+                      Select a component above to start building your race plan!
+                    </h2>
+                  ) : (
+                    <>
+                      <h2 className="mt-4 text-center">
+                        Drag-and-drop to change plan order!
+                      </h2>
+                      <div className="overflow-auto">
+                        <DndContext
+                          sensors={sensors}
+                          collisionDetection={closestCenter}
+                          onDragStart={handleDragStart}
+                          onDragEnd={handleDragEnd}
+                          modifiers={[
+                            restrictToParentElement,
+                            restrictToVerticalAxis,
+                          ]}
+                        >
+                          <SortableContext
+                            items={planOrder}
+                            strategy={verticalListSortingStrategy}
+                          >
+                            {planOrder.map((planSection) => {
+                              return (
+                                <RaceOrderItem
+                                  key={planSection.id}
+                                  id={planSection.id}
+                                  section={planSection.section}
+                                  planOrder={planOrder}
+                                  setPlanOrder={setPlanOrder}
+                                  setRegattaSectionArr={setRegattaSectionArr}
+                                  setMapSectionArr={setMapSectionArr}
+                                  setEventSectionArr={setEventSectionArr}
+                                  setLineupSectionArr={setLineupSectionArr}
+                                  setNotesSectionArr={setNotesSectionArr}
+                                />
+                              );
+                            })}
+                          </SortableContext>
+                        </DndContext>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {/* Modal Overlay */}
+              {isModalOpen && (
+                <div
+                  className={`${
+                    width! < 768
+                      ? "bg-black opacity-20 fixed top-0 left-0 w-screen h-screen"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                ></div>
+              )}
+
+              {/* Plan Section - Viewable/Editable components */}
+              {isFetching ? (
+                <LoadingSpinner />
+              ) : (
+                <div
+                  className={`w-full min-h-full rounded-lg  ${
+                    planOrder.length === 0
+                      ? "bg-white shadow-md"
+                      : "bg-white-dark"
+                  }`}
+                >
+                  {planOrder.length === 0 ? (
+                    <EmptyRacePlan />
+                  ) : (
+                    <PlanViewSection
+                      planOrder={planOrder}
+                      regattaSectionArr={regattaSectionArr}
+                      setRegattaSectionArr={setRegattaSectionArr}
+                      mapSectionArr={mapSectionArr}
+                      setMapSectionArr={setMapSectionArr}
+                      eventSectionArr={eventSectionArr}
+                      setEventSectionArr={setEventSectionArr}
+                      lineupSectionArr={lineupSectionArr}
+                      setLineupSectionArr={setLineupSectionArr}
+                      notesSectionArr={notesSectionArr}
+                      setNotesSectionArr={setNotesSectionArr}
+                    />
+                  )}
+                </div>
               )}
             </div>
-          )}
-
-          {/* Modal Overlay */}
-          {isModalOpen && (
-            <div
-              className={`${
-                width! < 768
-                  ? "bg-black opacity-20 fixed top-0 left-0 w-screen h-screen"
-                  : ""
-              }`}
-              onClick={() => {
-                setIsModalOpen(false);
-              }}
-            ></div>
-          )}
-
-          {/* Plan Section - Viewable/Editable components */}
-          <div
-            className={`w-full min-h-full rounded-lg  ${
-              planOrder.length === 0 ? "bg-white shadow-md" : "bg-white-dark"
-            }`}
-          >
-            {planOrder.length === 0 ? (
-              <EmptyRacePlan />
-            ) : (
-              <PlanViewSection
-                planOrder={planOrder}
-                regattaSectionArr={regattaSectionArr}
-                setRegattaSectionArr={setRegattaSectionArr}
-                mapSectionArr={mapSectionArr}
-                setMapSectionArr={setMapSectionArr}
-                eventSectionArr={eventSectionArr}
-                setEventSectionArr={setEventSectionArr}
-                lineupSectionArr={lineupSectionArr}
-                setLineupSectionArr={setLineupSectionArr}
-                notesSectionArr={notesSectionArr}
-                setNotesSectionArr={setNotesSectionArr}
-              />
-            )}
           </div>
-        </div>
-      </div>
-      <PlanBuilderModalButton
-        width={width}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleToggleModal={handleToggleModal}
-        // isSaving={isSaving}
-        // isDeleting={isDeleting}
-        // isFetching={isFetching}
-      />
+          <PlanBuilderModalButton
+            width={width}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            handleToggleModal={handleToggleModal}
+            isSaving={isSaving}
+            isDeleting={isDeleting}
+            isFetching={isFetching}
+          />
+        </>
+      )}
     </>
   );
 };

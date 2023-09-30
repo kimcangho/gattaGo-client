@@ -72,7 +72,7 @@ const RegattaPlanSection = ({
   };
 
   return (
-    <div className="flex flex-col rounded-md p-2 bg-white shadow-md">
+    <div className="flex flex-col rounded-md p-2 bg-white shadow-md text-center tablet:text-left">
       <input
         placeholder="Type regatta name here"
         value={regattaName}
@@ -80,15 +80,15 @@ const RegattaPlanSection = ({
           setRegattaName(event.target.value);
           handleSetRegattaSection();
         }}
-        className={`bg-inherit text-2xl p-2 ${regattaName ? "text-black" : ""}`}
+        className={`bg-inherit text-2xl p-2 text-center tablet:text-left ${regattaName ? "text-black" : ""}`}
       />
       <div className="flex flex-col tablet:flex-row">
         {/* Regatta Details */}
         <div className="mx-2 w-full">
           {/* Start Date */}
-          <div className="flex flex-col my-2 w-[50%] tablet:w-full">
+          <div className="flex flex-col my-2 w-full">
             <label htmlFor="startDate">
-              <h3 className="text-blue-light">Start Date</h3>
+              <h3 className="text-blue-light text-center tablet:text-left">Start Date</h3>
             </label>
             <DatePicker
               maxDate={endDate}
@@ -101,12 +101,12 @@ const RegattaPlanSection = ({
               id="startDate"
               selected={startDate}
               onChange={(date: Date) => setStartDate(date)}
-              className="bg-inherit p-2 w-full text-black"
+              className="bg-inherit p-2 w-full text-center tablet:text-left text-black"
             />
           </div>
 
           {/* End Date */}
-          <div className="flex flex-col my-2 w-[50%] tablet:w-full">
+          <div className="flex flex-col my-2 w-full">
             <label htmlFor="endDate">
               <h3 className="text-blue-light">End Date</h3>
             </label>
@@ -121,7 +121,7 @@ const RegattaPlanSection = ({
               id="endDate"
               selected={endDate}
               onChange={(date: Date) => setEndDate(date)}
-              className="bg-inherit p-2 w-full text-black"
+              className="bg-inherit p-2 w-full text-center tablet:text-left text-black"
             />
           </div>
           {/* Address */}
@@ -138,7 +138,7 @@ const RegattaPlanSection = ({
                 setAddress(event.target.value);
                 handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full ${address ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${address ? "text-black" : ""}`}
             />
           </div>
         </div>
@@ -157,7 +157,7 @@ const RegattaPlanSection = ({
                 setContact(event.target.value);
                 handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full ${contact ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${contact ? "text-black" : ""}`}
             />
           </div>
 
@@ -175,7 +175,7 @@ const RegattaPlanSection = ({
                 setEmail(event.target.value);
                 handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full ${email ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${email ? "text-black" : ""}`}
             />
           </div>
 
@@ -193,7 +193,7 @@ const RegattaPlanSection = ({
                 setPhone(event.target.value);
                 handleSetRegattaSection();
               }}
-              className={`bg-inherit p-2 w-full ${phone ? "text-black" : ""}`}
+              className={`bg-inherit p-2 w-full text-center tablet:text-left ${phone ? "text-black" : ""}`}
             />
           </div>
         </div>
