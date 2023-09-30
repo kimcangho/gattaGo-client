@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -34,6 +34,10 @@ const EventPlanSection = ({
     eventSection?.eventTime ? new Date(eventSection?.eventTime) : null
   );
 
+  useEffect(() => {
+    handleSetEventSection();
+  }, [eventName, eventDistance, eventLane, eventTime]);
+
   const handleSetEventSection = () => {
     setEventSectionArr((currentArr: EventSectionData[]) => {
       const filteredArr = currentArr.filter(
@@ -59,7 +63,6 @@ const EventPlanSection = ({
         value={eventName}
         onChange={(event) => {
           setEventName(event.target.value);
-          handleSetEventSection();
         }}
         className={`bg-inherit text-center tablet:text-left text-2xl p-2 ${
           eventName ? "text-black" : ""
@@ -103,7 +106,6 @@ const EventPlanSection = ({
             } focus:outline-blue-light`}
             onChange={(event) => {
               setEventDistance(event.target.value);
-              handleSetEventSection();
             }}
             placeholder="Select Distance"
           >
@@ -129,7 +131,6 @@ const EventPlanSection = ({
             value={eventLane}
             onChange={(event) => {
               setEventLane(event.target.value);
-              handleSetEventSection();
             }}
             className={`bg-inherit p-2 w-full text-center ${
               eventLane ? "text-black" : ""
