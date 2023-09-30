@@ -27,6 +27,7 @@ import RaceOrderItem from "../../components/RacePlan/RaceOrderItem";
 import PlanBuilderModalButton from "../../components/RacePlan/PlanBuilderModalButton";
 import EmptyRacePlan from "../../components/RacePlan/EmptyRacePlan";
 import PlanViewSection from "../../components/RacePlan/PlanViewSection";
+import DeleteModal from "../../components/General/DeleteModal";
 import LoadingSpinner from "../../components/General/LoadingSpinner";
 import {
   PlanOrderData,
@@ -42,12 +43,11 @@ import deleteWhiteIcon from "../../assets/icons/delete-white-fill.svg";
 
 const RacePlanPage = () => {
   const planSections = ["Regatta", "Map", "Event", "Lineup", "Notes"];
-
   const [racePlans, setRacePlans] = useState<any[]>([]);
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>("");
   const [planOrder, setPlanOrder] = useState<PlanOrderData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [regattaSectionArr, setRegattaSectionArr] = useState<
     RegattaSectionData[] | []
   >([]);
@@ -61,13 +61,10 @@ const RacePlanPage = () => {
   const [notesSectionArr, setNotesSectionArr] = useState<
     NotesSectionData[] | []
   >([]);
-
-  //  idle states
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
-
   const { teamId } = useParams();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -366,7 +363,10 @@ const RacePlanPage = () => {
 
                 {/* Delete Plan Button  */}
                 <div
-                  onClick={handleDeletePlan}
+                  // onClick={handleDeletePlan}
+                  onClick={() => {
+                    setShowModal((prev: boolean) => !prev);
+                  }}
                   className={`${
                     getValues().activeRacePlanId === "new"
                       ? "bg-gray-border border-gray-border cursor-not-allowed"
@@ -600,6 +600,15 @@ const RacePlanPage = () => {
             isDeleting={isDeleting}
             isFetching={isFetching}
           />
+          {showModal && (
+            <DeleteModal
+              entityName={getValues("racePlanName")}
+              entityId={getValues("activeRacePlanId")}
+              entityType="racePlan"
+              setShowModal={setShowModal}
+              handleDeletePlan={handleDeletePlan}
+            />
+          )}
         </>
       )}
     </>

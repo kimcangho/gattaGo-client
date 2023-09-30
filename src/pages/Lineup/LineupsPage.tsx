@@ -343,7 +343,6 @@ const LineupsPage = (): JSX.Element => {
                 </div>
 
                 <div
-                  // onClick={handleDeleteLineup}
                   onClick={() => {
                     setShowModal((prev: boolean) => !prev);
                   }}

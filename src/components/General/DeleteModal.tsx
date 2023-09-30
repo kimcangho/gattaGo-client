@@ -17,6 +17,7 @@ interface DeleteModalProps {
   setEntityArray?: React.Dispatch<React.SetStateAction<TeamData[]>>;
   handleDeleteAthlete?: Function;
   handleDeleteLineup?: Function;
+  handleDeletePlan?: Function;
 }
 
 const DeleteModal = ({
@@ -28,6 +29,7 @@ const DeleteModal = ({
   setEntityArray,
   handleDeleteAthlete,
   handleDeleteLineup,
+  handleDeletePlan,
 }: DeleteModalProps) => {
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -52,6 +54,8 @@ const DeleteModal = ({
         await handleDeleteAthlete(entityId);
       if (entityType === "lineup" && handleDeleteLineup)
         await handleDeleteLineup();
+      if (entityType === "racePlan" && handleDeletePlan)
+        await handleDeletePlan();
       if (entityArray && setEntityArray) {
         const currentEntityArray = entityArray?.filter((entity: TeamData) => {
           return entity.id !== entityId;
