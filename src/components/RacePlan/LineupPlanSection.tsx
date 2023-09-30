@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import useAxiosPrivate from "../../hooks/usePrivateInterceptors";
 import useLogoutRedirect from "../../hooks/useLogoutRedirect";
 import { LineupData } from "../../interfaces/EntityData";
+import LoadingSpinner from "../General/LoadingSpinner";
 import RacePlanBoatLineup from "./RacePlanBoatLineup";
 import { generatePlaceholderLineup } from "../../utils/generatePlaceholderLineup";
 
@@ -24,7 +25,7 @@ const LineupPlanSection = ({
   lineupSection,
   setLineupSectionArr,
 }: LineupPlanSectionProps) => {
-  const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null); //  list of lineups
+  const [teamLineups, setTeamLineups] = useState<LineupData[] | null>(null);
   const [selectDefaultValue, setSelectDefaultValue] = useState<string>(
     lineupSection.lineupId || "new"
   );
@@ -36,6 +37,7 @@ const LineupPlanSection = ({
   );
   const [currentLineup, setCurrentLineup] = useState([]);
 
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -50,28 +52,33 @@ const LineupPlanSection = ({
   useEffect(() => {
     const getTeamLineups = async () => {
       try {
+        setIsFetching(true);
         const { data } = await axiosPrivate.get(`/teams/${teamId}/lineups`);
         setTeamLineups(data.lineups);
+
+        if (lineupId === "new") console.log("new");
+        if (lineupId !== "new") {
+          console.log("fetch");
+          const handleInitialGetLineup = async () => {
+            try {
+              const { data } = await axiosPrivate.get(
+                `/teams/${teamId}/lineups/${lineupId}`
+              );
+
+              setCurrentLineup(data?.lineups[0]?.athletes);
+              setValue("lineupName", data.lineups[0].name);
+              setValue("activeLineupId", data.lineups[0].id);
+            } catch (err: unknown) {
+              console.log(err);
+            }
+          };
+
+          handleInitialGetLineup();
+        }
+        setIsFetching(false);
       } catch (err: unknown) {
         console.log(err);
         logoutRedirect("/login");
-      }
-
-      if (lineupId !== "new" && teamLineups?.length) {
-        const handleInitialGetLineup = async () => {
-          try {
-            const { data } = await axiosPrivate.get(
-              `/teams/${teamId}/lineups/${lineupId}`
-            );
-
-            setCurrentLineup(data?.lineups[0]?.athletes);
-            setValue("lineupName", data.lineups[0].name);
-            setValue("activeLineupId", data.lineups[0].id);
-          } catch (err: unknown) {
-            console.log(err);
-          }
-        };
-        handleInitialGetLineup();
       }
     };
 
@@ -80,7 +87,7 @@ const LineupPlanSection = ({
 
   useEffect(() => {
     handleSetLineupSection();
-  }, [lineupName]);
+  }, [lineupName, currentLineup]);
 
   const handleSetLineupSection = () => {
     setLineupSectionArr((currentArr: LineupSectionData[]) => {
@@ -113,6 +120,7 @@ const LineupPlanSection = ({
       }
     } else {
       try {
+        setIsFetching(true);
         const { data } = await axiosPrivate.get(
           `/teams/${teamId}/lineups/${event.target.value}`
         );
@@ -121,6 +129,7 @@ const LineupPlanSection = ({
         setLineupId(data.lineups[0].id);
         setValue("lineupName", data.lineups[0].name);
         setValue("activeLineupId", data.lineups[0].id);
+        setIsFetching(false);
       } catch (err: unknown) {
         console.log(err);
       }
@@ -164,11 +173,15 @@ const LineupPlanSection = ({
         </select>
       </div>
 
-      <RacePlanBoatLineup
-        currentLineup={
-          currentLineup ? currentLineup : generatePlaceholderLineup()
-        }
-      />
+      {isFetching ? (
+        <LoadingSpinner />
+      ) : (
+        <RacePlanBoatLineup
+          currentLineup={
+            currentLineup ? currentLineup : generatePlaceholderLineup()
+          }
+        />
+      )}
     </div>
   );
 };
