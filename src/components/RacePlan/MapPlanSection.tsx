@@ -31,7 +31,6 @@ const MapPlanSection = ({
     mapSection?.mapLatitude || 0
   );
   const [mapZoom, setMapZoom] = useState<number>(mapSection?.mapZoom || 10);
-
   const mapRef = useRef();
 
   useEffect(() => {
@@ -50,6 +49,10 @@ const MapPlanSection = ({
 
     getIPAddress();
   }, []);
+
+  useEffect(() => {
+    handleSetMapSection();
+  }, [mapName, mapLongitude, mapLatitude, mapZoom]);
 
   const handleSetMapSection = () => {
     setMapSectionArr((currentArr: MapSectionData[]) => {
