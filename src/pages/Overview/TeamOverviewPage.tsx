@@ -18,7 +18,6 @@ const TeamOverviewPage = (): JSX.Element => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [teamName, setTeamName] = useState<string>("");
   const [teamId, setTeamId] = useState<string>("");
-  const [isSending, setIsSending] = useState<boolean>(false);
   const { userId } = useParams();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -157,8 +156,6 @@ const TeamOverviewPage = (): JSX.Element => {
           setShowModal={setShowModal}
           entityArray={myTeams}
           setEntityArray={setMyTeams}
-          isSending={isSending}
-          setIsSending={setIsSending}
         />
       )}
     </>

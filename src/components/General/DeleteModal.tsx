@@ -15,9 +15,8 @@ interface DeleteModalProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   entityArray?: TeamData[];
   setEntityArray?: React.Dispatch<React.SetStateAction<TeamData[]>>;
-  isSending: boolean;
-  setIsSending: React.Dispatch<React.SetStateAction<boolean>>;
-  handleDeleteAthlete?: any;
+  handleDeleteAthlete?: Function;
+  handleDeleteLineup?: Function;
 }
 
 const DeleteModal = ({
@@ -27,11 +26,11 @@ const DeleteModal = ({
   setShowModal,
   entityArray,
   setEntityArray,
-  isSending,
-  setIsSending,
   handleDeleteAthlete,
+  handleDeleteLineup,
 }: DeleteModalProps) => {
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
   const logoutRedirect = useLogoutRedirect();
@@ -47,10 +46,12 @@ const DeleteModal = ({
 
     try {
       setIsSending(true);
-      console.log(entityType);
       if (entityType === "team")
         await axiosPrivate.delete(`/teams/${entityId}`);
-      if (entityType === "athlete") await handleDeleteAthlete(entityId);
+      if (entityType === "athlete" && handleDeleteAthlete)
+        await handleDeleteAthlete(entityId);
+      if (entityType === "lineup" && handleDeleteLineup)
+        await handleDeleteLineup();
       if (entityArray && setEntityArray) {
         const currentEntityArray = entityArray?.filter((entity: TeamData) => {
           return entity.id !== entityId;
@@ -67,7 +68,7 @@ const DeleteModal = ({
   };
 
   return (
-    <div className="absolute top-0 left-0 w-full h-full">
+    <div className="top-0 left-0 w-full h-full fixed z-50">
       <div
         className="w-full h-full fixed bg-gray-border opacity-50 z-0"
         onClick={handleCloseModal}

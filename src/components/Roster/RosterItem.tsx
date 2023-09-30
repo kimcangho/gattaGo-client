@@ -36,10 +36,8 @@ const RosterItem = ({
   athleteId,
   athlete,
   width,
-  // deleteAthlete,
   editAthlete,
   isWomenIneligible,
-  // showModal,
   setShowModal,
   setAthleteName,
   setAthleteId,
@@ -71,7 +69,6 @@ const RosterItem = ({
 
   const handleModalVisibility = async () => {
     if (isSending) return;
-    console.log(athlete);
     setAthleteName(`${athlete.firstName} ${athlete.lastName}`);
     setAthleteId(athleteId);
     setShowModal((prev: boolean) => !prev);

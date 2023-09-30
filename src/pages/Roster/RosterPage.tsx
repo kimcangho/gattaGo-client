@@ -30,10 +30,8 @@ const RosterPage = (): JSX.Element => {
     useState<boolean>(false);
   const [filterFlags, setFilterFlags] = useState<any>(filterFlagsObj);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const [athleteName, setAthleteName] = useState<string>("");
   const [athleteId, setAthleteId] = useState<string>("");
-  const [isSending, setIsSending] = useState<boolean>(false);
 
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -564,8 +562,6 @@ const RosterPage = (): JSX.Element => {
               entityId={athleteId}
               setShowModal={setShowModal}
               handleDeleteAthlete={deleteAthlete}
-              isSending={isSending}
-              setIsSending={setIsSending}
             />
           )}
         </>

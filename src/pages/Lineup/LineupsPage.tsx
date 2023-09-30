@@ -12,6 +12,7 @@ import { injectIntoLineup } from "../../utils/injectIntoLineup";
 import { trimActiveLineup } from "../../utils/trimActiveLineup";
 import { ActiveLineupData } from "../../interfaces/EntityData";
 import LoadingSpinner from "../../components/General/LoadingSpinner";
+import DeleteModal from "../../components/General/DeleteModal";
 import { motion, useIsPresent } from "framer-motion";
 import checkIcon from "../../assets/icons/check.svg";
 import copyIcon from "../../assets/icons/copy.svg";
@@ -30,6 +31,7 @@ const LineupsPage = (): JSX.Element => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isCopying, setIsCopying] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { teamId } = useParams<string>();
   const { width } = useWindowSize();
   const axiosPrivate = useAxiosPrivate();
@@ -240,28 +242,29 @@ const LineupsPage = (): JSX.Element => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
-      exit={{ opacity: 0 }}
-    >
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <div className="w-full">
-          <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
-            <div className="mb-2">
-              <h1>Lineups</h1>
-              <p className="text-black">
-                {`Total: ${!teamLineups ? "-" : teamLineups?.length} lineup${
-                  teamLineups?.length !== 1 ? `s` : ""
-                }`}
-              </p>
-            </div>
-            <div className="flex space-x-2 tablet:space-x-4">
-              <button
-                onClick={handleSubmit(handleSaveLineup)}
-                className={`
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isPresent ? { opacity: 1 } : { opacity: 0 }}
+        exit={{ opacity: 0 }}
+      >
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="w-full">
+            <div className="flex flex-wrap justify-between items-center desktop:max-w-[1280px] mx-auto my-2 overflow-hidden">
+              <div className="mb-2">
+                <h1>Lineups</h1>
+                <p className="text-black">
+                  {`Total: ${!teamLineups ? "-" : teamLineups?.length} lineup${
+                    teamLineups?.length !== 1 ? `s` : ""
+                  }`}
+                </p>
+              </div>
+              <div className="flex space-x-2 tablet:space-x-4">
+                <button
+                  onClick={handleSubmit(handleSaveLineup)}
+                  className={`
                 ${
                   getValues().activeLineupId === "new" && !watchLineupName
                     ? "bg-gray-border border-gray-border cursor-not-allowed"
@@ -272,178 +275,190 @@ const LineupsPage = (): JSX.Element => {
                     ? "opacity-50 cursor-wait"
                     : ""
                 }`}
-              >
-                {!isSaving ? (
-                  <div className="flex items-center">
-                    {width! >= 448 && (
-                      <p className="mr-2 text-lg">
-                        Save {width! >= 1280 && "Lineup"}
-                      </p>
-                    )}
-                    <img src={checkIcon} alt="Save Lineup" className="h-6" />
-                  </div>
-                ) : (
-                  "Saving..."
-                )}
-              </button>
-              <div
-                onClick={handleCopyLineup}
-                className={`${
-                  getValues().activeLineupId === "new"
-                    ? "bg-gray-border border-gray-border cursor-not-allowed"
-                    : "bg-blue-light cursor-pointer"
-                }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
-                  isSaving || isDeleting || isFetching || isCopying
-                    ? "opacity-50 cursor-wait"
-                    : getValues().activeLineupId === "new"
-                    ? "cursor-auto"
-                    : "hover:bg-blue-dark"
-                }`}
-              >
-                {!isCopying ? (
-                  <div className="flex items-center">
-                    {width! >= 448 && (
-                      <p className="mr-2 text-lg">
-                        Copy {width! >= 1280 && "Lineup"}
-                      </p>
-                    )}
-                    <img src={copyIcon} alt="Copy Lineup" className="h-6" />
-                  </div>
-                ) : (
-                  "Copying..."
-                )}
-              </div>
-
-              {/* Clear Plan */}
-              <div
-                onClick={handleClearLineup}
-                className={`${
-                  getValues().activeLineupId === "new"
-                    ? "bg-gray-border border-gray-border cursor-not-allowed"
-                    : "bg-orange-light cursor-pointer"
-                }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
-                  isSaving || isDeleting || isFetching || isCopying
-                    ? "opacity-50 cursor-wait"
-                    : getValues().activeLineupId === "new"
-                    ? "cursor-auto"
-                    : "hover:bg-orange-dark"
-                }`}
-              >
-                <div className="flex items-center">
-                  {width! >= 448 && (
-                    <p className="mr-2 text-lg">
-                      Clear {width! >= 1280 && "Lineup"}
-                    </p>
+                >
+                  {!isSaving ? (
+                    <div className="flex items-center">
+                      {width! >= 448 && (
+                        <p className="mr-2 text-lg">
+                          Save {width! >= 1280 && "Lineup"}
+                        </p>
+                      )}
+                      <img src={checkIcon} alt="Save Lineup" className="h-6" />
+                    </div>
+                  ) : (
+                    "Saving..."
                   )}
-                  <img src={clearIcon} alt="Clear Lineup" className="h-6" />
+                </button>
+                <div
+                  onClick={handleCopyLineup}
+                  className={`${
+                    getValues().activeLineupId === "new"
+                      ? "bg-gray-border border-gray-border cursor-not-allowed"
+                      : "bg-blue-light cursor-pointer"
+                  }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                    isSaving || isDeleting || isFetching || isCopying
+                      ? "opacity-50 cursor-wait"
+                      : getValues().activeLineupId === "new"
+                      ? "cursor-auto"
+                      : "hover:bg-blue-dark"
+                  }`}
+                >
+                  {!isCopying ? (
+                    <div className="flex items-center">
+                      {width! >= 448 && (
+                        <p className="mr-2 text-lg">
+                          Copy {width! >= 1280 && "Lineup"}
+                        </p>
+                      )}
+                      <img src={copyIcon} alt="Copy Lineup" className="h-6" />
+                    </div>
+                  ) : (
+                    "Copying..."
+                  )}
+                </div>
+
+                {/* Clear Plan */}
+                <div
+                  onClick={handleClearLineup}
+                  className={`${
+                    getValues().activeLineupId === "new"
+                      ? "bg-gray-border border-gray-border cursor-not-allowed"
+                      : "bg-orange-light cursor-pointer"
+                  }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                    isSaving || isDeleting || isFetching || isCopying
+                      ? "opacity-50 cursor-wait"
+                      : getValues().activeLineupId === "new"
+                      ? "cursor-auto"
+                      : "hover:bg-orange-dark"
+                  }`}
+                >
+                  <div className="flex items-center">
+                    {width! >= 448 && (
+                      <p className="mr-2 text-lg">
+                        Clear {width! >= 1280 && "Lineup"}
+                      </p>
+                    )}
+                    <img src={clearIcon} alt="Clear Lineup" className="h-6" />
+                  </div>
+                </div>
+
+                <div
+                  // onClick={handleDeleteLineup}
+                  onClick={() => {
+                    setShowModal((prev: boolean) => !prev);
+                  }}
+                  className={`${
+                    getValues().activeLineupId === "new"
+                      ? "bg-gray-border border-gray-border cursor-not-allowed"
+                      : "bg-red-dark cursor-pointer"
+                  }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
+                    isSaving || isDeleting || isFetching
+                      ? "opacity-50 cursor-wait"
+                      : getValues().activeLineupId === "new"
+                      ? "cursor-auto"
+                      : "hover:bg-red-600"
+                  }`}
+                >
+                  {!isDeleting ? (
+                    <div className="flex items-center">
+                      {width! >= 448 && (
+                        <p className="mr-2 text-lg">
+                          Delete {width! >= 1280 && "Lineup"}
+                        </p>
+                      )}
+                      <img
+                        src={deleteWhiteIcon}
+                        alt="Delete Lineup"
+                        className="h-6"
+                      />
+                    </div>
+                  ) : (
+                    "Deleting..."
+                  )}
                 </div>
               </div>
+            </div>
 
-              <div
-                onClick={handleDeleteLineup}
-                className={`${
-                  getValues().activeLineupId === "new"
-                    ? "bg-gray-border border-gray-border cursor-not-allowed"
-                    : "bg-red-dark cursor-pointer"
-                }  text-white p-1 midMobile:p-2 rounded border text-center flex items-center ${
-                  isSaving || isDeleting || isFetching
-                    ? "opacity-50 cursor-wait"
-                    : getValues().activeLineupId === "new"
-                    ? "cursor-auto"
-                    : "hover:bg-red-600"
-                }`}
-              >
-                {!isDeleting ? (
-                  <div className="flex items-center">
-                    {width! >= 448 && (
-                      <p className="mr-2 text-lg">
-                        Delete {width! >= 1280 && "Lineup"}
-                      </p>
-                    )}
-                    <img
-                      src={deleteWhiteIcon}
-                      alt="Delete Lineup"
-                      className="h-6"
-                    />
-                  </div>
-                ) : (
-                  "Deleting..."
-                )}
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+              className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full"
+            >
+              <div className="flex flex-col mb-4 midMobile:w-[50%]">
+                <label htmlFor="activeLineupId">
+                  <h3 className="text-blue-light">Active Lineup</h3>
+                </label>
+                <select
+                  {...register("activeLineupId")}
+                  name="activeLineupId"
+                  id="activeLineupId"
+                  value={selectDefaultValue}
+                  className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+                  onChange={handleGetSingleLineup}
+                >
+                  <option disabled>Select lineup</option>
+                  <option value={"new"}>New lineup</option>
+                  {teamLineups &&
+                    teamLineups.map((lineup, index) => {
+                      return (
+                        <option key={index} value={lineup.id}>
+                          {lineup.name}
+                        </option>
+                      );
+                    })}
+                </select>
               </div>
-            </div>
-          </div>
 
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-            className="flex flex-col midMobile:flex-row p-2 midMobile:pb-0 mb-2 tablet:p-6 midMobile:space-x-4 tablet:space-x-6 desktop:max-w-[1280px] mx-auto bg-white border border-gray-border rounded-t w-full"
-          >
-            <div className="flex flex-col mb-4 midMobile:w-[50%]">
-              <label htmlFor="activeLineupId">
-                <h3 className="text-blue-light">Active Lineup</h3>
-              </label>
-              <select
-                {...register("activeLineupId")}
-                name="activeLineupId"
-                id="activeLineupId"
-                value={selectDefaultValue}
-                className="px-2 py-3 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-                onChange={handleGetSingleLineup}
-              >
-                <option disabled>Select lineup</option>
-                <option value={"new"}>New lineup</option>
-                {teamLineups &&
-                  teamLineups.map((lineup, index) => {
-                    return (
-                      <option key={index} value={lineup.id}>
-                        {lineup.name}
-                      </option>
-                    );
+              <div className="flex flex-col midMobile:w-[50%]">
+                <label htmlFor="lineupName">
+                  <h3 className="text-blue-light">Lineup Name</h3>
+                </label>
+                <input
+                  {...register("lineupName", {
+                    required: {
+                      value: true,
+                      message: "Lineup name field can't be empty!",
+                    },
                   })}
-              </select>
-            </div>
+                  type="text"
+                  id="lineupName"
+                  name="lineupName"
+                  placeholder="Input lineup name"
+                  className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
+                />
+                {((getValues().activeLineupId === "new" && watchLineupName) ||
+                  (getValues().activeLineupId !== "new" && !watchLineupName)) &&
+                  errors.lineupName && (
+                    <p className="text-red-500">{errors.lineupName.message}</p>
+                  )}
+              </div>
+            </form>
 
-            <div className="flex flex-col midMobile:w-[50%]">
-              <label htmlFor="lineupName">
-                <h3 className="text-blue-light">Lineup Name</h3>
-              </label>
-              <input
-                {...register("lineupName", {
-                  required: {
-                    value: true,
-                    message: "Lineup name field can't be empty!",
-                  },
-                })}
-                type="text"
-                id="lineupName"
-                name="lineupName"
-                placeholder="Input lineup name"
-                className="px-2 py-2.5 bg-white-dark border border-gray-border rounded focus:outline-blue-light"
-              />
-              {((getValues().activeLineupId === "new" &&
-                watchLineupName) || (getValues().activeLineupId !== "new" &&
-                !watchLineupName) ) &&
-                errors.lineupName && (
-                  <p className="text-red-500">{errors.lineupName.message}</p>
-                )}
-            </div>
-          </form>
-
-          <LineupBoatSection
-            width={width}
-            rosterAthletes={rosterAthletes}
-            activeLineup={activeLineup}
-            setActiveLineup={setActiveLineup}
-            lineupId={getValues("activeLineupId")}
-            isLoading={isLoading}
-            isSaving={isSaving}
-            isDeleting={isDeleting}
-            isFetching={isFetching}
-          />
-        </div>
+            <LineupBoatSection
+              width={width}
+              rosterAthletes={rosterAthletes}
+              activeLineup={activeLineup}
+              setActiveLineup={setActiveLineup}
+              lineupId={getValues("activeLineupId")}
+              isLoading={isLoading}
+              isSaving={isSaving}
+              isDeleting={isDeleting}
+              isFetching={isFetching}
+            />
+          </div>
+        )}
+      </motion.div>
+      {showModal && (
+        <DeleteModal
+          entityName={getValues("lineupName")}
+          entityType="lineup"
+          entityId={getValues("activeLineupId")}
+          setShowModal={setShowModal}
+          handleDeleteLineup={handleDeleteLineup}
+        />
       )}
-    </motion.div>
+    </>
   );
 };
 
