@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { NotesSectionData } from "../../interfaces/RacePlanData";
 
 interface NotesPlanSectionProps {
@@ -12,12 +12,14 @@ const NotesPlanSection = ({
   notesSection,
   setNotesSectionArr,
 }: NotesPlanSectionProps) => {
-  const [notesName, setNotesName] = useState<string>(
-    notesSection?.notesName || ""
-  );
-  const [notesBody, setNotesBody] = useState<string>(
-    notesSection?.notesBody || ""
-  );
+  const { register, setValue, getValues, watch } = useForm({
+    defaultValues: {
+      notesName: notesSection?.notesName || "",
+      notesBody: notesSection?.notesBody || "",
+    },
+  });
+  const watchNotesName = watch("notesName");
+  const watchNotesBody = watch("notesBody");
 
   const handleSetNotesSection = () => {
     setNotesSectionArr((currentArr: NotesSectionData[]) => {
@@ -28,45 +30,49 @@ const NotesPlanSection = ({
         ...filteredArr,
         {
           id,
-          notesName,
-          notesBody,
+          notesName: getValues("notesName"),
+          notesBody: getValues("notesBody"),
         },
       ];
     });
   };
 
   return (
-    <div className="flex flex-col bg-white shadow-md rounded-md p-2">
+    <form className="flex flex-col bg-white shadow-md rounded-md p-2">
       <input
+        {...register("notesName")}
         placeholder="Type notes title here"
-        value={notesName}
         onChange={(event) => {
-          setNotesName(event.target.value);
+          event.preventDefault();
+          setValue("notesName", event.target.value);
           handleSetNotesSection();
         }}
-        className={`bg-inherit text-2xl p-2 ${notesName ? "text-black" : ""}`}
+        className={`bg-inherit text-2xl p-2 ${
+          watchNotesName ? "text-black" : ""
+        }`}
       />
       <div className="flex flex-col tablet:flex-row">
         <div className="mx-2 w-full">
           <div className="flex flex-col my-2">
             <textarea
+              {...register("notesBody")}
               rows={4}
               placeholder="Type notes here"
               name="notes"
               id="notes"
-              value={notesBody}
               onChange={(event) => {
-                setNotesBody(event.target.value);
+                event.preventDefault();
+                setValue("notesBody", event.target.value);
                 handleSetNotesSection();
               }}
               className={`bg-inherit p-2 w-full ${
-                notesBody ? "text-black" : ""
+                watchNotesBody ? "text-black" : ""
               }`}
             />
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
