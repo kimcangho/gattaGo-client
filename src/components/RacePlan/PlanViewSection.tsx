@@ -24,7 +24,6 @@ interface PlanViewSectionProps {
   setLineupSectionArr: Function;
   notesSectionArr: NotesSectionData[];
   setNotesSectionArr: Function;
-  setIsFetching: Function;
 }
 
 const PlanViewSection = ({
@@ -39,7 +38,6 @@ const PlanViewSection = ({
   setLineupSectionArr,
   notesSectionArr,
   setNotesSectionArr,
-  setIsFetching,
 }: PlanViewSectionProps) => {
   const filterSection = (sectionArr: any[], identifier: string) => {
     const foundSection = sectionArr.find((section) => {
@@ -99,7 +97,6 @@ const PlanViewSection = ({
                   planSection.sectionId
                 )}
                 setLineupSectionArr={setLineupSectionArr}
-                setIsFetching={setIsFetching}
               />
             );
 
