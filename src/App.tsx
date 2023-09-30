@@ -1,24 +1,24 @@
 import { Routes, Route } from "react-router-dom";
 import { LayoutGroup } from "framer-motion";
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import ChangePasswordPage from "./pages/ChangePasswordPage";
-import HomePage from "./pages/HomePage";
-import OverviewPage from "./pages/OverviewPage";
-import CreateNewTeamPage from "./pages/CreateNewTeamPage";
-import EditTeamPage from "./pages/EditTeamPage";
-import DashboardPage from "./pages/DashboardPage";
-import ErrorPage from "./pages/ErrorPage";
-import RosterPage from "./pages/RosterPage";
-import LineupsPage from "./pages/LineupsPage";
-import SchedulePage from "./pages/SchedulePage";
-import ProtectedRoute from "./Routes/ProtectedRoute";
-import NavbarRoute from "./Routes/NavbarRoute";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import CreateNewAthletePage from "./pages/CreateNewAthletePage";
-import EditAthletePage from "./pages/EditAthletePage";
+import SignupPage from "./pages/Auth/SignupPage";
+import LoginPage from "./pages/Auth/LoginPage";
+import ResetPasswordPage from "./pages/Auth/ResetPasswordPage";
+import ChangePasswordPage from "./pages/Auth/ChangePasswordPage";
+import HomePage from "./pages/General/HomePage";
+import TeamOverviewPage from "./pages/Overview/TeamOverviewPage";
+import CreateNewTeamPage from "./pages/Overview/CreateNewTeamPage";
+import EditTeamPage from "./pages/Overview/EditTeamPage";
+import DashboardPage from "./pages/Dashboard/DashboardPage";
+import ErrorPage from "./pages/General/ErrorPage";
+import RosterPage from "./pages/Roster/RosterPage";
+import LineupsPage from "./pages/Lineup/LineupsPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import NavbarRoute from "./routes/NavbarRoute";
+import Header from "./components/General/Header";
+import Footer from "./components/General/Footer";
+import CreateNewAthletePage from "./pages/Roster/CreateNewAthletePage";
+import EditAthletePage from "./pages/Roster/EditAthletePage";
+import RacePlanPage from "./pages/RacePlan/RacePlanPage";
 
 const App = (): JSX.Element => {
   return (
@@ -39,7 +39,10 @@ const App = (): JSX.Element => {
           {/* Private Routes */}
           <Route element={<ProtectedRoute redirectPath="login" />}>
             {/* Team Overview Page */}
-            <Route path="/:userId/overview" element={<OverviewPage />} />
+            <Route
+              path="/:userId/team-overview"
+              element={<TeamOverviewPage />}
+            />
             <Route path="/:userId/new" element={<CreateNewTeamPage />} />
             <Route path="/:userId/edit/:teamId/" element={<EditTeamPage />} />
 
@@ -67,10 +70,10 @@ const App = (): JSX.Element => {
                 element={<LineupsPage />}
               />
 
-              {/* Regatta Schedule Page */}
+              {/* Race Day Page */}
               <Route
-                path="/:userId/schedule/:teamId"
-                element={<SchedulePage />}
+                path="/:userId/race_day_plan/:teamId"
+                element={<RacePlanPage />}
               />
             </Route>
           </Route>

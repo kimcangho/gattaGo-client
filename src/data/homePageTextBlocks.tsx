@@ -28,4 +28,11 @@ export const homePageTextBlocks: TextBlock[] = [
     altText: "Lineup",
     backgroundColor: "blue-wavy",
   },
+  {
+    heading: "Build your race plans",
+    body: "Craft race plans with section components for regattas, maps, events, lineups and notes.",
+    imageURL: "/src/assets/icons/calendar.svg",
+    altText: "Race Plan",
+    backgroundColor: "red-light",
+  },
 ];

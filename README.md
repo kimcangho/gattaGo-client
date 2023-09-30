@@ -88,30 +88,31 @@ RECOMMENDED: follow setup steps in backend documentation for server/database fir
 
 ## Project Status
 
-Project is: _in progress_.  
-Currently working on: _cleanup_.
+Project is: _in progress (phase1)_.  
+Currently working on: _cleanup and deployment_.
 
 ## Next Steps
 
 Room for improvement:
 
-- General refactoring and type-checking.
+- Separate database calls into services for team controller.
+- General type-checking.
+- Optimize touch features for lineup page.
 
 To do:
 
-- Optimize touch features for lineup page.
-- Team race day tab with exportable lineups, race plans, team site location.
+- Deploy application.
 
 Future Phase Ideas:
 
+- Race plan weather section.
 - User roles: managers (read+write), athletes (read-only), event organizers.
 - Regatta and event support for event organizers.
 - Live race day progressions and results using websockets.
 
 Known issues:
 
-- Touch events interfering with scrolling in lineup page.
-- Deployment issues where cookies are unable to be received by front-end from back-end.
+- Deployment issues where cookies are unable to be received by front-end from back-end. _removed refresh token and cookie handling logic_
 
 ## Contact
 
