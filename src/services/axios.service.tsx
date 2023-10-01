@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const baseURL = "http://localhost:8888";
-const baseURL = "https://gattago-server-b48a665143cc.herokuapp.com/"
+const baseURL = "http://localhost:8888";
 
 //  Public API requests
 export default axios.create({ baseURL });
